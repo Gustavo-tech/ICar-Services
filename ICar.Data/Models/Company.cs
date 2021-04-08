@@ -1,4 +1,5 @@
 ﻿using ICar.Data.Models.Abstract;
+using System;
 
 namespace ICar.Data.Models
 {
@@ -6,5 +7,28 @@ namespace ICar.Data.Models
     {
         public int Id { get; }
         public string Cnpj { get; }
+
+        public Company(int id, string cnpj, string name, string email, string password, string city)
+        {
+            Id = id;
+            Name = name;
+            Email = email;
+            Password = password;
+            City = city;
+            Cnpj = cnpj;
+        }
+
+        public Company(int id, string cnpj, string name, string email, string password, string city,
+            int numberOfCarsSelling, DateTime accountCreationDate, string role)
+        {
+            Id = id;
+            Name = name;
+            Email = email;
+            Password = password;
+            City = city;
+            NumberOfCarsSelling = numberOfCarsSelling;
+            AccountCreationDate = accountCreationDate;
+            Cnpj = cnpj;
+        }
     }
 }
