@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\ICar.Data\ICar.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,6 @@
 ﻿using ICar.Data.Models;
 using ICar.Data.Validations;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Tests.Validations
 {
