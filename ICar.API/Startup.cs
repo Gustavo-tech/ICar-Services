@@ -1,3 +1,5 @@
+using ICar.Data.Queries;
+using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +27,7 @@ namespace ICar.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar API", Version = "v1" });
             });
+            services.AddScoped<ICompanyQueries, CompanyQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,11 +41,15 @@ namespace ICar.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
+            app.UseCors(options =>
+            {
+                options.WithMethods("GET", "POST", "PUT", "DELETE");
+                options.WithOrigins("https://localhost:3000");
+                options.AllowAnyHeader();
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
