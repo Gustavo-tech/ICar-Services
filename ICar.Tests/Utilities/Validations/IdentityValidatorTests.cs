@@ -39,5 +39,52 @@ namespace ICar.Tests.Utilities.Validations
             Assert.That(() => IdentityValidatorUtilities.StringStartsWithAUpperCaseLetter(null),
                 Throws.ArgumentNullException);
         }
+
+        [Test]
+        [TestCase("asda890890")]
+        [TestCase("2fastforyou")]
+        [TestCase("b2b")]
+        [TestCase("ewq9e89wq0e8qw")]
+        public void TestStringContainsNumber_StringContainsNumber_ReturnsTrue(string text)
+        {
+            var result = IdentityValidatorUtilities.StringContainsNumbers(text);
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        [TestCase("asda")]
+        [TestCase("fastforyou")]
+        [TestCase("bbb")]
+        [TestCase("ewqewqeqw")]
+        public void TestStringContainsNumber_StringDoesntContainNumber_ReturnsFalse(string text)
+        {
+            var result = IdentityValidatorUtilities.StringContainsNumbers(text);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        [TestCase("asda890890", 5)]
+        [TestCase("asda890890", 4)]
+        [TestCase("2fastforyou", 1)]
+        [TestCase("b2b", 1)]
+        public void TestStringContainsNumber_StringContainsEnoughNumbers_ReturnsTrue(string text, int quantity)
+        {
+            var result = IdentityValidatorUtilities.StringContainsNumbers(text, quantity);
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        [TestCase("asda123", 4)]
+        [TestCase("fastforyou", 1)]
+        [TestCase("bbb32132", 6)]
+        public void TestStringContainsNumber_StringDoesntContainEnoughNumbers_ReturnsFalse(string text, int quantity)
+        {
+            var result = IdentityValidatorUtilities.StringContainsNumbers(text, quantity);
+
+            Assert.That(result, Is.False);
+        }
     }
 }
