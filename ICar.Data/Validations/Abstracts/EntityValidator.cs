@@ -1,6 +1,7 @@
 ﻿using ICar.Data.Models.Abstract;
 using ICar.Data.Utilities.Validations;
 using System;
+using System.Net.Mail;
 
 namespace ICar.Data.Validations.Abstracts
 {
@@ -19,6 +20,19 @@ namespace ICar.Data.Validations.Abstracts
                        city.Length > 1;
             }
             catch (ArgumentNullException)
+            {
+                return false;
+            }
+        }
+
+        protected bool ValidateEmail(string email)
+        {
+            try
+            {
+                MailAddress mail = new MailAddress(email);
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }

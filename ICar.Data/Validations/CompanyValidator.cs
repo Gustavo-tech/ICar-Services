@@ -15,6 +15,7 @@ namespace ICar.Data.Validations
         public override bool ValidateEntity(Company company)
         {
             return ValidateName(company.Name) &&
+                   ValidateEmail(company.Email) &&
                    ValidatePassword(company.Password) &&
                    ValidateCity(company.City) &&
                    ValidateCnpj(company.Cnpj);
