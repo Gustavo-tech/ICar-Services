@@ -17,7 +17,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("Santos")]
         public void TestStringStartsWithAUpperCaseLetter_ArgumentsIsValid_ReturnsTrue(string text)
         {
-            var result = IdentityValidatorUtilities.StringStartsWithAUpperCaseLetter(text);
+            var result = EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(text);
 
             Assert.That(result, Is.True);
         }
@@ -28,7 +28,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("santos")]
         public void TestStringStartsWithAUpperCaseLetter_ArgumentsIsInvalid_ReturnsFalse(string text)
         {
-            var result = IdentityValidatorUtilities.StringStartsWithAUpperCaseLetter(text);
+            var result = EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(text);
 
             Assert.That(result, Is.False);
         }
@@ -36,7 +36,7 @@ namespace ICar.Tests.Utilities.Validations
         [Test]
         public void TestStringStartsWithAUpperCaseLetter_ArgumentsIsNull_ThrowException()
         {
-            Assert.That(() => IdentityValidatorUtilities.StringStartsWithAUpperCaseLetter(null),
+            Assert.That(() => EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(null),
                 Throws.ArgumentNullException);
         }
 
@@ -47,7 +47,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("ewq9e89wq0e8qw")]
         public void TestStringContainsNumber_StringContainsNumber_ReturnsTrue(string text)
         {
-            var result = IdentityValidatorUtilities.StringContainsNumbers(text);
+            var result = EntityValidatorUtilities.StringContainsNumbers(text);
 
             Assert.That(result, Is.True);
         }
@@ -59,7 +59,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("ewqewqeqw")]
         public void TestStringContainsNumber_StringDoesntContainNumber_ReturnsFalse(string text)
         {
-            var result = IdentityValidatorUtilities.StringContainsNumbers(text);
+            var result = EntityValidatorUtilities.StringContainsNumbers(text);
 
             Assert.That(result, Is.False);
         }
@@ -71,7 +71,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("b2b", 1)]
         public void TestStringContainsNumber_StringContainsEnoughNumbers_ReturnsTrue(string text, int quantity)
         {
-            var result = IdentityValidatorUtilities.StringContainsNumbers(text, quantity);
+            var result = EntityValidatorUtilities.StringContainsNumbers(text, quantity);
 
             Assert.That(result, Is.True);
         }
@@ -82,7 +82,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("bbb32132", 6)]
         public void TestStringContainsNumber_StringDoesntContainEnoughNumbers_ReturnsFalse(string text, int quantity)
         {
-            var result = IdentityValidatorUtilities.StringContainsNumbers(text, quantity);
+            var result = EntityValidatorUtilities.StringContainsNumbers(text, quantity);
 
             Assert.That(result, Is.False);
         }
@@ -93,7 +93,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("%123")]
         public void TestStringContainsSpecialChar_StringContainsASpecialChar_ReturnsTrue(string text)
         {
-            var result = IdentityValidatorUtilities.StringContainsASpecialChar(text);
+            var result = EntityValidatorUtilities.StringContainsASpecialChar(text);
 
             Assert.That(result, Is.True);
         }
@@ -104,7 +104,7 @@ namespace ICar.Tests.Utilities.Validations
         [TestCase("123")]
         public void TestStringContainsSpecialChar_StringDoesntContainASpecialChar_ReturnsFalse(string text)
         {
-            var result = IdentityValidatorUtilities.StringContainsASpecialChar(text);
+            var result = EntityValidatorUtilities.StringContainsASpecialChar(text);
 
             Assert.That(result, Is.False);
         }

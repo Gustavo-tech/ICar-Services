@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Data.Utilities.Validations
 {
-    public static class IdentityValidatorUtilities
+    public static class EntityValidatorUtilities
     {
         public static bool StringStartsWithAUpperCaseLetter(string text)
         {
