@@ -1,6 +1,5 @@
 ﻿using ICar.Data.Utilities.Validations;
 using System;
-using System.Text.RegularExpressions;
 
 namespace ICar.Data.Validations.Abstracts
 {
@@ -22,6 +21,13 @@ namespace ICar.Data.Validations.Abstracts
             {
                 return false;
             }
+        }
+
+        private bool ValidatePassword(string password)
+        {
+            return password.Length > 7 &&
+                   IdentityValidatorUtilities.StringContainsNumbers(password) &&
+                   IdentityValidatorUtilities.StringContainsASpecialChar(password);
         }
     }
 }

@@ -86,5 +86,27 @@ namespace ICar.Tests.Utilities.Validations
 
             Assert.That(result, Is.False);
         }
+
+        [Test]
+        [TestCase("aaa*bbb")]
+        [TestCase("!!abc")]
+        [TestCase("%123")]
+        public void TestStringContainsSpecialChar_StringContainsASpecialChar_ReturnsTrue(string text)
+        {
+            var result = IdentityValidatorUtilities.StringContainsASpecialChar(text);
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        [TestCase("aaabbb")]
+        [TestCase("abc")]
+        [TestCase("123")]
+        public void TestStringContainsSpecialChar_StringDoesntContainASpecialChar_ReturnsFalse(string text)
+        {
+            var result = IdentityValidatorUtilities.StringContainsASpecialChar(text);
+
+            Assert.That(result, Is.False);
+        }
     }
 }

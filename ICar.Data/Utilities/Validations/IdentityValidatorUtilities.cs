@@ -13,8 +13,7 @@ namespace ICar.Data.Utilities.Validations
             if (text == null)
                 throw new ArgumentNullException(text, "Text can't be null");
 
-            string textUppercase = text.ToUpper();
-            return text[0] == textUppercase[0];
+            return text.StartsWith(text.Remove(1, text.Length - 1).ToUpper());
         }
 
         public static bool StringContainsNumbers(string text)
@@ -65,6 +64,29 @@ namespace ICar.Data.Utilities.Validations
             }
 
             return numbersQuantity >= quantity;
+        }
+
+        public static bool StringContainsASpecialChar(string text)
+        {
+            string specialChars = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+            text = text.ToLower();
+
+            bool stringContainsSpecialChar = false;
+            foreach (char ch in text)
+            {
+                foreach (char specChar in specialChars)
+                {
+                    if (ch.Equals(specChar))
+                    {
+                        stringContainsSpecialChar = true;
+                        break;
+                    }
+                }
+                if (stringContainsSpecialChar)
+                    break;
+            }
+
+            return stringContainsSpecialChar;
         }
     }
 }
