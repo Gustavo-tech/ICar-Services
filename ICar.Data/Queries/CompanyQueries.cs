@@ -9,10 +9,10 @@ namespace ICar.Data.Queries
 {
     public class CompanyQueries : ICompanyQueries
     {
-        private readonly string dbConnection = DatabaseConnectionFactory.GetICarConnection();
+        private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
         public List<Company> GetCompanies(int? quantity = null)
         {
-            using (SqlConnection connection = new SqlConnection(dbConnection))
+            using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 if (quantity != null)
                 {
@@ -24,6 +24,15 @@ namespace ICar.Data.Queries
                 return connection.Query<Company>(selectQuery).ToList();
             }
             
+        }
+
+        public Company GetCompanyByEmail(string email)
+        {
+            using (SqlConnection connection = new SqlConnection(_dbConnection))
+            {
+                string query = "SELECT * FROM Companies WHERE Email = @Email";
+                return connection.Query<Company>(query, new { Email = email }).FirstOrDefault();
+            }
         }
     }
 }
