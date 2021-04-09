@@ -1,11 +1,15 @@
+using ICar.API.Auth;
+using ICar.API.Auth.Contracts;
 using ICar.Data.Queries;
 using ICar.Data.Queries.Contracts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace ICar.API
 {
@@ -18,7 +22,6 @@ namespace ICar.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -27,10 +30,26 @@ namespace ICar.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar API", Version = "v1" });
             });
+
+            // Interface implementations
             services.AddScoped<ICompanyQueries, CompanyQueries>();
+            services.AddScoped<IAuthService, JwtService>();
+
+            // JWT
+            byte[] key = Encoding.ASCII.GetBytes(Secret.key);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = ValidationParametersGenerator.GenerateTokenValidationParameters();
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -43,6 +62,7 @@ namespace ICar.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseCors(options =>
             {

@@ -6,7 +6,7 @@ namespace ICar.Data.Validations
 {
     public class UserValidator : EntityValidator<User>
     {
-        private bool ValidateCpf(string cpf)
+        private static bool ValidateCpf(string cpf)
         {
             string pattern = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}";
             return Regex.IsMatch(cpf, pattern);

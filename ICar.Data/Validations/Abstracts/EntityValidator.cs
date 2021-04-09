@@ -1,5 +1,4 @@
-﻿using ICar.Data.Models.Abstract;
-using ICar.Data.Utilities.Validations;
+﻿using ICar.Data.Utilities.Validations;
 using System;
 using System.Net.Mail;
 
@@ -7,12 +6,12 @@ namespace ICar.Data.Validations.Abstracts
 {
     public abstract class EntityValidator<T>
     {
-        protected bool ValidateName(string name)
+        protected static bool ValidateName(string name)
         {
             return !string.IsNullOrWhiteSpace(name) && name.Length > 1;
         }
 
-        protected bool ValidateCity(string city)
+        protected static bool ValidateCity(string city)
         {
             try
             {
@@ -25,7 +24,7 @@ namespace ICar.Data.Validations.Abstracts
             }
         }
 
-        protected bool ValidateEmail(string email)
+        protected static bool ValidateEmail(string email)
         {
             try
             {
@@ -38,7 +37,7 @@ namespace ICar.Data.Validations.Abstracts
             }
         }
 
-        protected bool ValidatePassword(string password)
+        protected static bool ValidatePassword(string password)
         {
             return password.Length > 7 &&
                    EntityValidatorUtilities.StringContainsNumbers(password) &&

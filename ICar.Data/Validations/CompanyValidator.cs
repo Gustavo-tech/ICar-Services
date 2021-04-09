@@ -6,7 +6,7 @@ namespace ICar.Data.Validations
 {
     public class CompanyValidator : EntityValidator<Company>
     {
-        private bool ValidateCnpj(string cnpj)
+        private static bool ValidateCnpj(string cnpj)
         {
             string pattern = "[0-9]{2}.[0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}";
             return Regex.IsMatch(cnpj, pattern);
