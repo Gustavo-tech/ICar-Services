@@ -39,6 +39,7 @@ namespace ICar.API.Controllers
                         Cnpj = company.Cnpj,
                         Email = company.Email,
                         Role = company.Role,
+                        Cities = company.Cities,
                         Token = _authService.GenerateToken(company),
                     };
 

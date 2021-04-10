@@ -6,13 +6,11 @@ namespace ICar.Data.Models
 {
     public sealed class Company : Entity
     {
-        public int Id { get; }
         public string Cnpj { get; }
         public List<string> Cities { get; set; }
 
-        public Company(int id, string cnpj, string name, string email, string password, List<string> cities)
+        public Company(string cnpj, string name, string email, string password, List<string> cities)
         {
-            Id = id;
             Name = name;
             Email = email;
             Password = password;
@@ -20,10 +18,21 @@ namespace ICar.Data.Models
             Cnpj = cnpj;
         }
 
-        public Company(int id, string cnpj, string name, string email, string password, List<string> cities,
+        public Company(string cnpj, string name, string email, string password,
             int numberOfCarsSelling, DateTime accountCreationDate, string role)
         {
-            Id = id;
+            Cnpj = cnpj;
+            Name = name;
+            Email = email;
+            Password = password;
+            NumberOfCarsSelling = numberOfCarsSelling;
+            AccountCreationDate = accountCreationDate;
+            Role = role;
+        }
+
+        public Company(string cnpj, string name, string email, string password, List<string> cities,
+            int numberOfCarsSelling, DateTime accountCreationDate, string role)
+        {
             Cnpj = cnpj;
             Name = name;
             Email = email;
