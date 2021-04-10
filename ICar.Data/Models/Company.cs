@@ -22,13 +22,14 @@ namespace ICar.Data.Models
             int numberOfCarsSelling, DateTime accountCreationDate, string role)
         {
             Id = id;
+            Cnpj = cnpj;
             Name = name;
             Email = email;
             Password = password;
             City = city;
             NumberOfCarsSelling = numberOfCarsSelling;
             AccountCreationDate = accountCreationDate;
-            Cnpj = cnpj;
+            Role = role;
         }
     }
 }

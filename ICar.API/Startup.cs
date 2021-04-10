@@ -1,5 +1,6 @@
 using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
+using ICar.Data;
 using ICar.Data.Queries;
 using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +34,7 @@ namespace ICar.API
 
             // Interface implementations
             services.AddScoped<ICompanyQueries, CompanyQueries>();
+            services.AddScoped<IUserQueries, UserQueries>();
             services.AddScoped<IAuthService, JwtService>();
 
             // JWT
@@ -57,6 +59,7 @@ namespace ICar.API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ICar.API v1"));
+                DataInjector.InsertInitialData();
             }
 
             app.UseHttpsRedirection();

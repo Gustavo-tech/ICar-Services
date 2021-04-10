@@ -3,10 +3,6 @@ using ICar.API.ViewModels;
 using ICar.Data.Models;
 using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -18,7 +14,10 @@ namespace ICar.API.Controllers
         private readonly ICompanyQueries _cpQueries;
         private readonly IUserQueries _userQueries;
 
-        public AuthController(IAuthService authService, ICompanyQueries companyQueries, IUserQueries userQueries)
+        public AuthController
+            (IAuthService authService, 
+            ICompanyQueries companyQueries, 
+            IUserQueries userQueries)
         {
             _authService = authService;
             _cpQueries = companyQueries;
