@@ -30,7 +30,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "SELECT * FROM Users WHERE Email = @Email";
+                string query = $"EXECUTE spGetUser '{email}'";
                 return connection.Query<User>(query, new { Email = email }).FirstOrDefault();
             }
         }

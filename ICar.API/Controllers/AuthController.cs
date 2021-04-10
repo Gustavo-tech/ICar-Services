@@ -66,7 +66,7 @@ namespace ICar.API.Controllers
                 {
                     dynamic responseObject = new
                     {
-                        Company = user.Name,
+                        User = user.Name,
                         Cpf = user.Cpf,
                         Email = user.Email,
                         Role = user.Role,

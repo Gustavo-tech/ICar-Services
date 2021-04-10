@@ -11,19 +11,6 @@ namespace ICar.Data.Validations.Abstracts
             return !string.IsNullOrWhiteSpace(name) && name.Length > 1;
         }
 
-        protected static bool ValidateCity(string city)
-        {
-            try
-            {
-                return EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(city) &&
-                       city.Length > 1;
-            }
-            catch (ArgumentNullException)
-            {
-                return false;
-            }
-        }
-
         protected static bool ValidateEmail(string email)
         {
             try
@@ -32,6 +19,19 @@ namespace ICar.Data.Validations.Abstracts
                 return true;
             }
             catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        protected static bool ValidateCity(string city)
+        {
+            try
+            {
+                return EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(city) &&
+                       city.Length > 1;
+            }
+            catch (ArgumentNullException)
             {
                 return false;
             }

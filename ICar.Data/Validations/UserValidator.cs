@@ -1,5 +1,7 @@
 ﻿using ICar.Data.Models;
+using ICar.Data.Utilities.Validations;
 using ICar.Data.Validations.Abstracts;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ICar.Data.Validations

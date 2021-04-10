@@ -1,5 +1,6 @@
 ﻿using ICar.Data.Models;
 using ICar.Data.Validations.Abstracts;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ICar.Data.Validations
@@ -12,12 +13,23 @@ namespace ICar.Data.Validations
             return Regex.IsMatch(cnpj, pattern);
         }
 
+        private static bool ValidateCities(List<string> cities)
+        {
+            foreach (string city in cities)
+            {
+                if (!ValidateCity(city))
+                    return false;
+            }
+
+            return true;
+        }
+
         public override bool ValidateEntity(Company company)
         {
             return ValidateName(company.Name) &&
                    ValidateEmail(company.Email) &&
                    ValidatePassword(company.Password) &&
-                   ValidateCity(company.City) &&
+                   ValidateCities(company.Cities) &&
                    ValidateCnpj(company.Cnpj);
         }
     }

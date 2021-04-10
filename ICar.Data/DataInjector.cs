@@ -91,7 +91,7 @@ namespace ICar.Data
 
         private static void InsertInitialCompaniesCities()
         {
-            if (TableHasData("Companies") && !TableHasData("CompaniesCities"))
+            if (!TableHasData("CompaniesCities"))
             {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
                 {
