@@ -23,7 +23,24 @@ namespace ICar.Data
 
         private static void InsertInitialCompanies()
         {
+            if (!TableHasData("Companies"))
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
+                {
+                    try
+                    {
+                        string query = "INSERT INTO Companies VALUES ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
+                                        "('60.316.817/0001-03', 'Microsoft', 'microsoft@gmail.com', 'Mirosoft&', 0, GETDATE(), 'client'), " +
+                                        "('01.192.333/0001-22', 'Honda', 'honda@gmail.com', 'Honda&', 0, GETDATE(), 'admin')";
 
+                        sqlConnection.Execute(query);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                }
+            }
         }
 
         private static void InsertInitialCities()
@@ -72,11 +89,35 @@ namespace ICar.Data
             }
         }
 
+        private static void InsertInitialCompaniesCities()
+        {
+            if (TableHasData("Companies") && !TableHasData("CompaniesCities"))
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
+                {
+                    try
+                    {
+                        string query = "INSERT INTO CompaniesCities VALUES " +
+                                        "(1, 1), (1, 2), (1, 3), (1, 4)" +
+                                        "(2, 1), (2, 2), (2, 3), " +
+                                        "(3, 1), (3, 2)";
+
+                        sqlConnection.Execute(query);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
         public static void InsertInitialData()
         {
             InsertInitialCities();
             InsertInitialUsers();
             InsertInitialCompanies();
+            InsertInitialCompaniesCities();
         }
     }
 }
