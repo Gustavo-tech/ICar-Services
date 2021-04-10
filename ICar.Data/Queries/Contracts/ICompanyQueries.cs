@@ -9,6 +9,7 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface ICompanyQueries
     {
-        public List<Company> GetCompanies(int? quantity = null);
+        List<Company> GetCompanies(int? quantity = null);
+        Company GetCompanyByEmail(string email);
     }
 }

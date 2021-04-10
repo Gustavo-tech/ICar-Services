@@ -4,7 +4,7 @@
     {
         internal static string GetICarConnection()
         {
-            return "DataSource=DESKTOP-PR1204Q;Initial Catalog=icar;Integrated Security=True";
+            return "Data Source=DESKTOP-PR1204Q;Initial Catalog=icar;Integrated Security=True";
         }
     }
 }
