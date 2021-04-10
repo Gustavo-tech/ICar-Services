@@ -1,10 +1,6 @@
 ﻿using Dapper;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Data
 {
@@ -98,9 +94,9 @@ namespace ICar.Data
                     try
                     {
                         string query = "INSERT INTO CompaniesCities VALUES " +
-                                        "(1, 1), (1, 2), (1, 3), (1, 4)" +
-                                        "(2, 1), (2, 2), (2, 3), " +
-                                        "(3, 1), (3, 2)";
+                                        "('01.192.333/0001-22', 1), ('01.192.333/0001-22', 2), ('01.192.333/0001-22', 3), ('01.192.333/0001-22', 4), " +
+                                        "('60.316.817/0001-03', 1), ('60.316.817/0001-03', 2), ('60.316.817/0001-03', 3), " +
+                                        "('06.990.590/0001-23', 1), ('06.990.590/0001-23', 2)";
 
                         sqlConnection.Execute(query);
                     }

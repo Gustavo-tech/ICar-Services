@@ -14,12 +14,10 @@ namespace ICar.API.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyQueries _companyQueries;
-        private readonly IAuthService _auth;
 
-        public CompanyController(ICompanyQueries companyQueries, IAuthService authService)
+        public CompanyController(ICompanyQueries companyQueries)
         {
             _companyQueries = companyQueries;
-            _auth = authService;
         }
 
         [HttpGet("companies")]
