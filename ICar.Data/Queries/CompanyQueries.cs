@@ -31,7 +31,14 @@ namespace ICar.Data.Queries
                 }
 
                 string selectQuery = "SELECT * FROM Companies";
-                return connection.Query<Company>(selectQuery).ToList();
+                List<Company> companies = connection.Query<Company>(selectQuery).ToList();
+
+                foreach (Company company in companies)
+                {
+                    company.Cities = GetComapanyCities(company.Email);
+                }
+
+                return companies;
             }
             
         }
