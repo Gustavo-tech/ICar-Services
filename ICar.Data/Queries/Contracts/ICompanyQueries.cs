@@ -1,9 +1,5 @@
 ﻿using ICar.Data.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts
 {
@@ -11,5 +7,6 @@ namespace ICar.Data.Queries.Contracts
     {
         List<Company> GetCompanies(int? quantity = null);
         Company GetCompanyByEmail(string email);
+        void InsertCompany(Company company, bool isAdmin);
     }
 }
