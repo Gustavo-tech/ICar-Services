@@ -1,4 +1,5 @@
 ﻿using ICar.API.Auth.Contracts;
+using ICar.API.ViewModels;
 using ICar.Data.Models;
 using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +33,12 @@ namespace ICar.API.Controllers
             {
                 return Problem(e.Message);
             }
+        }
+
+        [HttpPost("insert")]
+        public IActionResult InsertCompany([FromBody] NewCompany newCompany)
+        {
+            return Ok();
         }
     }
 }

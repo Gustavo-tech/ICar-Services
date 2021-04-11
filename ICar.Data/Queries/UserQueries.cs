@@ -16,11 +16,11 @@ namespace ICar.Data.Queries
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"SELECT TOP {quantity} FROM Users";
+                    string quantityQuery = $"select top {quantity} from Users";
                     return connection.Query<User>(quantityQuery).ToList();
                 }
 
-                string selectQuery = "SELECT * FROM Users";
+                string selectQuery = "select * from Users";
                 return connection.Query<User>(selectQuery).ToList();
             }
 
@@ -30,7 +30,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"EXECUTE spGetUser '{email}'";
+                string query = $"execute sp_get_user '{email}'";
                 return connection.Query<User>(query, new { Email = email }).FirstOrDefault();
             }
         }

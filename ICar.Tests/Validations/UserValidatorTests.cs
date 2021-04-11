@@ -10,8 +10,8 @@ namespace ICar.Tests.Validations
         [Test]
         public void TestValidateUser_UserIsValid_ReturnsTrue()
         {
-            User user = new User("Gustavo", "gustavo@gmail.com", "hdsaj1%dsa", 
-                "Vancouver", "198.768.987-89");
+            User user = new User("198.768.987-89", "Gustavo", "gustavo@gmail.com", "hdsaj1%dsa", 
+                "Vancouver");
             UserValidator userValidator = new UserValidator();
 
             var result = userValidator.ValidateEntity(user);

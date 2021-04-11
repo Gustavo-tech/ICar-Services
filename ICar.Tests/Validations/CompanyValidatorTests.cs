@@ -1,6 +1,7 @@
 ﻿using ICar.Data.Models;
 using ICar.Data.Validations;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace ICar.Tests.Validations
 {
@@ -10,8 +11,8 @@ namespace ICar.Tests.Validations
         [Test]
         public void ValidateCompany_CompanyIsValid_ReturnsTrue()
         {
-            Company company = new Company(1, "06.990.590/0001-23", "Google", "google@gmail.com",
-                "hdjkas&765%", "Vancouver");
+            Company company = new Company("06.990.590/0001-23", "Google", "google@gmail.com",
+                "hdjkas&765%", new List<string> { "Vancouver" });
             CompanyValidator cpValidator = new CompanyValidator();
 
             var result = cpValidator.ValidateEntity(company);
@@ -22,8 +23,8 @@ namespace ICar.Tests.Validations
         [Test]
         public void ValidateCompany_CompanyIsInvalid_ReturnsFalse()
         {
-            Company company = new Company(1, "06.990.590/0003", "aoogle", "google@.com",
-                "hdjkas", "Vancouver");
+            Company company = new Company("06.990.590/0003", "aoogle", "google@.com",
+                "hdjkas", null);
             CompanyValidator cpValidator = new CompanyValidator();
 
             var result = cpValidator.ValidateEntity(company);
