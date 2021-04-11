@@ -21,7 +21,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("companies")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public IActionResult GetCompanies()
         {
             try
@@ -32,6 +32,12 @@ namespace ICar.API.Controllers
             {
                 return Problem(e.Message);
             }
+        }
+
+        [HttpPost("insert")]
+        public IActionResult InsertCompany()
+        {
+
         }
     }
 }
