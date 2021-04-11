@@ -1,5 +1,7 @@
-﻿using ICar.Data.Utilities.Validations;
+﻿using ICar.Data.Models.System;
+using ICar.Data.Utilities.Validations;
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 
 namespace ICar.Data.Validations.Abstracts
@@ -44,6 +46,34 @@ namespace ICar.Data.Validations.Abstracts
                    EntityValidatorUtilities.StringContainsASpecialChar(password);
         }
 
-        public abstract bool ValidateEntity(T entity);
+        protected static List<InvalidReason> GetInvalids(string name, string email, string password)
+        {
+            List<InvalidReason> invalidReasons = new List<InvalidReason>();
+
+            if (!ValidateName(name))
+                invalidReasons.Add(new InvalidReason
+                (
+                    "Name is invalid",
+                    "Name can't be empty and it should have more than one character"
+                ));
+
+            if (!ValidateEmail(email))
+                invalidReasons.Add(new InvalidReason
+                (
+                    "Email is invalid",
+                    "Email is invalid, check your email"
+                ));
+
+            if (!ValidatePassword(password))
+                invalidReasons.Add(new InvalidReason
+                (
+                    "Password is invalid",
+                    "Password should contain more than seven chars, at least one number and at least one special char"
+                ));
+
+            return invalidReasons;
+        }
+
+        public abstract List<InvalidReason> GetInvalidReasons(T entity);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ICar.Data.Models;
+using ICar.Data.Models.System;
 using ICar.Data.Validations.Abstracts;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -24,13 +25,29 @@ namespace ICar.Data.Validations
             return true;
         }
 
-        public override bool ValidateEntity(Company company)
+        public override List<InvalidReason> GetInvalidReasons(Company company)
         {
-            return ValidateName(company.Name) &&
-                   ValidateEmail(company.Email) &&
-                   ValidatePassword(company.Password) &&
-                   ValidateCities(company.Cities) &&
-                   ValidateCnpj(company.Cnpj);
+            List<InvalidReason> invalidReasons = GetInvalids(company.Name, company.Email, company.Password);
+
+            if (!ValidateCities(company.Cities))
+                invalidReasons.Add(new InvalidReason
+                (
+                    "Cities is invalid",
+                    "One or more cities is invalid, it should be capitalized"
+                ));
+
+
+            if (!ValidateCnpj(company.Cnpj))
+                invalidReasons.Add(new InvalidReason
+                (
+                    "CNPJ is invalid",
+                    "This CNPJ is invalid, it should be formatted"
+                ));
+
+            if (invalidReasons.Count > 0)
+                return invalidReasons;
+            else
+                return null;
         }
     }
 }

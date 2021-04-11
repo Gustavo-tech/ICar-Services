@@ -1,11 +1,13 @@
 ﻿using ICar.API.ViewModels;
 using ICar.Data.Models;
+using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.Validations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace ICar.API.Controllers
 {
@@ -46,7 +48,8 @@ namespace ICar.API.Controllers
                 newCompany.Password, 
                 newCompany.Cities);
 
-            if (_cpValidator.ValidateEntity(company))
+            List<InvalidReason> invalidReasons = _cpValidator.GetInvalidReasons(company);
+            if (invalidReasons == null)
             {
                 try
                 {
@@ -74,7 +77,8 @@ namespace ICar.API.Controllers
                     Name = company.Name,
                     Email = company.Email,
                     Cities = company.Cities,
-                    Message = "This is a invalid company"
+                    Message = "This is a invalid company",
+                    Reasons = invalidReasons
                 });
         }
     }
