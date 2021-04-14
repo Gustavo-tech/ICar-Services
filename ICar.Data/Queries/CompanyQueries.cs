@@ -26,11 +26,11 @@ namespace ICar.Data.Queries
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"select top {quantity} from Companies";
+                    string quantityQuery = $"select top {quantity} from companies";
                     return connection.Query<Company>(quantityQuery).ToList();
                 }
 
-                string selectQuery = "select * from Companies";
+                string selectQuery = "select * from companies";
                 List<Company> companies = connection.Query<Company>(selectQuery).ToList();
 
                 foreach (Company company in companies)
@@ -49,7 +49,7 @@ namespace ICar.Data.Queries
             {
                 List<string> companyCities = GetComapanyCities(email);
 
-                string query = "select * from Companies where Email = @Email";
+                string query = "select * from companies where Email = @Email";
                 Company company = connection.Query<Company>(query, new { Email = email }).FirstOrDefault();
 
                 company.Cities = companyCities;

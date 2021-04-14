@@ -9,15 +9,15 @@ namespace ICar.Tests.Validations
     class CompanyValidatorTests
     {
         [Test]
-        public void ValidateCompany_CompanyIsValid_ReturnsTrue()
+        public void GetInvalidReasons_CompanyIsValid_ReturnsTrue()
         {
             Company company = new Company("06.990.590/0001-23", "Google", "google@gmail.com",
                 "hdjkas&765%", new List<string> { "Vancouver" });
             CompanyValidator cpValidator = new CompanyValidator();
 
-            var result = cpValidator.ValidateEntity(company);
+            var result = cpValidator.GetInvalidReasons(company);
 
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -27,9 +27,9 @@ namespace ICar.Tests.Validations
                 "hdjkas", null);
             CompanyValidator cpValidator = new CompanyValidator();
 
-            var result = cpValidator.ValidateEntity(company);
+            var result = cpValidator.GetInvalidReasons(company);
 
-            Assert.That(result, Is.False);
+            Assert.IsTrue(result.Count > 0);
         }
     }
 }

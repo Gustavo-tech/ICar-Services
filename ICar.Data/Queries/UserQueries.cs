@@ -16,11 +16,11 @@ namespace ICar.Data.Queries
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"select top {quantity} from Users";
+                    string quantityQuery = $"select top {quantity} from users";
                     return connection.Query<User>(quantityQuery).ToList();
                 }
 
-                string selectQuery = "select * from Users";
+                string selectQuery = "select * from users";
                 return connection.Query<User>(selectQuery).ToList();
             }
 

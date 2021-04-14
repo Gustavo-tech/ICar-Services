@@ -14,9 +14,9 @@ namespace ICar.Tests.Validations
                 "Vancouver");
             UserValidator userValidator = new UserValidator();
 
-            var result = userValidator.ValidateEntity(user);
+            var result = userValidator.GetInvalidReasons(user);
 
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -26,9 +26,9 @@ namespace ICar.Tests.Validations
                 "vancouver", "198.76.98-89");
             UserValidator userValidator = new UserValidator();
 
-            var result = userValidator.ValidateEntity(user);
+            var result = userValidator.GetInvalidReasons(user);
 
-            Assert.That(result, Is.False);
+            Assert.IsTrue(result.Count > 0);
         }
     }
 }
