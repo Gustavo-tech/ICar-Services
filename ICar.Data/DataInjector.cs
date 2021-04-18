@@ -8,7 +8,7 @@ namespace ICar.Data {
 
         private static bool TableHasData(string tableName) {
             using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
-                string query = $"SELECT * FROM {tableName}";
+                string query = $"select * from {tableName}";
                 return sqlConnection.Execute(query) > 0;
             }
         }
@@ -17,7 +17,7 @@ namespace ICar.Data {
             if (!TableHasData("Companies")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
-                        string query = "INSERT INTO Companies VALUES ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
+                        string query = "insert into companies values ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
                                         "('60.316.817/0001-03', 'Microsoft', 'microsoft@gmail.com', 'Mirosoft&', 0, GETDATE(), 'client'), " +
                                         "('01.192.333/0001-22', 'Honda', 'honda@gmail.com', 'Honda&', 0, GETDATE(), 'admin')";
 
@@ -34,7 +34,7 @@ namespace ICar.Data {
             if (!TableHasData("Cities")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
-                        string query = "INSERT INTO Cities VALUES ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
+                        string query = "insert into cities values ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
                                         "('Valinhos'), ('Vinhedo'), ('Toronto')";
 
                         sqlConnection.Execute(query);
@@ -50,7 +50,7 @@ namespace ICar.Data {
             if (!TableHasData("Users")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
-                        string query = "INSERT INTO Users VALUES " +
+                        string query = "insert into users values " +
                                         "('897.907.267-98', 'Gustavo', 'gustavo@gmail.com', 'gustavo&', 0, GETDATE(), 'admin', 1), " +
                                         "('832.217.220-12', 'Andre', 'andre@gmail.com', 'andre&', 0, GETDATE(), 'client', 2), " +
                                         "('187.201.451-11', 'Mayara', 'mayara@gmail.com', 'mayara&', 0, GETDATE(), 'client', 3), " +
@@ -67,10 +67,10 @@ namespace ICar.Data {
         }
 
         private static void InsertInitialCompaniesCities() {
-            if (!TableHasData("CompaniesCities")) {
+            if (!TableHasData("companies_cities")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
-                        string query = "INSERT INTO CompaniesCities VALUES " +
+                        string query = "inserto into companies_cities values " +
                                         "('01.192.333/0001-22', 1), ('01.192.333/0001-22', 2), ('01.192.333/0001-22', 3), ('01.192.333/0001-22', 4), " +
                                         "('60.316.817/0001-03', 1), ('60.316.817/0001-03', 2), ('60.316.817/0001-03', 3), " +
                                         "('06.990.590/0001-23', 1), ('06.990.590/0001-23', 2)";
