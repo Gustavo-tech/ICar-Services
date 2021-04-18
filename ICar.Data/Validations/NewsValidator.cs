@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace ICar.Data.Validations {
     public static class NewsValidator {
         private static bool ValidateTitle(string title) {
-            return string.IsNullOrWhiteSpace(title) && title.Length >= 7;
+            return !string.IsNullOrWhiteSpace(title) && title.Length >= 7;
         }
 
         private static bool ValidateBody(string title) {
-            return string.IsNullOrWhiteSpace(title) && title.Length >= 20;
+            return !string.IsNullOrWhiteSpace(title) && title.Length >= 20;
         }
 
         public static List<InvalidReason> GetInvalidReasons(News news) {
