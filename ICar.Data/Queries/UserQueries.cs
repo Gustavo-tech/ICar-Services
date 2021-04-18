@@ -28,17 +28,31 @@ namespace ICar.Data.Queries {
             }
         }
 
-        public void InsertUser(User user) {
+        public void InsertUser(User user, bool isAdmin = false) {
             using (SqlConnection connection = new SqlConnection(_dbConnection)) {
-                string query = "execute sp_create_user @Cpf, @Name, @Email, @Password, @Role, @City";
-                connection.Query(query, new {
-                    Cpf = user.Cpf,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Password = user.Password,
-                    Role = user.Role,
-                    City = user.City
-                });
+                string query;
+                if (isAdmin) {
+                    query = "execute sp_create_user @Cpf, @Name, @Email, @Password, 'admin', @City";
+                    connection.Query(query, new {
+                        Cpf = user.Cpf,
+                        Name = user.Name,
+                        Email = user.Email,
+                        Password = user.Password,
+                        Role = user.Role,
+                        City = user.City
+                    });
+                }
+                else {
+                    query = "execute sp_create_user @Cpf, @Name, @Email, @Password, 'client', @City";
+                    connection.Query(query, new {
+                        Cpf = user.Cpf,
+                        Name = user.Name,
+                        Email = user.Email,
+                        Password = user.Password,
+                        Role = user.Role,
+                        City = user.City
+                    });
+                }
             }
         }
     }

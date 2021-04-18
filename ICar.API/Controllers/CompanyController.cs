@@ -32,7 +32,7 @@ namespace ICar.API.Controllers {
             }
         }
 
-        [HttpPost("insert")]
+        [HttpPost("create")]
         public IActionResult InsertCompany([FromBody] NewCompany newCompany) {
             Company company = new Company(
                 newCompany.Cnpj,
@@ -44,7 +44,7 @@ namespace ICar.API.Controllers {
             List<InvalidReason> invalidReasons = _cpValidator.GetInvalidReasons(company);
             if (invalidReasons == null) {
                 try {
-                    _companyQueries.InsertCompany(company, false);
+                    _companyQueries.InsertCompany(company);
                     return Ok(new {
                         CNPJ = company.Cnpj,
                         Name = company.Name,

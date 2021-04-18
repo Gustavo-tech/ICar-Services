@@ -5,6 +5,6 @@ namespace ICar.Data.Queries.Contracts {
     public interface IUserQueries {
         List<User> GetUsers(int? quantity);
         User GetUserByEmail(string email);
-        void InsertUser(User user);
+        void InsertUser(User user, bool isAdmin = false);
     }
 }
