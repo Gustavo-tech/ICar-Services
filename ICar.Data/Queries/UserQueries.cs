@@ -5,33 +5,40 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace ICar.Data.Queries
-{
-    public class UserQueries : IUserQueries
-    {
+namespace ICar.Data.Queries {
+    public class UserQueries : IUserQueries {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
-        public List<User> GetUsers(int? quantity = null)
-        {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                if (quantity != null)
-                {
-                    string quantityQuery = $"SELECT TOP {quantity} FROM Users";
+        public List<User> GetUsers(int? quantity = null) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                if (quantity != null) {
+                    string quantityQuery = $"select top {quantity} from users";
                     return connection.Query<User>(quantityQuery).ToList();
                 }
 
-                string selectQuery = "SELECT * FROM Users";
+                string selectQuery = "select * from users";
                 return connection.Query<User>(selectQuery).ToList();
             }
 
         }
 
-        public User GetUserByEmail(string email)
-        {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                string query = $"EXECUTE spGetUser '{email}'";
+        public User GetUserByEmail(string email) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                string query = $"execute sp_get_user '{email}'";
                 return connection.Query<User>(query, new { Email = email }).FirstOrDefault();
+            }
+        }
+
+        public void InsertUser(User user) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                string query = "execute sp_create_user @Cpf, @Name, @Email, @Password, @Role, @City";
+                connection.Query(query, new {
+                    Cpf = user.Cpf,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Role = user.Role,
+                    City = user.City
+                });
             }
         }
     }

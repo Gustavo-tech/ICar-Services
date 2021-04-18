@@ -1,12 +1,9 @@
-﻿namespace ICar.API.ViewModels
-{
-    public class LoginViewModel
-    {
+﻿namespace ICar.API.ViewModels {
+    public class Login {
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public LoginViewModel(string email, string password)
-        {
+        public Login(string email, string password) {
             Email = email;
             Password = password;
         }

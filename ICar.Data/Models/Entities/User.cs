@@ -1,16 +1,13 @@
 ﻿using ICar.Data.Models.Abstract;
 using System;
 
-namespace ICar.Data.Models
-{
-    public sealed class User : Entity
-    {
+namespace ICar.Data.Models {
+    public sealed class User : Entity {
         public string Cpf { get; }
         public string City { get; set; }
 
-        public User(string cpf, string name, string email, string password, 
-            string city)
-        {
+        public User(string cpf, string name, string email, string password,
+            string city) {
             Cpf = cpf;
             Name = name;
             Email = email;
@@ -19,8 +16,7 @@ namespace ICar.Data.Models
         }
 
         public User(string cpf, string name, string email, string password,
-            int numberOfCarsSelling, DateTime accountCreationDate, string role, string city)
-        {
+            int numberOfCarsSelling, DateTime accountCreationDate, string role, string city) {
             Cpf = cpf;
             Name = name;
             Email = email;

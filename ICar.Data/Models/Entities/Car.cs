@@ -1,9 +1,7 @@
 ﻿using ICar.Data.Models.Enums;
 
-namespace ICar.Data.Models
-{
-    public class Car
-    {
+namespace ICar.Data.Models {
+    public class Car {
         public string Plate { get; }
         public string Maker { get; }
         public string Model { get; }

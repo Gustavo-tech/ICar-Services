@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace ICar.Data.Models.Abstract
-{
-    public abstract class Entity
-    {
+namespace ICar.Data.Models.Abstract {
+    public abstract class Entity {
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
