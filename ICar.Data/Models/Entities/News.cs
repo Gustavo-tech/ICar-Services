@@ -1,7 +1,5 @@
-﻿namespace ICar.Data.Models
-{
-    public class News
-    {
+﻿namespace ICar.Data.Models {
+    public class News {
         public int Id { get; }
         public string Title { get; }
         public string Text { get; }

@@ -5,27 +5,20 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace ICar.Data.Queries
-{
-    public class CompanyQueries : ICompanyQueries
-    {
+namespace ICar.Data.Queries {
+    public class CompanyQueries : ICompanyQueries {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
 
-        private List<string> GetComapanyCities(string email)
-        {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
+        private List<string> GetComapanyCities(string email) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
                 string query = $"execute sp_get_company_cities '{email}'";
                 return connection.Query<string>(query).ToList();
             }
         }
 
-        public List<Company> GetCompanies(int? quantity = null)
-        {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                if (quantity != null)
-                {
+        public List<Company> GetCompanies(int? quantity = null) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                if (quantity != null) {
                     string quantityQuery = $"select top {quantity} from companies";
                     return connection.Query<Company>(quantityQuery).ToList();
                 }
@@ -33,20 +26,17 @@ namespace ICar.Data.Queries
                 string selectQuery = "select * from companies";
                 List<Company> companies = connection.Query<Company>(selectQuery).ToList();
 
-                foreach (Company company in companies)
-                {
+                foreach (Company company in companies) {
                     company.Cities = GetComapanyCities(company.Email);
                 }
 
                 return companies;
             }
-            
+
         }
 
-        public Company GetCompanyByEmail(string email)
-        {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
+        public Company GetCompanyByEmail(string email) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
                 List<string> companyCities = GetComapanyCities(email);
 
                 string query = "select * from companies where Email = @Email";
@@ -57,15 +47,11 @@ namespace ICar.Data.Queries
             }
         }
 
-        public void InsertCompany(Company company, bool isAdmin)
-        {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                if (GetCompanyByEmail(company.Email) == null)
-                {
-                    string query = "EXECUTE sp_insert_company '@Cnpj', '@Name', '@Email', '@Password', '@Role', '@Cities'";
-                    connection.Query(query, new
-                    {
+        public void InsertCompany(Company company, bool isAdmin) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                if (GetCompanyByEmail(company.Email) == null) {
+                    string query = "EXECUTE sp_insert_company @Cnpj, @Name, @Email, @Password, @Role, @Cities";
+                    connection.Query(query, new {
                         Cnpj = company.Cnpj,
                         Name = company.Name,
                         Email = company.Email,

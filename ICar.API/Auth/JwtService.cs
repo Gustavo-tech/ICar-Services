@@ -7,22 +7,17 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 
-namespace ICar.API.Auth
-{
-    public class JwtService : IAuthService
-    {
+namespace ICar.API.Auth {
+    public class JwtService : IAuthService {
         private readonly string _key = Secret.key;
 
-        public JwtService()
-        {
+        public JwtService() {
         }
 
-        public string GenerateToken(Entity entity)
-        {
+        public string GenerateToken(Entity entity) {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(_key);
-            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
-            {
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, entity.Name),
@@ -36,10 +31,8 @@ namespace ICar.API.Auth
             return tokenHandler.WriteToken(token);
         }
 
-        public bool ValidateToken(string token)
-        {
-            try
-            {
+        public bool ValidateToken(string token) {
+            try {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var validationParameters = ValidationParametersGenerator.GenerateTokenValidationParameters();
 
@@ -47,8 +40,7 @@ namespace ICar.API.Auth
                 IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
                 return true;
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 return false;
             }
         }

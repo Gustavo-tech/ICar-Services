@@ -2,15 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace ICar.Data.Models
-{
-    public sealed class Company : Entity
-    {
+namespace ICar.Data.Models {
+    public sealed class Company : Entity {
         public string Cnpj { get; }
         public List<string> Cities { get; set; }
 
-        public Company(string cnpj, string name, string email, string password, List<string> cities)
-        {
+        public Company(string cnpj, string name, string email, string password, List<string> cities) {
             Name = name;
             Email = email;
             Password = password;
@@ -19,8 +16,7 @@ namespace ICar.Data.Models
         }
 
         public Company(string cnpj, string name, string email, string password,
-            int numberOfCarsSelling, DateTime accountCreationDate, string role)
-        {
+            int numberOfCarsSelling, DateTime accountCreationDate, string role) {
             Cnpj = cnpj;
             Name = name;
             Email = email;
@@ -31,8 +27,7 @@ namespace ICar.Data.Models
         }
 
         public Company(string cnpj, string name, string email, string password, List<string> cities,
-            int numberOfCarsSelling, DateTime accountCreationDate, string role)
-        {
+            int numberOfCarsSelling, DateTime accountCreationDate, string role) {
             Cnpj = cnpj;
             Name = name;
             Email = email;

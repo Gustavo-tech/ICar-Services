@@ -4,18 +4,14 @@ using ICar.Data.Validations.Abstracts;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ICar.Data.Validations
-{
-    public class UserValidator : EntityValidator<User>
-    {
-        private static bool ValidateCpf(string cpf)
-        {
+namespace ICar.Data.Validations {
+    public class UserValidator : EntityValidator<User> {
+        private static bool ValidateCpf(string cpf) {
             string pattern = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}";
             return Regex.IsMatch(cpf, pattern);
         }
 
-        public override List<InvalidReason> GetInvalidReasons(User user)
-        {
+        public override List<InvalidReason> GetInvalidReasons(User user) {
             List<InvalidReason> invalidReasons = GetInvalids(user.Name, user.Email, user.Password);
 
             if (!ValidateCity(user.City))
