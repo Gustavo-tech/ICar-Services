@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICar.Data.Queries;
+using System;
 
 namespace ICar.Data.Models {
     public class News {
@@ -6,23 +7,23 @@ namespace ICar.Data.Models {
         public string Title { get; }
         public string Text { get; }
         public DateTime LastUpdate { get; set; }
-        public User User { get; set; }
-        public Company Company { get; set; }
+        public string UserCpf { get; set; }
+        public string CompanyCnpj { get; set; }
 
-        public News(string title, string text, User user, Company company) {
+        public News(string title, string text, string userCpf, string companyCnpj) {
             Title = title;
             Text = text;
-            User = user;
-            Company = company;
+            UserCpf = userCpf;
+            CompanyCnpj = companyCnpj;
         }
 
-        public News(int id, string title, string text, DateTime lastUpdate, User user, Company company) {
+        public News(int id, string title, string text, DateTime last_update, string user_cpf, string company_cnpj) {
             Id = id;
             Title = title;
             Text = text;
-            LastUpdate = lastUpdate;
-            User = user;
-            Company = company;
+            LastUpdate = last_update;
+            UserCpf = user_cpf;
+            CompanyCnpj = company_cnpj;
         }
     }
 }

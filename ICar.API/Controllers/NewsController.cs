@@ -13,33 +13,9 @@ namespace ICar.API.Controllers {
     [ApiController]
     public class NewsController : ControllerBase {
         private readonly INewsQueries _newsQueries;
-        private readonly IUserQueries _userQueries;
-        private readonly ICompanyQueries _companyQueries;
 
-        public NewsController(INewsQueries newsQueries, IUserQueries userQueries, ICompanyQueries companyQueries) {
+        public NewsController(INewsQueries newsQueries) {
             _newsQueries = newsQueries;
-            _userQueries = userQueries;
-            _companyQueries = companyQueries;
-        }
-
-        private News InstantiateNewsAccordingToAuthor(NewNews newNews) {
-            if (newNews.Cpf != null) {
-                News news = new News(newNews.Title, newNews.Text, null, null);
-                User user = _userQueries.GetUserByCpf(newNews.Cpf);
-                news.User = user;
-                return news;
-            }
-
-            else if (newNews.Cnpj != null) {
-                News news = new News(newNews.Title, newNews.Text, null, null);
-                Company company = _companyQueries.GetCompanyByCnpj(newNews.Cnpj);
-                news.Company = company;
-                return news;
-            }
-
-            else {
-                throw new InvalidOperationException("News should contain at least one author");
-            }
         }
 
         [HttpGet("get")]
@@ -60,7 +36,7 @@ namespace ICar.API.Controllers {
 
             if (invalidReasons == null) {
                 try {
-                    News news = InstantiateNewsAccordingToAuthor(newNews);
+                    News news = new News(newNews.Title, newNews.Text, newNews.Cpf, newNews.Cnpj);
                     _newsQueries.InsertNews(news);
                     return Ok("News inserted successfully");
                 }

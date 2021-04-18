@@ -14,7 +14,7 @@ namespace ICar.Data {
         }
 
         private static void InsertInitialCompanies() {
-            if (!TableHasData("Companies")) {
+            if (!TableHasData("companies")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
                         string query = "insert into companies values ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
@@ -30,8 +30,23 @@ namespace ICar.Data {
             }
         }
 
+        private static void InsertInitialNews() {
+            if (!TableHasData("news")) {
+                using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                    try {
+                        string query = "insert into news values ('Initial', 'initial', GETDATE(), '897.907.267-98', null)," +
+                                       "('Second', 'Second', GETDATE(), null, '01.192.333/0001-22')";
+                        connection.Execute(query);
+                    }
+                    catch (Exception) {
+                        return;
+                    }
+                }
+            }
+        }
+
         private static void InsertInitialCities() {
-            if (!TableHasData("Cities")) {
+            if (!TableHasData("cities")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
                         string query = "insert into cities values ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
@@ -47,7 +62,7 @@ namespace ICar.Data {
         }
 
         private static void InsertInitialUsers() {
-            if (!TableHasData("Users")) {
+            if (!TableHasData("users")) {
                 using (SqlConnection sqlConnection = new SqlConnection(_dbConnection)) {
                     try {
                         string query = "insert into users values " +
@@ -89,6 +104,7 @@ namespace ICar.Data {
             InsertInitialUsers();
             InsertInitialCompanies();
             InsertInitialCompaniesCities();
+            InsertInitialNews();
         }
     }
 }
