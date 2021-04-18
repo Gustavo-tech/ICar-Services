@@ -47,6 +47,18 @@ namespace ICar.Data.Queries {
             }
         }
 
+        public Company GetCompanyByCnpj(string cnpj) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                List<string> companyCities = GetComapanyCities(cnpj);
+
+                string query = "select * from companies where cnpj = @Cnpj";
+                Company company = connection.Query<Company>(query, new { Cnpj = cnpj }).FirstOrDefault();
+
+                company.Cities = companyCities;
+                return company;
+            }
+        }
+
         public void InsertCompany(Company company, bool isAdmin = false) {
             using (SqlConnection connection = new SqlConnection(_dbConnection)) {
                 string query = "EXECUTE sp_insert_company @Cnpj, @Name, @Email, @Password, @Role, @Cities";

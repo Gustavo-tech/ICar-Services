@@ -9,7 +9,7 @@ namespace ICar.Data.Queries {
     public class NewsQueries : INewsQueries {
         private string _dbConnectionString = DatabaseConnectionFactory.GetICarConnection();
 
-        public List<News> GetNews(int? quantity) {
+        public List<News> GetNews(int? quantity = null) {
             using(SqlConnection connection = new SqlConnection(_dbConnectionString)) {
                 string query;
                 if (quantity == null)

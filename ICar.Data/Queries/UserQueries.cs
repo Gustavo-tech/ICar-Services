@@ -28,6 +28,13 @@ namespace ICar.Data.Queries {
             }
         }
 
+        public User GetUserByCpf(string cpf) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                string query = $"execute sp_get_user_by_cnpj @Cpf";
+                return connection.Query<User>(query, new { Cpf = cpf }).FirstOrDefault();
+            }
+        }
+
         public void InsertUser(User user, bool isAdmin = false) {
             using (SqlConnection connection = new SqlConnection(_dbConnection)) {
                 string query;

@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts {
-    interface INewsQueries {
-        List<News> GetNews(int? quantity);
+    public interface INewsQueries {
+        List<News> GetNews(int? quantity = null);
         void InsertNews(News news, bool userIsCompany = false);
     }
 }
