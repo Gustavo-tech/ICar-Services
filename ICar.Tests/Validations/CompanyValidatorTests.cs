@@ -20,12 +20,12 @@ namespace ICar.Tests.Validations {
         [Test]
         public void ValidateCompany_CompanyIsInvalid_ReturnsFalse() {
             Company company = new Company("06.990.590/0003", "aoogle", "google@.com",
-                "hdjkas", null);
+                "hdjkas", new List<string> { "vancouver" });
             CompanyValidator cpValidator = new CompanyValidator();
 
             var result = cpValidator.GetInvalidReasons(company);
 
-            Assert.IsTrue(result.Count > 0);
+            Assert.That(result, Is.Not.Null);
         }
     }
 }
