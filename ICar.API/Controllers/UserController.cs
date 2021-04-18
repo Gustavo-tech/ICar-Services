@@ -30,7 +30,6 @@ namespace ICar.API.Controllers {
 
                 if (invalidReasons == null) {
                     try {
-                        userToInsert.Role = "client";
                         _userQueries.InsertUser(userToInsert);
                         return Ok(new {
                             Cpf = newUser.Cpf,

@@ -47,19 +47,17 @@ namespace ICar.Data.Queries {
             }
         }
 
-        public void InsertCompany(Company company, bool isAdmin) {
+        public void InsertCompany(Company company, bool isAdmin = false) {
             using (SqlConnection connection = new SqlConnection(_dbConnection)) {
-                if (GetCompanyByEmail(company.Email) == null) {
-                    string query = "EXECUTE sp_insert_company @Cnpj, @Name, @Email, @Password, @Role, @Cities";
-                    connection.Query(query, new {
-                        Cnpj = company.Cnpj,
-                        Name = company.Name,
-                        Email = company.Email,
-                        Password = company.Password,
-                        Role = isAdmin ? "admin" : "client",
-                        Cities = company.Cities
-                    });
-                }
+                string query = "EXECUTE sp_insert_company @Cnpj, @Name, @Email, @Password, @Role, @Cities";
+                connection.Query(query, new {
+                    Cnpj = company.Cnpj,
+                    Name = company.Name,
+                    Email = company.Email,
+                    Password = company.Password,
+                    Role = isAdmin ? "admin" : "client",
+                    Cities = company.Cities
+                });
             }
         }
     }

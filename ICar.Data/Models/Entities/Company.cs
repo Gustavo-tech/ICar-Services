@@ -8,11 +8,11 @@ namespace ICar.Data.Models {
         public List<string> Cities { get; set; }
 
         public Company(string cnpj, string name, string email, string password, List<string> cities) {
+            Cnpj = cnpj;
             Name = name;
             Email = email;
             Password = password;
             Cities = cities;
-            Cnpj = cnpj;
         }
 
         public Company(string cnpj, string name, string email, string password,
