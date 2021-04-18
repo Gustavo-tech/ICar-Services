@@ -22,9 +22,11 @@ namespace ICar.API.Controllers {
         }
 
         [HttpGet("companies")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetCompanies() {
-            try {
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        public IActionResult GetCompanies()
+        {
+            try
+            {
                 return Ok(_companyQueries.GetCompanies());
             }
             catch (Exception e) {
@@ -68,6 +70,5 @@ namespace ICar.API.Controllers {
                     Message = "This is a invalid company",
                     Reasons = invalidReasons
                 });
-        }
     }
 }
