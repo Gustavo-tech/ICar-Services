@@ -2,6 +2,7 @@
 using ICar.Data.Models;
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
+using ICar.Data.Validations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using System;
 using System.Collections.Generic;
 
 namespace ICar.API.Controllers {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class NewsController : ControllerBase {
         private readonly INewsQueries _newsQueries;
@@ -31,13 +32,14 @@ namespace ICar.API.Controllers {
         [HttpPost("insert")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult InsertNews([FromBody] NewNews newNews) {
-            List<InvalidReason> invalidReasons = new List<InvalidReason>();
-            
+
+            News news = new News(newNews.Title, newNews.Text, newNews.Cpf, newNews.Cnpj);
+            List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasons(news);
 
             if (invalidReasons == null) {
                 try {
-                    News news = new News(newNews.Title, newNews.Text, newNews.Cpf, newNews.Cnpj);
-                    _newsQueries.InsertNews(news);
+                    bool newsIsFromACompany = news.CompanyCnpj != "";
+                    _newsQueries.InsertNews(news, newsIsFromACompany);
                     return Ok("News inserted successfully");
                 }
                 catch (Exception exception) {

@@ -26,12 +26,12 @@ namespace ICar.Data.Queries {
             using(SqlConnection connection = new SqlConnection(_dbConnectionString)) {
                 string query;
                 if (userIsCompany) {
-                    query = "insert into news values (@Title, @Text, GETDATE(), 'null', @Cnpj)";
+                    query = "insert into news values (@Title, @Text, GETDATE(), null, @Cnpj)";
                     connection.Execute(query, new { Title = news.Title, Text = news.Text, Cnpj = news.CompanyCnpj });
                 }
 
                 else
-                    query = "insert into news values (@Title, @Text, GETDATE(), @Cpf, 'null')";
+                    query = "insert into news values (@Title, @Text, GETDATE(), @Cpf, null)";
                     connection.Execute(query, new { Title = news.Title, Text = news.Text, Cpf = news.UserCpf });
             }
         }
