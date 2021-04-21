@@ -16,14 +16,14 @@ namespace ICar.Data.Models {
         }
 
         public User(string cpf, string name, string email, string password,
-            int numberOfCarsSelling, DateTime accountCreationDate, string role, string city) {
+            int number_of_cars_selling, DateTime account_creation_date, string role, string city) {
             Cpf = cpf;
             Name = name;
             Email = email;
             Password = password;
             City = city;
-            NumberOfCarsSelling = numberOfCarsSelling;
-            AccountCreationDate = accountCreationDate;
+            NumberOfCarsSelling = number_of_cars_selling;
+            AccountCreationDate = account_creation_date;
             Role = role;
         }
     }

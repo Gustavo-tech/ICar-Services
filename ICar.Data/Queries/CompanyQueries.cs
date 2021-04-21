@@ -9,7 +9,7 @@ namespace ICar.Data.Queries {
     public class CompanyQueries : ICompanyQueries {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
 
-        private List<string> GetComapanyCities(string email) {
+        private List<string> GetCompanyCities(string email) {
             using (SqlConnection connection = new SqlConnection(_dbConnection)) {
                 string query = $"execute sp_get_company_cities '{email}'";
                 return connection.Query<string>(query).ToList();
@@ -27,7 +27,7 @@ namespace ICar.Data.Queries {
                 List<Company> companies = connection.Query<Company>(selectQuery).ToList();
 
                 foreach (Company company in companies) {
-                    company.Cities = GetComapanyCities(company.Email);
+                    company.Cities = GetCompanyCities(company.Email);
                 }
 
                 return companies;
@@ -37,11 +37,21 @@ namespace ICar.Data.Queries {
 
         public Company GetCompanyByEmail(string email) {
             using (SqlConnection connection = new SqlConnection(_dbConnection)) {
-                List<string> companyCities = GetComapanyCities(email);
+                List<string> companyCities = GetCompanyCities(email);
 
                 string query = "select * from companies where Email = @Email";
                 Company company = connection.Query<Company>(query, new { Email = email }).FirstOrDefault();
 
+                company.Cities = companyCities;
+                return company;
+            }
+        }
+
+        public Company GetCompanyByCnpj(string cnpj) {
+            using (SqlConnection connection = new SqlConnection(_dbConnection)) {
+                List<string> companyCities = GetCompanyCities(cnpj);
+                string query = "select * from companies where cnpj = @Cnpj";
+                Company company = connection.Query<Company>(query, new { Cnpj = cnpj }).FirstOrDefault();
                 company.Cities = companyCities;
                 return company;
             }

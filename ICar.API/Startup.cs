@@ -31,6 +31,7 @@ namespace ICar.API {
             services.AddScoped<ICompanyQueries, CompanyQueries>();
             services.AddScoped<IUserQueries, UserQueries>();
             services.AddScoped<IAuthService, JwtService>();
+            services.AddScoped<INewsQueries, NewsQueries>();
 
             // JWT
             byte[] key = Encoding.ASCII.GetBytes(Secret.key);
