@@ -75,5 +75,17 @@ namespace ICar.API.Controllers {
                     Message = "This update is invalid"
                 });
         }
+
+        [HttpDelete("delete")]
+        public IActionResult DeleteNews([FromBody] DeleteNews deleteNews) {
+            try {
+                _newsQueries.DeleteNews(deleteNews.Id);
+                return Ok("This news was deleted successfully");
+            }
+            catch (Exception e) {
+                return Problem(title: "A problem happened while deleting the news with this id",
+                    detail: e.Message);
+            }
+        }
     }
 }

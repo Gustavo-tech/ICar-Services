@@ -10,5 +10,6 @@ namespace ICar.Data.Queries.Contracts {
         List<News> GetNews(int? quantity = null);
         void InsertNews(News news, bool userIsCompany = false);
         void UpdateNews(int id, News news);
+        void DeleteNews(int id);
     }
 }

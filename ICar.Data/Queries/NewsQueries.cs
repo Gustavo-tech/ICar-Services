@@ -46,5 +46,12 @@ namespace ICar.Data.Queries {
                 });
             }
         }
+
+        public void DeleteNews(int id) {
+            using (SqlConnection connection = new SqlConnection(_dbConnectionString)) {
+                string query = "delete from news where id = @Id";
+                connection.Execute(query, new { Id = id });
+            }
+        }
     }
 }
