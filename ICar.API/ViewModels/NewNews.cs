@@ -4,7 +4,7 @@
         public string Text { get; set; }
         public string Cnpj { get; set; }
         public string Cpf { get; set; }
-
+        
         public NewNews(string title, string text, string cnpj, string cpf) {
             Title = title;
             Text = text;
