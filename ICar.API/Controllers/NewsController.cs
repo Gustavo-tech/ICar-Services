@@ -53,5 +53,39 @@ namespace ICar.API.Controllers {
                     Message = "This news is invalid"
                 });
         }
+
+        [HttpPut("update")]
+        public IActionResult UpdateNews([FromBody] UpdatedNews updatedNews) {
+            News news = new News(updatedNews.Id, updatedNews.Title, updatedNews.Text);
+            List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasons(news);
+
+            if (invalidReasons == null) {
+                try {
+                    _newsQueries.UpdateNews(updatedNews.Id, news);
+                    return Ok("News updated successfully");
+                }
+                catch (Exception e) {
+                    return Problem(title: "A problem occurred while updating this news", detail: e.Message);
+                }
+            }
+
+            else
+                return BadRequest(new {
+                    InvalidReasons = invalidReasons,
+                    Message = "This update is invalid"
+                });
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult DeleteNews([FromBody] DeleteNews deleteNews) {
+            try {
+                _newsQueries.DeleteNews(deleteNews.Id);
+                return Ok("This news was deleted successfully");
+            }
+            catch (Exception e) {
+                return Problem(title: "A problem happened while deleting the news with this id",
+                    detail: e.Message);
+            }
+        }
     }
 }

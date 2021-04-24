@@ -10,6 +10,12 @@ namespace ICar.Data.Models {
         public string UserCpf { get; set; }
         public string CompanyCnpj { get; set; }
 
+        public News(int id, string title, string text) {
+            Id = id;
+            Title = title;
+            Text = text;
+        }
+
         public News(string title, string text, string userCpf, string companyCnpj) {
             Title = title;
             Text = text;
