@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ICar.Data.Converter {
-    internal static class CarPropertyConverter {
+    public static class CarPropertyConverter {
         public static bool ConvertByteToBool(byte value) {
             return value == 1;
         }
