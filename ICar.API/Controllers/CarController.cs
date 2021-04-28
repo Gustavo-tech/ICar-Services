@@ -1,4 +1,5 @@
 ﻿using ICar.API.ViewModels;
+using ICar.Data.Models;
 using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,20 @@ namespace ICar.API.Controllers {
             catch (Exception exception) {
                 return Problem(title: "Some error happened while getting the cars",
                     detail: exception.Message);
+            }
+        }
+
+        public IActionResult InsertCar([FromBody] NewCar newCar) {
+            Car carInDatabase = _carQuery.GetCar(newCar.Plate);
+
+            if (carInDatabase == null) {
+                return Ok();
+            }
+
+            else {
+                return Conflict(new {
+                    Message = "A car with this plate already exists"
+                });
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using ICar.Data.Models.Enums;
 
-namespace ICar.Data.Models {
-    public class Car {
+namespace ICar.API.ViewModels {
+    public class NewCar {
         public string Plate { get; }
         public string Maker { get; }
         public string Model { get; }
@@ -18,17 +18,15 @@ namespace ICar.Data.Models {
         public bool IsArmored { get; }
         public string Message { get; }
         public int CityId { get; set; }
-        public User User { get; }
-        public Company Company { get; set; }
-        public int NumberOfViews { get; set; }
+        public string UserCpf { get; }
+        public string CompanyCnpj { get; set; }
 
-        public Car(string plate, string maker, string model, 
-            int makeDate, int makedDate, double kilometersTraveled, 
-            TypeOfExchange typeOfExchange, double price, string color,
-            bool acceptsChange, bool ipvaIsPaid, bool isLicensed, 
-            GasolineType gasolineType, bool isArmored, string message, 
-            int cityId, User user, Company company, int numberOfViews
-            ) {
+        public NewCar(string plate, string maker, string model, int makeDate, 
+            int makedDate, double kilometersTraveled, TypeOfExchange typeOfExchange, 
+            double price, string color, bool acceptsChange, 
+            bool ipvaIsPaid, bool isLicensed, 
+            GasolineType gasolineType, bool isArmored, 
+            string message, int cityId, string userCpf, string companyCnpj) {
             Plate = plate;
             Maker = maker;
             Model = model;
@@ -45,9 +43,8 @@ namespace ICar.Data.Models {
             IsArmored = isArmored;
             Message = message;
             CityId = cityId;
-            User = user;
-            Company = company;
-            NumberOfViews = numberOfViews;
+            UserCpf = userCpf;
+            CompanyCnpj = companyCnpj;
         }
     }
 }
