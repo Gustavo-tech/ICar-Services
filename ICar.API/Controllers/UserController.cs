@@ -15,12 +15,10 @@ namespace ICar.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserQueries _userQueries;
-        private readonly UserValidator _userValidator;
 
         public UserController(IUserQueries userQueries)
         {
             _userQueries = userQueries;
-            _userValidator = new UserValidator();
         }
 
         [HttpPost("create")]
@@ -30,7 +28,7 @@ namespace ICar.API.Controllers
 
             if (user == null)
             {
-                List<InvalidReason> invalidReasons = _userValidator.GetInvalidReasonsForInsert(newUser);
+                List<InvalidReason> invalidReasons = UserValidator.GetInvalidReasonsForInsert(newUser);
 
                 if (invalidReasons == null)
                 {

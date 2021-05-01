@@ -15,12 +15,10 @@ namespace ICar.API.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyQueries _companyQueries;
-        private readonly CompanyValidator _cpValidator;
 
         public CompanyController(ICompanyQueries companyQueries)
         {
             _companyQueries = companyQueries;
-            _cpValidator = new CompanyValidator();
         }
 
         [HttpGet("companies")]
@@ -40,7 +38,7 @@ namespace ICar.API.Controllers
         [HttpPost("create")]
         public IActionResult InsertCompany([FromBody] Company newCompany)
         {
-            List<InvalidReason> invalidReasons = _cpValidator.GetInvalidReasonsForInsert(newCompany);
+            List<InvalidReason> invalidReasons = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
             if (invalidReasons == null)
             {
                 try

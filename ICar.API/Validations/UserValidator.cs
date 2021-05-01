@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace ICar.API.Validations
 {
-    public class UserValidator
+    public static class UserValidator
     {
         public static bool ValidateCpf(string cpf)
         {
@@ -13,7 +13,7 @@ namespace ICar.API.Validations
             return Regex.IsMatch(cpf, pattern);
         }
 
-        public List<InvalidReason> GetInvalidReasonsForInsert(User user)
+        public static List<InvalidReason> GetInvalidReasonsForInsert(User user)
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(user);
 

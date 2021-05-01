@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ICar.API.Validations
 {
-    public class CompanyValidator
+    public static class CompanyValidator
     {
         public static bool ValidateCnpj(string cnpj)
         {
@@ -25,7 +25,7 @@ namespace ICar.API.Validations
             return true;
         }
 
-        public List<InvalidReason> GetInvalidReasonsForInsert(Company company)
+        public static List<InvalidReason> GetInvalidReasonsForInsert(Company company)
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(company);
 

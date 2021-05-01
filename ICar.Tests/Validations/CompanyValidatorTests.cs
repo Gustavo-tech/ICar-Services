@@ -13,9 +13,8 @@ namespace ICar.Tests.Validations
         {
             Company newCompany = new Company("06.990.590/0001-23", "Google", "google@gmail.com",
                 "hdjkas&765%", new List<string> { "Vancouver" });
-            CompanyValidator cpValidator = new CompanyValidator();
 
-            var result = cpValidator.GetInvalidReasonsForInsert(newCompany);
+            var result = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
 
             Assert.That(result, Is.Null);
         }
@@ -25,9 +24,8 @@ namespace ICar.Tests.Validations
         {
             Company newCompany = new Company("06.990.590/0003", "aoogle", "google@.com",
                 "hdjkas", new List<string> { "vancouver" });
-            CompanyValidator cpValidator = new CompanyValidator();
-
-            var result = cpValidator.GetInvalidReasonsForInsert(newCompany);
+          
+            var result = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
 
             Assert.That(result, Is.Not.Null);
         }
