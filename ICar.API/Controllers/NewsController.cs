@@ -40,7 +40,7 @@ namespace ICar.API.Controllers
         public IActionResult InsertNews([FromBody] News newNews)
         {
 
-            List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasons(newNews.Title, newNews.Text);
+            List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasonsForInsert(newNews);
             if (invalidReasons == null)
             {
                 try
@@ -63,31 +63,31 @@ namespace ICar.API.Controllers
                 });
         }
 
-        [HttpPut("update")]
-        public IActionResult UpdateNews([FromBody] UpdatedNews updatedNews)
-        {
-            List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasons(updatedNews.Title, updatedNews.Text);
+        //[HttpPut("update")]
+        //public IActionResult UpdateNews([FromBody] UpdatedNews updatedNews)
+        //{
+        //    List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasonsForInsert(updatedNews);
 
-            if (invalidReasons == null)
-            {
-                try
-                {
-                    _newsQueries.UpdateNews(updatedNews.Id, updatedNews);
-                    return Ok("News updated successfully");
-                }
-                catch (Exception e)
-                {
-                    return Problem(title: "A problem occurred while updating this news", detail: e.Message);
-                }
-            }
+        //    if (invalidReasons == null)
+        //    {
+        //        try
+        //        {
+        //            _newsQueries.UpdateNews(updatedNews.Id, updatedNews);
+        //            return Ok("News updated successfully");
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return Problem(title: "A problem occurred while updating this news", detail: e.Message);
+        //        }
+        //    }
 
-            else
-                return BadRequest(new
-                {
-                    InvalidReasons = invalidReasons,
-                    Message = "This update is invalid"
-                });
-        }
+        //    else
+        //        return BadRequest(new
+        //        {
+        //            InvalidReasons = invalidReasons,
+        //            Message = "This update is invalid"
+        //        });
+        //}
 
         [HttpDelete("delete")]
         public IActionResult DeleteNews([FromBody] DeleteNews deleteNews)

@@ -1,4 +1,4 @@
-﻿using ICar.API.Validations.Abstracts;
+﻿using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ICar.API.Validations
 {
-    public class CompanyValidator : EntityValidator<Company, T>
+    public class CompanyValidator
     {
         public static bool ValidateCnpj(string cnpj)
         {
@@ -18,16 +18,16 @@ namespace ICar.API.Validations
         {
             foreach (string city in cities)
             {
-                if (!ValidateCity(city))
+                if (!AccountValidator.ValidateCity(city))
                     return false;
             }
 
             return true;
         }
 
-        public override List<InvalidReason> GetInvalidReasonsForInsert(Company company)
+        public List<InvalidReason> GetInvalidReasonsForInsert(Company company)
         {
-            List<InvalidReason> invalidReasons = GetInvalids(company.Name, company.Email, company.Password);
+            List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(company);
 
             if (!ValidateCities(company.Cities))
                 invalidReasons.Add(new InvalidReason

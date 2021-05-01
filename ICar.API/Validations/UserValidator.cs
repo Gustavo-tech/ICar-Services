@@ -1,12 +1,11 @@
-﻿using ICar.API.Validations.Abstracts;
-using ICar.Data.Models.Entities;
+﻿using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ICar.API.Validations
 {
-    public class UserValidator : EntityValidator<User, T>
+    public class UserValidator
     {
         public static bool ValidateCpf(string cpf)
         {
@@ -14,18 +13,18 @@ namespace ICar.API.Validations
             return Regex.IsMatch(cpf, pattern);
         }
 
-        public override List<InvalidReason> GetInvalidReasonsForInsert(User entity)
+        public List<InvalidReason> GetInvalidReasonsForInsert(User user)
         {
-            List<InvalidReason> invalidReasons = GetInvalids(entity.Name, entity.Email, entity.Password);
+            List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(user);
 
-            if (!ValidateCity(entity.City))
+            if (!AccountValidator.ValidateCity(user.City))
                 invalidReasons.Add(new InvalidReason
                 (
                     "City is invalid",
                     "City should be capitalized"
                 ));
 
-            if (!ValidateCpf(entity.Cpf))
+            if (!ValidateCpf(user.Cpf))
                 invalidReasons.Add(new InvalidReason
                 (
                     "CPF is invalid",
@@ -36,11 +35,6 @@ namespace ICar.API.Validations
                 return invalidReasons;
 
             return null;
-        }
-
-        public override List<InvalidReason> GetInvalidReasonsForUpdate(T entity)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

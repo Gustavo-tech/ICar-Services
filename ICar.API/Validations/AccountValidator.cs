@@ -1,19 +1,20 @@
 ﻿using ICar.API.Utilities.Validations;
+using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.System;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace ICar.API.Validations.Abstracts
+namespace ICar.API.Validations
 {
-    public abstract class EntityValidator<T, U>
+    public static class AccountValidator
     {
-        protected static bool ValidateName(string name)
+        public static bool ValidateName(string name)
         {
             return !string.IsNullOrWhiteSpace(name) && name.Length > 1;
         }
 
-        protected static bool ValidateEmail(string email)
+        public static bool ValidateEmail(string email)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace ICar.API.Validations.Abstracts
             }
         }
 
-        protected static bool ValidateCity(string city)
+        public static bool ValidateCity(string city)
         {
             try
             {
@@ -39,32 +40,32 @@ namespace ICar.API.Validations.Abstracts
             }
         }
 
-        protected static bool ValidatePassword(string password)
+        public static bool ValidatePassword(string password)
         {
             return password.Length > 7 &&
                    EntityValidatorUtilities.StringContainsNumbers(password) &&
                    EntityValidatorUtilities.StringContainsASpecialChar(password);
         }
 
-        protected static List<InvalidReason> GetInvalids(string name, string email, string password)
+        public static List<InvalidReason> GetInvalids(Entity entity)
         {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 
-            if (!ValidateName(name))
+            if (!ValidateName(entity.Name))
                 invalidReasons.Add(new InvalidReason
                 (
                     "Name is invalid",
                     "Name can't be empty and it should have more than one character"
                 ));
 
-            if (!ValidateEmail(email))
+            if (!ValidateEmail(entity.Email))
                 invalidReasons.Add(new InvalidReason
                 (
                     "Email is invalid",
                     "Email is invalid, check your email"
                 ));
 
-            if (!ValidatePassword(password))
+            if (!ValidatePassword(entity.Password))
                 invalidReasons.Add(new InvalidReason
                 (
                     "Password is invalid",
@@ -73,8 +74,5 @@ namespace ICar.API.Validations.Abstracts
 
             return invalidReasons;
         }
-
-        public abstract List<InvalidReason> GetInvalidReasonsForInsert(T entity);
-        public abstract List<InvalidReason> GetInvalidReasonsForUpdate(U entity);
     }
 }

@@ -11,7 +11,7 @@ namespace ICar.Tests.Validations
         public void TestValidateUser_UserIsValid_ReturnsTrue()
         {
             UserValidator userValidator = new UserValidator();
-            User user = new User("198.768.987-89", "gustavo@gmail.com", "Gustavo", "hdsaj1%dsa", "Vancouver");
+            User user = new User("198.768.987-89", "gustavo78@gmail.com", "Gustavo", "hdsaj1%dsa", "Vancouver");
 
             var result = userValidator.GetInvalidReasonsForInsert(user);
 

@@ -28,7 +28,7 @@ namespace ICar.API.Controllers
         [HttpPost("authenticate/company")]
         public IActionResult AuthenticateCompany([FromBody] Login login)
         {
-            Company company = _cpQueries.GetCompanyByEmail(login.Email);
+            CompanyInSystem company = _cpQueries.GetCompanyByEmail(login.Email);
 
             if (company != null)
             {
