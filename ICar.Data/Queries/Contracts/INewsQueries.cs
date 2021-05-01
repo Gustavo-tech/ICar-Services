@@ -1,15 +1,15 @@
-﻿using ICar.Data.Models;
-using System;
+﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.EntitiesInSystem;
+using ICar.Data.ViewModels.News;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ICar.Data.Queries.Contracts {
-    public interface INewsQueries {
-        List<News> GetNews(int? quantity = null);
+namespace ICar.Data.Queries.Contracts
+{
+    public interface INewsQueries
+    {
+        List<NewsInSystem> GetNews(int? quantity = null);
         void InsertNews(News news, bool userIsCompany = false);
-        void UpdateNews(int id, News news);
+        void UpdateNews(int id, UpdatedNews news);
         void DeleteNews(int id);
     }
 }

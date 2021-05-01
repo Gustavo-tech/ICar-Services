@@ -1,27 +1,33 @@
-﻿using ICar.Data.Models;
+﻿using ICar.Data.Models.Abstracts;
+using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
-using ICar.Data.Validations.Abstracts;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ICar.Data.Validations {
-    public class CompanyValidator : EntityValidator<Company> {
-        private static bool ValidateCnpj(string cnpj) {
+namespace ICar.API.Validations
+{
+    public static class CompanyValidator
+    {
+        public static bool ValidateCnpj(string cnpj)
+        {
             string pattern = "[0-9]{2}.[0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}";
             return Regex.IsMatch(cnpj, pattern);
         }
 
-        private static bool ValidateCities(List<string> cities) {
-            foreach (string city in cities) {
-                if (!ValidateCity(city))
+        private static bool ValidateCities(List<string> cities)
+        {
+            foreach (string city in cities)
+            {
+                if (!AccountValidator.ValidateCity(city))
                     return false;
             }
 
             return true;
         }
 
-        public override List<InvalidReason> GetInvalidReasons(Company company) {
-            List<InvalidReason> invalidReasons = GetInvalids(company.Name, company.Email, company.Password);
+        public static List<InvalidReason> GetInvalidReasonsForInsert(Company company)
+        {
+            List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(company);
 
             if (!ValidateCities(company.Cities))
                 invalidReasons.Add(new InvalidReason
