@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Enums;
+﻿using ICar.Data.Models.Enums.Car;
 
 namespace ICar.Data.Models.Entities
 {

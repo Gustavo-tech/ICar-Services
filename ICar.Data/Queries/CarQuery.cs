@@ -66,7 +66,7 @@ namespace ICar.Data.Queries
                     Kilometers = newCar.KilometersTraveled,
                     TypeOfExchange = newCar.TypeOfExchange,
                     Price = newCar.Price,
-                    Color = newCar.Color,
+                    Color = CarPropertyConverter.ConvertColorToString(newCar.Color),
                     AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
                     IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
                     IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),

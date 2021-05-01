@@ -9,30 +9,30 @@ namespace ICar.API.Validations
 {
     public static class CarValidator
     {
-        private static bool ValidatePlate(string plate)
+        internal static bool ValidatePlate(string plate)
         {
             string regExpression = "[A-Z]{0-3}[-][0-9]{4}";
             return Regex.IsMatch(plate, regExpression);
         }
 
-        private static bool ValidateName(string maker)
+        internal static bool ValidateName(string maker)
         {
             return EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(maker);
         }
 
-        private static bool ValidateYear(int year)
+        internal static bool ValidateYear(int year)
         {
             int currentYear = DateTime.Now.Year;
 
             return year > currentYear - 100 && year <= currentYear;
         }
 
-        private static bool ValidatePrice(double price)
+        internal static bool ValidatePrice(double price)
         {
             return price > 1000;
         }
 
-        private static bool ValidateColor(string color)
+        internal static bool ValidateColor(string color)
         {
             return color.Length > 2;
         }

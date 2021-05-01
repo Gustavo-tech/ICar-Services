@@ -40,43 +40,67 @@ namespace ICar.API.Controllers
         [HttpGet("plate")]
         public IActionResult GetCar([FromRoute] CarPlate carPlate)
         {
-            try
+            if (CarValidator.ValidatePlate(carPlate.Plate))
             {
-                return Ok(_carQuery.GetCar(carPlate.Plate));
+                try
+                {
+                    return Ok(_carQuery.GetCar(carPlate.Plate));
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while getting the cars",
+                        detail: exception.Message);
+                }
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while getting the cars",
-                    detail: exception.Message);
-            }
+                Message = "This plate is invalid"
+            });
         }
 
         [HttpGet]
         public IActionResult GetUserCars([FromRoute] UserCpf userCpf)
         {
-            try
+            if (UserValidator.ValidateCpf(userCpf.Cpf))
             {
-                return Ok(_carQuery.GetCarsWithCpf(userCpf.Cpf));
+                try
+                {
+                    return Ok(_carQuery.GetCarsWithCpf(userCpf.Cpf));
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while getting cars of this user",
+                        detail: exception.Message);
+                }
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while getting cars of this user",
-                    detail: exception.Message);
-            }
+                Message = "This is not a valid CPF"
+            });
         }
 
         [HttpGet]
         public IActionResult GetCompanyCars([FromBody] CompanyCnpj companyCnpj)
         {
-            try
+            if (CompanyValidator.ValidateCnpj(companyCnpj.Cnpj))
             {
-                return Ok(_carQuery.GetCarsWithCnpj(companyCnpj.Cnpj));
+                try
+                {
+                    return Ok(_carQuery.GetCarsWithCnpj(companyCnpj.Cnpj));
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while getting cars of this user",
+                        detail: exception.Message);
+                } 
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while getting cars of this user",
-                    detail: exception.Message);
-            }
+                Message = "This is not a valid CNPJ"
+            });
         }
 
         [HttpPost("insert")]
@@ -124,16 +148,24 @@ namespace ICar.API.Controllers
         [HttpPost("increase/views")]
         public IActionResult IncreaseNumberOfViews([FromBody] CarPlate carPlate)
         {
-            try
+            if (CarValidator.ValidatePlate(carPlate.Plate))
             {
-                _carQuery.IncreaseNumberOfViews(carPlate.Plate);
-                return Ok("Number of views updated successfully");
+                try
+                {
+                    _carQuery.IncreaseNumberOfViews(carPlate.Plate);
+                    return Ok("Number of views updated successfully");
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while updating the number of views",
+                        detail: exception.Message);
+                } 
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while updating the number of views",
-                    detail: exception.Message);
-            }
+                Message = "This plate is invalid"
+            });
         }
     }
 }

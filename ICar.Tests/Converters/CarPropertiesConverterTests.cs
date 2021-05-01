@@ -1,11 +1,12 @@
 ﻿using ICar.Data.Converter;
+using ICar.Data.Models.Enums.Car;
 using NUnit.Framework;
 
 namespace ICar.Tests.Converters
 {
 
     [TestFixture]
-    class CarConverterTests
+    class CarPropertiesConverterTests
     {
 
         [Test]
@@ -38,6 +39,22 @@ namespace ICar.Tests.Converters
             var result = CarPropertyConverter.ConvertByteToBool(0);
 
             Assert.That(result, Is.EqualTo(false));
+        }
+
+        [Test]
+        public void TestConvertWhiteStringToEnum_WhenCalled_ReturnsWhiteEnum()
+        {
+            var result = CarPropertyConverter.ConvertStringToColor("White");
+
+            Assert.AreEqual(result, Color.White);
+        }
+
+        [Test]
+        public void TestConvertWhiteEnumToString_WhenCalled_ReturnsWhiteString()
+        {
+            var result = CarPropertyConverter.ConvertColorToString(Color.White);
+
+            Assert.AreEqual(result, "White");
         }
     }
 }

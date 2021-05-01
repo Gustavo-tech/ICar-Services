@@ -1,4 +1,4 @@
-﻿namespace ICar.Data.Models.Enums
+﻿namespace ICar.Data.Models.Enums.Car
 {
     public enum Color
     {

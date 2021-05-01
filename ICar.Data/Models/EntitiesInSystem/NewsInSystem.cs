@@ -1,24 +1,17 @@
-﻿using System;
+﻿using ICar.Data.Models.Entities;
+using System;
 
 namespace ICar.Data.Models.EntitiesInSystem
 {
-    public class NewsInSystem
+    public class NewsInSystem : News
     {
         public int Id { get; }
-        public string Title { get; }
-        public string Text { get; }
         public DateTime LastUpdate { get; set; }
         public string UserCpf { get; set; }
         public string CompanyCnpj { get; set; }
 
-        public NewsInSystem(int id, string title, string text)
-        {
-            Id = id;
-            Title = title;
-            Text = text;
-        }
-
         public NewsInSystem(string title, string text, string userCpf, string companyCnpj)
+            : base(title, text, companyCnpj, userCpf)
         {
             Title = title;
             Text = text;
@@ -27,6 +20,7 @@ namespace ICar.Data.Models.EntitiesInSystem
         }
 
         public NewsInSystem(int id, string title, string text, DateTime last_update, string user_cpf, string company_cnpj)
+            : base(title, text, user_cpf, company_cnpj)
         {
             Id = id;
             Title = title;
