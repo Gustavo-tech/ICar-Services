@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ICar.API\ICar.API.csproj" />
     <ProjectReference Include="..\ICar.Data\ICar.Data.csproj" />
   </ItemGroup>
 

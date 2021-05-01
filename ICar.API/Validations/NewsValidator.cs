@@ -1,18 +1,23 @@
-﻿using ICar.Data.Models;
+﻿using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using System.Collections.Generic;
 
-namespace ICar.Data.Validations {
-    public static class NewsValidator {
-        private static bool ValidateTitle(string title) {
+namespace ICar.API.Validations
+{
+    public static class NewsValidator
+    {
+        private static bool ValidateTitle(string title)
+        {
             return !string.IsNullOrWhiteSpace(title) && title.Length >= 7;
         }
 
-        private static bool ValidateBody(string title) {
+        private static bool ValidateBody(string title)
+        {
             return !string.IsNullOrWhiteSpace(title) && title.Length >= 20;
         }
 
-        public static List<InvalidReason> GetInvalidReasons(News news) {
+        public static List<InvalidReason> GetInvalidReasonsForInsert(News news)
+        {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 
             if (!ValidateTitle(news.Title))

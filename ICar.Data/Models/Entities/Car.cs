@@ -1,7 +1,9 @@
 ﻿using ICar.Data.Models.Enums;
 
-namespace ICar.Data.Models {
-    public class Car {
+namespace ICar.Data.Models.Entities
+{
+    public class Car
+    {
         public string Plate { get; }
         public string Maker { get; }
         public string Model { get; }
@@ -10,25 +12,24 @@ namespace ICar.Data.Models {
         public double KilometersTraveled { get; }
         public TypeOfExchange TypeOfExchange { get; }
         public double Price { get; set; }
-        public string Color { get; }
+        public Color Color { get; }
         public bool AcceptsChange { get; set; }
         public bool IpvaIsPaid { get; set; }
         public bool IsLicensed { get; set; }
         public GasolineType GasolineType { get; }
         public bool IsArmored { get; }
         public string Message { get; }
-        public int CityId { get; set; }
-        public User User { get; }
-        public Company Company { get; set; }
-        public int NumberOfViews { get; set; }
+        public string City { get; set; }
+        public string UserCpf { get; }
+        public string CompanyCnpj { get; set; }
 
-        public Car(string plate, string maker, string model, 
-            int makeDate, int makedDate, double kilometersTraveled, 
-            TypeOfExchange typeOfExchange, double price, string color,
-            bool acceptsChange, bool ipvaIsPaid, bool isLicensed, 
-            GasolineType gasolineType, bool isArmored, string message, 
-            int cityId, User user, Company company, int numberOfViews
-            ) {
+        public Car(string plate, string maker, string model, int makeDate,
+            int makedDate, double kilometersTraveled, TypeOfExchange typeOfExchange,
+            double price, Color color, bool acceptsChange,
+            bool ipvaIsPaid, bool isLicensed,
+            GasolineType gasolineType, bool isArmored,
+            string message, string city, string userCpf, string companyCnpj)
+        {
             Plate = plate;
             Maker = maker;
             Model = model;
@@ -44,10 +45,9 @@ namespace ICar.Data.Models {
             GasolineType = gasolineType;
             IsArmored = isArmored;
             Message = message;
-            CityId = cityId;
-            User = user;
-            Company = company;
-            NumberOfViews = numberOfViews;
+            City = city;
+            UserCpf = userCpf;
+            CompanyCnpj = companyCnpj;
         }
     }
 }

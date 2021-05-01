@@ -1,42 +1,53 @@
-﻿using ICar.Data.Models.System;
-using ICar.Data.Utilities.Validations;
+﻿using ICar.API.Utilities.Validations;
+using ICar.Data.Models.System;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace ICar.Data.Validations.Abstracts {
-    public abstract class EntityValidator<T> {
-        protected static bool ValidateName(string name) {
+namespace ICar.API.Validations.Abstracts
+{
+    public abstract class EntityValidator<T, U>
+    {
+        protected static bool ValidateName(string name)
+        {
             return !string.IsNullOrWhiteSpace(name) && name.Length > 1;
         }
 
-        protected static bool ValidateEmail(string email) {
-            try {
+        protected static bool ValidateEmail(string email)
+        {
+            try
+            {
                 MailAddress mail = new MailAddress(email);
                 return true;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return false;
             }
         }
 
-        protected static bool ValidateCity(string city) {
-            try {
+        protected static bool ValidateCity(string city)
+        {
+            try
+            {
                 return EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(city) &&
                        city.Length > 1;
             }
-            catch (ArgumentNullException) {
+            catch (ArgumentNullException)
+            {
                 return false;
             }
         }
 
-        protected static bool ValidatePassword(string password) {
+        protected static bool ValidatePassword(string password)
+        {
             return password.Length > 7 &&
                    EntityValidatorUtilities.StringContainsNumbers(password) &&
                    EntityValidatorUtilities.StringContainsASpecialChar(password);
         }
 
-        protected static List<InvalidReason> GetInvalids(string name, string email, string password) {
+        protected static List<InvalidReason> GetInvalids(string name, string email, string password)
+        {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 
             if (!ValidateName(name))
@@ -63,6 +74,7 @@ namespace ICar.Data.Validations.Abstracts {
             return invalidReasons;
         }
 
-        public abstract List<InvalidReason> GetInvalidReasons(T entity);
+        public abstract List<InvalidReason> GetInvalidReasonsForInsert(T entity);
+        public abstract List<InvalidReason> GetInvalidReasonsForUpdate(U entity);
     }
 }
