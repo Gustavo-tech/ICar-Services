@@ -1,4 +1,5 @@
 ﻿using ICar.API.Utilities.Validations;
+using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using System;
@@ -11,7 +12,7 @@ namespace ICar.API.Validations
     {
         internal static bool ValidatePlate(string plate)
         {
-            string regExpression = "[A-Z]{0-3}[-][0-9]{4}";
+            string regExpression = "[A-Z]{3}[-][0-9]{4}";
             return Regex.IsMatch(plate, regExpression);
         }
 
@@ -59,14 +60,20 @@ namespace ICar.API.Validations
             if (!ValidatePrice(car.Price))
                 invalidReasons.Add(new InvalidReason("Price is invalid", "This price is less than a thousand reals"));
 
-            //if (!ValidateColor(car.Color))
-            //    invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
+            if (!ValidateColor(CarPropertyConverter.ConvertColorToString(car.Color)))
+                invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
 
-            if (!UserValidator.ValidateCpf(car.UserCpf))
-                invalidReasons.Add(new InvalidReason("User is invalid", "This CPF is invalid"));
-
-            if (!CompanyValidator.ValidateCnpj(car.CompanyCnpj))
-                invalidReasons.Add(new InvalidReason("Company is invalid", "This CNPJ is invalid"));
+            if (car.UserCpf != "")
+            {
+                if (!UserValidator.ValidateCpf(car.UserCpf))
+                    invalidReasons.Add(new InvalidReason("User is invalid", "This CPF is invalid"));
+            }
+            else
+            {
+                if (!CompanyValidator.ValidateCnpj(car.CompanyCnpj))
+                    invalidReasons.Add(new InvalidReason("Company is invalid", "This CNPJ is invalid"));
+            }
+            
 
             if (invalidReasons.Count == 0)
                 return null;
