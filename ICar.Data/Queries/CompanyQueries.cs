@@ -16,8 +16,8 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_company_cities '{email}'";
-                return connection.Query<string>(query).ToList();
+                string query = $"execute sp_get_company_cities @Email";
+                return connection.Query<string>(query, new { Email = email }).ToList();
             }
         }
 

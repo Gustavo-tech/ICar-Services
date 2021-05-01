@@ -2,11 +2,6 @@
 using ICar.Data.Models.Entities;
 using ICar.Data.Models.Enums.Car;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Tests.Validations
 {
