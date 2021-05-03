@@ -89,5 +89,31 @@ namespace ICar.Data.Converter
                     return string.Empty;
             }
         }
+
+        public static TypeOfExchange ConvertStringToTypeOfExchange(string typeOfExchange)
+        {
+            switch (typeOfExchange)
+            {
+                case "aut":
+                    return TypeOfExchange.Automatic;
+                case "man":
+                    return TypeOfExchange.Manual;
+                default:
+                    return TypeOfExchange.Manual;
+            }
+        }
+
+        public static string ConvertTypeOfExchangeToString(TypeOfExchange typeOfExchange)
+        {
+            switch (typeOfExchange)
+            {
+                case TypeOfExchange.Automatic:
+                    return "aut";
+                case TypeOfExchange.Manual:
+                    return "man";
+                default:
+                    return "man";
+            }
+        }
     }
 }

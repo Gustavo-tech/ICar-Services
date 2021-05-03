@@ -11,8 +11,8 @@ namespace ICar.Tests.Validations
         [Test]
         public void TestValidateCar_CarIsValid_ReturnsNull()
         {
-            Car car = new Car("GHJ-9089", "Chevrolet", "Onix", 2019, 2020, 45.800, TypeOfExchange.Manual,
-                48000, Color.Black, false, true, true, GasolineType.GasolineAndDiesel, false, "", "Vinhedo",
+            Car car = new Car("GHJ-9089", "Chevrolet", "Onix", 2019, 2020, 45.800, "man",
+                48000, "Black", false, true, true, "Gasoline", false, "", "Vinhedo",
                 "708.568.907-78", "");
 
             var result = CarValidator.ValidateCar(car);
@@ -23,8 +23,8 @@ namespace ICar.Tests.Validations
         [Test]
         public void TestValidateCar_CarIsInvalid_ReturnsAList()
         {
-            Car car = new Car("GHJ-90", "chevret", "anix", 2019, 2020, 45.800, TypeOfExchange.Manual,
-                48000, Color.Black, false, true, true, GasolineType.GasolineAndDiesel, false, "", "cinhedo",
+            Car car = new Car("GHJ-90", "chevret", "anix", 2019, 2020, 45.800, "man",
+                48000, "bla", false, true, true, "Die", false, "", "cinhedo",
                 "708.56", "3232");
 
             var result = CarValidator.ValidateCar(car);

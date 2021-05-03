@@ -12,6 +12,14 @@ namespace ICar.Data.Queries
     public class CarQuery : ICarQuery
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
+        private readonly IUserQueries _userQueries;
+        private readonly ICompanyQueries _companyQueries;
+
+        public CarQuery(IUserQueries userQueries, ICompanyQueries companyQueries)
+        {
+            _userQueries = userQueries;
+            _companyQueries = companyQueries;
+        }
 
         public List<CarInSystem> GetAllCars()
         {
@@ -66,7 +74,7 @@ namespace ICar.Data.Queries
                     Kilometers = newCar.KilometersTraveled,
                     TypeOfExchange = newCar.TypeOfExchange,
                     Price = newCar.Price,
-                    Color = CarPropertyConverter.ConvertColorToString(newCar.Color),
+                    Color = newCar.Color,
                     AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
                     IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
                     IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),

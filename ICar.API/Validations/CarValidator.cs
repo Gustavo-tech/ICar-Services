@@ -60,7 +60,7 @@ namespace ICar.API.Validations
             if (!ValidatePrice(car.Price))
                 invalidReasons.Add(new InvalidReason("Price is invalid", "This price is less than a thousand reals"));
 
-            if (!ValidateColor(CarPropertyConverter.ConvertColorToString(car.Color)))
+            if (!ValidateColor(car.Color))
                 invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
 
             if (car.UserCpf != "")
