@@ -31,7 +31,7 @@ namespace ICar.API.Controllers
                 List<CompanyInSystem> companiesInDatabase = _companyQueries.GetCompanies();
                 dynamic[] companiesOutput = new dynamic[companiesInDatabase.Count];
 
-                for (int i = 0; i <= companiesInDatabase.Count; i++)
+                for (int i = 0; i <= companiesInDatabase.Count - 1; i++)
                 {
                     companiesOutput[i] = new
                     {

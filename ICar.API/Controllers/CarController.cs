@@ -59,7 +59,7 @@ namespace ICar.API.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpGet("cpf")]
         public IActionResult GetUserCars([FromRoute] UserCpf userCpf)
         {
             if (UserValidator.ValidateCpf(userCpf.Cpf))
@@ -81,7 +81,7 @@ namespace ICar.API.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpGet("cnpj")]
         public IActionResult GetCompanyCars([FromBody] CompanyCnpj companyCnpj)
         {
             if (CompanyValidator.ValidateCnpj(companyCnpj.Cnpj))

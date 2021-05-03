@@ -7,9 +7,9 @@ namespace ICar.Data.Models.EntitiesInSystem
     public sealed class CompanyInSystem : Entity
     {
         public string Cnpj { get; }
-        public List<string> Cities { get; set; }
+        public List<CityInSystem> Cities { get; set; }
 
-        public CompanyInSystem(string cnpj, string name, string email, string password, List<string> cities)
+        public CompanyInSystem(string cnpj, string name, string email, string password, List<CityInSystem> cities)
         {
             Cnpj = cnpj;
             Name = name;
@@ -19,18 +19,18 @@ namespace ICar.Data.Models.EntitiesInSystem
         }
 
         public CompanyInSystem(string cnpj, string name, string email, string password,
-            int numberOfCarsSelling, DateTime accountCreationDate, string role)
+            int number_of_cars_selling, DateTime account_creation_date, string role)
         {
             Cnpj = cnpj;
             Name = name;
             Email = email;
             Password = password;
-            NumberOfCarsSelling = numberOfCarsSelling;
-            AccountCreationDate = accountCreationDate;
+            NumberOfCarsSelling = number_of_cars_selling;
+            AccountCreationDate = account_creation_date;
             Role = role;
         }
 
-        public CompanyInSystem(string cnpj, string name, string email, string password, List<string> cities,
+        public CompanyInSystem(string cnpj, string name, string email, string password, List<CityInSystem> cities,
             int numberOfCarsSelling, DateTime accountCreationDate, string role)
         {
             Cnpj = cnpj;

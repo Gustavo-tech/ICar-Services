@@ -12,14 +12,15 @@ namespace ICar.Data.Queries
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
 
-        private List<string> GetCompanyCities(string email)
+        private List<CityInSystem> GetCompanyCities(string cnpj)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_company_cities @Email";
-                return connection.Query<string>(query, new { Email = email }).ToList();
+                string query = "select * from cities where id in (select city_id from companies_cities where company_cnpj = @Cnpj)";
+                return connection.Query<CityInSystem>(query, new { Cnpj = cnpj }).ToList();
             }
         }
+
 
         public List<CompanyInSystem> GetCompanies(int? quantity = null)
         {
@@ -36,7 +37,7 @@ namespace ICar.Data.Queries
 
                 foreach (CompanyInSystem company in companies)
                 {
-                    company.Cities = GetCompanyCities(company.Email);
+                    company.Cities = GetCompanyCities(company.Cnpj);
                 }
 
                 return companies;
@@ -48,7 +49,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                List<string> companyCities = GetCompanyCities(email);
+                List<CityInSystem> companyCities = GetCompanyCities(email);
 
                 string query = "select * from companies where Email = @Email";
                 CompanyInSystem company = connection.Query<CompanyInSystem>(query, new { Email = email }).FirstOrDefault();
@@ -62,7 +63,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                List<string> companyCities = GetCompanyCities(cnpj);
+                List<CityInSystem> companyCities = GetCompanyCities(cnpj);
                 string query = "select * from companies where cnpj = @Cnpj";
                 CompanyInSystem company = connection.Query<CompanyInSystem>(query, new { Cnpj = cnpj }).FirstOrDefault();
                 company.Cities = companyCities;
