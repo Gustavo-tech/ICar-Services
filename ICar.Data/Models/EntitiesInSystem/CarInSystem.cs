@@ -17,29 +17,30 @@ namespace ICar.Data.Models.EntitiesInSystem
 
         public CarInSystem(string plate, string maker, string model,
             int makeYear, int makedYear, double kilometers,
-            string typeOfExchange, double price, Color color,
+            string typeOfExchange, double price, string color,
             bool acceptsChange, bool ipvaIsPaid, bool isLicensed,
-            GasolineType gasolineType, bool isArmored, string message,
-            string city, string userCpf, string companyCnpj)
+            string gasolineType, bool isArmored, string message,
+            string city, string userCpf, string companyCnpj, int numberOfViews)
         {
             Plate = plate;
             Maker = maker;
             Model = model;
             MakeDate = makeYear;
-            MakedDate = MakedDate;
+            MakedDate = makedYear;
             KilometersTraveled = kilometers;
             TypeOfExchange = CarPropertyConverter.ConvertStringToTypeOfExchange(typeOfExchange);
             Price = price;
-            Color = color;
+            Color = CarPropertyConverter.ConvertStringToColor(color);
             AcceptsChange = acceptsChange;
             IpvaIsPaid = ipvaIsPaid;
             IsLicensed = isLicensed;
-            GasolineType = gasolineType;
+            GasolineType = CarPropertyConverter.ConvertStringToGasolineType(gasolineType);
             IsArmored = isArmored;
             Message = message;
             City = city;
             UserCpf = userCpf;
             CompanyCnpj = companyCnpj;
+            NumberOfViews = numberOfViews;
         }
     }
 }

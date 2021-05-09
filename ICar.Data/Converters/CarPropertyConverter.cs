@@ -115,5 +115,40 @@ namespace ICar.Data.Converter
                     return "man";
             }
         }
+
+        public static GasolineType ConvertStringToGasolineType(string gasolineType)
+        {
+            gasolineType.ToLower();
+            switch (gasolineType)
+            {
+                case "gas":
+                    return GasolineType.Gasoline;
+                case "ele":
+                    return GasolineType.Eletric;
+                case "gad":
+                    return GasolineType.GasolineAndDiesel;
+                case "die":
+                    return GasolineType.Diesel;
+                default:
+                    return GasolineType.GasolineAndDiesel;
+            }
+        }
+
+        public static string ConvertGasolineTypeToString(GasolineType gasolineType)
+        {
+            switch (gasolineType)
+            {
+                case GasolineType.Diesel:
+                    return "Die";
+                case GasolineType.Gasoline:
+                    return "Gas";
+                case GasolineType.Eletric:
+                    return "Ele";
+                case GasolineType.GasolineAndDiesel:
+                    return "GAD";
+                default:
+                    return "GAD";
+            }
+        }
     }
 }

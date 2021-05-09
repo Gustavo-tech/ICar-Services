@@ -12,8 +12,8 @@ namespace ICar.Data.Models.Entities
         public string UserCpf { get; }
         public string CompanyCnpj { get; set; }
 
-        public Car(string plate, string maker, string model, int makeDate,
-            int makedDate, double kilometersTraveled, string typeOfExchange,
+        public Car(string plate, string maker, string model, int makeYear,
+            int makedYear, double kilometers, string typeOfExchange,
             double price, string color, bool acceptsChange,
             bool ipvaIsPaid, bool isLicensed,
             string gasolineType, bool isArmored,
@@ -22,9 +22,9 @@ namespace ICar.Data.Models.Entities
             Plate = plate;
             Maker = maker;
             Model = model;
-            MakeDate = makeDate;
-            MakedDate = makedDate;
-            KilometersTraveled = kilometersTraveled;
+            MakeDate = makeYear;
+            MakedDate = makedYear;
+            KilometersTraveled = kilometers;
             TypeOfExchange = typeOfExchange;
             Price = price;
             Color = color;

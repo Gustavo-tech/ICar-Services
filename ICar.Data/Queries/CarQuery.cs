@@ -17,7 +17,28 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "SELECT * FROM cars";
+                string query = "SELECT " +
+                                "Plate, " +
+                                "Maker, " +
+                                "Model, " +
+                                "MakeYear, " +
+                                "MakedYear, " +
+                                "Kilometers, " +
+                                "TypeOfExchange, " +
+                                "Price, " +
+                                "Color, " +
+                                "AcceptsChange, " +
+                                "IpvaIsPaid, " +
+                                "IsLicensed, " +
+                                "GasolineType, " +
+                                "IsArmored, " +
+                                "Message, " +
+                                "cit.Name as City, " +
+                                "UserCpf, " +
+                                "CompanyCnpj, " +
+                                "NumberOfViews " +
+                                "FROM cars c \n" +
+                                "INNER JOIN cities cit ON cit.Id = c.CityId";
                 return connection.Query<CarInSystem>(query).ToList();
             }
         }
