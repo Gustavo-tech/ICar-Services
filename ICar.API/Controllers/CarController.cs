@@ -1,4 +1,5 @@
 ﻿using ICar.API.Validations;
+using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
 
 using ICar.Data.Models.System;
@@ -28,7 +29,33 @@ namespace ICar.API.Controllers
         {
             try
             {
-                return Ok(_carQuery.GetAllCars());
+                List<Car> carsInDatabase = _carQuery.GetAllCars();
+
+                List<dynamic> carsOutput = new List<dynamic>();
+
+                foreach(Car car in carsInDatabase)
+                {
+                    carsOutput.Add(new
+                    {
+                        Plate = car.Plate,
+                        Maker = car.Maker,
+                        Model = car.Model,
+                        MakeDate = car.MakeDate,
+                        MakedDate = car.MakedDate,
+                        KilometersTraveled = car.KilometersTraveled,
+                        Price = car.Price,
+                        AcceptsChange = car.AcceptsChange,
+                        IpvaIsPaid = car.IpvaIsPaid,
+                        IsLicensed = car.IsLicensed,
+                        IsArmored = car.IsArmored,
+                        Message = car.Message,
+                        Color = CarPropertyConverter.ConvertColorToString(car.Color),
+                        GasolineType = CompleteGasolineType(CarPropertyConverter.ConvertGasolineTypeToString(car.GasolineType)),
+                        City = car.City
+                    });
+                }
+
+                return Ok(carsOutput);
             }
             catch (Exception exception)
             {
@@ -166,6 +193,23 @@ namespace ICar.API.Controllers
             {
                 Message = "This plate is invalid"
             });
+        }
+
+        private string CompleteGasolineType(string gasolineType)
+        {
+            gasolineType = gasolineType.ToLower();
+
+            switch(gasolineType)
+            {
+                case "die":
+                    return "Diesel";
+                case "ele":
+                    return "Eletric";
+                case "gad":
+                    return "Gasoline and Diesel";
+                default:
+                    return "Gasoline";
+            }
         }
     }
 }
