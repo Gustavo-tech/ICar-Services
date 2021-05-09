@@ -19,10 +19,10 @@ namespace ICar.Data.Queries
             {
                 string query;
                 if (quantity == null)
-                    query = "select * from news";
+                    query = "SELECT * FROM news";
 
                 else
-                    query = $"select top {quantity.Value} from news";
+                    query = $"SELECT TOP {quantity.Value} FROM news";
 
                 return connection.Query<NewsInSystem>(query).ToList();
             }
@@ -35,12 +35,12 @@ namespace ICar.Data.Queries
                 string query;
                 if (userIsCompany)
                 {
-                    query = "insert into news values (@Title, @Text, GETDATE(), null, @Cnpj)";
+                    query = "INSERT INTO news VALUES (@Title, @Text, GETDATE(), NULL, @Cnpj)";
                     connection.Execute(query, new { Title = newNews.Title, Text = newNews.Text, Cnpj = newNews.Cnpj });
                 }
 
                 else
-                    query = "insert into news values (@Title, @Text, GETDATE(), @Cpf, null)";
+                    query = "INSERT INTO news VALUES (@Title, @Text, GETDATE(), @Cpf, null)";
                 connection.Execute(query, new { Title = newNews.Title, Text = newNews.Text, Cpf = newNews.Cpf });
             }
         }
@@ -49,7 +49,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnectionString))
             {
-                string query = "update news set title = @Title, text = @Text, last_update = GETDATE() where id = @Id";
+                string query = "UPDATE news SET title = @Title, text = @Text, last_update = GETDATE() WHERE Id = @Id";
                 connection.Execute(query, new
                 {
                     Id = id,
@@ -63,7 +63,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnectionString))
             {
-                string query = "delete from news where id = @Id";
+                string query = "DELETE FROM news WHERE Id = @Id";
                 connection.Execute(query, new { Id = id });
             }
         }

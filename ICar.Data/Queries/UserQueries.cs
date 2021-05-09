@@ -17,11 +17,11 @@ namespace ICar.Data.Queries
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"select top {quantity} from users";
+                    string quantityQuery = $"SELECT TOP {quantity} FROM users";
                     return connection.Query<UserInSystem>(quantityQuery).ToList();
                 }
 
-                string selectQuery = "select * from users";
+                string selectQuery = "SELECT * FROM Users";
                 return connection.Query<UserInSystem>(selectQuery).ToList();
             }
 
@@ -31,7 +31,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_user '{email}'";
+                string query = $"EXECUTE sp_get_user '{email}'";
                 return connection.Query<UserInSystem>(query, new { Email = email }).FirstOrDefault();
             }
         }
@@ -40,7 +40,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_user_by_cnpj @Cpf";
+                string query = $"EXECUTE sp_get_user_by_cnpj @Cpf";
                 return connection.Query<UserInSystem>(query, new { Cpf = cpf }).FirstOrDefault();
             }
         }
@@ -52,7 +52,7 @@ namespace ICar.Data.Queries
                 string query;
                 if (isAdmin)
                 {
-                    query = "execute sp_create_user @Cpf, @Name, @Email, @Password, 'admin', @City";
+                    query = "EXECUTE sp_create_user @Cpf, @Name, @Email, @Password, 'admin', @City";
                     connection.Query(query, new
                     {
                         Cpf = newUser.Cpf,
@@ -65,7 +65,7 @@ namespace ICar.Data.Queries
                 }
                 else
                 {
-                    query = "execute sp_create_user @Cpf, @Name, @Email, @Password, 'client', @City";
+                    query = "EXECUTE sp_create_user @Cpf, @Name, @Email, @Password, 'client', @City";
                     connection.Query(query, new
                     {
                         Cpf = newUser.Cpf,

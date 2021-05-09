@@ -19,15 +19,15 @@ namespace ICar.Data.Models.EntitiesInSystem
             CompanyCnpj = companyCnpj;
         }
 
-        public NewsInSystem(int id, string title, string text, DateTime last_update, string user_cpf, string company_cnpj)
-            : base(title, text, user_cpf, company_cnpj)
+        public NewsInSystem(int id, string title, string text, DateTime last_update, string userCpf, string companyCnpj)
+            : base(title, text, userCpf, companyCnpj)
         {
             Id = id;
             Title = title;
             Text = text;
             LastUpdate = last_update;
-            UserCpf = user_cpf;
-            CompanyCnpj = company_cnpj;
+            UserCpf = userCpf;
+            CompanyCnpj = companyCnpj;
         }
     }
 }

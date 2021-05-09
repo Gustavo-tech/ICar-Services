@@ -16,7 +16,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "select * from cities where id in (select city_id from companies_cities where company_cnpj = @Cnpj)";
+                string query = "SELECT * FROM cities WHERE Id IN (SELECT CityId FROM companies_cities WHERE CompanyCnpj = @Cnpj)";
                 return connection.Query<CityInSystem>(query, new { Cnpj = cnpj }).ToList();
             }
         }
@@ -28,7 +28,7 @@ namespace ICar.Data.Queries
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"select top {quantity} from companies";
+                    string quantityQuery = $"SELECT TOP {quantity} FROM companies";
                     return connection.Query<CompanyInSystem>(quantityQuery).ToList();
                 }
 
@@ -51,7 +51,7 @@ namespace ICar.Data.Queries
             {
                 List<CityInSystem> companyCities = GetCompanyCities(email);
 
-                string query = "select * from companies where Email = @Email";
+                string query = "SELECT * FROM companies WHERE Email = @Email";
                 CompanyInSystem company = connection.Query<CompanyInSystem>(query, new { Email = email }).FirstOrDefault();
 
                 company.Cities = companyCities;
@@ -64,7 +64,7 @@ namespace ICar.Data.Queries
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 List<CityInSystem> companyCities = GetCompanyCities(cnpj);
-                string query = "select * from companies where cnpj = @Cnpj";
+                string query = "SELECT * FROM companies WHERE cnpj = @Cnpj";
                 CompanyInSystem company = connection.Query<CompanyInSystem>(query, new { Cnpj = cnpj }).FirstOrDefault();
                 company.Cities = companyCities;
                 return company;

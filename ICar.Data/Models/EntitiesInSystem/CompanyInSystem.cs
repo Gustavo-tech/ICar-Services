@@ -19,14 +19,14 @@ namespace ICar.Data.Models.EntitiesInSystem
         }
 
         public CompanyInSystem(string cnpj, string name, string email, string password,
-            int number_of_cars_selling, DateTime account_creation_date, string role)
+            int numberOFCarsSelling, DateTime accountCreationDate, string role)
         {
             Cnpj = cnpj;
             Name = name;
             Email = email;
             Password = password;
-            NumberOfCarsSelling = number_of_cars_selling;
-            AccountCreationDate = account_creation_date;
+            NumberOfCarsSelling = numberOFCarsSelling;
+            AccountCreationDate = accountCreationDate;
             Role = role;
         }
 

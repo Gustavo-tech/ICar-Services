@@ -19,15 +19,15 @@ namespace ICar.Data.Models.EntitiesInSystem
         }
 
         public UserInSystem(string cpf, string name, string email, string password,
-            int number_of_cars_selling, DateTime account_creation_date, string role, string city)
+            int numberOfCarsSelling, DateTime accountCreationDate, string role, string city)
         {
             Cpf = cpf;
             Name = name;
             Email = email;
             Password = password;
             City = city;
-            NumberOfCarsSelling = number_of_cars_selling;
-            AccountCreationDate = account_creation_date;
+            NumberOfCarsSelling = numberOfCarsSelling;
+            AccountCreationDate = accountCreationDate;
             Role = role;
         }
     }

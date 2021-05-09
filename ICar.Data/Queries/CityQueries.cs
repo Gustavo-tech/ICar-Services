@@ -13,7 +13,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "select * from cities where id = @Id";
+                string query = "SELECT * FROM cities WHERE Id = @Id";
                 return connection.Query<CityInSystem>(query, new { Id = id }).FirstOrDefault();
             }
         }

@@ -12,20 +12,12 @@ namespace ICar.Data.Queries
     public class CarQuery : ICarQuery
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
-        private readonly IUserQueries _userQueries;
-        private readonly ICompanyQueries _companyQueries;
-
-        public CarQuery(IUserQueries userQueries, ICompanyQueries companyQueries)
-        {
-            _userQueries = userQueries;
-            _companyQueries = companyQueries;
-        }
 
         public List<CarInSystem> GetAllCars()
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "select * from cars";
+                string query = "SELECT * FROM cars";
                 return connection.Query<CarInSystem>(query).ToList();
             }
         }
@@ -34,7 +26,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "select * from cars where plate = @Plate";
+                string query = "SELECT * FROM cars WHERE Plate = @Plate";
                 return connection.Query<CarInSystem>(query, new { Plate = plate }).FirstOrDefault();
             }
         }
@@ -43,7 +35,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "select * from cars where company_cnpj = @Cnpj";
+                string query = "SELECT * FROM cars WHERE CompanyCnpj = @Cnpj";
                 return connection.Query<CarInSystem>(query, new { Cnpj = cnpj }).ToList();
             }
         }
@@ -52,7 +44,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "select * from cars where user_cpf = @Cpf";
+                string query = "SELECT * from cars WHERE UserCpf = @Cpf";
                 return connection.Query<CarInSystem>(query, new { Cpf = cpf }).ToList();
             }
         }
@@ -61,7 +53,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "execute sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
+                string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
                     "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
                     "@Message, @City, @UserCpf, @CompanyCnpj";
                 connection.Execute(query, new
@@ -92,7 +84,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "execute sp_update_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
+                string query = "EXECUTE sp_update_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
                     "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
                     "@Message, @City, @UserCpf, @CompanyCnpj";
                 connection.Execute(query, new
@@ -113,8 +105,8 @@ namespace ICar.Data.Queries
                     IsArmored = CarPropertyConverter.ConvertBoolToBit(car.IsArmored),
                     Message = car.Message,
                     City = car.City,
-                    UserCpf = car.User.Cpf,
-                    CompanyCnpj = car.Company.Cnpj,
+                    UserCpf = car.UserCpf,
+                    CompanyCnpj = car.CompanyCnpj,
                 });
             }
         }
@@ -123,7 +115,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
             {
-                string query = "update cars set plate = @NewPlate where plate = @OldPlate";
+                string query = "UPDATE cars SET plate = @NewPlate WHERE Plate = @OldPlate";
                 sqlConnection.Execute(query, new { OldPlate = oldPlate, NewPlate = newPlate });
             }
         }
@@ -132,11 +124,11 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string selectNumberOfViews = "select number_of_views from cars where plate = @Plate";
-                int currentViews = connection.ExecuteScalar<int>(selectNumberOfViews, new { Plate = carPlate });
+                string SELECTNumberOfViews = "SELECT number_of_views FROM cars WHERE Plate = @Plate";
+                int currentViews = connection.ExecuteScalar<int>(SELECTNumberOfViews, new { Plate = carPlate });
 
-                string query = "update cars set number_of_views = @NumberOfViews where plate = @CarPlate";
-                connection.Execute(query, new { NumberOfViews = selectNumberOfViews + 1, CarPlate = carPlate });
+                string query = "UPDATE cars SET NumberOfViews = @NumberOfViews WHERE plate = @CarPlate";
+                connection.Execute(query, new { NumberOfViews = SELECTNumberOfViews + 1, CarPlate = carPlate });
             }
         }
 
@@ -144,7 +136,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "delete from cars where id = @Id";
+                string query = "DELETE FROM cars WHERE Id = @Id";
                 connection.Execute(query, new { Id = id });
             }
         }
