@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.News;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace ICar.Data.Queries
     {
         private string _dbConnectionString = DatabaseConnectionFactory.GetICarConnection();
 
-        public List<NewsInSystem> GetNews(int? quantity = null)
+        public List<News> GetNews(int? quantity = null)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnectionString))
             {
@@ -24,11 +23,11 @@ namespace ICar.Data.Queries
                 else
                     query = $"SELECT TOP {quantity.Value} FROM news";
 
-                return connection.Query<NewsInSystem>(query).ToList();
+                return connection.Query<News>(query).ToList();
             }
         }
 
-        public void InsertNews(News newNews, bool userIsCompany = false)
+        public void InsertNews(NewNews newNews, bool userIsCompany = false)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnectionString))
             {

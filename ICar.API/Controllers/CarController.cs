@@ -1,6 +1,6 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Cars;
@@ -104,13 +104,13 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("insert")]
-        public IActionResult InsertCar([FromBody] Car newCar)
+        public IActionResult InsertCar([FromBody] NewCar newCar)
         {
-            CarInSystem carInDatabase = _carQuery.GetCar(newCar.Plate);
+            Car carInDatabase = _carQuery.GetCar(newCar.Plate);
 
             if (carInDatabase == null)
             {
-                List<InvalidReason> invalidReasons = CarValidator.ValidateCar(newCar);
+                List<InvalidReason> invalidReasons = CarValidator.ValidateNewCar(newCar);
                 if (invalidReasons == null)
                 {
                     try

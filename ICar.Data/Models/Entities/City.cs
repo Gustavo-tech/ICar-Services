@@ -1,11 +1,11 @@
-﻿namespace ICar.Data.Models.EntitiesInSystem
+﻿namespace ICar.Data.Models.Entities
 {
-    public class CityInSystem
+    public class City
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public CityInSystem(int id, string name)
+        public City(int id, string name)
         {
             Id = id;
             Name = name;

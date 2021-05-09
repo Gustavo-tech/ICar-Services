@@ -1,14 +1,14 @@
 ﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+using ICar.Data.ViewModels.Companies;
 using System.Collections.Generic;
 
 namespace ICar.Data.Queries.Contracts
 {
     public interface ICompanyQueries
     {
-        List<CompanyInSystem> GetCompanies(int? quantity = null);
-        CompanyInSystem GetCompanyByEmail(string email);
-        CompanyInSystem GetCompanyByCnpj(string cnpj);
-        void InsertCompany(Company company, bool isAdmin = false);
+        List<Company> GetCompanies(int? quantity = null);
+        Company GetCompanyByEmail(string email);
+        Company GetCompanyByCnpj(string cnpj);
+        void InsertCompany(NewCompany company, bool isAdmin = false);
     }
 }

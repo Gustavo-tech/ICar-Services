@@ -1,5 +1,6 @@
 ﻿using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
+using ICar.Data.ViewModels.News;
 using System.Collections.Generic;
 
 namespace ICar.API.Validations
@@ -16,7 +17,7 @@ namespace ICar.API.Validations
             return !string.IsNullOrWhiteSpace(title) && title.Length >= 20;
         }
 
-        public static List<InvalidReason> GetInvalidReasonsForInsert(News news)
+        public static List<InvalidReason> GetInvalidReasonsForInsert(NewNews news)
         {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 

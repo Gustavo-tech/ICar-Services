@@ -1,6 +1,6 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+using ICar.Data.ViewModels.News;
 using NUnit.Framework;
 
 namespace ICar.Tests.Validations
@@ -16,7 +16,7 @@ namespace ICar.Tests.Validations
         [TestCase("Iron man our hero", "Unfortunately iron man is dead, lets check what Marvel will do about it")]
         public void GetInvalidReasons_NewsIsValid_ReturnsNull(string title, string text)
         {
-            News news = new News(title, text, null, null);
+            NewNews news = new NewNews(title, text, null, null);
             var result = NewsValidator.GetInvalidReasonsForInsert(news);
 
             Assert.That(result, Is.Null);
@@ -30,7 +30,7 @@ namespace ICar.Tests.Validations
         [TestCase(null, null)]
         public void GetInvalidReasons_NewsIsInvalid_ReturnsAListOfInvalidReasons(string title, string text)
         {
-            News news = new News(title, text, null, null);
+            NewNews news = new NewNews(title, text, null, null);
 
             var result = NewsValidator.GetInvalidReasonsForInsert(news);
 

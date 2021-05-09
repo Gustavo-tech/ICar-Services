@@ -118,7 +118,7 @@ namespace ICar.Data.Converter
 
         public static GasolineType ConvertStringToGasolineType(string gasolineType)
         {
-            gasolineType.ToLower();
+            gasolineType = gasolineType.ToLower();
             switch (gasolineType)
             {
                 case "gas":

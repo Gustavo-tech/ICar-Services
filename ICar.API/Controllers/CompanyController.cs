@@ -1,8 +1,9 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
+using ICar.Data.ViewModels.Companies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<CompanyInSystem> companiesInDatabase = _companyQueries.GetCompanies();
+                List<Company> companiesInDatabase = _companyQueries.GetCompanies();
                 dynamic[] companiesOutput = new dynamic[companiesInDatabase.Count];
 
                 for (int i = 0; i <= companiesInDatabase.Count - 1; i++)
@@ -54,7 +55,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult InsertCompany([FromBody] Company newCompany)
+        public IActionResult InsertCompany([FromBody] NewCompany newCompany)
         {
             List<InvalidReason> invalidReasons = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
             if (invalidReasons == null)

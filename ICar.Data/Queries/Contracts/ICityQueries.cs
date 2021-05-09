@@ -1,4 +1,5 @@
-﻿using ICar.Data.Models.EntitiesInSystem;
+﻿
+using ICar.Data.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface ICityQueries
     {
-        public CityInSystem GetCityById(int id);
+        public City GetCityById(int id);
     }
 }

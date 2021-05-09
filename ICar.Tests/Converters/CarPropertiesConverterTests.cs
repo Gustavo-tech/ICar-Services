@@ -56,5 +56,25 @@ namespace ICar.Tests.Converters
 
             Assert.AreEqual(result, "White");
         }
+
+        [Test]
+        public void TestConvertGasolineTypeToString_WhenCalled_ReturnsGasString()
+        {
+            GasolineType gasType = GasolineType.Gasoline;
+
+            var result = CarPropertyConverter.ConvertGasolineTypeToString(gasType);
+
+            Assert.That(result, Is.EqualTo("Gas"));
+        }
+
+        [Test]
+        public void TestConvertStringToGasolineType_WhenCalled_ReturnsGasolineType()
+        {
+            string gasType = "Gas";
+
+            var result = CarPropertyConverter.ConvertStringToGasolineType(gasType);
+
+            Assert.That(result, Is.EqualTo(GasolineType.Gasoline));
+        }
     }
 }

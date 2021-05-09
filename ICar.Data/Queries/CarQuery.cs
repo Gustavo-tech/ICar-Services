@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+
 using ICar.Data.Queries.Contracts;
+using ICar.Data.ViewModels.Cars;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ICar.Data.Queries
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
 
-        public List<CarInSystem> GetAllCars()
+        public List<Car> GetAllCars()
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
@@ -39,38 +40,38 @@ namespace ICar.Data.Queries
                                 "NumberOfViews " +
                                 "FROM cars c \n" +
                                 "INNER JOIN cities cit ON cit.Id = c.CityId";
-                return connection.Query<CarInSystem>(query).ToList();
+                return connection.Query<Car>(query).ToList();
             }
         }
 
-        public CarInSystem GetCar(string plate)
+        public Car GetCar(string plate)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "SELECT * FROM cars WHERE Plate = @Plate";
-                return connection.Query<CarInSystem>(query, new { Plate = plate }).FirstOrDefault();
+                return connection.Query<Car>(query, new { Plate = plate }).FirstOrDefault();
             }
         }
 
-        public List<CarInSystem> GetCarsWithCnpj(string cnpj)
+        public List<Car> GetCarsWithCnpj(string cnpj)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "SELECT * FROM cars WHERE CompanyCnpj = @Cnpj";
-                return connection.Query<CarInSystem>(query, new { Cnpj = cnpj }).ToList();
+                return connection.Query<Car>(query, new { Cnpj = cnpj }).ToList();
             }
         }
 
-        public List<CarInSystem> GetCarsWithCpf(string cpf)
+        public List<Car> GetCarsWithCpf(string cpf)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "SELECT * from cars WHERE UserCpf = @Cpf";
-                return connection.Query<CarInSystem>(query, new { Cpf = cpf }).ToList();
+                return connection.Query<Car>(query, new { Cpf = cpf }).ToList();
             }
         }
 
-        public void InsertCar(Car newCar)
+        public void InsertCar(NewCar newCar)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
@@ -101,7 +102,7 @@ namespace ICar.Data.Queries
             }
         }
 
-        public void UpdateCar(CarInSystem car)
+        public void UpdateCar(Car car)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {

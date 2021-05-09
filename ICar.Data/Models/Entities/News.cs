@@ -1,18 +1,32 @@
-﻿namespace ICar.Data.Models.Entities
-{
-    public class News
-    {
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public string Cnpj { get; set; }
-        public string Cpf { get; set; }
+﻿using ICar.Data.Models.Abstracts;
+using ICar.Data.Models.Entities;
+using System;
 
-        public News(string title, string text, string cnpj, string cpf)
+namespace ICar.Data.Models.Entities
+{
+    public class News : AbstractNews
+    {
+        public int Id { get; }
+        public DateTime LastUpdate { get; set; }
+        public string UserCpf { get; set; }
+        public string CompanyCnpj { get; set; }
+
+        public News(string title, string text, string userCpf, string companyCnpj)
         {
             Title = title;
             Text = text;
-            Cnpj = cnpj;
-            Cpf = cpf;
+            UserCpf = userCpf;
+            CompanyCnpj = companyCnpj;
+        }
+
+        public News(int id, string title, string text, DateTime lastUpdate, string userCpf, string companyCnpj)
+        {
+            Id = id;
+            Title = title;
+            Text = text;
+            LastUpdate = lastUpdate;
+            UserCpf = userCpf;
+            CompanyCnpj = companyCnpj;
         }
     }
 }
