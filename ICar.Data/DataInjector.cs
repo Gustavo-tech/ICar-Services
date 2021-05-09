@@ -128,6 +128,28 @@ namespace ICar.Data
             }
         }
 
+        private static void InsertInitialCars()
+        {
+            if (!TableHasData("cars"))
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection))
+                {
+                    try
+                    {
+                        string query = "INSERT INTO cars VALUES " +
+                                                   "('PGX-9090', 'Honda', 'Civic', 2019, 2019, 21000, 'man', 109000, 'Black', 0, 1, 1, 'Gas', 0, '', 1, '897.907.267-98', NULL, 0), " +
+                                                   "('XLP-8090', 'Peugeot', '206', 2017, 2018, 90000, 'aut', 42000, 'White', 0, 1, 1, 'Die', 0, '', 1, '187.201.451-11', NULL, 0)"; ;
+                        connection.Execute(query);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                }
+                
+            }
+        }
+
         public static void InsertInitialData()
         {
             InsertInitialCities();
@@ -135,6 +157,7 @@ namespace ICar.Data
             InsertInitialCompanies();
             InsertInitialCompaniesCities();
             InsertInitialNews();
+            InsertInitialCars();
         }
     }
 }
