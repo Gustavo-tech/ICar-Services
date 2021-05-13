@@ -1,5 +1,4 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
 using ICar.Data.ViewModels.News;
 using NUnit.Framework;
 

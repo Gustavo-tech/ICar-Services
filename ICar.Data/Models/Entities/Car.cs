@@ -6,7 +6,7 @@ namespace ICar.Data.Models.Entities
 {
     public class Car : AbstractCar
     {
-        
+
         public TypeOfExchange TypeOfExchange { get; }
         public Color Color { get; }
         public GasolineType GasolineType { get; }

@@ -1,6 +1,4 @@
-﻿using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.System;
+﻿using ICar.Data.Models.System;
 using ICar.Data.ViewModels.Companies;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;

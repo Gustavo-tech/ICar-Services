@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
-
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Cars;
 using System.Collections.Generic;
@@ -48,7 +47,29 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "SELECT * FROM cars WHERE Plate = @Plate";
+                string query = "SELECT " +
+                                "Plate, " +
+                                "Maker, " +
+                                "Model, " +
+                                "MakeYear, " +
+                                "MakedYear, " +
+                                "Kilometers, " +
+                                "TypeOfExchange, " +
+                                "Price, " +
+                                "Color, " +
+                                "AcceptsChange, " +
+                                "IpvaIsPaid, " +
+                                "IsLicensed, " +
+                                "GasolineType, " +
+                                "IsArmored, " +
+                                "Message, " +
+                                "cit.Name as City, " +
+                                "UserCpf, " +
+                                "CompanyCnpj, " +
+                                "NumberOfViews " +
+                                "FROM cars c \n" +
+                                "INNER JOIN cities cit ON cit.Id = c.CityId\n" +
+                                "WHERE Plate = @Plate";
                 return connection.Query<Car>(query, new { Plate = plate }).FirstOrDefault();
             }
         }
@@ -146,11 +167,11 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string SELECTNumberOfViews = "SELECT number_of_views FROM cars WHERE Plate = @Plate";
-                int currentViews = connection.ExecuteScalar<int>(SELECTNumberOfViews, new { Plate = carPlate });
+                string selectNumberOfViews = "SELECT number_of_views FROM cars WHERE Plate = @Plate";
+                int currentViews = connection.ExecuteScalar<int>(selectNumberOfViews, new { Plate = carPlate });
 
                 string query = "UPDATE cars SET NumberOfViews = @NumberOfViews WHERE plate = @CarPlate";
-                connection.Execute(query, new { NumberOfViews = SELECTNumberOfViews + 1, CarPlate = carPlate });
+                connection.Execute(query, new { NumberOfViews = currentViews + 1, CarPlate = carPlate });
             }
         }
 

@@ -1,6 +1,4 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.Enums.Car;
 using ICar.Data.ViewModels.Cars;
 using NUnit.Framework;
 

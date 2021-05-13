@@ -1,7 +1,5 @@
 ﻿using ICar.API.Utilities.Validations;
-using ICar.Data.Converter;
 using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using ICar.Data.ViewModels.Cars;
 using System;
@@ -62,7 +60,7 @@ namespace ICar.API.Validations
             if (!ValidatePrice(car.Price))
                 invalidReasons.Add(new InvalidReason("Price is invalid", "This price is less than a thousand reals"));
 
-                return invalidReasons;
+            return invalidReasons;
         }
 
         public static List<InvalidReason> ValidateNewCar(NewCar newCar)

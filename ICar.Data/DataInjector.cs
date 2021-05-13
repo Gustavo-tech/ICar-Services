@@ -67,7 +67,7 @@ namespace ICar.Data
                 {
                     try
                     {
-                        string query =  "INSERT INTO cities VALUES ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
+                        string query = "INSERT INTO cities VALUES ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
                                         "('Valinhos'), ('Vinhedo'), ('Toronto')";
 
                         sqlConnection.Execute(query);
@@ -146,7 +146,7 @@ namespace ICar.Data
                         return;
                     }
                 }
-                
+
             }
         }
 

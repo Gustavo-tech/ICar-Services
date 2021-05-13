@@ -1,7 +1,6 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
-
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Cars;
@@ -33,7 +32,7 @@ namespace ICar.API.Controllers
 
                 List<dynamic> carsOutput = new List<dynamic>();
 
-                foreach(Car car in carsInDatabase)
+                foreach (Car car in carsInDatabase)
                 {
                     carsOutput.Add(new
                     {
@@ -64,14 +63,15 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("plate")]
-        public IActionResult GetCar([FromRoute] CarPlate carPlate)
+        [HttpGet("plate/{plate}")]
+        public IActionResult GetCar([FromRoute] string plate)
         {
-            if (CarValidator.ValidatePlate(carPlate.Plate))
+            plate = plate.ToUpper();
+            if (CarValidator.ValidatePlate(plate))
             {
                 try
                 {
-                    return Ok(_carQuery.GetCar(carPlate.Plate));
+                    return Ok(_carQuery.GetCar(plate));
                 }
                 catch (Exception exception)
                 {
@@ -121,7 +121,7 @@ namespace ICar.API.Controllers
                 {
                     return Problem(title: "Some error happened while getting cars of this user",
                         detail: exception.Message);
-                } 
+                }
             }
 
             return BadRequest(new
@@ -186,7 +186,7 @@ namespace ICar.API.Controllers
                 {
                     return Problem(title: "Some error happened while updating the number of views",
                         detail: exception.Message);
-                } 
+                }
             }
 
             return BadRequest(new
@@ -199,7 +199,7 @@ namespace ICar.API.Controllers
         {
             gasolineType = gasolineType.ToLower();
 
-            switch(gasolineType)
+            switch (gasolineType)
             {
                 case "die":
                     return "Diesel";

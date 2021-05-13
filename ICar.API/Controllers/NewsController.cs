@@ -1,5 +1,4 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.News;

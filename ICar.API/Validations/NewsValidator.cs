@@ -1,5 +1,4 @@
-﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.System;
+﻿using ICar.Data.Models.System;
 using ICar.Data.ViewModels.News;
 using System.Collections.Generic;
 
