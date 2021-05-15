@@ -6,12 +6,21 @@ using ICar.Data.ViewModels.Cars;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICar.Data.Queries
 {
     public class CarQuery : ICarQuery
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
+        private readonly IUserQueries _userQueries;
+        private readonly ICompanyQueries _companyQueries;
+
+        public CarQuery(IUserQueries userQueries, ICompanyQueries companyQueries)
+        {
+            _userQueries = userQueries;
+            _companyQueries = companyQueries;
+        }
 
         public List<Car> GetAllCars()
         {
@@ -78,7 +87,29 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "SELECT * FROM cars WHERE CompanyCnpj = @Cnpj";
+                string query = "SELECT " +
+                                "Plate, " +
+                                "Maker, " +
+                                "Model, " +
+                                "MakeYear, " +
+                                "MakedYear, " +
+                                "Kilometers, " +
+                                "TypeOfExchange, " +
+                                "Price, " +
+                                "Color, " +
+                                "AcceptsChange, " +
+                                "IpvaIsPaid, " +
+                                "IsLicensed, " +
+                                "GasolineType, " +
+                                "IsArmored, " +
+                                "Message, " +
+                                "cit.Name as City, " +
+                                "UserCpf, " +
+                                "CompanyCnpj, " +
+                                "NumberOfViews " +
+                                "FROM cars c \n" +
+                                "INNER JOIN cities cit ON cit.Id = c.CityId\n" +
+                                "WHERE CompanyCnpj = @Cnpj";
                 return connection.Query<Car>(query, new { Cnpj = cnpj }).ToList();
             }
         }
@@ -87,39 +118,117 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "SELECT * from cars WHERE UserCpf = @Cpf";
+                string query = "SELECT " +
+                                "Plate, " +
+                                "Maker, " +
+                                "Model, " +
+                                "MakeYear, " +
+                                "MakedYear, " +
+                                "Kilometers, " +
+                                "TypeOfExchange, " +
+                                "Price, " +
+                                "Color, " +
+                                "AcceptsChange, " +
+                                "IpvaIsPaid, " +
+                                "IsLicensed, " +
+                                "GasolineType, " +
+                                "IsArmored, " +
+                                "Message, " +
+                                "cit.Name as City, " +
+                                "UserCpf, " +
+                                "CompanyCnpj, " +
+                                "NumberOfViews " +
+                                "FROM cars c \n" +
+                                "INNER JOIN cities cit ON cit.Id = c.CityId\n" +
+                                "WHERE UserCpf = @Cpf";
                 return connection.Query<Car>(query, new { Cpf = cpf }).ToList();
             }
         }
 
         public void InsertCar(NewCar newCar)
         {
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
+            if (newCar.UserCpf != "")
             {
-                string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
-                    "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
-                    "@Message, @City, @UserCpf, @CompanyCnpj";
-                connection.Execute(query, new
+                if (_userQueries.GetUserByCpf(newCar.UserCpf) != null)
                 {
-                    Plate = newCar.Plate,
-                    Maker = newCar.Maker,
-                    Model = newCar.Model,
-                    MakeYear = newCar.MakeDate,
-                    MakedYear = newCar.MakedDate,
-                    Kilometers = newCar.KilometersTraveled,
-                    TypeOfExchange = newCar.TypeOfExchange,
-                    Price = newCar.Price,
-                    Color = newCar.Color,
-                    AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
-                    IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
-                    IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
-                    GasolineType = newCar.GasolineType,
-                    IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
-                    Message = newCar.Message,
-                    City = newCar.City,
-                    UserCpf = newCar.UserCpf,
-                    CompanyCnpj = newCar.CompanyCnpj,
-                });
+                    using (SqlConnection connection = new SqlConnection(_dbConnection))
+                    {
+                        string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
+                            "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
+                            "@Message, @City, @UserCpf, @CompanyCnpj";
+                        connection.Execute(query, new
+                        {
+                            Plate = newCar.Plate,
+                            Maker = newCar.Maker,
+                            Model = newCar.Model,
+                            MakeYear = newCar.MakeDate,
+                            MakedYear = newCar.MakedDate,
+                            Kilometers = newCar.KilometersTraveled,
+                            TypeOfExchange = newCar.TypeOfExchange,
+                            Price = newCar.Price,
+                            Color = newCar.Color,
+                            AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
+                            IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
+                            IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
+                            GasolineType = newCar.GasolineType,
+                            IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
+                            Message = newCar.Message,
+                            City = newCar.City,
+                            UserCpf = newCar.UserCpf,
+                            CompanyCnpj = ""
+                        });
+                    }
+                }
+            }
+
+            else
+            {
+                if (_companyQueries.GetCompanyByCnpj(newCar.CompanyCnpj) != null)
+                {
+                    using (SqlConnection connection = new SqlConnection(_dbConnection))
+                    {
+                        string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
+                            "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
+                            "@Message, @City, @UserCpf, @CompanyCnpj";
+                        connection.Execute(query, new
+                        {
+                            Plate = newCar.Plate,
+                            Maker = newCar.Maker,
+                            Model = newCar.Model,
+                            MakeYear = newCar.MakeDate,
+                            MakedYear = newCar.MakedDate,
+                            Kilometers = newCar.KilometersTraveled,
+                            TypeOfExchange = newCar.TypeOfExchange,
+                            Price = newCar.Price,
+                            Color = newCar.Color,
+                            AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
+                            IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
+                            IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
+                            GasolineType = newCar.GasolineType,
+                            IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
+                            Message = newCar.Message,
+                            City = newCar.City,
+                            UserCpf = "",
+                            CompanyCnpj = newCar.CompanyCnpj
+                        });
+                    }
+                }
+            }
+            
+        }
+
+        public async Task InsertCarPictures(List<string> pictures, string carPlate)
+        {
+            if (pictures != null)
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection))
+                {
+                    foreach (string p in pictures)
+                    {
+                        string query = "INSERT INTO car_images VALUES (@Stream, @Plate)";
+                        await connection.ExecuteAsync(query, new { Stream = p, Plate = carPlate });
+                    }
+                }
             }
         }
 

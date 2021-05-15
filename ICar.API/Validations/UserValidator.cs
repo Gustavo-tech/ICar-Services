@@ -9,8 +9,13 @@ namespace ICar.API.Validations
     {
         public static bool ValidateCpf(string cpf)
         {
-            string pattern = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}";
-            return Regex.IsMatch(cpf, pattern);
+            if (cpf != null)
+            {
+                string pattern = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}";
+                return Regex.IsMatch(cpf, pattern);
+            }
+
+            return false;
         }
 
         public static List<InvalidReason> GetInvalidReasonsForInsert(User user)

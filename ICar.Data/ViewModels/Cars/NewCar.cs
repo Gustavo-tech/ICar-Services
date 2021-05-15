@@ -11,8 +11,8 @@ namespace ICar.Data.ViewModels.Cars
         public string UserCpf { get; }
         public string CompanyCnpj { get; set; }
 
-        public NewCar(string plate, string maker, string model, int makeYear,
-            int makedYear, double kilometers, string typeOfExchange,
+        public NewCar(string plate, string maker, string model, int makeDate,
+            int makedDate, double kilometersTraveled, string typeOfExchange,
             double price, string color, bool acceptsChange,
             bool ipvaIsPaid, bool isLicensed,
             string gasolineType, bool isArmored,
@@ -21,9 +21,9 @@ namespace ICar.Data.ViewModels.Cars
             Plate = plate;
             Maker = maker;
             Model = model;
-            MakeDate = makeYear;
-            MakedDate = makedYear;
-            KilometersTraveled = kilometers;
+            MakeDate = makeDate;
+            MakedDate = makedDate;
+            KilometersTraveled = kilometersTraveled;
             TypeOfExchange = typeOfExchange;
             Price = price;
             Color = color;

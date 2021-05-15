@@ -9,8 +9,13 @@ namespace ICar.API.Validations
     {
         public static bool ValidateCnpj(string cnpj)
         {
-            string pattern = "[0-9]{2}.[0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}";
-            return Regex.IsMatch(cnpj, pattern);
+            if (cnpj != null)
+            {
+                string pattern = "[0-9]{2}.[0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}";
+                return Regex.IsMatch(cnpj, pattern);
+            }
+
+            return false;
         }
 
         private static bool ValidateCities(List<string> cities)

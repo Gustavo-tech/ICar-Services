@@ -12,8 +12,13 @@ namespace ICar.API.Validations
     {
         internal static bool ValidatePlate(string plate)
         {
-            string regExpression = "[A-Z]{3}[-][0-9]{4}";
-            return Regex.IsMatch(plate, regExpression);
+            if (plate != null)
+            {
+                string regExpression = "[A-Z]{3}[-][0-9]{4}";
+                return Regex.IsMatch(plate, regExpression);
+            }
+
+            return false;
         }
 
         internal static bool ValidateName(string maker)
