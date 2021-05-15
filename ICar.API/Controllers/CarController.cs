@@ -4,11 +4,13 @@ using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Cars;
-using ICar.Data.ViewModels.Companies;
-using ICar.Data.ViewModels.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -86,14 +88,14 @@ namespace ICar.API.Controllers
             });
         }
 
-        [HttpGet("cpf")]
-        public IActionResult GetUserCars([FromRoute] UserCpf userCpf)
+        [HttpGet("cpf/{cpf}")]
+        public IActionResult GetUserCars([FromRoute] string cpf)
         {
-            if (UserValidator.ValidateCpf(userCpf.Cpf))
+            if (UserValidator.ValidateCpf(cpf))
             {
                 try
                 {
-                    return Ok(_carQuery.GetCarsWithCpf(userCpf.Cpf));
+                    return Ok(_carQuery.GetCarsWithCpf(cpf));
                 }
                 catch (Exception exception)
                 {
@@ -108,14 +110,14 @@ namespace ICar.API.Controllers
             });
         }
 
-        [HttpGet("cnpj")]
-        public IActionResult GetCompanyCars([FromBody] CompanyCnpj companyCnpj)
+        [HttpGet("cnpj/{cnpj}")]
+        public IActionResult GetCompanyCars([FromRoute] string cnpj)
         {
-            if (CompanyValidator.ValidateCnpj(companyCnpj.Cnpj))
+            if (CompanyValidator.ValidateCnpj(cnpj))
             {
                 try
                 {
-                    return Ok(_carQuery.GetCarsWithCnpj(companyCnpj.Cnpj));
+                    return Ok(_carQuery.GetCarsWithCnpj(cnpj));
                 }
                 catch (Exception exception)
                 {
@@ -131,8 +133,10 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("insert")]
-        public IActionResult InsertCar([FromBody] NewCar newCar)
+        public async Task<IActionResult> InsertCar()
         {
+            NewCar newCar = GetNewCarFromRequest();
+            List<string> carPictures = GetCarImagesFromRequest();
             Car carInDatabase = _carQuery.GetCar(newCar.Plate);
 
             if (carInDatabase == null)
@@ -142,8 +146,8 @@ namespace ICar.API.Controllers
                 {
                     try
                     {
-
                         _carQuery.InsertCar(newCar);
+                        await _carQuery.InsertCarPictures(carPictures, newCar.Plate);
                         return Ok();
                     }
                     catch (Exception e)
@@ -210,6 +214,73 @@ namespace ICar.API.Controllers
                 default:
                     return "Gasoline";
             }
+        }
+
+        private NewCar GetNewCarFromRequest()
+        {
+            Dictionary<string, string> answersDictionary = new Dictionary<string, string> 
+            {
+                { "plate", "" },
+                { "maker", "" },
+                { "model", "" },
+                { "makeDate", "" },
+                { "makedDate", "" },
+                { "kilometersTraveled", "" },
+                { "typeOfExchange", "" },
+                { "price", "" },
+                { "color", "" },
+                { "acceptsChange", "" },
+                { "ipvaIsPaid", "" },
+                { "city", "" },
+                { "isLicensed", "" },
+                { "gasolineType", "" },
+                { "isArmored", "" },
+                { "message", "" },
+                { "userCpf", "" },
+                { "companyCnpj", "" },
+            };
+            
+            foreach (KeyValuePair<string, string> kvp in answersDictionary)
+            {
+                HttpContext.Request.Form.TryGetValue(kvp.Key, out StringValues answer);
+                answersDictionary[kvp.Key] = answer.ToString();
+            }
+
+            return new NewCar(answersDictionary["plate"], answersDictionary["maker"], answersDictionary["model"],
+                int.Parse(answersDictionary["makedDate"]), int.Parse(answersDictionary["makedDate"]), double.Parse(answersDictionary["kilometersTraveled"]),
+                answersDictionary["typeOfExchange"], double.Parse(answersDictionary["price"]), answersDictionary["color"],
+                ConvertStringToBool(answersDictionary["acceptsChange"]), ConvertStringToBool(answersDictionary["ipvaIsPaid"]), ConvertStringToBool(answersDictionary["isLicensed"]),
+                answersDictionary["gasolineType"], ConvertStringToBool(answersDictionary["isArmored"]), answersDictionary["message"],
+                answersDictionary["city"], answersDictionary["userCpf"], answersDictionary["companyCnpj"]);
+        }
+
+        private List<string> GetCarImagesFromRequest()
+        {
+            List<string> carPictures = new List<string>();
+            bool stillHasImages = true;
+            int indexToAccess = 1;
+            while(stillHasImages)
+            {
+                IFormFile file = HttpContext.Request.Form.Files.GetFile($"picture{indexToAccess}");
+
+                if (file != null)
+                {
+                    Stream stream = file.OpenReadStream();
+                    carPictures.Add(stream.ToString());
+                    indexToAccess++;
+                }
+                else
+                {
+                    stillHasImages = false;
+                }
+            }
+
+            return carPictures;
+        }
+
+        private bool ConvertStringToBool(string value)
+        {
+            return value == "true";
         }
     }
 }

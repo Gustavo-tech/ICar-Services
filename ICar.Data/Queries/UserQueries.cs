@@ -40,7 +40,7 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"EXECUTE sp_get_user_by_cnpj @Cpf";
+                string query = $"EXECUTE sp_get_user_by_cpf @Cpf";
                 return connection.Query<User>(query, new { Cpf = cpf }).FirstOrDefault();
             }
         }
