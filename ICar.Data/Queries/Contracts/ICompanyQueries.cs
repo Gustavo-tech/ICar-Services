@@ -7,9 +7,9 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface ICompanyQueries
     {
-        Task<List<Company>> GetCompanies(int? quantity = null);
-        Task<Company> GetCompanyByEmail(string email);
-        Task<Company> GetCompanyByCnpj(string cnpj);
+        List<Company> GetCompanies(int? quantity = null);
+        Company GetCompanyByEmail(string email);
+        Company GetCompanyByCnpj(string cnpj);
         Task InsertCompany(NewCompany company, bool isAdmin = false);
     }
 }
