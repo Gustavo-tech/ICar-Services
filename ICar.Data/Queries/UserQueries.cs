@@ -40,7 +40,22 @@ namespace ICar.Data.Queries
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"EXECUTE sp_get_user_by_cpf @Cpf";
+                string query = "DECLARE @city_id INT; \n" +
+                "SET @city_id = (SELECT CityId FROM users WHERE Cpf = @Cpf)\n" +
+	
+	            "SELECT\n" +
+                    "Cpf, " +
+                    "u.name, " +
+		            "Email, " +
+		            "Password, " +
+		            "NumberOfCarsSelling, " +
+		            "AccountCreationDate, " +
+		            "Role, " +
+		            "c.Name as City\n" +
+                "FROM\n" +
+                    "users u\n" +
+                "INNER JOIN cities c ON u.CityId = c.Id\n" +
+                "WHERE u.Cpf = @Cpf";
                 return connection.Query<User>(query, new { Cpf = cpf }).FirstOrDefault();
             }
         }

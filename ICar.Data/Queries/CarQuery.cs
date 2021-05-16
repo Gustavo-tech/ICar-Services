@@ -3,6 +3,7 @@ using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Cars;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -147,74 +148,87 @@ namespace ICar.Data.Queries
 
         public void InsertCar(NewCar newCar)
         {
-            if (newCar.UserCpf != "")
+            if (GetCar(newCar.Plate) == null)
             {
-                if (_userQueries.GetUserByCpf(newCar.UserCpf) != null)
+                if (newCar.UserCpf != "")
                 {
-                    using (SqlConnection connection = new SqlConnection(_dbConnection))
+                    if (_userQueries.GetUserByCpf(newCar.UserCpf) != null)
                     {
-                        string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
-                            "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
-                            "@Message, @City, @UserCpf, @CompanyCnpj";
-                        connection.Execute(query, new
+                        using (SqlConnection connection = new SqlConnection(_dbConnection))
                         {
-                            Plate = newCar.Plate,
-                            Maker = newCar.Maker,
-                            Model = newCar.Model,
-                            MakeYear = newCar.MakeDate,
-                            MakedYear = newCar.MakedDate,
-                            Kilometers = newCar.KilometersTraveled,
-                            TypeOfExchange = newCar.TypeOfExchange,
-                            Price = newCar.Price,
-                            Color = newCar.Color,
-                            AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
-                            IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
-                            IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
-                            GasolineType = newCar.GasolineType,
-                            IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
-                            Message = newCar.Message,
-                            City = newCar.City,
-                            UserCpf = newCar.UserCpf,
-                            CompanyCnpj = ""
-                        });
+                            string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
+                                "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
+                                "@Message, @City, @UserCpf, null";
+                            connection.Execute(query, new
+                            {
+                                Plate = newCar.Plate,
+                                Maker = newCar.Maker,
+                                Model = newCar.Model,
+                                MakeYear = newCar.MakeDate,
+                                MakedYear = newCar.MakedDate,
+                                Kilometers = newCar.KilometersTraveled,
+                                TypeOfExchange = newCar.TypeOfExchange,
+                                Price = newCar.Price,
+                                Color = newCar.Color,
+                                AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
+                                IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
+                                IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
+                                GasolineType = newCar.GasolineType,
+                                IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
+                                Message = newCar.Message,
+                                City = newCar.City,
+                                UserCpf = newCar.UserCpf,
+                            });
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("This CPF isn't in our database");
                     }
                 }
-            }
 
-            else
-            {
-                if (_companyQueries.GetCompanyByCnpj(newCar.CompanyCnpj) != null)
+                else
                 {
-                    using (SqlConnection connection = new SqlConnection(_dbConnection))
+                    if (_companyQueries.GetCompanyByCnpj(newCar.CompanyCnpj) != null)
                     {
-                        string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
-                            "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
-                            "@Message, @City, @UserCpf, @CompanyCnpj";
-                        connection.Execute(query, new
+                        using (SqlConnection connection = new SqlConnection(_dbConnection))
                         {
-                            Plate = newCar.Plate,
-                            Maker = newCar.Maker,
-                            Model = newCar.Model,
-                            MakeYear = newCar.MakeDate,
-                            MakedYear = newCar.MakedDate,
-                            Kilometers = newCar.KilometersTraveled,
-                            TypeOfExchange = newCar.TypeOfExchange,
-                            Price = newCar.Price,
-                            Color = newCar.Color,
-                            AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
-                            IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
-                            IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
-                            GasolineType = newCar.GasolineType,
-                            IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
-                            Message = newCar.Message,
-                            City = newCar.City,
-                            UserCpf = "",
-                            CompanyCnpj = newCar.CompanyCnpj
-                        });
+                            string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
+                                "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
+                                "@Message, @City, null, @CompanyCnpj";
+                            connection.Execute(query, new
+                            {
+                                Plate = newCar.Plate,
+                                Maker = newCar.Maker,
+                                Model = newCar.Model,
+                                MakeYear = newCar.MakeDate,
+                                MakedYear = newCar.MakedDate,
+                                Kilometers = newCar.KilometersTraveled,
+                                TypeOfExchange = newCar.TypeOfExchange,
+                                Price = newCar.Price,
+                                Color = newCar.Color,
+                                AcceptsChange = CarPropertyConverter.ConvertBoolToBit(newCar.AcceptsChange),
+                                IpvaIsPaid = CarPropertyConverter.ConvertBoolToBit(newCar.IpvaIsPaid),
+                                IsLicensed = CarPropertyConverter.ConvertBoolToBit(newCar.IsLicensed),
+                                GasolineType = newCar.GasolineType,
+                                IsArmored = CarPropertyConverter.ConvertBoolToBit(newCar.IsArmored),
+                                Message = newCar.Message,
+                                City = newCar.City,
+                                CompanyCnpj = newCar.CompanyCnpj
+                            });
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("This company isn't registered in our database");
                     }
                 }
             }
             
+            else
+            {
+                throw new Exception("This car already exists in our database");
+            }
         }
 
         public async Task InsertCarPictures(List<string> pictures, string carPlate)

@@ -136,42 +136,30 @@ namespace ICar.API.Controllers
         public async Task<IActionResult> InsertCar()
         {
             NewCar newCar = GetNewCarFromRequest();
-            List<string> carPictures = GetCarImagesFromRequest();
-            Car carInDatabase = _carQuery.GetCar(newCar.Plate);
+            List<string> carPictures = await GetImagesStreams();
 
-            if (carInDatabase == null)
+            List<InvalidReason> invalidReasons = CarValidator.ValidateNewCar(newCar);
+            if (invalidReasons == null)
             {
-                List<InvalidReason> invalidReasons = CarValidator.ValidateNewCar(newCar);
-                if (invalidReasons == null)
+                try
                 {
-                    try
-                    {
-                        _carQuery.InsertCar(newCar);
-                        await _carQuery.InsertCarPictures(carPictures, newCar.Plate);
-                        return Ok();
-                    }
-                    catch (Exception e)
-                    {
-                        return Problem(title: "Some error occurred while inserting this car",
-                            detail: e.Message);
-                    }
+                    _carQuery.InsertCar(newCar);
+                    await _carQuery.InsertCarPictures(carPictures, newCar.Plate);
+                    return Ok();
                 }
-
-                else
+                catch (Exception e)
                 {
-                    return BadRequest(new
-                    {
-                        Message = "This car is invalid",
-                        Reasons = invalidReasons
-                    });
+                    return Problem(title: "Some error occurred while inserting this car",
+                        detail: e.Message);
                 }
             }
 
             else
             {
-                return Conflict(new
+                return BadRequest(new
                 {
-                    Message = "A car with this plate already exists"
+                    Message = "This car is invalid",
+                    Reasons = invalidReasons
                 });
             }
         }
@@ -218,7 +206,7 @@ namespace ICar.API.Controllers
 
         private NewCar GetNewCarFromRequest()
         {
-            Dictionary<string, string> answersDictionary = new Dictionary<string, string> 
+            Dictionary<string, string> answersDictionary = new Dictionary<string, string>
             {
                 { "plate", "" },
                 { "maker", "" },
@@ -239,7 +227,7 @@ namespace ICar.API.Controllers
                 { "userCpf", "" },
                 { "companyCnpj", "" },
             };
-            
+
             foreach (KeyValuePair<string, string> kvp in answersDictionary)
             {
                 HttpContext.Request.Form.TryGetValue(kvp.Key, out StringValues answer);
@@ -254,19 +242,21 @@ namespace ICar.API.Controllers
                 answersDictionary["city"], answersDictionary["userCpf"], answersDictionary["companyCnpj"]);
         }
 
-        private List<string> GetCarImagesFromRequest()
+        private async Task<List<string>> GetImagesStreams()
         {
-            List<string> carPictures = new List<string>();
+            List<string> streams = new();
             bool stillHasImages = true;
             int indexToAccess = 1;
-            while(stillHasImages)
+
+            while (stillHasImages)
             {
                 IFormFile file = HttpContext.Request.Form.Files.GetFile($"picture{indexToAccess}");
 
                 if (file != null)
                 {
-                    Stream stream = file.OpenReadStream();
-                    carPictures.Add(stream.ToString());
+                    StreamReader sr = new StreamReader(file.OpenReadStream());
+                    string content = await sr.ReadToEndAsync();
+                    streams.Add(content);
                     indexToAccess++;
                 }
                 else
@@ -275,7 +265,7 @@ namespace ICar.API.Controllers
                 }
             }
 
-            return carPictures;
+            return streams;
         }
 
         private bool ConvertStringToBool(string value)
