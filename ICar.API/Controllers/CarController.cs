@@ -143,7 +143,7 @@ namespace ICar.API.Controllers
             {
                 try
                 {
-                    _carQuery.InsertCar(newCar);
+                    await _carQuery.InsertCar(newCar);
                     await _carQuery.InsertCarPictures(carPictures, newCar.Plate);
                     return Ok();
                 }
@@ -165,13 +165,13 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("increase/views")]
-        public IActionResult IncreaseNumberOfViews([FromBody] CarPlate carPlate)
+        public async Task<IActionResult>  IncreaseNumberOfViews([FromBody] CarPlate carPlate)
         {
             if (CarValidator.ValidatePlate(carPlate.Plate))
             {
                 try
                 {
-                    _carQuery.IncreaseNumberOfViews(carPlate.Plate);
+                    await _carQuery.IncreaseNumberOfViews(carPlate.Plate);
                     return Ok("Number of views updated successfully");
                 }
                 catch (Exception exception)

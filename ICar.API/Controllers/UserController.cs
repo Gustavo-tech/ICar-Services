@@ -6,6 +6,7 @@ using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -22,7 +23,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult CreateUser([FromBody] User newUser)
+        public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
             User user = _userQueries.GetUserByEmail(newUser.Email);
 
@@ -34,7 +35,7 @@ namespace ICar.API.Controllers
                 {
                     try
                     {
-                        _userQueries.InsertUser(newUser);
+                        await _userQueries.InsertUser(newUser);
                         return Ok(new
                         {
                             Cpf = newUser.Cpf,

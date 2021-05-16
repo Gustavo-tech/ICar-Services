@@ -1,6 +1,5 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.Entities;
-
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Companies;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -55,14 +55,14 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult InsertCompany([FromBody] NewCompany newCompany)
+        public async Task<IActionResult> InsertCompany([FromBody] NewCompany newCompany)
         {
             List<InvalidReason> invalidReasons = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
             if (invalidReasons == null)
             {
                 try
                 {
-                    _companyQueries.InsertCompany(newCompany);
+                    await _companyQueries.InsertCompany(newCompany);
                     return Ok(new
                     {
                         CNPJ = newCompany.Cnpj,

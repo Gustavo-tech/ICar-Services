@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -36,7 +37,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("insert")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult InsertNews([FromBody] NewNews newNews)
+        public async Task<IActionResult> InsertNews([FromBody] NewNews newNews)
         {
 
             List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasonsForInsert(newNews);
@@ -45,7 +46,7 @@ namespace ICar.API.Controllers
                 try
                 {
                     bool newsIsFromACompany = newNews.Cnpj != "";
-                    _newsQueries.InsertNews(newNews, newsIsFromACompany);
+                    await _newsQueries.InsertNews(newNews, newsIsFromACompany);
                     return Ok("News inserted successfully");
                 }
                 catch (Exception exception)
@@ -62,38 +63,12 @@ namespace ICar.API.Controllers
                 });
         }
 
-        //[HttpPut("update")]
-        //public IActionResult UpdateNews([FromBody] UpdatedNews updatedNews)
-        //{
-        //    List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasonsForInsert(updatedNews);
-
-        //    if (invalidReasons == null)
-        //    {
-        //        try
-        //        {
-        //            _newsQueries.UpdateNews(updatedNews.Id, updatedNews);
-        //            return Ok("News updated successfully");
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return Problem(title: "A problem occurred while updating this news", detail: e.Message);
-        //        }
-        //    }
-
-        //    else
-        //        return BadRequest(new
-        //        {
-        //            InvalidReasons = invalidReasons,
-        //            Message = "This update is invalid"
-        //        });
-        //}
-
         [HttpDelete("delete")]
-        public IActionResult DeleteNews([FromBody] DeleteNews deleteNews)
+        public async Task<IActionResult> DeleteNews([FromBody] DeleteNews deleteNews)
         {
             try
             {
-                _newsQueries.DeleteNews(deleteNews.Id);
+                await _newsQueries.DeleteNews(deleteNews.Id);
                 return Ok("This news was deleted successfully");
             }
             catch (Exception e)
