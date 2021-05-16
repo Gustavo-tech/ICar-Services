@@ -15,6 +15,7 @@ namespace ICar.Data.Queries.Contracts
         public Task InsertCarPictures(List<string> pictures, string carPlate);
         public void UpdateCar(Car car);
         public void IncreaseNumberOfViews(string carPlate);
-        public void DeleteCar(int id);
+        public Task DeleteCarPictures(string plate);
+        public Task DeleteCar(string plate);
     }
 }

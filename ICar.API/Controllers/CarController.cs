@@ -187,6 +187,22 @@ namespace ICar.API.Controllers
             });
         }
 
+        [HttpDelete("delete/{plate}")]
+        public async Task<IActionResult> DeleteCar([FromRoute] string plate)
+        {
+            plate = plate.ToUpper();
+            try
+            {
+                await _carQuery.DeleteCarPictures(plate);
+                await _carQuery.DeleteCar(plate);
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return Problem(title: "Some error occurred", detail: e.Message);
+            }
+        }
+
         private string CompleteGasolineType(string gasolineType)
         {
             gasolineType = gasolineType.ToLower();

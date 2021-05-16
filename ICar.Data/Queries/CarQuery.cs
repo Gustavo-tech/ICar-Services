@@ -298,12 +298,21 @@ namespace ICar.Data.Queries
             }
         }
 
-        public void DeleteCar(int id)
+        public async Task DeleteCarPictures(string plate)
+        {
+            using (SqlConnection con = new SqlConnection(_dbConnection))
+            {
+                string query = "DELETE FROM car_images WHERE CarPlate = @Plate";
+                await con.ExecuteAsync(query, new { Plate = plate });
+            }
+        }
+
+        public async Task DeleteCar(string plate)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "DELETE FROM cars WHERE Id = @Id";
-                connection.Execute(query, new { Id = id });
+                string query = "DELETE FROM cars WHERE Plate = @Plate";
+                await connection.ExecuteAsync(query, new { Plate = plate });
             }
         }
     }
