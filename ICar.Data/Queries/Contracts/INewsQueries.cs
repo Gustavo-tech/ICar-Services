@@ -7,7 +7,7 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface INewsQueries
     {
-        Task<List<News>> GetNews(int? quantity = null);
+        List<News> GetNews(int? quantity = null);
         Task InsertNews(NewNews news, bool userIsCompany = false);
         Task UpdateNews(int id, UpdatedNews news);
         Task DeleteNews(int id);
