@@ -12,7 +12,7 @@ namespace ICar.Data
         {
             using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
             {
-                string query = $"select * from {tableName}";
+                string query = $"SELECT * FROM {tableName}";
                 return sqlConnection.Execute(query) > 0;
             }
         }
@@ -25,7 +25,7 @@ namespace ICar.Data
                 {
                     try
                     {
-                        string query = "insert into companies values ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
+                        string query = "INSERT INTO companies VALUES ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
                                         "('60.316.817/0001-03', 'Microsoft', 'microsoft@gmail.com', 'Mirosoft&', 0, GETDATE(), 'client'), " +
                                         "('01.192.333/0001-22', 'Honda', 'honda@gmail.com', 'Honda&', 0, GETDATE(), 'admin')";
 
@@ -47,7 +47,7 @@ namespace ICar.Data
                 {
                     try
                     {
-                        string query = "insert into news values ('Initial', 'initial', GETDATE(), '897.907.267-98', null)," +
+                        string query = "INSERT INTO news VALUES ('Initial', 'initial', GETDATE(), '897.907.267-98', null)," +
                                        "('Second', 'Second', GETDATE(), null, '01.192.333/0001-22')";
                         connection.Execute(query);
                     }
@@ -67,7 +67,7 @@ namespace ICar.Data
                 {
                     try
                     {
-                        string query = "insert into cities values ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
+                        string query = "INSERT INTO cities VALUES ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
                                         "('Valinhos'), ('Vinhedo'), ('Toronto')";
 
                         sqlConnection.Execute(query);
@@ -88,7 +88,7 @@ namespace ICar.Data
                 {
                     try
                     {
-                        string query = "insert into users values " +
+                        string query = "INSERT INTO users VALUES" +
                                         "('897.907.267-98', 'Gustavo', 'gustavo@gmail.com', 'gustavo&', 0, GETDATE(), 'admin', 1), " +
                                         "('832.217.220-12', 'Andre', 'andre@gmail.com', 'andre&', 0, GETDATE(), 'client', 2), " +
                                         "('187.201.451-11', 'Mayara', 'mayara@gmail.com', 'mayara&', 0, GETDATE(), 'client', 3), " +
@@ -113,7 +113,7 @@ namespace ICar.Data
                 {
                     try
                     {
-                        string query = "inserto into companies_cities values " +
+                        string query = "INSERT INTO companies_cities VALUES " +
                                         "('01.192.333/0001-22', 1), ('01.192.333/0001-22', 2), ('01.192.333/0001-22', 3), ('01.192.333/0001-22', 4), " +
                                         "('60.316.817/0001-03', 1), ('60.316.817/0001-03', 2), ('60.316.817/0001-03', 3), " +
                                         "('06.990.590/0001-23', 1), ('06.990.590/0001-23', 2)";
@@ -128,6 +128,28 @@ namespace ICar.Data
             }
         }
 
+        private static void InsertInitialCars()
+        {
+            if (!TableHasData("cars"))
+            {
+                using (SqlConnection connection = new SqlConnection(_dbConnection))
+                {
+                    try
+                    {
+                        string query = "INSERT INTO cars VALUES " +
+                                                   "('PGX-9090', 'Honda', 'Civic', 2019, 2019, 21000, 'man', 109000, 'Black', 0, 1, 1, 'Gas', 0, '', 1, '897.907.267-98', NULL, 0), " +
+                                                   "('XLP-8090', 'Peugeot', '206', 2017, 2018, 90000, 'aut', 42000, 'White', 0, 1, 1, 'Die', 0, '', 1, '187.201.451-11', NULL, 0)"; ;
+                        connection.Execute(query);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                }
+
+            }
+        }
+
         public static void InsertInitialData()
         {
             InsertInitialCities();
@@ -135,6 +157,7 @@ namespace ICar.Data
             InsertInitialCompanies();
             InsertInitialCompaniesCities();
             InsertInitialNews();
+            InsertInitialCars();
         }
     }
 }

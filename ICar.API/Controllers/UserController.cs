@@ -1,6 +1,6 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace ICar.API.Controllers
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] User newUser)
         {
-            UserInSystem user = _userQueries.GetUserByEmail(newUser.Email);
+            User user = _userQueries.GetUserByEmail(newUser.Email);
 
             if (user == null)
             {

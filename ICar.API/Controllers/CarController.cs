@@ -1,14 +1,16 @@
 ﻿using ICar.API.Validations;
+using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Cars;
-using ICar.Data.ViewModels.Companies;
-using ICar.Data.ViewModels.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -28,7 +30,33 @@ namespace ICar.API.Controllers
         {
             try
             {
-                return Ok(_carQuery.GetAllCars());
+                List<Car> carsInDatabase = _carQuery.GetAllCars();
+
+                List<dynamic> carsOutput = new List<dynamic>();
+
+                foreach (Car car in carsInDatabase)
+                {
+                    carsOutput.Add(new
+                    {
+                        Plate = car.Plate,
+                        Maker = car.Maker,
+                        Model = car.Model,
+                        MakeDate = car.MakeDate,
+                        MakedDate = car.MakedDate,
+                        KilometersTraveled = car.KilometersTraveled,
+                        Price = car.Price,
+                        AcceptsChange = car.AcceptsChange,
+                        IpvaIsPaid = car.IpvaIsPaid,
+                        IsLicensed = car.IsLicensed,
+                        IsArmored = car.IsArmored,
+                        Message = car.Message,
+                        Color = CarPropertyConverter.ConvertColorToString(car.Color),
+                        GasolineType = CompleteGasolineType(CarPropertyConverter.ConvertGasolineTypeToString(car.GasolineType)),
+                        City = car.City
+                    });
+                }
+
+                return Ok(carsOutput);
             }
             catch (Exception exception)
             {
@@ -37,86 +65,101 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("plate")]
-        public IActionResult GetCar([FromRoute] CarPlate carPlate)
+        [HttpGet("plate/{plate}")]
+        public IActionResult GetCar([FromRoute] string plate)
         {
-            try
+            plate = plate.ToUpper();
+            if (CarValidator.ValidatePlate(plate))
             {
-                return Ok(_carQuery.GetCar(carPlate.Plate));
+                try
+                {
+                    return Ok(_carQuery.GetCar(plate));
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while getting the cars",
+                        detail: exception.Message);
+                }
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while getting the cars",
-                    detail: exception.Message);
-            }
+                Message = "This plate is invalid"
+            });
         }
 
-        [HttpGet]
-        public IActionResult GetUserCars([FromRoute] UserCpf userCpf)
+        [HttpGet("cpf/{cpf}")]
+        public IActionResult GetUserCars([FromRoute] string cpf)
         {
-            try
+            if (UserValidator.ValidateCpf(cpf))
             {
-                return Ok(_carQuery.GetCarsWithCpf(userCpf.Cpf));
+                try
+                {
+                    return Ok(_carQuery.GetCarsWithCpf(cpf));
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while getting cars of this user",
+                        detail: exception.Message);
+                }
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while getting cars of this user",
-                    detail: exception.Message);
-            }
+                Message = "This is not a valid CPF"
+            });
         }
 
-        [HttpGet]
-        public IActionResult GetCompanyCars([FromBody] CompanyCnpj companyCnpj)
+        [HttpGet("cnpj/{cnpj}")]
+        public IActionResult GetCompanyCars([FromRoute] string cnpj)
         {
-            try
+            if (CompanyValidator.ValidateCnpj(cnpj))
             {
-                return Ok(_carQuery.GetCarsWithCnpj(companyCnpj.Cnpj));
+                try
+                {
+                    return Ok(_carQuery.GetCarsWithCnpj(cnpj));
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while getting cars of this user",
+                        detail: exception.Message);
+                }
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while getting cars of this user",
-                    detail: exception.Message);
-            }
+                Message = "This is not a valid CNPJ"
+            });
         }
 
         [HttpPost("insert")]
-        public IActionResult InsertCar([FromBody] Car newCar)
+        public async Task<IActionResult> InsertCar()
         {
-            CarInSystem carInDatabase = _carQuery.GetCar(newCar.Plate);
+            NewCar newCar = GetNewCarFromRequest();
+            List<string> carPictures = await GetImagesStreams();
 
-            if (carInDatabase == null)
+            List<InvalidReason> invalidReasons = CarValidator.ValidateNewCar(newCar);
+            if (invalidReasons == null)
             {
-                List<InvalidReason> invalidReasons = CarValidator.ValidateCar(newCar);
-                if (invalidReasons == null)
+                try
                 {
-                    try
-                    {
-
-                        _carQuery.InsertCar(newCar);
-                        return Ok();
-                    }
-                    catch (Exception e)
-                    {
-                        return Problem(title: "Some error occurred while inserting this car",
-                            detail: e.Message);
-                    }
+                    _carQuery.InsertCar(newCar);
+                    await _carQuery.InsertCarPictures(carPictures, newCar.Plate);
+                    return Ok();
                 }
-
-                else
+                catch (Exception e)
                 {
-                    return BadRequest(new
-                    {
-                        Message = "This car is invalid",
-                        Reasons = invalidReasons
-                    });
+                    return Problem(title: "Some error occurred while inserting this car",
+                        detail: e.Message);
                 }
             }
 
             else
             {
-                return Conflict(new
+                return BadRequest(new
                 {
-                    Message = "A car with this plate already exists"
+                    Message = "This car is invalid",
+                    Reasons = invalidReasons
                 });
             }
         }
@@ -124,16 +167,110 @@ namespace ICar.API.Controllers
         [HttpPost("increase/views")]
         public IActionResult IncreaseNumberOfViews([FromBody] CarPlate carPlate)
         {
-            try
+            if (CarValidator.ValidatePlate(carPlate.Plate))
             {
-                _carQuery.IncreaseNumberOfViews(carPlate.Plate);
-                return Ok("Number of views updated successfully");
+                try
+                {
+                    _carQuery.IncreaseNumberOfViews(carPlate.Plate);
+                    return Ok("Number of views updated successfully");
+                }
+                catch (Exception exception)
+                {
+                    return Problem(title: "Some error happened while updating the number of views",
+                        detail: exception.Message);
+                }
             }
-            catch (Exception exception)
+
+            return BadRequest(new
             {
-                return Problem(title: "Some error happened while updating the number of views",
-                    detail: exception.Message);
+                Message = "This plate is invalid"
+            });
+        }
+
+        private string CompleteGasolineType(string gasolineType)
+        {
+            gasolineType = gasolineType.ToLower();
+
+            switch (gasolineType)
+            {
+                case "die":
+                    return "Diesel";
+                case "ele":
+                    return "Eletric";
+                case "gad":
+                    return "Gasoline and Diesel";
+                default:
+                    return "Gasoline";
             }
+        }
+
+        private NewCar GetNewCarFromRequest()
+        {
+            Dictionary<string, string> answersDictionary = new Dictionary<string, string>
+            {
+                { "plate", "" },
+                { "maker", "" },
+                { "model", "" },
+                { "makeDate", "" },
+                { "makedDate", "" },
+                { "kilometersTraveled", "" },
+                { "typeOfExchange", "" },
+                { "price", "" },
+                { "color", "" },
+                { "acceptsChange", "" },
+                { "ipvaIsPaid", "" },
+                { "city", "" },
+                { "isLicensed", "" },
+                { "gasolineType", "" },
+                { "isArmored", "" },
+                { "message", "" },
+                { "userCpf", "" },
+                { "companyCnpj", "" },
+            };
+
+            foreach (KeyValuePair<string, string> kvp in answersDictionary)
+            {
+                HttpContext.Request.Form.TryGetValue(kvp.Key, out StringValues answer);
+                answersDictionary[kvp.Key] = answer.ToString();
+            }
+
+            return new NewCar(answersDictionary["plate"], answersDictionary["maker"], answersDictionary["model"],
+                int.Parse(answersDictionary["makedDate"]), int.Parse(answersDictionary["makedDate"]), double.Parse(answersDictionary["kilometersTraveled"]),
+                answersDictionary["typeOfExchange"], double.Parse(answersDictionary["price"]), answersDictionary["color"],
+                ConvertStringToBool(answersDictionary["acceptsChange"]), ConvertStringToBool(answersDictionary["ipvaIsPaid"]), ConvertStringToBool(answersDictionary["isLicensed"]),
+                answersDictionary["gasolineType"], ConvertStringToBool(answersDictionary["isArmored"]), answersDictionary["message"],
+                answersDictionary["city"], answersDictionary["userCpf"], answersDictionary["companyCnpj"]);
+        }
+
+        private async Task<List<string>> GetImagesStreams()
+        {
+            List<string> streams = new();
+            bool stillHasImages = true;
+            int indexToAccess = 1;
+
+            while (stillHasImages)
+            {
+                IFormFile file = HttpContext.Request.Form.Files.GetFile($"picture{indexToAccess}");
+
+                if (file != null)
+                {
+                    StreamReader sr = new StreamReader(file.OpenReadStream());
+                    string content = await sr.ReadToEndAsync();
+                    streams.Add(content);
+                    indexToAccess++;
+                }
+                else
+                {
+                    stillHasImages = false;
+                }
+            }
+
+            return streams;
+        }
+
+        private bool ConvertStringToBool(string value)
+        {
+            return value == "true";
         }
     }
 }

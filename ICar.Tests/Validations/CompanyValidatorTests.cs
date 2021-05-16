@@ -1,5 +1,5 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
+using ICar.Data.ViewModels.Companies;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -11,7 +11,7 @@ namespace ICar.Tests.Validations
         [Test]
         public void GetInvalidReasons_CompanyIsValid_ReturnsTrue()
         {
-            Company newCompany = new Company("06.990.590/0001-23", "Google", "google@gmail.com",
+            NewCompany newCompany = new NewCompany("06.990.590/0001-23", "Google", "google@gmail.com",
                 "hdjkas&765%", new List<string> { "Vancouver" });
 
             var result = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
@@ -22,9 +22,9 @@ namespace ICar.Tests.Validations
         [Test]
         public void ValidateCompany_CompanyIsInvalid_ReturnsFalse()
         {
-            Company newCompany = new Company("06.990.590/0003", "aoogle", "google@.com",
+            NewCompany newCompany = new NewCompany("06.990.590/0003", "aoogle", "google@.com",
                 "hdjkas", new List<string> { "vancouver" });
-          
+
             var result = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
 
             Assert.That(result, Is.Not.Null);

@@ -1,7 +1,8 @@
 ﻿using Dapper;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+
 using ICar.Data.Queries.Contracts;
+using ICar.Data.ViewModels.Companies;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,31 +13,32 @@ namespace ICar.Data.Queries
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
 
-        private List<string> GetCompanyCities(string email)
+        private List<City> GetCompanyCities(string cnpj)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_company_cities '{email}'";
-                return connection.Query<string>(query).ToList();
+                string query = "SELECT * FROM cities WHERE Id IN (SELECT CityId FROM companies_cities WHERE CompanyCnpj = @Cnpj)";
+                return connection.Query<City>(query, new { Cnpj = cnpj }).ToList();
             }
         }
 
-        public List<CompanyInSystem> GetCompanies(int? quantity = null)
+
+        public List<Company> GetCompanies(int? quantity = null)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"select top {quantity} from companies";
-                    return connection.Query<CompanyInSystem>(quantityQuery).ToList();
+                    string quantityQuery = $"SELECT TOP {quantity} FROM companies";
+                    return connection.Query<Company>(quantityQuery).ToList();
                 }
 
                 string selectQuery = "select * from companies";
-                List<CompanyInSystem> companies = connection.Query<CompanyInSystem>(selectQuery).ToList();
+                List<Company> companies = connection.Query<Company>(selectQuery).ToList();
 
-                foreach (CompanyInSystem company in companies)
+                foreach (Company company in companies)
                 {
-                    company.Cities = GetCompanyCities(company.Email);
+                    company.Cities = GetCompanyCities(company.Cnpj);
                 }
 
                 return companies;
@@ -44,33 +46,33 @@ namespace ICar.Data.Queries
 
         }
 
-        public CompanyInSystem GetCompanyByEmail(string email)
+        public Company GetCompanyByEmail(string email)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                List<string> companyCities = GetCompanyCities(email);
+                List<City> companyCities = GetCompanyCities(email);
 
-                string query = "select * from companies where Email = @Email";
-                CompanyInSystem company = connection.Query<CompanyInSystem>(query, new { Email = email }).FirstOrDefault();
+                string query = "SELECT * FROM companies WHERE Email = @Email";
+                Company company = connection.Query<Company>(query, new { Email = email }).FirstOrDefault();
 
                 company.Cities = companyCities;
                 return company;
             }
         }
 
-        public CompanyInSystem GetCompanyByCnpj(string cnpj)
+        public Company GetCompanyByCnpj(string cnpj)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                List<string> companyCities = GetCompanyCities(cnpj);
-                string query = "select * from companies where cnpj = @Cnpj";
-                CompanyInSystem company = connection.Query<CompanyInSystem>(query, new { Cnpj = cnpj }).FirstOrDefault();
+                List<City> companyCities = GetCompanyCities(cnpj);
+                string query = "SELECT * FROM companies WHERE cnpj = @Cnpj";
+                Company company = connection.Query<Company>(query, new { Cnpj = cnpj }).FirstOrDefault();
                 company.Cities = companyCities;
                 return company;
             }
         }
 
-        public void InsertCompany(Company company, bool isAdmin = false)
+        public void InsertCompany(NewCompany company, bool isAdmin = false)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {

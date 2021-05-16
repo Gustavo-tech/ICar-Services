@@ -1,5 +1,4 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.News;
@@ -37,7 +36,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("insert")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult InsertNews([FromBody] News newNews)
+        public IActionResult InsertNews([FromBody] NewNews newNews)
         {
 
             List<InvalidReason> invalidReasons = NewsValidator.GetInvalidReasonsForInsert(newNews);

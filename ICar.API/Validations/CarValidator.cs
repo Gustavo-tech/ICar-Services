@@ -1,6 +1,7 @@
 ﻿using ICar.API.Utilities.Validations;
-using ICar.Data.Models.Entities;
+using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.System;
+using ICar.Data.ViewModels.Cars;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -9,35 +10,40 @@ namespace ICar.API.Validations
 {
     public static class CarValidator
     {
-        private static bool ValidatePlate(string plate)
+        internal static bool ValidatePlate(string plate)
         {
-            string regExpression = "[A-Z]{0-3}[-][0-9]{4}";
-            return Regex.IsMatch(plate, regExpression);
+            if (plate != null)
+            {
+                string regExpression = "[A-Z]{3}[-][0-9]{4}";
+                return Regex.IsMatch(plate, regExpression);
+            }
+
+            return false;
         }
 
-        private static bool ValidateName(string maker)
+        internal static bool ValidateName(string maker)
         {
             return EntityValidatorUtilities.StringStartsWithAUpperCaseLetter(maker);
         }
 
-        private static bool ValidateYear(int year)
+        internal static bool ValidateYear(int year)
         {
             int currentYear = DateTime.Now.Year;
 
             return year > currentYear - 100 && year <= currentYear;
         }
 
-        private static bool ValidatePrice(double price)
+        internal static bool ValidatePrice(double price)
         {
             return price > 1000;
         }
 
-        private static bool ValidateColor(string color)
+        internal static bool ValidateColor(string color)
         {
             return color.Length > 2;
         }
 
-        public static List<InvalidReason> ValidateCar(Car car)
+        private static List<InvalidReason> ValidateCar(AbstractCar car)
         {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 
@@ -59,19 +65,31 @@ namespace ICar.API.Validations
             if (!ValidatePrice(car.Price))
                 invalidReasons.Add(new InvalidReason("Price is invalid", "This price is less than a thousand reals"));
 
-            //if (!ValidateColor(car.Color))
-            //    invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
+            return invalidReasons;
+        }
 
-            if (!UserValidator.ValidateCpf(car.UserCpf))
-                invalidReasons.Add(new InvalidReason("User is invalid", "This CPF is invalid"));
+        public static List<InvalidReason> ValidateNewCar(NewCar newCar)
+        {
+            List<InvalidReason> invalidReasons = ValidateCar(newCar);
 
-            if (!CompanyValidator.ValidateCnpj(car.CompanyCnpj))
-                invalidReasons.Add(new InvalidReason("Company is invalid", "This CNPJ is invalid"));
+            if (!ValidateColor(newCar.Color))
+                invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
 
-            if (invalidReasons.Count == 0)
-                return null;
+            if (newCar.UserCpf != "")
+            {
+                if (!UserValidator.ValidateCpf(newCar.UserCpf))
+                    invalidReasons.Add(new InvalidReason("User is invalid", "This CPF is invalid"));
+            }
             else
+            {
+                if (!CompanyValidator.ValidateCnpj(newCar.CompanyCnpj))
+                    invalidReasons.Add(new InvalidReason("Company is invalid", "This CNPJ is invalid"));
+            }
+
+            if (invalidReasons.Count > 0)
                 return invalidReasons;
+
+            return null;
         }
     }
 }

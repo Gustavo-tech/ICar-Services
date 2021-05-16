@@ -4,9 +4,8 @@
     {
         public string Plate { get; set; }
 
-        public CarPlate(string plate)
+        public CarPlate()
         {
-            Plate = plate;
         }
     }
 }

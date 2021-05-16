@@ -1,6 +1,5 @@
-﻿using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.System;
+﻿using ICar.Data.Models.System;
+using ICar.Data.ViewModels.Companies;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -10,8 +9,13 @@ namespace ICar.API.Validations
     {
         public static bool ValidateCnpj(string cnpj)
         {
-            string pattern = "[0-9]{2}.[0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}";
-            return Regex.IsMatch(cnpj, pattern);
+            if (cnpj != null)
+            {
+                string pattern = "[0-9]{2}.[0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}";
+                return Regex.IsMatch(cnpj, pattern);
+            }
+
+            return false;
         }
 
         private static bool ValidateCities(List<string> cities)
@@ -25,7 +29,7 @@ namespace ICar.API.Validations
             return true;
         }
 
-        public static List<InvalidReason> GetInvalidReasonsForInsert(Company company)
+        public static List<InvalidReason> GetInvalidReasonsForInsert(NewCompany company)
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(company);
 

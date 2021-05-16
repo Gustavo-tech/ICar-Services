@@ -1,6 +1,5 @@
 ﻿using ICar.API.Auth.Contracts;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ namespace ICar.API.Controllers
         [HttpPost("authenticate/company")]
         public IActionResult AuthenticateCompany([FromBody] Login login)
         {
-            CompanyInSystem company = _cpQueries.GetCompanyByEmail(login.Email);
+            Company company = _cpQueries.GetCompanyByEmail(login.Email);
 
             if (company != null)
             {
@@ -60,7 +59,7 @@ namespace ICar.API.Controllers
         [HttpPost("authenticate/user")]
         public IActionResult AuthenticateUser([FromBody] Login login)
         {
-            UserInSystem user = _userQueries.GetUserByEmail(login.Email);
+            User user = _userQueries.GetUserByEmail(login.Email);
 
             if (user != null)
             {

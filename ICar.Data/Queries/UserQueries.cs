@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using ICar.Data.Models.Entities;
-using ICar.Data.Models.EntitiesInSystem;
+
 using ICar.Data.Queries.Contracts;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,37 +11,52 @@ namespace ICar.Data.Queries
     public class UserQueries : IUserQueries
     {
         private readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
-        public List<UserInSystem> GetUsers(int? quantity = null)
+        public List<User> GetUsers(int? quantity = null)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 if (quantity != null)
                 {
-                    string quantityQuery = $"select top {quantity} from users";
-                    return connection.Query<UserInSystem>(quantityQuery).ToList();
+                    string quantityQuery = $"SELECT TOP {quantity} FROM users";
+                    return connection.Query<User>(quantityQuery).ToList();
                 }
 
-                string selectQuery = "select * from users";
-                return connection.Query<UserInSystem>(selectQuery).ToList();
+                string selectQuery = "SELECT * FROM Users";
+                return connection.Query<User>(selectQuery).ToList();
             }
 
         }
 
-        public UserInSystem GetUserByEmail(string email)
+        public User GetUserByEmail(string email)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_user '{email}'";
-                return connection.Query<UserInSystem>(query, new { Email = email }).FirstOrDefault();
+                string query = $"EXECUTE sp_get_user '{email}'";
+                return connection.Query<User>(query, new { Email = email }).FirstOrDefault();
             }
         }
 
-        public UserInSystem GetUserByCpf(string cpf)
+        public User GetUserByCpf(string cpf)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = $"execute sp_get_user_by_cnpj @Cpf";
-                return connection.Query<UserInSystem>(query, new { Cpf = cpf }).FirstOrDefault();
+                string query = "DECLARE @city_id INT; \n" +
+                "SET @city_id = (SELECT CityId FROM users WHERE Cpf = @Cpf)\n" +
+	
+	            "SELECT\n" +
+                    "Cpf, " +
+                    "u.name, " +
+		            "Email, " +
+		            "Password, " +
+		            "NumberOfCarsSelling, " +
+		            "AccountCreationDate, " +
+		            "Role, " +
+		            "c.Name as City\n" +
+                "FROM\n" +
+                    "users u\n" +
+                "INNER JOIN cities c ON u.CityId = c.Id\n" +
+                "WHERE u.Cpf = @Cpf";
+                return connection.Query<User>(query, new { Cpf = cpf }).FirstOrDefault();
             }
         }
 
@@ -52,7 +67,7 @@ namespace ICar.Data.Queries
                 string query;
                 if (isAdmin)
                 {
-                    query = "execute sp_create_user @Cpf, @Name, @Email, @Password, 'admin', @City";
+                    query = "EXECUTE sp_create_user @Cpf, @Name, @Email, @Password, 'admin', @City";
                     connection.Query(query, new
                     {
                         Cpf = newUser.Cpf,
@@ -65,7 +80,7 @@ namespace ICar.Data.Queries
                 }
                 else
                 {
-                    query = "execute sp_create_user @Cpf, @Name, @Email, @Password, 'client', @City";
+                    query = "EXECUTE sp_create_user @Cpf, @Name, @Email, @Password, 'client', @City";
                     connection.Query(query, new
                     {
                         Cpf = newUser.Cpf,
