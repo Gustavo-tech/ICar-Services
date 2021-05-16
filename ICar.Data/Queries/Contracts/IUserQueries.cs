@@ -6,9 +6,9 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface IUserQueries
     {
-        Task<List<User>> GetUsers(int? quantity);
-        Task<List<User>> GetUserByEmail(string email);
-        Task<List<User>> GetUserByCpf(string cpf);
+        List<User> GetUsers(int? quantity);
+        User GetUserByEmail(string email);
+        User GetUserByCpf(string cpf);
         Task InsertUser(User user, bool isAdmin = false);
     }
 }
