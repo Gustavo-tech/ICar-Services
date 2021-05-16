@@ -49,7 +49,7 @@ namespace ICar.Data.Queries
                                 "NumberOfViews " +
                                 "FROM cars c \n" +
                                 "INNER JOIN cities cit ON cit.Id = c.CityId";
-                return connection.Query<Car>(query).ToList();
+                return connection.QueryAsync<Car>(query).Result.ToList();
             }
         }
 
@@ -80,7 +80,7 @@ namespace ICar.Data.Queries
                                 "FROM cars c \n" +
                                 "INNER JOIN cities cit ON cit.Id = c.CityId\n" +
                                 "WHERE Plate = @Plate";
-                return connection.Query<Car>(query, new { Plate = plate }).FirstOrDefault();
+                return connection.QueryAsync<Car>(query, new { Plate = plate }).Result.FirstOrDefault();
             }
         }
 
@@ -111,7 +111,7 @@ namespace ICar.Data.Queries
                                 "FROM cars c \n" +
                                 "INNER JOIN cities cit ON cit.Id = c.CityId\n" +
                                 "WHERE CompanyCnpj = @Cnpj";
-                return connection.Query<Car>(query, new { Cnpj = cnpj }).ToList();
+                return connection.QueryAsync<Car>(query, new { Cnpj = cnpj }).Result.ToList();
             }
         }
 
@@ -142,11 +142,11 @@ namespace ICar.Data.Queries
                                 "FROM cars c \n" +
                                 "INNER JOIN cities cit ON cit.Id = c.CityId\n" +
                                 "WHERE UserCpf = @Cpf";
-                return connection.Query<Car>(query, new { Cpf = cpf }).ToList();
+                return connection.QueryAsync<Car>(query, new { Cpf = cpf }).Result.ToList();
             }
         }
 
-        public void InsertCar(NewCar newCar)
+        public async Task InsertCar(NewCar newCar)
         {
             if (GetCar(newCar.Plate) == null)
             {
@@ -159,7 +159,7 @@ namespace ICar.Data.Queries
                             string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
                                 "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
                                 "@Message, @City, @UserCpf, null";
-                            connection.Execute(query, new
+                           await connection.ExecuteAsync(query, new
                             {
                                 Plate = newCar.Plate,
                                 Maker = newCar.Maker,
@@ -196,7 +196,7 @@ namespace ICar.Data.Queries
                             string query = "EXECUTE sp_insert_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
                                 "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
                                 "@Message, @City, null, @CompanyCnpj";
-                            connection.Execute(query, new
+                            await connection.ExecuteAsync(query, new
                             {
                                 Plate = newCar.Plate,
                                 Maker = newCar.Maker,
@@ -246,14 +246,14 @@ namespace ICar.Data.Queries
             }
         }
 
-        public void UpdateCar(Car car)
+        public async Task UpdateCar(Car car)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "EXECUTE sp_update_car @Plate, @Maker, @Model, @MakeYear, @MakedYear, @Kilometers, " +
                     "@TypeOfExchange, @Price, @Color, @AcceptsChange, @IpvaIsPaid, @IsLicensed, @GasolineType, @IsArmored, " +
                     "@Message, @City, @UserCpf, @CompanyCnpj";
-                connection.Execute(query, new
+                await connection.ExecuteAsync(query, new
                 {
                     Plate = car.Plate,
                     Maker = car.Maker,
@@ -277,16 +277,16 @@ namespace ICar.Data.Queries
             }
         }
 
-        public void UpdatePlate(string oldPlate, string newPlate)
+        public async Task UpdatePlate(string oldPlate, string newPlate)
         {
             using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
             {
                 string query = "UPDATE cars SET plate = @NewPlate WHERE Plate = @OldPlate";
-                sqlConnection.Execute(query, new { OldPlate = oldPlate, NewPlate = newPlate });
+                await sqlConnection.ExecuteAsync(query, new { OldPlate = oldPlate, NewPlate = newPlate });
             }
         }
 
-        public void IncreaseNumberOfViews(string carPlate)
+        public async Task IncreaseNumberOfViews(string carPlate)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
@@ -294,16 +294,25 @@ namespace ICar.Data.Queries
                 int currentViews = connection.ExecuteScalar<int>(selectNumberOfViews, new { Plate = carPlate });
 
                 string query = "UPDATE cars SET NumberOfViews = @NumberOfViews WHERE plate = @CarPlate";
-                connection.Execute(query, new { NumberOfViews = currentViews + 1, CarPlate = carPlate });
+                await connection.ExecuteAsync(query, new { NumberOfViews = currentViews + 1, CarPlate = carPlate });
             }
         }
 
-        public void DeleteCar(int id)
+        public async Task DeleteCarPictures(string plate)
+        {
+            using (SqlConnection con = new SqlConnection(_dbConnection))
+            {
+                string query = "DELETE FROM car_images WHERE CarPlate = @Plate";
+                await con.ExecuteAsync(query, new { Plate = plate });
+            }
+        }
+
+        public async Task DeleteCar(string plate)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                string query = "DELETE FROM cars WHERE Id = @Id";
-                connection.Execute(query, new { Id = id });
+                string query = "DELETE FROM cars WHERE Plate = @Plate";
+                await connection.ExecuteAsync(query, new { Plate = plate });
             }
         }
     }

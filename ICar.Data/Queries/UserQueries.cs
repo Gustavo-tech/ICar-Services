@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using ICar.Data.Models.Entities;
-
 using ICar.Data.Queries.Contracts;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICar.Data.Queries
 {
@@ -22,7 +22,7 @@ namespace ICar.Data.Queries
                 }
 
                 string selectQuery = "SELECT * FROM Users";
-                return connection.Query<User>(selectQuery).ToList();
+                return connection.QueryAsync<User>(selectQuery).Result.ToList();
             }
 
         }
@@ -32,7 +32,7 @@ namespace ICar.Data.Queries
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = $"EXECUTE sp_get_user '{email}'";
-                return connection.Query<User>(query, new { Email = email }).FirstOrDefault();
+                return connection.QueryAsync<User>(query, new { Email = email }).Result.FirstOrDefault();
             }
         }
 
@@ -56,11 +56,11 @@ namespace ICar.Data.Queries
                     "users u\n" +
                 "INNER JOIN cities c ON u.CityId = c.Id\n" +
                 "WHERE u.Cpf = @Cpf";
-                return connection.Query<User>(query, new { Cpf = cpf }).FirstOrDefault();
+                return connection.QueryAsync<User>(query, new { Cpf = cpf }).Result.FirstOrDefault();
             }
         }
 
-        public void InsertUser(User newUser, bool isAdmin = false)
+        public async Task InsertUser(User newUser, bool isAdmin = false)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
@@ -68,7 +68,7 @@ namespace ICar.Data.Queries
                 if (isAdmin)
                 {
                     query = "EXECUTE sp_create_user @Cpf, @Name, @Email, @Password, 'admin', @City";
-                    connection.Query(query, new
+                    await connection.ExecuteAsync(query, new
                     {
                         Cpf = newUser.Cpf,
                         Name = newUser.Name,
@@ -81,7 +81,7 @@ namespace ICar.Data.Queries
                 else
                 {
                     query = "EXECUTE sp_create_user @Cpf, @Name, @Email, @Password, 'client', @City";
-                    connection.Query(query, new
+                    await connection.ExecuteAsync(query, new
                     {
                         Cpf = newUser.Cpf,
                         Name = newUser.Name,

@@ -1,11 +1,11 @@
 ﻿using Dapper;
 using ICar.Data.Models.Entities;
-
 using ICar.Data.Queries.Contracts;
 using ICar.Data.ViewModels.Companies;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICar.Data.Queries
 {
@@ -18,7 +18,7 @@ namespace ICar.Data.Queries
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "SELECT * FROM cities WHERE Id IN (SELECT CityId FROM companies_cities WHERE CompanyCnpj = @Cnpj)";
-                return connection.Query<City>(query, new { Cnpj = cnpj }).ToList();
+                return connection.QueryAsync<City>(query, new { Cnpj = cnpj }).Result.ToList();
             }
         }
 
@@ -34,7 +34,7 @@ namespace ICar.Data.Queries
                 }
 
                 string selectQuery = "select * from companies";
-                List<Company> companies = connection.Query<Company>(selectQuery).ToList();
+                List<Company> companies = connection.QueryAsync<Company>(selectQuery).Result.ToList();
 
                 foreach (Company company in companies)
                 {
@@ -53,7 +53,7 @@ namespace ICar.Data.Queries
                 List<City> companyCities = GetCompanyCities(email);
 
                 string query = "SELECT * FROM companies WHERE Email = @Email";
-                Company company = connection.Query<Company>(query, new { Email = email }).FirstOrDefault();
+                Company company = connection.QueryAsync<Company>(query, new { Email = email }).Result.FirstOrDefault();
 
                 company.Cities = companyCities;
                 return company;
@@ -66,18 +66,18 @@ namespace ICar.Data.Queries
             {
                 List<City> companyCities = GetCompanyCities(cnpj);
                 string query = "SELECT * FROM companies WHERE cnpj = @Cnpj";
-                Company company = connection.Query<Company>(query, new { Cnpj = cnpj }).FirstOrDefault();
+                Company company = connection.QueryAsync<Company>(query, new { Cnpj = cnpj }).Result.FirstOrDefault();
                 company.Cities = companyCities;
                 return company;
             }
         }
 
-        public void InsertCompany(NewCompany company, bool isAdmin = false)
+        public async Task InsertCompany(NewCompany company, bool isAdmin = false)
         {
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "EXECUTE sp_insert_company @Cnpj, @Name, @Email, @Password, @Role, @Cities";
-                connection.Query(query, new
+                await connection.ExecuteAsync(query, new
                 {
                     Cnpj = company.Cnpj,
                     Name = company.Name,

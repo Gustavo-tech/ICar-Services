@@ -1,6 +1,6 @@
 ﻿using ICar.Data.Models.Entities;
-
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts
 {
@@ -9,6 +9,6 @@ namespace ICar.Data.Queries.Contracts
         List<User> GetUsers(int? quantity);
         User GetUserByEmail(string email);
         User GetUserByCpf(string cpf);
-        void InsertUser(User user, bool isAdmin = false);
+        Task InsertUser(User user, bool isAdmin = false);
     }
 }

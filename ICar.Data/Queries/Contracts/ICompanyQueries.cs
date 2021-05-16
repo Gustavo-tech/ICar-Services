@@ -1,6 +1,7 @@
 ﻿using ICar.Data.Models.Entities;
 using ICar.Data.ViewModels.Companies;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts
 {
@@ -9,6 +10,6 @@ namespace ICar.Data.Queries.Contracts
         List<Company> GetCompanies(int? quantity = null);
         Company GetCompanyByEmail(string email);
         Company GetCompanyByCnpj(string cnpj);
-        void InsertCompany(NewCompany company, bool isAdmin = false);
+        Task InsertCompany(NewCompany company, bool isAdmin = false);
     }
 }
