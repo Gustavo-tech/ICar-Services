@@ -7,10 +7,10 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface ICarQuery
     {
-        public Task<Car> GetCar(string plate);
-        public Task<List<Car>> GetAllCars();
-        public Task<List<Car>> GetCarsWithCpf(string cpf);
-        public Task<List<Car>> GetCarsWithCnpj(string cnpj);
+        public Car GetCar(string plate);
+        public List<Car> GetAllCars();
+        public List<Car> GetCarsWithCpf(string cpf);
+        public List<Car> GetCarsWithCnpj(string cnpj);
         public Task InsertCar(NewCar car);
         public Task InsertCarPictures(List<string> pictures, string carPlate);
         public Task UpdateCar(Car car);
