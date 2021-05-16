@@ -14,7 +14,7 @@ namespace ICar.Data.Queries
             using (SqlConnection connection = new SqlConnection(_dbConnection))
             {
                 string query = "SELECT * FROM cities WHERE Id = @Id";
-                return connection.Query<City>(query, new { Id = id }).FirstOrDefault();
+                return connection.QueryAsync<City>(query, new { Id = id }).Result.FirstOrDefault();
             }
         }
     }

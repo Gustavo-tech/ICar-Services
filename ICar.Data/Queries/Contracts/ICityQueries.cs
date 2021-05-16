@@ -5,6 +5,6 @@ namespace ICar.Data.Queries.Contracts
 {
     public interface ICityQueries
     {
-        public Task<City> GetCityById(int id);
+        public City GetCityById(int id);
     }
 }
