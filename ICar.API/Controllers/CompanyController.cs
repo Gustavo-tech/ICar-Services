@@ -16,9 +16,9 @@ namespace ICar.API.Controllers
     [Route("[controller]")]
     public class CompanyController : ControllerBase
     {
-        private readonly ICompanyQueries _companyQueries;
+        private readonly ICompanyRepository _companyQueries;
 
-        public CompanyController(ICompanyQueries companyQueries)
+        public CompanyController(ICompanyRepository companyQueries)
         {
             _companyQueries = companyQueries;
         }

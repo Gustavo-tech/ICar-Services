@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts
 {
-    public interface IUserQueries
+    public interface IUserRepository
     {
         List<User> GetUsers(int? quantity);
         User GetUserByEmail(string email);

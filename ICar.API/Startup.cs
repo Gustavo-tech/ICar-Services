@@ -33,10 +33,10 @@ namespace ICar.API
             });
 
             // Interface implementations
-            services.AddScoped<ICompanyQueries, CompanyQueries>();
-            services.AddScoped<IUserQueries, UserQueries>();
+            services.AddScoped<ICompanyRepository, CompanyQueries>();
+            services.AddScoped<IUserRepository, UserQueries>();
             services.AddScoped<IAuthService, JwtService>();
-            services.AddScoped<INewsQueries, NewsQueries>();
+            services.AddScoped<INewsRepository, NewsQueries>();
             services.AddScoped<ICarRepository, CarQuery>();
 
             // JWT

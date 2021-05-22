@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts
 {
-    public interface INewsQueries
+    public interface INewsRepository
     {
         List<News> GetNews(int? quantity = null);
         Task InsertNews(NewNews news, bool userIsCompany = false);

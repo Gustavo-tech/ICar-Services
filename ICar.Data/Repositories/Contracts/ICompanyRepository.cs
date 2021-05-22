@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Data.Queries.Contracts
 {
-    public interface ICompanyQueries
+    public interface ICompanyRepository
     {
         List<Company> GetCompanies(int? quantity = null);
         Company GetCompanyByEmail(string email);

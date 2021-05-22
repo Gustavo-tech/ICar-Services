@@ -15,9 +15,9 @@ namespace ICar.API.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserQueries _userQueries;
+        private readonly IUserRepository _userQueries;
 
-        public UserController(IUserQueries userQueries)
+        public UserController(IUserRepository userQueries)
         {
             _userQueries = userQueries;
         }

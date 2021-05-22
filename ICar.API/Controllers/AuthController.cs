@@ -11,13 +11,13 @@ namespace ICar.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly ICompanyQueries _cpQueries;
-        private readonly IUserQueries _userQueries;
+        private readonly ICompanyRepository _cpQueries;
+        private readonly IUserRepository _userQueries;
 
         public AuthController
             (IAuthService authService,
-            ICompanyQueries companyQueries,
-            IUserQueries userQueries)
+            ICompanyRepository companyQueries,
+            IUserRepository userQueries)
         {
             _authService = authService;
             _cpQueries = companyQueries;
