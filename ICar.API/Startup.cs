@@ -37,7 +37,7 @@ namespace ICar.API
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, JwtService>();
-            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<IUserNewsRepository, UserNewsRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
 
             // Entity Framework

@@ -16,9 +16,9 @@ namespace ICar.API.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly INewsRepository _newsRepository;
+        private readonly IUserNewsRepository _newsRepository;
 
-        public NewsController(INewsRepository newsQueries)
+        public NewsController(IUserNewsRepository newsQueries)
         {
             _newsRepository = newsQueries;
         }

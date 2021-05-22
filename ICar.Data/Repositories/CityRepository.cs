@@ -19,5 +19,11 @@ namespace ICar.Data.Repositories
         {
             return await _dbContext.Cities.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
+
+        public async Task InsertCityAsync(City city)
+        {
+            _dbContext.Cities.Add(city);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

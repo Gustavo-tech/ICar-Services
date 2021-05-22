@@ -1,4 +1,7 @@
 ﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Models.Entities.Logins;
+using ICar.Data.Models.Entities.News;
 using Microsoft.EntityFrameworkCore;
 
 namespace ICar.Data
@@ -11,7 +14,10 @@ namespace ICar.Data
         public DbSet<Car> Cars { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<News> News { get; set; }
+        public DbSet<UserNews> UserNews { get; set; }
+        public DbSet<CompanyNews> CompanyNews { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<CompanyLogin> CompanyLogins { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

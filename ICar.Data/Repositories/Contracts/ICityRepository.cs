@@ -5,6 +5,7 @@ namespace ICar.Data.Repositories.Interfaces
 {
     public interface ICityRepository
     {
-        public Task<City> GetCityByIdAsync(int id);
+        Task<City> GetCityByIdAsync(int id);
+        Task InsertCityAsync(City city);
     }
 }
