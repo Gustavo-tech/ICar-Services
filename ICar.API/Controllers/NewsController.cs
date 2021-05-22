@@ -1,6 +1,6 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.System;
-using ICar.Data.Queries.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using ICar.Data.ViewModels.News;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

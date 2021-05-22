@@ -2,7 +2,7 @@
 using ICar.Data.Models.Entities;
 
 using ICar.Data.Models.System;
-using ICar.Data.Queries.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

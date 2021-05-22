@@ -2,7 +2,7 @@ using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
 using ICar.Data;
 using ICar.Data.Queries;
-using ICar.Data.Queries.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

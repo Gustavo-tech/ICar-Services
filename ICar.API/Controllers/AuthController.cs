@@ -1,6 +1,6 @@
 ﻿using ICar.API.Auth.Contracts;
 using ICar.Data.Models.Entities;
-using ICar.Data.Queries.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using ICar.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

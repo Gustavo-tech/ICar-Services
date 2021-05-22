@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities;
-using ICar.Data.Queries.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

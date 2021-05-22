@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Queries.Contracts
+namespace ICar.Data.Repositories.Interfaces
 {
     public interface ICompanyRepository
     {

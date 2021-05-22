@@ -1,7 +1,7 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Converter;
 using ICar.Data.Models.Entities;
-using ICar.Data.Queries.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
