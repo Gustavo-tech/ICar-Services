@@ -1,4 +1,5 @@
 ﻿using ICar.Data.Models.Entities.Cars;
+using ICar.Data.Repositories.Contracts;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Data.Repositories
 {
-    public class UserCarRepository : ICarRepository<UserCar>
+    public class UserCarRepository : ICarRepository<UserCar>, IUserCarRepository
     {
         private readonly DatabaseContext _dbContext;
 
@@ -24,6 +25,11 @@ namespace ICar.Data.Repositories
         public async Task<UserCar> GetCarByPlateAsync(string plate)
         {
             return await _dbContext.UserCars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
+        }
+
+        public async Task<UserCar> GetUserCarByCpfAsync(string cpf)
+        {
+            return await _dbContext.UserCars.Where(x => x.User.Cpf == cpf).FirstOrDefaultAsync();
         }
 
         public async Task InsertCarAsync(UserCar car)

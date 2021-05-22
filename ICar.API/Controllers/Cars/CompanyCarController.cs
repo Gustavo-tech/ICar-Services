@@ -1,6 +1,7 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Converter;
-using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Cars;
+using ICar.Data.Repositories.Contracts;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,13 +12,16 @@ namespace ICar.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CarController : ControllerBase
+    public class CompanyCarController : ControllerBase
     {
-        private readonly ICarRepository _carRepository;
+        private readonly ICarRepository<CompanyCar> _carRepository;
+        private readonly ICompanyCarRepository _companyCarRepository;
 
-        public CarController(ICarRepository carRepository)
+        public CompanyCarController(ICarRepository<CompanyCar> carRepository,
+            ICompanyCarRepository companyCarRepository)
         {
             _carRepository = carRepository;
+            _companyCarRepository = companyCarRepository;
         }
 
         [HttpGet("all")]
@@ -25,29 +29,29 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<Car> carsInDatabase = await _carRepository.GetAllCarsAsync();
+                List<CompanyCar> carsInDatabase = await _carRepository.GetAllCarsAsync();
 
                 List<dynamic> carsOutput = new();
 
-                foreach (Car car in carsInDatabase)
+                foreach (CompanyCar CompanyCar in carsInDatabase)
                 {
                     carsOutput.Add(new
                     {
-                        Plate = car.Plate,
-                        Maker = car.Maker,
-                        Model = car.Model,
-                        MakeDate = car.MakeDate,
-                        MakedDate = car.MakedDate,
-                        KilometersTraveled = car.KilometersTraveled,
-                        Price = car.Price,
-                        AcceptsChange = car.AcceptsChange,
-                        IpvaIsPaid = car.IpvaIsPaid,
-                        IsLicensed = car.IsLicensed,
-                        IsArmored = car.IsArmored,
-                        Message = car.Message,
-                        Color = CarPropertyConverter.ConvertColorToString(car.Color),
-                        GasolineType = (CarPropertyConverter.ConvertGasolineTypeToString(car.GasolineType)),
-                        City = car.City
+                        Plate = CompanyCar.Plate,
+                        Maker = CompanyCar.Maker,
+                        Model = CompanyCar.Model,
+                        MakeDate = CompanyCar.MakeDate,
+                        MakedDate = CompanyCar.MakedDate,
+                        KilometersTraveled = CompanyCar.KilometersTraveled,
+                        Price = CompanyCar.Price,
+                        AcceptsChange = CompanyCar.AcceptsChange,
+                        IpvaIsPaid = CompanyCar.IpvaIsPaid,
+                        IsLicensed = CompanyCar.IsLicensed,
+                        IsArmored = CompanyCar.IsArmored,
+                        Message = CompanyCar.Message,
+                        Color = CarPropertyConverter.ConvertColorToString(CompanyCar.Color),
+                        GasolineType = (CarPropertyConverter.ConvertGasolineTypeToString(CompanyCar.GasolineType)),
+                        City = CompanyCar.City
                     });
                 }
 
@@ -68,8 +72,8 @@ namespace ICar.API.Controllers
             {
                 try
                 {
-                    Car car = await _carRepository.GetCarByPlateAsync(plate);
-                    return Ok(car);
+                    CompanyCar CompanyCar = await _carRepository.GetCarByPlateAsync(plate);
+                    return Ok(CompanyCar);
                 }
                 catch (Exception exception)
                 {
@@ -91,7 +95,7 @@ namespace ICar.API.Controllers
             {
                 try
                 {
-                    List<Car> carsOfThisUser = await _carRepository.GetCarsByCpfAsync(cpf);
+                    List<CompanyCar> carsOfThisUser = await _companyCarRepository.GetCompanyCarByCnpjAsync(cpf);
                     return Ok(carsOfThisUser);
                 }
                 catch (Exception exception)
@@ -114,7 +118,7 @@ namespace ICar.API.Controllers
             {
                 try
                 {
-                    List<Car> carsOfThisCompany = await _carRepository.GetCarsByCnpjAsync(cnpj);
+                    List<CompanyCar> carsOfThisCompany = await _carRepository.GetCarsByCnpjAsync(cnpj);
                     return Ok(carsOfThisCompany);
                 }
                 catch (Exception exception)
