@@ -1,10 +1,12 @@
-﻿using ICar.Data.Models.Enums.Car;
+﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.Enums.Car;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ICar.Data.Models.Entities
+namespace ICar.Data.Models.Abstracts
 {
-    public class Car
+    public abstract class AbstractCar
     {
         [Key]
         public string Plate { get; set; }
@@ -47,13 +49,13 @@ namespace ICar.Data.Models.Entities
         public string Message { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public TypeOfExchange TypeOfExchange { get; }
+        public TypeOfExchange TypeOfExchange { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public Color Color { get; }
+        public Color Color { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public GasolineType GasolineType { get; }
+        public GasolineType GasolineType { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
         public City City { get; set; }

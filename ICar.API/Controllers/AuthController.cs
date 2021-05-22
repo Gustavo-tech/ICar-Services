@@ -1,7 +1,8 @@
 ﻿using ICar.API.Auth.Contracts;
+using ICar.API.ViewModels;
 using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Repositories.Interfaces;
-using ICar.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("authenticate/company")]
-        public async Task<IActionResult> AuthenticateCompany([FromBody] Login login)
+        public async Task<IActionResult> AuthenticateCompany([FromBody] LoginViewModel login)
         {
             Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
 
@@ -58,7 +59,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("authenticate/user")]
-        public async Task<IActionResult> AuthenticateUser([FromBody] Login login)
+        public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
         {
             User user = await _userRepository.GetUserByEmailAsync(login.Email);
 

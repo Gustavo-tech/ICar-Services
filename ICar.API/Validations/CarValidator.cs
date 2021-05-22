@@ -1,7 +1,8 @@
 ﻿using ICar.API.Utilities.Validations;
+using ICar.Data.Converter;
 using ICar.Data.Models.Abstracts;
+using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
-using ICar.Data.ViewModels.Cars;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -43,7 +44,7 @@ namespace ICar.API.Validations
             return color.Length > 2;
         }
 
-        private static List<InvalidReason> ValidateCar(AbstractCar car)
+        private static List<InvalidReason> ValidateCar(Car car)
         {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 
@@ -68,11 +69,11 @@ namespace ICar.API.Validations
             return invalidReasons;
         }
 
-        public static List<InvalidReason> ValidateNewCar(NewCar newCar)
+        public static List<InvalidReason> ValidateCar(Car car)
         {
-            List<InvalidReason> invalidReasons = ValidateCar(newCar);
+            List<InvalidReason> invalidReasons = new();
 
-            if (!ValidateColor(newCar.Color))
+            if (!ValidateColor(CarPropertyConverter.ConvertColorToString(car.Color))
                 invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
 
             if (newCar.UserCpf != "")

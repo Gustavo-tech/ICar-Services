@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Data.Models.Entities.Logins
 {
-    public class UserLogin
+    public class IUserLoginRepository
     {
         [Key]
         public int Id { get; set; }

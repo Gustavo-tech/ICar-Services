@@ -1,5 +1,5 @@
-﻿using ICar.Data.Models.System;
-using ICar.Data.ViewModels.Companies;
+﻿using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Models.System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -29,7 +29,7 @@ namespace ICar.API.Validations
             return true;
         }
 
-        public static List<InvalidReason> GetInvalidReasonsForInsert(NewCompany company)
+        public static List<InvalidReason> GetInvalidReasonsForInsert(Company company)
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(company);
 

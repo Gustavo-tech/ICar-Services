@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ICar.API
 {
@@ -34,11 +35,11 @@ namespace ICar.API
             });
 
             // Interface implementations
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAuthService, JwtService>();
-            services.AddScoped<IUserNewsRepository, UserNewsRepository>();
-            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddSingleton<ICompanyRepository, CompanyRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IAuthService, JwtService>();
+            services.AddSingleton<IUserNewsRepository, UserNewsRepository>();
+            services.AddSingleton<ICarRepository, UserCarRepository>();
 
             // Entity Framework
             services.AddDbContext<DatabaseContext>(options =>
@@ -61,14 +62,13 @@ namespace ICar.API
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async Task Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ICar.API v1"));
-                DataInjector.InsertInitialData();
             }
 
             app.UseHttpsRedirection();

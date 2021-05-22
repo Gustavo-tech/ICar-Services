@@ -1,8 +1,5 @@
-﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.System;
+﻿using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Repositories.Interfaces;
-using ICar.Data.ViewModels.Companies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +36,6 @@ namespace ICar.API.Controllers
                         CNPJ = companiesInDatabase[i].Cnpj,
                         Name = companiesInDatabase[i].Name,
                         Email = companiesInDatabase[i].Email,
-                        NumberOfCarsSelling = companiesInDatabase[i].NumberOfCarsSelling,
                         AccountCreationDate = companiesInDatabase[i].AccountCreationDate,
                         Role = companiesInDatabase[i].Role,
                         Cities = companiesInDatabase[i].Cities

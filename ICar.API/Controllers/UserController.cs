@@ -1,5 +1,5 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.System;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -44,10 +44,9 @@ namespace ICar.API.Controllers
                             Message = "User inserted succesffully"
                         });
                     }
-                    catch (Exception exception)
+                    catch (Exception)
                     {
-
-                        return Problem(title: "Some error ocurred while inserting this user", detail: exception.Message);
+                        return Problem();
                     }
                 }
                 else
