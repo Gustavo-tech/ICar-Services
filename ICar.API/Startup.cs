@@ -1,7 +1,7 @@
 using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
 using ICar.Data;
-using ICar.Data.Queries;
+using ICar.Data.Repositories;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -33,11 +33,11 @@ namespace ICar.API
             });
 
             // Interface implementations
-            services.AddScoped<ICompanyRepository, CompanyQueries>();
-            services.AddScoped<IUserRepository, UserQueries>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, JwtService>();
-            services.AddScoped<INewsRepository, NewsQueries>();
-            services.AddScoped<ICarRepository, CarQuery>();
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
 
             // JWT
             byte[] key = Encoding.ASCII.GetBytes(Secret.key);

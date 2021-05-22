@@ -1,6 +1,5 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Models.Entities;
-
 using ICar.Data.Models.System;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +14,17 @@ namespace ICar.API.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userQueries;
+        private readonly IUserRepository _userRepository;
 
         public UserController(IUserRepository userQueries)
         {
-            _userQueries = userQueries;
+            _userRepository = userQueries;
         }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
-            User user = _userQueries.GetUserByEmail(newUser.Email);
+            User user = await _userRepository.GetUserByCpfAsync(newUser.Cpf);
 
             if (user == null)
             {
@@ -35,7 +34,7 @@ namespace ICar.API.Controllers
                 {
                     try
                     {
-                        await _userQueries.InsertUser(newUser);
+                        await _userRepository.InsertUserAsync(newUser);
                         return Ok(new
                         {
                             Cpf = newUser.Cpf,
