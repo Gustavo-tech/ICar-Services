@@ -3,6 +3,7 @@ using ICar.Data.Models.Entities;
 using ICar.Data.Repositories.Interfaces;
 using ICar.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -11,8 +12,8 @@ namespace ICar.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly ICompanyRepository _cpQueries;
-        private readonly IUserRepository _userQueries;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
 
         public AuthController
             (IAuthService authService,
@@ -20,14 +21,14 @@ namespace ICar.API.Controllers
             IUserRepository userQueries)
         {
             _authService = authService;
-            _cpQueries = companyQueries;
-            _userQueries = userQueries;
+            _companyRepository = companyQueries;
+            _userRepository = userQueries;
         }
 
         [HttpPost("authenticate/company")]
-        public IActionResult AuthenticateCompany([FromBody] Login login)
+        public async Task<IActionResult> AuthenticateCompany([FromBody] Login login)
         {
-            Company company = _cpQueries.GetCompanyByEmail(login.Email);
+            Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
 
             if (company != null)
             {
@@ -57,9 +58,9 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("authenticate/user")]
-        public IActionResult AuthenticateUser([FromBody] Login login)
+        public async Task<IActionResult> AuthenticateUser([FromBody] Login login)
         {
-            User user = _userQueries.GetUserByEmail(login.Email);
+            User user = await _userRepository.GetUserByEmailAsync(login.Email);
 
             if (user != null)
             {
