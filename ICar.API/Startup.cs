@@ -6,6 +6,7 @@ using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +39,12 @@ namespace ICar.API
             services.AddScoped<IAuthService, JwtService>();
             services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
+
+            // Entity Framework
+            services.AddDbContext<DatabaseContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectionString"));
+            });
 
             // JWT
             byte[] key = Encoding.ASCII.GetBytes(Secret.key);
