@@ -16,20 +16,20 @@ namespace ICar.API.Controllers
     [Route("[controller]")]
     public class CompanyController : ControllerBase
     {
-        private readonly ICompanyRepository _companyQueries;
+        private readonly ICompanyRepository _companyRepository;
 
         public CompanyController(ICompanyRepository companyQueries)
         {
-            _companyQueries = companyQueries;
+            _companyRepository = companyQueries;
         }
 
         [HttpGet("companies")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
-        public IActionResult GetCompanies()
+        public async Task<IActionResult> GetCompanies()
         {
             try
             {
-                List<Company> companiesInDatabase = _companyQueries.GetCompanies();
+                List<Company> companiesInDatabase = await _companyRepository.GetCompaniesAsync();
                 dynamic[] companiesOutput = new dynamic[companiesInDatabase.Count];
 
                 for (int i = 0; i <= companiesInDatabase.Count - 1; i++)
@@ -52,43 +52,6 @@ namespace ICar.API.Controllers
             {
                 return Problem(e.Message);
             }
-        }
-
-        [HttpPost("create")]
-        public async Task<IActionResult> InsertCompany([FromBody] NewCompany newCompany)
-        {
-            List<InvalidReason> invalidReasons = CompanyValidator.GetInvalidReasonsForInsert(newCompany);
-            if (invalidReasons == null)
-            {
-                try
-                {
-                    await _companyQueries.InsertCompany(newCompany);
-                    return Ok(new
-                    {
-                        CNPJ = newCompany.Cnpj,
-                        Name = newCompany.Name,
-                        Email = newCompany.Email,
-                        Cities = newCompany.Cities,
-                        Message = "Company inserted successfully"
-                    });
-                }
-                catch (Exception exception)
-                {
-                    return Problem(detail: "Could not insert this company \n" +
-                        $"Message: {exception.Message}");
-                }
-            }
-
-            else
-                return BadRequest(new
-                {
-                    CNPJ = newCompany.Cnpj,
-                    Name = newCompany.Name,
-                    Email = newCompany.Email,
-                    Cities = newCompany.Cities,
-                    Message = "This is a invalid company",
-                    Reasons = invalidReasons
-                });
         }
     }
 }
