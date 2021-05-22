@@ -12,6 +12,6 @@ namespace ICar.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<News> News { get; set; }
-        public User User { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

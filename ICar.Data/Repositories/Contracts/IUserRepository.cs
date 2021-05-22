@@ -6,9 +6,9 @@ namespace ICar.Data.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        List<User> GetUsers(int? quantity);
-        User GetUserByEmail(string email);
-        User GetUserByCpf(string cpf);
-        Task InsertUser(User user, bool isAdmin = false);
+        Task<List<User>> GetUsersAsync();
+        Task<User> GetUserByEmailAsync(string email);
+        Task<User> GetUserByCpfAsync(string cpf);
+        Task InsertUserAsync(User user);
     }
 }
