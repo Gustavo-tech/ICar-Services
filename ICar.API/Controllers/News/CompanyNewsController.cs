@@ -18,6 +18,7 @@ namespace ICar.API.Controllers
             _repository = repository;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetNewsAsync()
         {
             try

@@ -31,11 +31,10 @@ namespace ICar.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar.API", Version = "v1" });
             });
 
             // Dependency injection
@@ -90,6 +89,7 @@ namespace ICar.API
                 options.WithOrigins("https://localhost:3000");
                 options.AllowAnyHeader();
             });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

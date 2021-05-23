@@ -34,11 +34,11 @@ namespace ICar.API.Controllers
                     companiesOutput[i] = new
                     {
                         CNPJ = companiesInDatabase[i].Cnpj,
-                        Name = companiesInDatabase[i].Name,
-                        Email = companiesInDatabase[i].Email,
-                        AccountCreationDate = companiesInDatabase[i].AccountCreationDate,
-                        Role = companiesInDatabase[i].Role,
-                        Cities = companiesInDatabase[i].Cities
+                        companiesInDatabase[i].Name,
+                        companiesInDatabase[i].Email,
+                        companiesInDatabase[i].AccountCreationDate,
+                        companiesInDatabase[i].Role,
+                        companiesInDatabase[i].Cities
                     };
                 }
 
