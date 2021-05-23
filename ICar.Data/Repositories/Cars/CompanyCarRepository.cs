@@ -26,6 +26,11 @@ namespace ICar.Data.Repositories
             return await _dbContext.CompanyCars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
         }
 
+        public async Task<List<CompanyCar>> GetByIdentificationAsync(string cnpj)
+        {
+            return await _dbContext.CompanyCars.Where(x => x.Company.Cnpj == cnpj).ToListAsync();
+        }
+
         public async Task InsertCarAsync(CompanyCar car)
         {
             await _dbContext.CompanyCars.AddAsync(car);

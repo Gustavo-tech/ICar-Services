@@ -22,9 +22,6 @@ namespace ICar.Data.Models.Abstracts
         [DataType(DataType.DateTime)]
         public DateTime AccountCreationDate { get; set; }
 
-        public List<Car> CarsSelling { get; set; }
-        public List<Car> FavoriteCars { get; set; }
-
         [Required(ErrorMessage = "{0} is required")]
         [MaxLength(30, ErrorMessage = "A role can't have more than 30 chars")]
         public string Role { get; set; }

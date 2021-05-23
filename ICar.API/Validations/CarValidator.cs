@@ -1,7 +1,6 @@
 ﻿using ICar.API.Utilities.Validations;
 using ICar.Data.Converter;
 using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities;
 using ICar.Data.Models.System;
 using System;
 using System.Collections.Generic;
@@ -44,7 +43,7 @@ namespace ICar.API.Validations
             return color.Length > 2;
         }
 
-        private static List<InvalidReason> ValidateCar(Car car)
+        private static List<InvalidReason> ValidateCar(AbstractCar car)
         {
             List<InvalidReason> invalidReasons = new List<InvalidReason>();
 
@@ -66,26 +65,8 @@ namespace ICar.API.Validations
             if (!ValidatePrice(car.Price))
                 invalidReasons.Add(new InvalidReason("Price is invalid", "This price is less than a thousand reals"));
 
-            return invalidReasons;
-        }
-
-        public static List<InvalidReason> ValidateCar(Car car)
-        {
-            List<InvalidReason> invalidReasons = new();
-
-            if (!ValidateColor(CarPropertyConverter.ConvertColorToString(car.Color))
+            if (!ValidateColor(CarPropertyConverter.ConvertColorToString(car.Color)))
                 invalidReasons.Add(new InvalidReason("Color is invalid", "This color is invalid"));
-
-            if (newCar.UserCpf != "")
-            {
-                if (!UserValidator.ValidateCpf(newCar.UserCpf))
-                    invalidReasons.Add(new InvalidReason("User is invalid", "This CPF is invalid"));
-            }
-            else
-            {
-                if (!CompanyValidator.ValidateCnpj(newCar.CompanyCnpj))
-                    invalidReasons.Add(new InvalidReason("Company is invalid", "This CNPJ is invalid"));
-            }
 
             if (invalidReasons.Count > 0)
                 return invalidReasons;

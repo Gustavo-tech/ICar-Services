@@ -23,7 +23,7 @@ namespace ICar.API.Validations
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(user);
 
-            if (!AccountValidator.ValidateCity(user.City))
+            if (!AccountValidator.ValidateCity(user.City.Name))
                 invalidReasons.Add(new InvalidReason
                 (
                     "City is invalid",

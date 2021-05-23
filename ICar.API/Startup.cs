@@ -1,6 +1,7 @@
 using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
 using ICar.Data;
+using ICar.Data.Models.Entities.Cars;
 using ICar.Data.Repositories;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.API
 {
@@ -35,16 +35,17 @@ namespace ICar.API
             });
 
             // Interface implementations
-            services.AddSingleton<ICompanyRepository, CompanyRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<IAuthService, JwtService>();
-            services.AddSingleton<IUserNewsRepository, UserNewsRepository>();
-            services.AddSingleton<ICarRepository, UserCarRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthService, JwtService>();
+            services.AddScoped<IUserNewsRepository, UserNewsRepository>();
+            services.AddScoped<ICarRepository<UserCar>, UserCarRepository>();
+            services.AddScoped<ICarRepository<CompanyCar>, CompanyCarRepository>();
 
             // Entity Framework
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnectionString"));
+                options.UseSqlServer(Configuration["DatabaseConnectionString"]);
             });
 
             // JWT
@@ -62,7 +63,7 @@ namespace ICar.API
             });
         }
 
-        public async Task Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

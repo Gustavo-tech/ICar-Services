@@ -93,7 +93,7 @@ namespace ICar.API.Controllers
             {
                 try
                 {
-                    List<UserCar> carsOfThisUser = await _carRepository(cpf);
+                    List<UserCar> carsOfThisUser = await _carRepository.GetByIdentificationAsync(cpf);
                     return Ok(carsOfThisUser);
                 }
                 catch (Exception exception)
@@ -106,29 +106,6 @@ namespace ICar.API.Controllers
             return BadRequest(new
             {
                 Message = "This is not a valid CPF"
-            });
-        }
-
-        [HttpGet("cnpj/{cnpj}")]
-        public async Task<IActionResult> GetCompanyCars([FromRoute] string cnpj)
-        {
-            if (CompanyValidator.ValidateCnpj(cnpj))
-            {
-                try
-                {
-                    List<UserCar> carsOfThisCompany = await _carRepository.GetCarsByCnpjAsync(cnpj);
-                    return Ok(carsOfThisCompany);
-                }
-                catch (Exception exception)
-                {
-                    return Problem(title: "Some error happened while getting cars of this user",
-                        detail: exception.Message);
-                }
-            }
-
-            return BadRequest(new
-            {
-                Message = "This is not a valid CNPJ"
             });
         }
 
@@ -156,5 +133,4 @@ namespace ICar.API.Controllers
         }
 
     }
-}
 }

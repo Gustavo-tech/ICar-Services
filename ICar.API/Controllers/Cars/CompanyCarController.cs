@@ -1,7 +1,6 @@
 ﻿using ICar.API.Validations;
 using ICar.Data.Converter;
 using ICar.Data.Models.Entities.Cars;
-using ICar.Data.Repositories.Contracts;
 using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,13 +14,10 @@ namespace ICar.API.Controllers
     public class CompanyCarController : ControllerBase
     {
         private readonly ICarRepository<CompanyCar> _carRepository;
-        private readonly ICompanyCarRepository _companyCarRepository;
 
-        public CompanyCarController(ICarRepository<CompanyCar> carRepository,
-            ICompanyCarRepository companyCarRepository)
+        public CompanyCarController(ICarRepository<CompanyCar> carRepository)
         {
             _carRepository = carRepository;
-            _companyCarRepository = companyCarRepository;
         }
 
         [HttpGet("all")]
@@ -88,29 +84,6 @@ namespace ICar.API.Controllers
             });
         }
 
-        [HttpGet("cpf/{cpf}")]
-        public async Task<IActionResult> GetUserCars([FromRoute] string cpf)
-        {
-            if (UserValidator.ValidateCpf(cpf))
-            {
-                try
-                {
-                    List<CompanyCar> carsOfThisUser = await _companyCarRepository.GetCompanyCarByCnpjAsync(cpf);
-                    return Ok(carsOfThisUser);
-                }
-                catch (Exception exception)
-                {
-                    return Problem(title: "Some error happened while getting cars of this user",
-                        detail: exception.Message);
-                }
-            }
-
-            return BadRequest(new
-            {
-                Message = "This is not a valid CPF"
-            });
-        }
-
         [HttpGet("cnpj/{cnpj}")]
         public async Task<IActionResult> GetCompanyCars([FromRoute] string cnpj)
         {
@@ -118,7 +91,7 @@ namespace ICar.API.Controllers
             {
                 try
                 {
-                    List<CompanyCar> carsOfThisCompany = await _carRepository.GetCarsByCnpjAsync(cnpj);
+                    List<CompanyCar> carsOfThisCompany = await _carRepository.GetByIdentificationAsync(cnpj);
                     return Ok(carsOfThisCompany);
                 }
                 catch (Exception exception)

@@ -29,17 +29,9 @@ namespace ICar.API.Validations
             return true;
         }
 
-        public static List<InvalidReason> GetInvalidReasonsForInsert(Company company)
+        public static List<InvalidReason> GetInvalidReasons(Company company)
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(company);
-
-            if (!ValidateCities(company.Cities))
-                invalidReasons.Add(new InvalidReason
-                (
-                    "Cities is invalid",
-                    "One or more cities is invalid, it should be capitalized"
-                ));
-
 
             if (!ValidateCnpj(company.Cnpj))
                 invalidReasons.Add(new InvalidReason

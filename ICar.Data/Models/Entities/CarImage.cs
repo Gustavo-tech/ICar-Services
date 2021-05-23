@@ -7,6 +7,6 @@ namespace ICar.Data.Models.Entities
         [Key]
         public int Id { get; set; }
         public string ImageStream { get; set; }
-        public Car Car { get; set; }
+        public string CarPlate { get; set; }
     }
 }
