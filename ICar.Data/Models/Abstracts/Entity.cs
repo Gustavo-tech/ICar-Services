@@ -1,6 +1,4 @@
-﻿using ICar.Data.Models.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Data.Models.Abstracts

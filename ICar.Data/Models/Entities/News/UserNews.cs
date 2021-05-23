@@ -20,7 +20,7 @@ namespace ICar.Data.Models.Entities.News
             PublishedBy = publishedBy;
         }
 
-        public UserNews(string title, string text, 
+        public UserNews(string title, string text,
             DateTime createdOn, DateTime lastUpdate, User publishedBy)
         {
             Title = title;

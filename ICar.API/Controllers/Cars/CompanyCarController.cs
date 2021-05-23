@@ -108,7 +108,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("increase/views/{plate}")]
-        public async Task<IActionResult>  IncreaseNumberOfViews([FromRoute] string plate)
+        public async Task<IActionResult> IncreaseNumberOfViews([FromRoute] string plate)
         {
             if (CarValidator.ValidatePlate(plate))
             {

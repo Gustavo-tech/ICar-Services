@@ -1,6 +1,4 @@
-﻿using ICar.API.Validations;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using NUnit.Framework;
 
 namespace ICar.Tests.Validations
 {

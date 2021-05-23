@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Repositories.Interfaces;
+using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

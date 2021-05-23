@@ -1,10 +1,8 @@
 ﻿using ICar.Data.Models.Entities.News;
 using ICar.Data.Repositories.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers

@@ -1,9 +1,8 @@
-﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Accounts;
+﻿using ICar.Data.Models.Entities.Accounts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories.Interfaces
+namespace ICar.Data.Repositories.Interfaces.Accounts
 {
     public interface IUserRepository
     {

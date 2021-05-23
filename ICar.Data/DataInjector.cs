@@ -4,7 +4,6 @@ using ICar.Data.Models.Entities.News;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace ICar.Data

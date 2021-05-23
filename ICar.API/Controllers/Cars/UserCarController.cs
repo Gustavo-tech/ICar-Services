@@ -2,11 +2,9 @@
 using ICar.Data.Converter;
 using ICar.Data.Models.Entities.Cars;
 using ICar.Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers

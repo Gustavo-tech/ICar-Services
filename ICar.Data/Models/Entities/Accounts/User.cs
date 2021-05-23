@@ -23,7 +23,7 @@ namespace ICar.Data.Models.Entities.Accounts
             Name = name;
             Email = email;
             Password = password;
-            City = new (city);
+            City = new(city);
         }
 
         public User(string cpf, string name, string email,
