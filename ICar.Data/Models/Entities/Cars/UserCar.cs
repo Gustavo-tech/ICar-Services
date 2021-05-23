@@ -8,6 +8,9 @@ namespace ICar.Data.Models.Entities.Cars
     {
         public User User { get; set; }
 
+        public UserCar()
+        { }
+
         public UserCar(string plate, string maker, string model,
             int makeDate, int makedDate, double kilometersTraveled,
             double price, bool acceptsChange, bool ipvaIsPaid,

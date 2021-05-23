@@ -14,6 +14,9 @@ namespace ICar.Data.Models.Entities.Accounts
         public List<UserCar> UserCars { get; set; }
         public City City { get; set; }
 
+        public User()
+        { }
+
         public User(string cpf, string name, string email, string password, string city)
         {
             Cpf = cpf;

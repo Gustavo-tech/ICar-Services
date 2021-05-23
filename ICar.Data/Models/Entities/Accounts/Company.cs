@@ -9,9 +9,12 @@ namespace ICar.Data.Models.Entities.Accounts
     public class Company : Entity
     {
         [Key]
-        public string Cnpj { get; }
+        public string Cnpj { get; set; }
         public List<CompanyCar> CompanyCars { get; set; }
         public List<City> Cities { get; set; }
+
+        public Company()
+        { }
 
         public Company(string cnpj, string name, string email, string password, List<string> cities)
         {

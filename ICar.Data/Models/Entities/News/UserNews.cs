@@ -10,6 +10,9 @@ namespace ICar.Data.Models.Entities.News
         [Required(ErrorMessage = "{0} is required")]
         public User PublishedBy { get; set; }
 
+        public UserNews()
+        { }
+
         public UserNews(string title, string text, User publishedBy)
         {
             Title = title;

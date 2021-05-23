@@ -10,6 +10,9 @@ namespace ICar.Data.Models.Entities
         [Required(ErrorMessage = "{0} is required")]
         public string Name { get; set; }
 
+        public City()
+        { }
+
         public City(string name)
         {
             Name = name;

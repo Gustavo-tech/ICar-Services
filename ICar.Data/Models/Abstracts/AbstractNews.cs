@@ -6,7 +6,7 @@ namespace ICar.Data.Models.Abstracts
     public abstract class AbstractNews
     {
         [Key]
-        public int Id { get; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
         [MaxLength(60, ErrorMessage = "A title can't have more than 60 chars")]

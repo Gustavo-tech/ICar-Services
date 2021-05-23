@@ -14,5 +14,14 @@ namespace ICar.Data.Models.Entities.Logins
 
         [DataType(DataType.DateTime)]
         public DateTime Time { get; set; }
+
+        public CompanyLogin()
+        { }
+
+        public CompanyLogin(Company company, DateTime time)
+        {
+            Company = company;
+            Time = time;
+        }
     }
 }
