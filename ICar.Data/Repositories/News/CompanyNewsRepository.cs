@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities.News;
-using ICar.Data.Repositories.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Data.Repositories.News
 {
-    public class CompanyNewsRepository : ICompanyNewsRepository
+    public class CompanyNewsRepository : INewsRepository<CompanyNews>
     {
         private readonly DatabaseContext _dbContext;
 
@@ -16,7 +16,7 @@ namespace ICar.Data.Repositories.News
             _dbContext = dbContext;
         }
 
-        public async Task DeleteCompanyNewsAsync(int id)
+        public async Task DeleteNewsAsync(int id)
         {
             CompanyNews cn = await _dbContext.CompanyNews.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -27,18 +27,18 @@ namespace ICar.Data.Repositories.News
             }
         }
 
-        public async Task<List<CompanyNews>> GetCompanyNewsAsync()
+        public async Task<List<CompanyNews>> GetNewsAsync()
         {
             return await _dbContext.CompanyNews.ToListAsync();
         }
 
-        public async Task InsertCompanyNewsAsync(CompanyNews news)
+        public async Task InsertNewsAsync(CompanyNews news)
         {
             await _dbContext.CompanyNews.AddAsync(news);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateCompanyNewsAsync(CompanyNews news)
+        public async Task UpdateNewsAsync(CompanyNews news)
         {
             _dbContext.CompanyNews.Update(news);
             await _dbContext.SaveChangesAsync();

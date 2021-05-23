@@ -2,7 +2,12 @@ using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
 using ICar.Data;
 using ICar.Data.Models.Entities.Cars;
+using ICar.Data.Models.Entities.News;
+using ICar.Data.Repositories.Accounts;
+using ICar.Data.Repositories.Cars;
 using ICar.Data.Repositories.Interfaces;
+using ICar.Data.Repositories.Interfaces.Accounts;
+using ICar.Data.Repositories.News;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,11 +38,14 @@ namespace ICar.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar API", Version = "v1" });
             });
 
-            // Interface implementations
+            // Dependency injection
+            services.AddScoped<IAuthService, JwtService>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAuthService, JwtService>();
-            services.AddScoped<IUserNewsRepository, UserNewsRepository>();
+
+            services.AddScoped<INewsRepository<UserNews>, UserNewsRepository>();
+            services.AddScoped<INewsRepository<CompanyNews>, CompanyNewsRepository>();
+
             services.AddScoped<ICarRepository<UserCar>, UserCarRepository>();
             services.AddScoped<ICarRepository<CompanyCar>, CompanyCarRepository>();
 

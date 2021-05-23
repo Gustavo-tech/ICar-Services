@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities.News;
-using ICar.Data.Repositories.Contracts;
+using ICar.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace ICar.API.Controllers
     [ApiController]
     public class CompanyNewsController : ControllerBase
     {
-        private readonly ICompanyNewsRepository _repository;
+        private readonly INewsRepository<CompanyNews> _repository;
 
-        public CompanyNewsController(ICompanyNewsRepository repository)
+        public CompanyNewsController(INewsRepository<CompanyNews> repository)
         {
             _repository = repository;
         }
@@ -22,7 +22,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<CompanyNews> cn = await _repository.GetCompanyNewsAsync();
+                List<CompanyNews> cn = await _repository.GetNewsAsync();
                 return Ok(cn);
             }
             catch (Exception)

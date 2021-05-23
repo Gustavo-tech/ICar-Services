@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Data.Repositories.News
 {
-    public class UserNewsRepository : IUserNewsRepository
+    public class UserNewsRepository : INewsRepository<UserNews>
     {
         private readonly DatabaseContext _dbContext;
 
@@ -16,24 +16,24 @@ namespace ICar.Data.Repositories.News
             _dbContext = dbContext;
         }
 
-        public async Task<List<UserNews>> GetUserNewsAsync()
+        public async Task<List<UserNews>> GetNewsAsync()
         {
             return await _dbContext.UserNews.ToListAsync();
         }
 
-        public async Task InsertUserNewsAsync(UserNews UserNews)
+        public async Task InsertNewsAsync(UserNews UserNews)
         {
             await _dbContext.UserNews.AddAsync(UserNews);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateUserNewsAsync(UserNews UserNews)
+        public async Task UpdateNewsAsync(UserNews UserNews)
         {
             _dbContext.UserNews.Update(UserNews);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteUserNewsAsync(int id)
+        public async Task DeleteNewsAsync(int id)
         {
             UserNews UserNews = _dbContext.UserNews.Where(x => x.Id == id).FirstOrDefault();
 

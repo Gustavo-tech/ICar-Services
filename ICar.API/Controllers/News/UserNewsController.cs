@@ -11,9 +11,9 @@ namespace ICar.API.Controllers
     [ApiController]
     public class UserNewsController : ControllerBase
     {
-        private readonly IUserNewsRepository _repository;
+        private readonly INewsRepository<UserNews> _repository;
 
-        public UserNewsController(IUserNewsRepository repository)
+        public UserNewsController(INewsRepository<UserNews> repository)
         {
             _repository = repository;
         }
@@ -22,7 +22,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<UserNews> un = await _repository.GetUserNewsAsync();
+                List<UserNews> un = await _repository.GetNewsAsync();
                 return Ok(un);
             }
             catch (Exception)
