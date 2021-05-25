@@ -6,6 +6,7 @@ namespace ICar.Data.Models.Entities.Cars
 {
     public class UserCar : AbstractCar
     {
+        public string UserCpfFk { get; set; }
         public User User { get; set; }
 
         public UserCar()

@@ -4,21 +4,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Data.Models.Entities.Logins
 {
-    public class IUserLoginRepository
+    public class UserLogin
     {
         [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
+        public string UserCpfFk { get; set; }
+
         public User User { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime Time { get; set; }
 
-        public IUserLoginRepository()
+        public UserLogin()
         { }
 
-        public IUserLoginRepository(User user, DateTime time)
+        public UserLogin(User user, DateTime time)
         {
             User = user;
             Time = time;

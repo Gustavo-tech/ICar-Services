@@ -1,8 +1,11 @@
 ﻿using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.Entities.Cars;
+using ICar.Data.Models.Entities.Logins;
+using ICar.Data.Models.Entities.News;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Accounts
 {
@@ -11,8 +14,20 @@ namespace ICar.Data.Models.Entities.Accounts
 
         [Key]
         public string Cpf { get; set; }
+
+        [ForeignKey("UserCpfFk")]
         public List<UserCar> UserCars { get; set; }
+
+        [ForeignKey("UserCpfFk")]
+        public List<UserLogin> UserLogins { get; set; }
+
+        [ForeignKey("UserCpfFk")]
+        public List<UserNews> UserNews { get; set; }
+
+        [ForeignKey("CityId")]
         public City City { get; set; }
+
+        public int CityId { get; set; }
 
         public User()
         { }

@@ -3,6 +3,7 @@ using ICar.Data.Models.Enums.Car;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Abstracts
 {
@@ -57,9 +58,13 @@ namespace ICar.Data.Models.Abstracts
         [Required(ErrorMessage = "{0} is required")]
         public GasolineType GasolineType { get; set; }
 
+        [ForeignKey("CityId")]
         [Required(ErrorMessage = "{0} is required")]
         public City City { get; set; }
 
+        public int CityId { get; set; }
+
+        [ForeignKey("CarPlateFk")]
         public List<CarImage> CarImages { get; set; }
 
         public int NumberOfViews { get; set; }

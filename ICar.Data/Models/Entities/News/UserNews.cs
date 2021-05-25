@@ -8,6 +8,8 @@ namespace ICar.Data.Models.Entities.News
     public class UserNews : AbstractNews
     {
         [Required(ErrorMessage = "{0} is required")]
+        public string UserCpfFk { get; set; }
+
         public User PublishedBy { get; set; }
 
         public UserNews()

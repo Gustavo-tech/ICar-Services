@@ -1,8 +1,11 @@
 ﻿using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.Entities.Cars;
+using ICar.Data.Models.Entities.Logins;
+using ICar.Data.Models.Entities.News;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Accounts
 {
@@ -10,8 +13,18 @@ namespace ICar.Data.Models.Entities.Accounts
     {
         [Key]
         public string Cnpj { get; set; }
+
+        [ForeignKey("CompanyCnpjFk")]
         public List<CompanyCar> CompanyCars { get; set; }
-        public List<City> Cities { get; set; }
+
+        [ForeignKey("CompanyCnpjFk")]
+        public List<CompanyCity> Cities { get; set; }
+
+        [ForeignKey("CompanyCnpjFk")]
+        public List<CompanyLogin> CompanyLogins { get; set; }
+
+        [ForeignKey("CompanyCnpjFk")]
+        public List<CompanyNews> CompanyNews { get; set; }
 
         public Company()
         { }
@@ -32,7 +45,7 @@ namespace ICar.Data.Models.Entities.Accounts
 
         public Company(string cnpj, string name, string email,
             string password, DateTime accountCreationDate, List<CompanyCar> companyCars,
-            List<City> cities, string role)
+            List<CompanyCity> cities, string role)
         {
             Cnpj = cnpj;
             Name = name;
