@@ -1,163 +1,115 @@
-﻿using Dapper;
+﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Models.Entities.News;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.Data
 {
-    public static class DataInjector
+    public class DataInjector
     {
-        private static readonly string _dbConnection = DatabaseConnectionFactory.GetICarConnection();
+        private readonly DatabaseContext _dbContext;
 
-        private static bool TableHasData(string tableName)
+        private List<User> UsersReference = new List<User>
         {
-            using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
+            new User("129.890.870-09", "Gustavo", "gustavo@gmail.com", "asdasd", "Campinas"),
+            new User("902.721.893-32", "Camila", "camila@gmail.com", "asdasd", "Campinas"),
+            new User("789.123.280-90", "João", "joao@gmail.com", "asdasd", "Campinas"),
+        };
+
+
+        private List<Company> CompaniesReference = new List<Company>
+        {
+            new Company("06.990.590/0001-23", "Google", "google@gmail.com", "Google&", null),
+            new Company("60.316.817/0001-03", "Microsoft", "microsoft@gmail.com", "Microsoft&", null)
+        };
+
+        public DataInjector(DatabaseContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        private async Task InsertInitialCompaniesAsync()
+        {
+            try
             {
-                string query = $"SELECT * FROM {tableName}";
-                return sqlConnection.Execute(query) > 0;
+                if (await _dbContext.Companies.AnyAsync() == false)
+                {
+                    await _dbContext.Companies.AddRangeAsync(CompaniesReference);
+                    await _dbContext.SaveChangesAsync();
+                };
+            }
+            catch (Exception)
+            {
+                return;
             }
         }
 
-        private static void InsertInitialCompanies()
+        private async Task InsertInitialNewsAsync()
         {
-            if (!TableHasData("companies"))
+            try
             {
-                using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
+                if (await _dbContext.UserNews.AnyAsync() == false)
                 {
-                    try
-                    {
-                        string query = "INSERT INTO companies VALUES ('06.990.590/0001-23', 'Google', 'google@gmail.com', 'Google&', 0, GETDATE(), 'client'), " +
-                                        "('60.316.817/0001-03', 'Microsoft', 'microsoft@gmail.com', 'Mirosoft&', 0, GETDATE(), 'client'), " +
-                                        "('01.192.333/0001-22', 'Honda', 'honda@gmail.com', 'Honda&', 0, GETDATE(), 'admin')";
+                    UserNews userNews = new UserNews("New Honda Civic is beautiful", "AAAAAAAAA", UsersReference[0]);
+                    await _dbContext.UserNews.AddAsync(userNews);
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
 
-                        sqlConnection.Execute(query);
-                    }
-                    catch (Exception)
+        private async Task InsertInitialCitiesAsync()
+        {
+            if (await _dbContext.Cities.AnyAsync() == false)
+            {
+                try
+                {
+                    List<City> cities = new List<City>
                     {
-                        return;
-                    }
+                        new City(1, "Vancouver"),
+                        new City(2, "Valinhos"),
+                        new City(3, "Campinas"),
+                        new City(4, "Vinhedo"),
+                        new City(5, "Toronto"),
+                    };
+
+                    await _dbContext.Cities.AddRangeAsync(cities);
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+                    return;
                 }
             }
         }
 
-        private static void InsertInitialNews()
+        private async Task InsertInitialUsersAsync()
         {
-            if (!TableHasData("news"))
+            try
             {
-                using (SqlConnection connection = new SqlConnection(_dbConnection))
+                if (await _dbContext.Users.AnyAsync() == false)
                 {
-                    try
-                    {
-                        string query = "INSERT INTO news VALUES ('Initial', 'initial', GETDATE(), '897.907.267-98', null)," +
-                                       "('Second', 'Second', GETDATE(), null, '01.192.333/0001-22')";
-                        connection.Execute(query);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
+                    await _dbContext.AddRangeAsync(UsersReference);
+                    await _dbContext.SaveChangesAsync();
                 }
+            }
+            catch (Exception)
+            {
+                return;
             }
         }
 
-        private static void InsertInitialCities()
+        public async Task InsertInitialDataAsync()
         {
-            if (!TableHasData("cities"))
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
-                {
-                    try
-                    {
-                        string query = "INSERT INTO cities VALUES ('Vancouver'), ('Campinas'), ('Sorocaba'), ('Santos'), " +
-                                        "('Valinhos'), ('Vinhedo'), ('Toronto')";
-
-                        sqlConnection.Execute(query);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-
-        private static void InsertInitialUsers()
-        {
-            if (!TableHasData("users"))
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
-                {
-                    try
-                    {
-                        string query = "INSERT INTO users VALUES" +
-                                        "('897.907.267-98', 'Gustavo', 'gustavo@gmail.com', 'gustavo&', 0, GETDATE(), 'admin', 1), " +
-                                        "('832.217.220-12', 'Andre', 'andre@gmail.com', 'andre&', 0, GETDATE(), 'client', 2), " +
-                                        "('187.201.451-11', 'Mayara', 'mayara@gmail.com', 'mayara&', 0, GETDATE(), 'client', 3), " +
-                                        "('200.664.843-07', 'Lucas', 'lucas@gmail.com', 'lucas&', 0, GETDATE(), 'client', 4), " +
-                                        "('312.844.729-17', 'Mariana', 'mariana@gmail.com', 'mariana&', 0, GETDATE(), 'client', 5)";
-
-                        sqlConnection.Execute(query);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-
-        private static void InsertInitialCompaniesCities()
-        {
-            if (!TableHasData("companies_cities"))
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(_dbConnection))
-                {
-                    try
-                    {
-                        string query = "INSERT INTO companies_cities VALUES " +
-                                        "('01.192.333/0001-22', 1), ('01.192.333/0001-22', 2), ('01.192.333/0001-22', 3), ('01.192.333/0001-22', 4), " +
-                                        "('60.316.817/0001-03', 1), ('60.316.817/0001-03', 2), ('60.316.817/0001-03', 3), " +
-                                        "('06.990.590/0001-23', 1), ('06.990.590/0001-23', 2)";
-
-                        sqlConnection.Execute(query);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-
-        private static void InsertInitialCars()
-        {
-            if (!TableHasData("cars"))
-            {
-                using (SqlConnection connection = new SqlConnection(_dbConnection))
-                {
-                    try
-                    {
-                        string query = "INSERT INTO cars VALUES " +
-                                                   "('PGX-9090', 'Honda', 'Civic', 2019, 2019, 21000, 'man', 109000, 'Black', 0, 1, 1, 'Gas', 0, '', 1, '897.907.267-98', NULL, 0), " +
-                                                   "('XLP-8090', 'Peugeot', '206', 2017, 2018, 90000, 'aut', 42000, 'White', 0, 1, 1, 'Die', 0, '', 1, '187.201.451-11', NULL, 0)"; ;
-                        connection.Execute(query);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                }
-
-            }
-        }
-
-        public static void InsertInitialData()
-        {
-            InsertInitialCities();
-            InsertInitialUsers();
-            InsertInitialCompanies();
-            InsertInitialCompaniesCities();
-            InsertInitialNews();
-            InsertInitialCars();
+            await InsertInitialCitiesAsync();
+            await InsertInitialUsersAsync();
+            await InsertInitialCompaniesAsync();
         }
     }
 }

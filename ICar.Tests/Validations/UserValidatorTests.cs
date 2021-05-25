@@ -1,5 +1,5 @@
 ﻿using ICar.API.Validations;
-using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
 using NUnit.Framework;
 
 namespace ICar.Tests.Validations

@@ -1,8 +1,9 @@
 ﻿using ICar.API.Auth.Contracts;
-using ICar.Data.Models.Entities;
-using ICar.Data.Queries.Contracts;
-using ICar.Data.ViewModels;
+using ICar.API.ViewModels;
+using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -11,23 +12,23 @@ namespace ICar.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly ICompanyQueries _cpQueries;
-        private readonly IUserQueries _userQueries;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
 
         public AuthController
             (IAuthService authService,
-            ICompanyQueries companyQueries,
-            IUserQueries userQueries)
+            ICompanyRepository companyQueries,
+            IUserRepository userQueries)
         {
             _authService = authService;
-            _cpQueries = companyQueries;
-            _userQueries = userQueries;
+            _companyRepository = companyQueries;
+            _userRepository = userQueries;
         }
 
         [HttpPost("authenticate/company")]
-        public IActionResult AuthenticateCompany([FromBody] Login login)
+        public async Task<IActionResult> AuthenticateCompany([FromBody] LoginViewModel login)
         {
-            Company company = _cpQueries.GetCompanyByEmail(login.Email);
+            Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
 
             if (company != null)
             {
@@ -57,9 +58,9 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("authenticate/user")]
-        public IActionResult AuthenticateUser([FromBody] Login login)
+        public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
         {
-            User user = _userQueries.GetUserByEmail(login.Email);
+            User user = await _userRepository.GetUserByEmailAsync(login.Email);
 
             if (user != null)
             {

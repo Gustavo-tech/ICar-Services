@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Entities;
+﻿using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -22,7 +22,7 @@ namespace ICar.API.Validations
         {
             List<InvalidReason> invalidReasons = AccountValidator.GetInvalids(user);
 
-            if (!AccountValidator.ValidateCity(user.City))
+            if (!AccountValidator.ValidateCity(user.City.Name))
                 invalidReasons.Add(new InvalidReason
                 (
                     "City is invalid",
