@@ -1,8 +1,11 @@
 ﻿using ICar.API.Auth.Contracts;
 using ICar.API.ViewModels;
 using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Models.Entities.Logins;
+using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -13,16 +16,23 @@ namespace ICar.API.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ICompanyRepository _companyRepository;
+        private readonly ILoginRepository<CompanyLogin> _companyLoginRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ILoginRepository<UserLogin> _userLoginRepository;
 
-        public AuthController
-            (IAuthService authService,
+        public AuthController(
+            IAuthService authService,
             ICompanyRepository companyQueries,
-            IUserRepository userQueries)
+            ILoginRepository<CompanyLogin> companyLoginRepo,
+            IUserRepository userQueries,
+            ILoginRepository<UserLogin> userLoginRepo
+            )
         {
             _authService = authService;
             _companyRepository = companyQueries;
+            _companyLoginRepository = companyLoginRepo;
             _userRepository = userQueries;
+            _userLoginRepository = userLoginRepo;
         }
 
         [HttpPost("authenticate/company")]
@@ -34,6 +44,7 @@ namespace ICar.API.Controllers
             {
                 if (company.Password == login.Password)
                 {
+                    await _companyLoginRepository.AddLogin(new CompanyLogin(company, DateTime.Now));
                     dynamic responseObject = new
                     {
                         Company = company.Name,
@@ -66,6 +77,7 @@ namespace ICar.API.Controllers
             {
                 if (user.Password == login.Password)
                 {
+                    await _userLoginRepository.AddLogin(new UserLogin(user, DateTime.Now));
                     dynamic responseObject = new
                     {
                         User = user.Name,
