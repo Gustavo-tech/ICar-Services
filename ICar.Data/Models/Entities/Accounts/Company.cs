@@ -14,34 +14,20 @@ namespace ICar.Data.Models.Entities.Accounts
         [Key]
         public string Cnpj { get; set; }
 
-        [ForeignKey("CompanyCnpjFk")]
+        [ForeignKey("CompanyCnpj")]
         public List<CompanyCar> CompanyCars { get; set; }
 
-        [ForeignKey("CompanyCnpjFk")]
+        [ForeignKey("CompanyCnpj")]
         public List<CompanyCity> Cities { get; set; }
 
-        [ForeignKey("CompanyCnpjFk")]
+        [ForeignKey("CompanyCnpj")]
         public List<CompanyLogin> CompanyLogins { get; set; }
 
-        [ForeignKey("CompanyCnpjFk")]
+        [ForeignKey("CompanyCnpj")]
         public List<CompanyNews> CompanyNews { get; set; }
 
         public Company()
         { }
-
-        public Company(string cnpj, string name, string email, string password, List<string> cities)
-        {
-            Cnpj = cnpj;
-            Name = name;
-            Email = email;
-            Password = password;
-
-            List<City> cities1 = new();
-            foreach (string item in cities)
-            {
-                cities1.Add(new City(item));
-            }
-        }
 
         public Company(string cnpj, string name, string email,
             string password, DateTime accountCreationDate, List<CompanyCar> companyCars,

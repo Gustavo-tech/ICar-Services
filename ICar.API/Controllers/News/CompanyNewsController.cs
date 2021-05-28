@@ -1,5 +1,7 @@
 ﻿using ICar.Data.Models.Entities.News;
 using ICar.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,8 @@ namespace ICar.API.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("get")]
+        [Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "client, admin")]
         public async Task<IActionResult> GetNewsAsync()
         {
             try

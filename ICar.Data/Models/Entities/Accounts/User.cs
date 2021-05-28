@@ -15,13 +15,13 @@ namespace ICar.Data.Models.Entities.Accounts
         [Key]
         public string Cpf { get; set; }
 
-        [ForeignKey("UserCpfFk")]
+        [ForeignKey("UserCpf")]
         public List<UserCar> UserCars { get; set; }
 
-        [ForeignKey("UserCpfFk")]
+        [ForeignKey("UserCpf")]
         public List<UserLogin> UserLogins { get; set; }
 
-        [ForeignKey("UserCpfFk")]
+        [ForeignKey("UserCpf")]
         public List<UserNews> UserNews { get; set; }
 
         [ForeignKey("CityId")]

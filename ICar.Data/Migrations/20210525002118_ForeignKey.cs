@@ -117,7 +117,7 @@ namespace ICar.Data.Migrations
             migrationBuilder.RenameColumn(
                 name: "UserCpf",
                 table: "UserCars",
-                newName: "UserCpfFk");
+                newName: "UserCpf");
 
             migrationBuilder.RenameIndex(
                 name: "IX_UserCars_UserCpf",
@@ -155,14 +155,14 @@ namespace ICar.Data.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "UserCpfFk",
+                name: "UserCpf",
                 table: "UserNews",
                 type: "nvarchar(450)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "UserCpfFk",
+                name: "UserCpf",
                 table: "UserLogins",
                 type: "nvarchar(450)",
                 nullable: false,
@@ -234,12 +234,12 @@ namespace ICar.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserNews_UserCpfFk",
                 table: "UserNews",
-                column: "UserCpfFk");
+                column: "UserCpf");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserLogins_UserCpfFk",
                 table: "UserLogins",
-                column: "UserCpfFk");
+                column: "UserCpf");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CompanyNews_CompanyCnpjFk",
@@ -315,7 +315,7 @@ namespace ICar.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_UserCars_Users_UserCpfFk",
                 table: "UserCars",
-                column: "UserCpfFk",
+                column: "UserCpf",
                 principalTable: "Users",
                 principalColumn: "Cpf",
                 onDelete: ReferentialAction.Restrict);
@@ -323,7 +323,7 @@ namespace ICar.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_UserLogins_Users_UserCpfFk",
                 table: "UserLogins",
-                column: "UserCpfFk",
+                column: "UserCpf",
                 principalTable: "Users",
                 principalColumn: "Cpf",
                 onDelete: ReferentialAction.Cascade);
@@ -331,7 +331,7 @@ namespace ICar.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_UserNews_Users_UserCpfFk",
                 table: "UserNews",
-                column: "UserCpfFk",
+                column: "UserCpf",
                 principalTable: "Users",
                 principalColumn: "Cpf",
                 onDelete: ReferentialAction.Cascade);
@@ -415,11 +415,11 @@ namespace ICar.Data.Migrations
                 table: "CarImages");
 
             migrationBuilder.DropColumn(
-                name: "UserCpfFk",
+                name: "UserCpf",
                 table: "UserNews");
 
             migrationBuilder.DropColumn(
-                name: "UserCpfFk",
+                name: "UserCpf",
                 table: "UserLogins");
 
             migrationBuilder.DropColumn(
@@ -435,7 +435,7 @@ namespace ICar.Data.Migrations
                 newName: "CarImage");
 
             migrationBuilder.RenameColumn(
-                name: "UserCpfFk",
+                name: "UserCpf",
                 table: "UserCars",
                 newName: "UserCpf");
 

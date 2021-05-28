@@ -2,11 +2,13 @@ using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
 using ICar.Data;
 using ICar.Data.Models.Entities.Cars;
+using ICar.Data.Models.Entities.Logins;
 using ICar.Data.Models.Entities.News;
 using ICar.Data.Repositories.Accounts;
 using ICar.Data.Repositories.Cars;
 using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
+using ICar.Data.Repositories.Logins;
 using ICar.Data.Repositories.News;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +49,9 @@ namespace ICar.API
 
             services.AddScoped<ICarRepository<UserCar>, UserCarRepository>();
             services.AddScoped<ICarRepository<CompanyCar>, CompanyCarRepository>();
+
+            services.AddScoped<ILoginRepository<UserLogin>, UserLoginRepository>();
+            services.AddScoped<ILoginRepository<CompanyLogin>, CompanyLoginRepository>();
 
             // Entity Framework
             services.AddDbContext<DatabaseContext>(options =>

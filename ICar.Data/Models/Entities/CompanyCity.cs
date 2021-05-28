@@ -4,7 +4,7 @@ namespace ICar.Data.Models.Entities
 {
     public class CompanyCity
     {
-        public string CompanyCnpjFk { get; set; }
+        public string CompanyCnpj { get; set; }
 
         [ForeignKey("Id")]
         public City City { get; set; }
@@ -14,7 +14,7 @@ namespace ICar.Data.Models.Entities
 
         public CompanyCity(string companyCnpj, City city)
         {
-            CompanyCnpjFk = companyCnpj;
+            CompanyCnpj = companyCnpj;
             City = city;
         }
     }

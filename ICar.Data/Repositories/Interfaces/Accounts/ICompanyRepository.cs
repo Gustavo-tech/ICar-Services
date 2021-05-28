@@ -1,4 +1,5 @@
-﻿using ICar.Data.Models.Entities.Accounts;
+﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace ICar.Data.Repositories.Interfaces.Accounts
         Task<List<Company>> GetCompaniesAsync();
         Task<Company> GetCompanyByEmailAsync(string email);
         Task<Company> GetCompanyByCnpjAsync(string cnpj);
-        Task InsertCompany(Company company);
+        Task InsertCompanyAsync(Company company);
+        Task InsertCompanyCityAsync(CompanyCity companyCity);
+        Task InsertCompanyCitiesAsync(List<CompanyCity> companyCities);
     }
 }

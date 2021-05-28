@@ -234,14 +234,14 @@ namespace ICar.Data.Migrations
                     b.Property<int>("TypeOfExchange")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserCpfFk")
+                    b.Property<string>("UserCpf")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Plate");
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("UserCpfFk");
+                    b.HasIndex("UserCpf");
 
                     b.ToTable("UserCars");
                 });
@@ -308,13 +308,13 @@ namespace ICar.Data.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserCpfFk")
+                    b.Property<string>("UserCpf")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserCpfFk");
+                    b.HasIndex("UserCpf");
 
                     b.ToTable("UserLogins");
                 });
@@ -376,13 +376,13 @@ namespace ICar.Data.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("UserCpfFk")
+                    b.Property<string>("UserCpf")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserCpfFk");
+                    b.HasIndex("UserCpf");
 
                     b.ToTable("UserNews");
                 });
@@ -436,7 +436,7 @@ namespace ICar.Data.Migrations
 
                     b.HasOne("ICar.Data.Models.Entities.Accounts.User", "User")
                         .WithMany("UserCars")
-                        .HasForeignKey("UserCpfFk");
+                        .HasForeignKey("UserCpf");
 
                     b.Navigation("City");
 
@@ -473,7 +473,7 @@ namespace ICar.Data.Migrations
                 {
                     b.HasOne("ICar.Data.Models.Entities.Accounts.User", "User")
                         .WithMany("UserLogins")
-                        .HasForeignKey("UserCpfFk")
+                        .HasForeignKey("UserCpf")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -495,7 +495,7 @@ namespace ICar.Data.Migrations
                 {
                     b.HasOne("ICar.Data.Models.Entities.Accounts.User", "PublishedBy")
                         .WithMany("UserNews")
-                        .HasForeignKey("UserCpfFk")
+                        .HasForeignKey("UserCpf")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

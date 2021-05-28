@@ -10,7 +10,7 @@ namespace ICar.Data.Models.Entities.Logins
         public int Id { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public string CompanyCnpjFk { get; set; }
+        public string CompanyCnpj { get; set; }
 
         public Company Company { get; set; }
 

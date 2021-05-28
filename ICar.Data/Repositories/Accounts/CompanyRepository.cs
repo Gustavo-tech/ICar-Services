@@ -1,4 +1,5 @@
-﻿using ICar.Data.Models.Entities.Accounts;
+﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -31,9 +32,21 @@ namespace ICar.Data.Repositories.Accounts
             return await _dbContext.Companies.Where(x => x.Email == email).FirstOrDefaultAsync();
         }
 
-        public async Task InsertCompany(Company company)
+        public async Task InsertCompanyAsync(Company company)
         {
             await _dbContext.Companies.AddAsync(company);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task InsertCompanyCitiesAsync(List<CompanyCity> companyCities)
+        {
+            await _dbContext.CompanyCities.AddRangeAsync(companyCities);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task InsertCompanyCityAsync(CompanyCity companyCity)
+        {
+            await _dbContext.CompanyCities.AddAsync(companyCity);
             await _dbContext.SaveChangesAsync();
         }
     }

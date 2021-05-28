@@ -9,7 +9,7 @@ namespace ICar.Data.Models.Entities.News
     {
 
         [Required(ErrorMessage = "{0} is required")]
-        public string CompanyCnpjFk { get; set; }
+        public string CompanyCnpj { get; set; }
 
         public Company PublishedBy { get; set; }
 

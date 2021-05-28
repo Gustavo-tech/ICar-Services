@@ -10,7 +10,7 @@ namespace ICar.Data.Models.Entities.Logins
         public int Id { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public string UserCpfFk { get; set; }
+        public string UserCpf { get; set; }
 
         public User User { get; set; }
 

@@ -64,7 +64,7 @@ namespace ICar.Data.Models.Abstracts
 
         public int CityId { get; set; }
 
-        [ForeignKey("CarPlateFk")]
+        [ForeignKey("CarPlate")]
         public List<CarImage> CarImages { get; set; }
 
         public int NumberOfViews { get; set; }

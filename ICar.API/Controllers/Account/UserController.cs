@@ -1,4 +1,5 @@
-﻿using ICar.API.Validations;
+﻿using ICar.API.ViewModels;
+using ICar.Data.Models.Entities;
 using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.System;
 using ICar.Data.Repositories.Interfaces.Accounts;
@@ -22,25 +23,27 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateUser([FromBody] User newUser)
+        public async Task<IActionResult> CreateUser([FromBody] NewUserViewModel newUser)
         {
-            User user = await _userRepository.GetUserByCpfAsync(newUser.Cpf);
-
-            if (user == null)
+            try
             {
-                List<InvalidReason> invalidReasons = UserValidator.GetInvalidReasonsForInsert(newUser);
+                User user = await _userRepository.GetUserByCpfAsync(newUser.Cpf);
 
-                if (invalidReasons == null)
+                if (user == null)
                 {
                     try
                     {
-                        await _userRepository.InsertUserAsync(newUser);
+                        User userToInsert = new User(newUser.Cpf, newUser.Name, newUser.Email,
+                            newUser.Password, DateTime.Now, null, new City(newUser.City), "client");
+
+
+                        await _userRepository.InsertUserAsync(userToInsert);
                         return Ok(new
                         {
-                            Cpf = newUser.Cpf,
-                            Name = newUser.Name,
-                            Email = newUser.Email,
-                            City = newUser.City,
+                            CPF = newUser.Cpf,
+                            newUser.Name,
+                            newUser.Email,
+                            newUser.City,
                             Message = "User inserted succesffully"
                         });
                     }
@@ -50,22 +53,20 @@ namespace ICar.API.Controllers
                     }
                 }
                 else
-                    return BadRequest(new
-                    {
-                        Invalids = invalidReasons,
-                        Message = "This user is invalid"
-                    });
-            }
-            else
-            {
-                return Unauthorized(new
                 {
-                    Cpf = newUser.Cpf,
-                    Name = newUser.Name,
-                    Email = newUser.Email,
-                    City = newUser.City,
-                    Message = "This user already exists"
-                });
+                    return Conflict(new
+                    {
+                        CPF = newUser.Cpf,
+                        newUser.Name,
+                        newUser.Email,
+                        newUser.City,
+                        Message = "This user already exists"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                return Problem();
             }
         }
     }

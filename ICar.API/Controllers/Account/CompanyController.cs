@@ -1,4 +1,7 @@
-﻿using ICar.Data.Models.Entities.Accounts;
+﻿using ICar.API.ViewModels;
+using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +17,12 @@ namespace ICar.API.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly ICityRepository _cityRepository;
 
-        public CompanyController(ICompanyRepository companyQueries)
+        public CompanyController(ICompanyRepository companyQueries, ICityRepository cityRepository)
         {
             _companyRepository = companyQueries;
+            _cityRepository = cityRepository;
         }
 
         [HttpGet("companies")]
@@ -44,9 +49,58 @@ namespace ICar.API.Controllers
 
                 return Ok(companiesOutput);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return Problem(e.Message);
+                return Problem();
+            }
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateCompany([FromBody] NewCompanyViewModel newCompany)
+        {
+            try
+            {
+                Company company = await _companyRepository.GetCompanyByCnpjAsync(newCompany.Cnpj);
+
+                if (company == null)
+                {
+                    List<CompanyCity> companyCities = new();
+                    foreach (string city in newCompany.Cities)
+                    {
+                        City cityInDatabase = await _cityRepository.GetCityByNameAsync(city);
+
+                        if (cityInDatabase == null)
+                        {
+                            await _cityRepository.InsertCityAsync(new City(city));
+                        }
+                        else
+                        {
+                            CompanyCity cityObject = new(newCompany.Cnpj, cityInDatabase);
+                            companyCities.Add(cityObject);
+                        }
+                    }
+
+                    Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
+                        newCompany.Password, DateTime.Now, null, companyCities, "client");
+
+                    await _companyRepository.InsertCompanyCitiesAsync(companyCities);
+                    await _companyRepository.InsertCompanyAsync(companyToInsert);
+
+                    return Ok(new
+                    {
+                        newCompany.Cnpj,
+                        newCompany.Email,
+                        newCompany.Name,
+                        newCompany.Cities,
+                    });
+                }
+
+                else
+                    return Problem(detail: "This company already exists");
+            }
+            catch (Exception)
+            {
+                return Problem();
             }
         }
     }

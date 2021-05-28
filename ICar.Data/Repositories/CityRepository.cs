@@ -20,6 +20,11 @@ namespace ICar.Data.Repositories
             return await _dbContext.Cities.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<City> GetCityByNameAsync(string name)
+        {
+            return await _dbContext.Cities.Where(x => x.Name == name).FirstOrDefaultAsync();
+        }
+
         public async Task InsertCityAsync(City city)
         {
             _dbContext.Cities.Add(city);
