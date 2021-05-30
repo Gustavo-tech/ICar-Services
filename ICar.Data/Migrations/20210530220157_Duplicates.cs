@@ -71,10 +71,6 @@ namespace ICar.Infrastructure.Migrations
                 table: "UserLogins");
 
             migrationBuilder.DropIndex(
-                name: "IX_UserCars_CityId",
-                table: "UserCars");
-
-            migrationBuilder.DropIndex(
                 name: "IX_UserCars_CityId1",
                 table: "UserCars");
 
@@ -97,10 +93,6 @@ namespace ICar.Infrastructure.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities");
-
-            migrationBuilder.DropIndex(
-                name: "IX_CompanyCars_CityId",
-                table: "CompanyCars");
 
             migrationBuilder.DropIndex(
                 name: "IX_CompanyCars_CityId1",
@@ -176,27 +168,13 @@ namespace ICar.Infrastructure.Migrations
                 columns: new[] { "CompanyCnpj", "CityId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserCars_CityId",
-                table: "UserCars",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities",
                 column: "CompanyCnpj");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyCars_CityId",
-                table: "CompanyCars",
-                column: "CityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_UserCars_CityId",
-                table: "UserCars");
-
             migrationBuilder.DropPrimaryKey(
                 name: "PK_CompanyCities",
                 table: "CompanyCities");
@@ -204,10 +182,6 @@ namespace ICar.Infrastructure.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities");
-
-            migrationBuilder.DropIndex(
-                name: "IX_CompanyCars_CityId",
-                table: "CompanyCars");
 
             migrationBuilder.AddColumn<int>(
                 name: "CityId1",
@@ -302,12 +276,6 @@ namespace ICar.Infrastructure.Migrations
                 column: "UserCpf1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserCars_CityId",
-                table: "UserCars",
-                column: "CityId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserCars_CityId1",
                 table: "UserCars",
                 column: "CityId1");
@@ -331,12 +299,6 @@ namespace ICar.Infrastructure.Migrations
                 name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities",
                 column: "CompanyCnpj",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyCars_CityId",
-                table: "CompanyCars",
-                column: "CityId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories.Cars
+namespace ICar.Data.Repositories
 {
     public class CompanyCarRepository : ICarRepository<CompanyCar>
     {

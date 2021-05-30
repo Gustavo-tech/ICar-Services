@@ -1,6 +1,7 @@
 ﻿using ICar.API.ViewModels;
 using ICar.Data.Models.Entities;
 using ICar.Data.Models.Entities.Accounts;
+using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +15,12 @@ namespace ICar.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly ICityRepository _cityRepository;
 
-        public UserController(IUserRepository userQueries)
+        public UserController(IUserRepository userQueries, ICityRepository cityRepository)
         {
             _userRepository = userQueries;
+            _cityRepository = cityRepository;
         }
 
         [HttpPost("create")]
@@ -31,10 +34,10 @@ namespace ICar.API.Controllers
                 {
                     try
                     {
-                        User userToInsert = new User(newUser.Cpf, newUser.Name, newUser.Email,
-                            newUser.Password, DateTime.Now, null, new City(newUser.City), "client");
+                        User userToInsert = new(newUser.Cpf, newUser.Name, newUser.Email,
+                            newUser.Password, newUser.City, "client");
 
-
+                        await InsertCityIfNotExist(newUser.City);
                         await _userRepository.InsertUserAsync(userToInsert);
                         return Ok(new
                         {
@@ -65,6 +68,17 @@ namespace ICar.API.Controllers
             catch (Exception)
             {
                 return Problem();
+            }
+        }
+
+        private async Task InsertCityIfNotExist(string cityName)
+        {
+            City city = await _cityRepository.GetCityByNameAsync(cityName);
+
+            if (city == null)
+            {
+                City cityToInsert = new City(cityName);
+                await _cityRepository.InsertCityAsync(cityToInsert);
             }
         }
     }

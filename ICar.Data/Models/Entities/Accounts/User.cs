@@ -2,6 +2,7 @@
 using ICar.Data.Models.Entities.Cars;
 using ICar.Data.Models.Entities.Logins;
 using ICar.Data.Models.Entities.News;
+using System;
 using System.Collections.Generic;
 
 namespace ICar.Data.Models.Entities.Accounts
@@ -17,5 +18,17 @@ namespace ICar.Data.Models.Entities.Accounts
 
         public User()
         { }
+
+        public User(string cpf, string name, string email, 
+            string password, string role, string city)
+        {
+            Cpf = cpf;
+            Name = name;
+            Email = email;
+            Password = password;
+            AccountCreationDate = DateTime.Now;
+            Role = role;
+            City = new City(city);
+        }
     }
 }

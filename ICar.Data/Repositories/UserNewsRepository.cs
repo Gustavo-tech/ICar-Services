@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories.News
+namespace ICar.Data.Repositories
 {
     public class UserNewsRepository : INewsRepository<UserNews>
     {

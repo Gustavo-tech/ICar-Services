@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210530212522_Duplicates")]
+    [Migration("20210530220157_Duplicates")]
     partial class Duplicates
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -189,7 +189,8 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasKey("Plate");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("CityId")
+                        .IsUnique();
 
                     b.HasIndex("CompanyCnpj");
 
@@ -265,7 +266,8 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasKey("Plate");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("CityId")
+                        .IsUnique();
 
                     b.HasIndex("UserCpf");
 
@@ -274,7 +276,7 @@ namespace ICar.Infrastructure.Migrations
 
             modelBuilder.Entity("ICar.Data.Models.Entities.City", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -445,8 +447,8 @@ namespace ICar.Infrastructure.Migrations
             modelBuilder.Entity("ICar.Data.Models.Entities.Cars.CompanyCar", b =>
                 {
                     b.HasOne("ICar.Data.Models.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
+                        .WithOne()
+                        .HasForeignKey("ICar.Data.Models.Entities.Cars.CompanyCar", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -462,8 +464,8 @@ namespace ICar.Infrastructure.Migrations
             modelBuilder.Entity("ICar.Data.Models.Entities.Cars.UserCar", b =>
                 {
                     b.HasOne("ICar.Data.Models.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
+                        .WithOne()
+                        .HasForeignKey("ICar.Data.Models.Entities.Cars.UserCar", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

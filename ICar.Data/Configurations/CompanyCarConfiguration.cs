@@ -78,6 +78,10 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("INT")
                 .IsRequired();
 
+            builder.HasOne(x => x.City)
+                .WithOne()
+                .HasForeignKey<CompanyCar>(x => x.CityId);
+
             builder.HasMany(x => x.CarImages)
                 .WithOne(x => x.CompanyCar);
         }

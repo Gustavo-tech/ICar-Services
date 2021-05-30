@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories.Logins
+namespace ICar.Data.Repositories
 {
     public class CompanyLoginRepository : ILoginRepository<CompanyLogin>
     {
