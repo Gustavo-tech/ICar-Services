@@ -4,7 +4,6 @@ using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers

@@ -11,16 +11,5 @@ namespace ICar.Data.Models.Entities
 
         public City()
         { }
-
-        public City(string name)
-        {
-            Name = name;
-        }
-
-        public City(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
     }
 }

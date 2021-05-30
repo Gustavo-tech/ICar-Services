@@ -20,19 +20,5 @@ namespace ICar.Data.Models.Entities.Accounts
 
         public Company()
         { }
-
-        public Company(string cnpj, string name, string email,
-            string password, DateTime accountCreationDate, List<CompanyCar> companyCars,
-            List<CompanyCity> cities, string role)
-        {
-            Cnpj = cnpj;
-            Name = name;
-            Email = email;
-            Password = password;
-            AccountCreationDate = accountCreationDate;
-            CompanyCars = companyCars;
-            Cities = cities;
-            Role = role;
-        }
     }
 }

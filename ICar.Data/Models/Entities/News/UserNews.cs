@@ -11,15 +11,5 @@ namespace ICar.Data.Models.Entities.News
 
         public UserNews()
         { }
-
-        public UserNews(string title, string text,
-            DateTime createdOn, DateTime lastUpdate, User publishedBy)
-        {
-            Title = title;
-            Text = text;
-            CreatedOn = createdOn;
-            LastUpdate = lastUpdate;
-            PublishedBy = publishedBy;
-        }
     }
 }

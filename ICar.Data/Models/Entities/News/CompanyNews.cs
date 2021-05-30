@@ -10,15 +10,5 @@ namespace ICar.Data.Models.Entities.News
 
         public CompanyNews()
         { }
-
-        public CompanyNews(string title, string text,
-            DateTime createdOn, DateTime lastUpdate, Company publishedBy)
-        {
-            Title = title;
-            Text = text;
-            CreatedOn = createdOn;
-            LastUpdate = lastUpdate;
-            PublishedBy = publishedBy;
-        }
     }
 }

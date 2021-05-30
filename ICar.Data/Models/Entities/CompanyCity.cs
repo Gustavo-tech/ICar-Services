@@ -14,13 +14,5 @@ namespace ICar.Infrastructure.Models.Entities
 
         public CompanyCity()
         { }
-
-        public CompanyCity(string companyCnpj, Company company, int cityId, City city)
-        {
-            CompanyCnpj = companyCnpj;
-            Company = company;
-            CityId = cityId;
-            City = city;
-        }
     }
 }

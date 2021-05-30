@@ -20,19 +20,5 @@ namespace ICar.Data.Models.Entities.Accounts
 
         public User()
         { }
-
-        public User(string cpf, string name, string email,
-            string password, DateTime accountCreationDate, List<UserCar> userCars,
-            City city, string role)
-        {
-            Cpf = cpf;
-            Name = name;
-            Email = email;
-            Password = password;
-            AccountCreationDate = accountCreationDate;
-            UserCars = userCars;
-            City = city;
-            Role = role;
-        }
     }
 }
