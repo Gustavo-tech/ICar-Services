@@ -8,7 +8,7 @@ namespace ICar.API.ViewModels
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(18, MinimumLength = 18, ErrorMessage = "A CNPJ should contain 18 characters")]
         public string Cnpj { get; }
-        
+
         [Required(ErrorMessage = "{0} is required")]
         public string Name { get; }
 

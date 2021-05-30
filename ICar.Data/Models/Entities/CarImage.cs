@@ -1,5 +1,4 @@
-﻿using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities.Cars;
+﻿using ICar.Data.Models.Entities.Cars;
 
 namespace ICar.Data.Models.Entities
 {

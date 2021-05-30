@@ -1,6 +1,5 @@
 ﻿using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.Entities.Accounts;
-using System;
 
 namespace ICar.Data.Models.Entities.News
 {

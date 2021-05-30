@@ -1,7 +1,5 @@
 ﻿using ICar.Data.Models.Entities.Accounts;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Logins
 {

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ICar.Data.Models.Entities
+﻿namespace ICar.Data.Models.Entities
 {
     public class City
     {

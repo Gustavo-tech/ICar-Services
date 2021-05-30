@@ -2,10 +2,7 @@
 using ICar.Data.Models.Entities.Cars;
 using ICar.Data.Models.Entities.Logins;
 using ICar.Data.Models.Entities.News;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Accounts
 {

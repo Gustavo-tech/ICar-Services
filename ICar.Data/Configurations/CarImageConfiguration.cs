@@ -1,6 +1,4 @@
-﻿using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Cars;
+﻿using ICar.Data.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

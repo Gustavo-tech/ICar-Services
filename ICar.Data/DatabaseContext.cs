@@ -41,7 +41,7 @@ namespace ICar.Data
             builder.ApplyConfiguration(new UserNewsConfiguration());
             builder.ApplyConfiguration(new UserLoginConfiguration());
 
-            
+
             builder.ApplyConfiguration(new CityConfiguration());
             builder.ApplyConfiguration(new CarImageConfiguration());
         }

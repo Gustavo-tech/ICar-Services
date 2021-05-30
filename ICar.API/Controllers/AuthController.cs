@@ -1,12 +1,8 @@
 ﻿using ICar.API.Auth.Contracts;
-using ICar.API.ViewModels;
-using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.Entities.Logins;
 using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
