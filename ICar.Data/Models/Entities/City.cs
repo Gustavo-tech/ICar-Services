@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities
 {
     public class City
     {
-        [Key]
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "{0} is required")]
         public string Name { get; set; }
+        public string CompanyCnpj { get; set; }
 
         public City()
         { }

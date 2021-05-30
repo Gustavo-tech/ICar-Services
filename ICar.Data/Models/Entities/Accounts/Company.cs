@@ -2,6 +2,7 @@
 using ICar.Data.Models.Entities.Cars;
 using ICar.Data.Models.Entities.Logins;
 using ICar.Data.Models.Entities.News;
+using ICar.Infrastructure.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,21 +10,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Accounts
 {
-    public class Company : Entity
+    public class Company
     {
-        [Key]
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public DateTime AccountCreationDate { get; set; }
+        public string Role { get; set; }
         public string Cnpj { get; set; }
-
-        [ForeignKey("CompanyCnpj")]
         public List<CompanyCar> CompanyCars { get; set; }
-
-        [ForeignKey("CompanyCnpj")]
-        public List<CompanyCity> Cities { get; set; }
-
-        [ForeignKey("CompanyCnpj")]
+        public List<City> Cities { get; set; }
         public List<CompanyLogin> CompanyLogins { get; set; }
-
-        [ForeignKey("CompanyCnpj")]
         public List<CompanyNews> CompanyNews { get; set; }
 
         public Company()
@@ -31,7 +28,7 @@ namespace ICar.Data.Models.Entities.Accounts
 
         public Company(string cnpj, string name, string email,
             string password, DateTime accountCreationDate, List<CompanyCar> companyCars,
-            List<CompanyCity> cities, string role)
+            List<City> cities, string role)
         {
             Cnpj = cnpj;
             Name = name;

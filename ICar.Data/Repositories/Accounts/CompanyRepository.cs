@@ -37,17 +37,5 @@ namespace ICar.Data.Repositories.Accounts
             await _dbContext.Companies.AddAsync(company);
             await _dbContext.SaveChangesAsync();
         }
-
-        public async Task InsertCompanyCitiesAsync(List<CompanyCity> companyCities)
-        {
-            await _dbContext.CompanyCities.AddRangeAsync(companyCities);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task InsertCompanyCityAsync(CompanyCity companyCity)
-        {
-            await _dbContext.CompanyCities.AddAsync(companyCity);
-            await _dbContext.SaveChangesAsync();
-        }
     }
 }

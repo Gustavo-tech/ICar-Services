@@ -1,16 +1,17 @@
 ﻿using ICar.Data.Models.Abstracts;
 using ICar.Data.Models.Entities.Accounts;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Data.Models.Entities.News
 {
-    public class CompanyNews : AbstractNews
+    public class CompanyNews
     {
-
-        [Required(ErrorMessage = "{0} is required")]
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime LastUpdate { get; set; }
         public string CompanyCnpj { get; set; }
-
         public Company PublishedBy { get; set; }
 
         public CompanyNews()

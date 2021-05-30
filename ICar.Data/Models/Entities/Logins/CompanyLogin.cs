@@ -6,22 +6,18 @@ namespace ICar.Data.Models.Entities.Logins
 {
     public class CompanyLogin
     {
-        [Key]
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "{0} is required")]
         public string CompanyCnpj { get; set; }
-
         public Company Company { get; set; }
-
-        [DataType(DataType.DateTime)]
         public DateTime Time { get; set; }
 
         public CompanyLogin()
         { }
 
-        public CompanyLogin(Company company, DateTime time)
+        public CompanyLogin(int id, string companyCnpjFk, Company company, DateTime time)
         {
+            Id = id;
+            CompanyCnpj = companyCnpjFk;
             Company = company;
             Time = time;
         }

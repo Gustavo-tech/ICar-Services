@@ -1,20 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ICar.Data.Models.Entities;
+using ICar.Data.Models.Entities.Accounts;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ICar.Data.Models.Entities
+namespace ICar.Infrastructure.Models.Entities
 {
-    public class CompanyCity
+    public sealed class CompanyCity
     {
         public string CompanyCnpj { get; set; }
-
-        [ForeignKey("Id")]
+        public Company Company { get; set; }
+        public int CityId { get; set; }
         public City City { get; set; }
 
         public CompanyCity()
         { }
 
-        public CompanyCity(string companyCnpj, City city)
+        public CompanyCity(string companyCnpj, Company company, int cityId, City city)
         {
             CompanyCnpj = companyCnpj;
+            Company = company;
+            CityId = cityId;
             City = city;
         }
     }

@@ -55,53 +55,48 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateCompany([FromBody] NewCompanyViewModel newCompany)
-        {
-            try
-            {
-                Company company = await _companyRepository.GetCompanyByCnpjAsync(newCompany.Cnpj);
+        //[HttpPost("create")]
+        //public async Task<IActionResult> CreateCompany([FromBody] NewCompanyViewModel newCompany)
+        //{
+        //    try
+        //    {
+        //        Company company = await _companyRepository.GetCompanyByCnpjAsync(newCompany.Cnpj);
 
-                if (company == null)
-                {
-                    List<CompanyCity> companyCities = new();
-                    foreach (string city in newCompany.Cities)
-                    {
-                        City cityInDatabase = await _cityRepository.GetCityByNameAsync(city);
+        //        if (company == null)
+        //        {
+        //            List<CompanyCity> companyCities = new();
+        //            foreach (string city in newCompany.Cities)
+        //            {
+        //                City cityInDatabase = await _cityRepository.GetCityByNameAsync(city);
 
-                        if (cityInDatabase == null)
-                        {
-                            await _cityRepository.InsertCityAsync(new City(city));
-                        }
-                        else
-                        {
-                            CompanyCity cityObject = new(newCompany.Cnpj, cityInDatabase);
-                            companyCities.Add(cityObject);
-                        }
-                    }
+        //                if (cityInDatabase == null)
+        //                {
+        //                    await _cityRepository.InsertCityAsync(new City(city));
+        //                }
+        //            }
 
-                    Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
-                        newCompany.Password, DateTime.Now, null, companyCities, "client");
+        //            Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
+        //                newCompany.Password, DateTime.Now, null, companyCities, "client");
 
-                    await _companyRepository.InsertCompanyCitiesAsync(companyCities);
-                    await _companyRepository.InsertCompanyAsync(companyToInsert);
+        //            await _companyRepository.InsertCompanyCitiesAsync(companyCities);
+        //            await _companyRepository.InsertCompanyAsync(companyToInsert);
 
-                    return Ok(new
-                    {
-                        newCompany.Cnpj,
-                        newCompany.Email,
-                        newCompany.Name,
-                        newCompany.Cities,
-                    });
-                }
+        //            return Ok(new
+        //            {
+        //                newCompany.Cnpj,
+        //                newCompany.Email,
+        //                newCompany.Name,
+        //                newCompany.Cities,
+        //            });
+        //        }
 
-                else
-                    return Problem(detail: "This company already exists");
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
+        //        else
+        //            return Problem(detail: "This company already exists");
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Problem();
+        //    }
+        //}
     }
 }

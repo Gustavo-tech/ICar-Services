@@ -11,7 +11,5 @@ namespace ICar.Data.Repositories.Interfaces.Accounts
         Task<Company> GetCompanyByEmailAsync(string email);
         Task<Company> GetCompanyByCnpjAsync(string cnpj);
         Task InsertCompanyAsync(Company company);
-        Task InsertCompanyCityAsync(CompanyCity companyCity);
-        Task InsertCompanyCitiesAsync(List<CompanyCity> companyCities);
     }
 }

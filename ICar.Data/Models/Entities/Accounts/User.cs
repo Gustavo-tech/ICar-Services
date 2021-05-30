@@ -9,37 +9,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Accounts
 {
-    public class User : Entity
+    public class User
     {
-
-        [Key]
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public DateTime AccountCreationDate { get; set; }
+        public string Role { get; set; }
         public string Cpf { get; set; }
-
-        [ForeignKey("UserCpf")]
         public List<UserCar> UserCars { get; set; }
-
-        [ForeignKey("UserCpf")]
         public List<UserLogin> UserLogins { get; set; }
-
-        [ForeignKey("UserCpf")]
         public List<UserNews> UserNews { get; set; }
-
-        [ForeignKey("CityId")]
-        public City City { get; set; }
-
         public int CityId { get; set; }
+        public City City { get; set; }
 
         public User()
         { }
-
-        public User(string cpf, string name, string email, string password, string city)
-        {
-            Cpf = cpf;
-            Name = name;
-            Email = email;
-            Password = password;
-            City = new(city);
-        }
 
         public User(string cpf, string name, string email,
             string password, DateTime accountCreationDate, List<UserCar> userCars,
