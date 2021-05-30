@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210530195944_Initial")]
+    [Migration("20210530203923_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -497,24 +497,20 @@ namespace ICar.Infrastructure.Migrations
             modelBuilder.Entity("ICar.Data.Models.Entities.CarImage", b =>
                 {
                     b.HasOne("ICar.Data.Models.Entities.Cars.CompanyCar", null)
-                        .WithMany("CarImages")
+                        .WithMany()
                         .HasForeignKey("CarPlate");
 
                     b.HasOne("ICar.Data.Models.Entities.Cars.UserCar", null)
-                        .WithMany("CarImages")
+                        .WithMany()
                         .HasForeignKey("CarPlate");
 
-                    b.HasOne("ICar.Data.Models.Entities.Cars.CompanyCar", "CompanyCar")
-                        .WithMany()
+                    b.HasOne("ICar.Data.Models.Entities.Cars.CompanyCar", null)
+                        .WithMany("CarImages")
                         .HasForeignKey("CompanyCarPlate");
 
-                    b.HasOne("ICar.Data.Models.Entities.Cars.UserCar", "UserCar")
-                        .WithMany()
+                    b.HasOne("ICar.Data.Models.Entities.Cars.UserCar", null)
+                        .WithMany("CarImages")
                         .HasForeignKey("UserCarPlate");
-
-                    b.Navigation("CompanyCar");
-
-                    b.Navigation("UserCar");
                 });
 
             modelBuilder.Entity("ICar.Data.Models.Entities.Cars.CompanyCar", b =>

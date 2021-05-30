@@ -10,16 +10,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICar.Data.Models.Entities.Accounts
 {
-    public class Company
+    public class Company : Entity
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public DateTime AccountCreationDate { get; set; }
-        public string Role { get; set; }
         public string Cnpj { get; set; }
         public List<CompanyCar> CompanyCars { get; set; }
-        public List<City> Cities { get; set; }
+        public List<CompanyCity> Cities { get; set; }
         public List<CompanyLogin> CompanyLogins { get; set; }
         public List<CompanyNews> CompanyNews { get; set; }
 
@@ -28,7 +23,7 @@ namespace ICar.Data.Models.Entities.Accounts
 
         public Company(string cnpj, string name, string email,
             string password, DateTime accountCreationDate, List<CompanyCar> companyCars,
-            List<City> cities, string role)
+            List<CompanyCity> cities, string role)
         {
             Cnpj = cnpj;
             Name = name;

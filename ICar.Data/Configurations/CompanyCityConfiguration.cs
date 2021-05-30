@@ -13,11 +13,12 @@ namespace ICar.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<CompanyCity> builder)
         {
-            builder.HasKey(x => new { x.CityId, x.CompanyCnpj });
+            builder.HasKey(x => new { x.CompanyCnpj, x.CityId });
+            builder.HasIndex(x => x.CompanyCnpj);
+            builder.HasIndex(x => x.CityId);
 
             builder.HasOne(x => x.Company)
-                .WithOne()
-                .HasForeignKey<CompanyCity>(x => x.CompanyCnpj);
+                .WithMany(x => x.Cities);
 
             builder.HasOne(x => x.City)
                 .WithOne()

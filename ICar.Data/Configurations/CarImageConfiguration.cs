@@ -22,14 +22,6 @@ namespace ICar.Infrastructure.Configurations
             builder.Property(x => x.ImageStream)
                 .IsRequired()
                 .HasColumnType("NVARCHAR");
-
-            builder.HasOne<UserCar>()
-                .WithMany(x => x.CarImages)
-                .HasForeignKey(x => x.CarPlate);
-
-            builder.HasOne<CompanyCar>()
-                .WithMany(x => x.CarImages)
-                .HasForeignKey(x => x.CarPlate);
         }
     }
 }

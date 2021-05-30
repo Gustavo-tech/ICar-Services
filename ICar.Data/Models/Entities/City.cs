@@ -8,7 +8,6 @@ namespace ICar.Data.Models.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string CompanyCnpj { get; set; }
 
         public City()
         { }

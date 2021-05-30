@@ -4,14 +4,8 @@ using System;
 
 namespace ICar.Data.Models.Entities.News
 {
-    public class CompanyNews
+    public class CompanyNews : AbstractNews
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime LastUpdate { get; set; }
-        public string CompanyCnpj { get; set; }
         public Company PublishedBy { get; set; }
 
         public CompanyNews()

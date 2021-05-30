@@ -45,21 +45,14 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(30);
 
-            builder.HasMany<City>()
-                .WithOne()
-                .HasForeignKey(x => x.CompanyCnpj);
+            builder.HasMany(x => x.CompanyCars)
+                .WithOne(x => x.Company);
 
-            builder.HasMany<CompanyCar>()
-                .WithOne(x => x.Company)
-                .HasForeignKey(x => x.CompanyCnpj);
+            builder.HasMany(x => x.CompanyNews)
+                .WithOne(x => x.PublishedBy);
 
-            builder.HasMany<CompanyNews>()
-                .WithOne(x => x.PublishedBy)
-                .HasForeignKey(x => x.CompanyCnpj);
-
-            builder.HasMany<CompanyLogin>()
-                .WithOne(x => x.Company)
-                .HasForeignKey(x => x.CompanyCnpj);
+            builder.HasMany(x => x.CompanyLogins)
+                .WithOne(x => x.Company);
         }
     }
 }

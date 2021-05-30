@@ -35,10 +35,6 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("NVARCHAR")
                 .IsRequired()
                 .HasMaxLength(20);
-
-            builder.HasOne<User>()
-                .WithMany(x => x.UserNews)
-                .HasForeignKey(x => x.UserCpf);
         }
     }
 }

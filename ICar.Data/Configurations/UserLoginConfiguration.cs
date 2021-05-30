@@ -21,10 +21,6 @@ namespace ICar.Infrastructure.Configurations
             builder.Property(x => x.Time)
                 .HasColumnType("DATETIME")
                 .IsRequired();
-
-            builder.HasOne<User>()
-                .WithMany(x => x.UserLogins)
-                .HasForeignKey(x => x.UserCpf);
         }
     }
 }

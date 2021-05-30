@@ -1,11 +1,14 @@
 ﻿using ICar.Data.Models.Entities;
 using ICar.Data.Models.Enums.Car;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Data.Models.Abstracts
 {
     public abstract class AbstractCar
     {
+        [Key]
+        public string Plate { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
         public int MakeDate { get; set; }
@@ -24,5 +27,8 @@ namespace ICar.Data.Models.Abstracts
         public City City { get; set; }
         public List<CarImage> CarImages { get; set; }
         public int NumberOfViews { get; set; }
+
+        public AbstractCar()
+        { }
     }
 }

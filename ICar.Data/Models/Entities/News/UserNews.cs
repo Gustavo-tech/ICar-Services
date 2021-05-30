@@ -5,14 +5,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Data.Models.Entities.News
 {
-    public class UserNews
+    public class UserNews : AbstractNews
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime LastUpdate { get; set; }
-        public string UserCpf { get; set; }
         public User PublishedBy { get; set; }
 
         public UserNews()

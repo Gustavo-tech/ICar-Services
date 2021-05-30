@@ -1,5 +1,4 @@
 ﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.Entities.Cars;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -80,15 +79,8 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("INT")
                 .IsRequired();
 
-            builder.HasOne<City>()
-                .WithOne()
-                .HasForeignKey<CompanyCar>(x => x.CityId);
-
-            builder.HasOne<Company>()
-                .WithMany(x => x.CompanyCars).HasForeignKey(x => x.CompanyCnpj);
-
-            builder.HasMany<CarImage>()
-                .WithOne(x => x.CompanyCar).HasForeignKey(x => x.CarPlate);
+            builder.HasMany(x => x.CarImages)
+                .WithOne(x => x.CompanyCar);
         }
     }
 }

@@ -83,12 +83,12 @@ namespace ICar.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyCnpj = table.Column<string>(type: "CHAR(18)", nullable: true),
+                    PublishedByCnpj = table.Column<string>(type: "CHAR(18)", nullable: true),
                     Title = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    CompanyCnpj = table.Column<string>(type: "CHAR(18)", nullable: true),
-                    PublishedByCnpj = table.Column<string>(type: "CHAR(18)", nullable: true)
+                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,6 +112,8 @@ namespace ICar.Infrastructure.Migrations
                 columns: table => new
                 {
                     Plate = table.Column<string>(type: "Char(8)", nullable: false),
+                    CompanyCnpj = table.Column<string>(type: "CHAR(18)", nullable: true),
+                    CompanyCnpj1 = table.Column<string>(type: "CHAR(18)", nullable: true),
                     Maker = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     Model = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     MakeDate = table.Column<int>(type: "INT", nullable: false),
@@ -128,9 +130,7 @@ namespace ICar.Infrastructure.Migrations
                     GasolineType = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     CityId = table.Column<int>(type: "INT", nullable: false),
                     CityId1 = table.Column<int>(type: "INT", nullable: true),
-                    NumberOfViews = table.Column<int>(type: "INT", nullable: false),
-                    CompanyCnpj = table.Column<string>(type: "CHAR(18)", nullable: true),
-                    CompanyCnpj1 = table.Column<string>(type: "CHAR(18)", nullable: true)
+                    NumberOfViews = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,13 +190,13 @@ namespace ICar.Infrastructure.Migrations
                 columns: table => new
                 {
                     Cpf = table.Column<string>(type: "CHAR(14)", maxLength: 14, nullable: false),
+                    CityId = table.Column<int>(type: "INT", nullable: false),
+                    CityId1 = table.Column<int>(type: "INT", nullable: true),
                     Name = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     Email = table.Column<string>(type: "NVARCHAR(320)", maxLength: 320, nullable: false),
                     Password = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     AccountCreationDate = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    Role = table.Column<string>(type: "NVARCHAR(30)", maxLength: 30, nullable: false),
-                    CityId = table.Column<int>(type: "INT", nullable: false),
-                    CityId1 = table.Column<int>(type: "INT", nullable: true)
+                    Role = table.Column<string>(type: "NVARCHAR(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -220,6 +220,8 @@ namespace ICar.Infrastructure.Migrations
                 columns: table => new
                 {
                     Plate = table.Column<string>(type: "Char(8)", nullable: false),
+                    UserCpf = table.Column<string>(type: "CHAR(14)", nullable: true),
+                    UserCpf1 = table.Column<string>(type: "CHAR(14)", nullable: true),
                     Maker = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     Model = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     MakeDate = table.Column<int>(type: "INT", nullable: false),
@@ -236,9 +238,7 @@ namespace ICar.Infrastructure.Migrations
                     GasolineType = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     CityId = table.Column<int>(type: "INT", nullable: false),
                     CityId1 = table.Column<int>(type: "INT", nullable: true),
-                    NumberOfViews = table.Column<int>(type: "INT", nullable: false),
-                    UserCpf = table.Column<string>(type: "CHAR(14)", nullable: true),
-                    UserCpf1 = table.Column<string>(type: "CHAR(14)", nullable: true)
+                    NumberOfViews = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -302,12 +302,12 @@ namespace ICar.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserCpf = table.Column<string>(type: "CHAR(14)", nullable: true),
+                    PublishedByCpf = table.Column<string>(type: "CHAR(14)", nullable: true),
                     Title = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    UserCpf = table.Column<string>(type: "CHAR(14)", nullable: true),
-                    PublishedByCpf = table.Column<string>(type: "CHAR(14)", nullable: true)
+                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -334,8 +334,8 @@ namespace ICar.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImageStream = table.Column<string>(type: "NVARCHAR", nullable: false),
                     CarPlate = table.Column<string>(type: "Char(8)", nullable: true),
-                    UserCarPlate = table.Column<string>(type: "Char(8)", nullable: true),
-                    CompanyCarPlate = table.Column<string>(type: "Char(8)", nullable: true)
+                    CompanyCarPlate = table.Column<string>(type: "Char(8)", nullable: true),
+                    UserCarPlate = table.Column<string>(type: "Char(8)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,12 +1,6 @@
-﻿using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Models.Entities.News;
+﻿using ICar.Data.Models.Entities.News;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Configurations
 {
@@ -40,10 +34,6 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("NVARCHAR")
                 .IsRequired()
                 .HasMaxLength(20);
-
-            builder.HasOne<Company>()
-                .WithMany(x => x.CompanyNews)
-                .HasForeignKey(x => x.CompanyCnpj);
         }
     }
 }
