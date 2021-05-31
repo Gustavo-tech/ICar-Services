@@ -1,8 +1,11 @@
 ﻿using ICar.API.Auth.Contracts;
+using ICar.API.ViewModels;
+using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.Entities.Logins;
 using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
@@ -64,36 +67,36 @@ namespace ICar.API.Controllers
         //    }
         //}
 
-        //[HttpPost("authenticate/user")]
-        //public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
-        //{
-        //    User user = await _userRepository.GetUserByEmailAsync(login.Email);
+        [HttpPost("authenticate/user")]
+        public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
+        {
+            User user = await _userRepository.GetUserByEmailAsync(login.Email);
 
-        //    if (user != null)
-        //    {
-        //        if (user.Password == login.Password)
-        //        {
-        //            //await _userLoginRepository.AddLogin(new UserLogin(1, );
-        //            dynamic responseObject = new
-        //            {
-        //                User = user.Name,
-        //                Cpf = user.Cpf,
-        //                Email = user.Email,
-        //                Role = user.Role,
-        //                Token = _authService.GenerateToken(user),
-        //            };
+            if (user != null)
+            {
+                if (user.Password == login.Password)
+                {
+                    await _userLoginRepository.AddLogin(new UserLogin(user));
+                    dynamic responseObject = new
+                    {
+                        User = user.Name,
+                        Cpf = user.Cpf,
+                        Email = user.Email,
+                        Role = user.Role,
+                        Token = _authService.GenerateToken(user),
+                    };
 
-        //            return Ok(responseObject);
-        //        }
-        //        else
-        //        {
-        //            return Unauthorized("Identification is wrong");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return NotFound("This user does't exist");
-        //    }
-        //}
+                    return Ok(responseObject);
+                }
+                else
+                {
+                    return Unauthorized("Identification is wrong");
+                }
+            }
+            else
+            {
+                return NotFound("This user does't exist");
+            }
+        }
     }
 }

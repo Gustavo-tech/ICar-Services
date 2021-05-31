@@ -91,7 +91,42 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserViewModel updateUser)
+        {
+            User user = await _userRepository.GetUserByEmailAsync(updateUser.Email);
+
+            if (user != null)
+            {
+                if (user.Password == updateUser.Password)
+                {
+                    try
+                    {
+                        user.Cpf = updateUser.Cpf;
+                        user.Email = updateUser.Email;
+                        user.Name = updateUser.Name;
+                        user.City = await HandleCityInsertion(updateUser.City);
+
+                        await _userRepository.UpdateUserAsync(user);
+                        return Ok();
+                    }
+                    catch (Exception)
+                    {
+                        return Problem();
+                    }
+                }
+                else
+                    return BadRequest();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpDelete("delete")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteUser([FromBody] DeleteUserViewModel deleteUser)
         {
             User user = await _userRepository.GetUserByEmailAsync(deleteUser.Email);
