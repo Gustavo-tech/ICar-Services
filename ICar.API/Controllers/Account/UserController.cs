@@ -35,9 +35,10 @@ namespace ICar.API.Controllers
                     try
                     {
                         User userToInsert = new(newUser.Cpf, newUser.Name, newUser.Email,
-                            newUser.Password, newUser.City, "client");
+                            newUser.Password, "client");
+                        City city = await HandleCityInsertion(newUser.City);
+                        userToInsert.City = city;
 
-                        await InsertCityIfNotExist(newUser.City);
                         await _userRepository.InsertUserAsync(userToInsert);
                         return Ok(new
                         {
@@ -71,15 +72,18 @@ namespace ICar.API.Controllers
             }
         }
 
-        private async Task InsertCityIfNotExist(string cityName)
+        private async Task<City> HandleCityInsertion(string cityName)
         {
             City city = await _cityRepository.GetCityByNameAsync(cityName);
 
             if (city == null)
             {
-                City cityToInsert = new City(cityName);
-                await _cityRepository.InsertCityAsync(cityToInsert);
+                City insertedCity = new(cityName);
+                await _cityRepository.InsertCityAsync(insertedCity);
+                return insertedCity;
             }
+
+            return city;
         }
     }
 }
