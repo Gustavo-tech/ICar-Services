@@ -1,10 +1,14 @@
 ﻿using ICar.API.ViewModels;
+using ICar.API.ViewModels.User;
 using ICar.Data.Models.Entities;
 using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Repositories.Interfaces;
 using ICar.Data.Repositories.Interfaces.Accounts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -21,6 +25,21 @@ namespace ICar.API.Controllers
         {
             _userRepository = userQueries;
             _cityRepository = cityRepository;
+        }
+
+        [HttpGet("all")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        public async Task<IActionResult> GetUsers()
+        {
+            try
+            {
+                List<User> users = await _userRepository.GetUsersAsync();
+                return Ok(User);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
         }
 
         [HttpPost("create")]
@@ -70,6 +89,33 @@ namespace ICar.API.Controllers
             {
                 return Problem();
             }
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserViewModel deleteUser)
+        {
+            User user = await _userRepository.GetUserByEmailAsync(deleteUser.Email);
+
+            if (user != null)
+            {
+                if (user.Password == deleteUser.Password)
+                {
+                    await _userRepository.DeleteUserAsync(user);
+                    return Ok(new
+                    {
+                        Message = "User deleted successfully"
+                    });
+                }
+                else
+                {
+                    return BadRequest(new 
+                    {
+                        Message = "This email or password is wrong"
+                    });
+                }
+            }
+            else
+                return NotFound();
         }
 
         private async Task<City> HandleCityInsertion(string cityName)
