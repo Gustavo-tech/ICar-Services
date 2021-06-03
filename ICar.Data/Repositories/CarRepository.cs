@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories
 {
-    public class CarRepository : ICarRepository<UserCar>
+    public class CarRepository : ICarRepository
     {
         private readonly DatabaseContext _dbContext;
 
@@ -16,24 +16,24 @@ namespace ICar.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<UserCar>> GetAllCarsAsync()
+        public async Task<List<Car>> GetAllCarsAsync()
         {
-            return await _dbContext.UserCars.ToListAsync();
+            return await _dbContext.Cars.ToListAsync();
         }
 
-        public async Task<UserCar> GetCarByPlateAsync(string plate)
+        public async Task<Car> GetCarByPlateAsync(string plate)
         {
-            return await _dbContext.UserCars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
+            return await _dbContext.Cars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
         }
 
-        public async Task<List<UserCar>> GetByIdentificationAsync(string cpf)
+        public async Task<List<Car>> GetByIdentificationAsync(string identification)
         {
-            return await _dbContext.UserCars.Where(x => x.User.Cpf == cpf).ToListAsync();
+            return await _dbContext.Cars.Where(x => x.Discriminator == identification).ToListAsync();
         }
 
         public async Task IncreaseNumberOfViewsAsync(string carPlate)
         {
-            UserCar uc = await _dbContext.UserCars.Where(x => x.Plate == carPlate).FirstOrDefaultAsync();
+            Car uc = await _dbContext.Cars.Where(x => x.Plate == carPlate).FirstOrDefaultAsync();
             uc.NumberOfViews++;
 
             _dbContext.Update(uc);

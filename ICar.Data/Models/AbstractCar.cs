@@ -23,6 +23,7 @@ namespace ICar.Infrastructure.Models
         public TypeOfExchange TypeOfExchange { get; set; }
         public Color Color { get; set; }
         public GasolineType GasolineType { get; set; }
+        public string Discriminator { get; set; }
         public int CityId { get; set; }
         public City City { get; set; }
         public List<CarImage> CarImages { get; set; }

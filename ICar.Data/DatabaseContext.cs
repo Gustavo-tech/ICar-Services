@@ -13,6 +13,7 @@ namespace ICar.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<Car> Cars { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyCity> CompanyCities { get; set; }
         public DbSet<City> Cities { get; set; }

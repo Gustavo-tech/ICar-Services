@@ -176,20 +176,5 @@ namespace ICar.API.Controllers
 
             return city;
         }
-
-        private dynamic[] GenerateUserLoginOutput(List<Login> userLogins)
-        {
-            dynamic[] output = new dynamic[userLogins.Count];
-
-            for (int i = 0; i < userLogins.Count; i++)
-            {
-                output[i] = new
-                {
-                    userLogins[i].Time
-                };
-            }
-
-            return output;
-        }
     }
 }
