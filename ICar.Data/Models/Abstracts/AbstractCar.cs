@@ -1,9 +1,9 @@
-﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.Enums.Car;
+﻿using ICar.Infrastructure.Models.Entities;
+using ICar.Infrastructure.Models.Enums.Car;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ICar.Data.Models.Abstracts
+namespace ICar.Infrastructure.Models.Abstracts
 {
     public abstract class AbstractCar
     {

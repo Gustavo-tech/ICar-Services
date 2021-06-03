@@ -1,7 +1,6 @@
 ﻿using ICar.API.ViewModels;
 using ICar.API.ViewModels.User;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Accounts;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +21,7 @@ namespace ICar.API.Controllers
         private readonly IBaseRepository _baseRepository;
 
         public UserController(
-            IUserRepository userQueries, 
+            IUserRepository userQueries,
             ICityRepository cityRepository,
             IBaseRepository baseRepository
             )
@@ -148,7 +147,7 @@ namespace ICar.API.Controllers
                 }
                 else
                 {
-                    return BadRequest(new 
+                    return BadRequest(new
                     {
                         Message = "This email or password is wrong"
                     });

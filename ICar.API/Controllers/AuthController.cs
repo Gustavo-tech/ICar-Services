@@ -1,7 +1,6 @@
 ﻿using ICar.API.Auth.Contracts;
 using ICar.API.ViewModels;
-using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Models.Entities.Logins;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -14,25 +13,19 @@ namespace ICar.API.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ICompanyRepository _companyRepository;
-        private readonly ILoginRepository<CompanyLogin> _companyLoginRepository;
         private readonly IUserRepository _userRepository;
-        private readonly ILoginRepository<UserLogin> _userLoginRepository;
         private readonly IBaseRepository _baseRepository;
 
         public AuthController(
             IAuthService authService,
             ICompanyRepository companyQueries,
-            ILoginRepository<CompanyLogin> companyLoginRepo,
             IUserRepository userQueries,
-            ILoginRepository<UserLogin> userLoginRepo,
             IBaseRepository baseRepository
             )
         {
             _authService = authService;
             _companyRepository = companyQueries;
-            _companyLoginRepository = companyLoginRepo;
             _userRepository = userQueries;
-            _userLoginRepository = userLoginRepo;
             _baseRepository = baseRepository;
         }
 
@@ -82,9 +75,9 @@ namespace ICar.API.Controllers
                     dynamic responseObject = new
                     {
                         User = user.Name,
-                        Cpf = user.Cpf,
-                        Email = user.Email,
-                        Role = user.Role,
+                        user.Cpf,
+                        user.Email,
+                        user.Role,
                         Token = _authService.GenerateToken(user),
                     };
 

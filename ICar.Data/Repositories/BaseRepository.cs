@@ -1,5 +1,4 @@
-﻿using ICar.Data;
-using ICar.Infrastructure.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories

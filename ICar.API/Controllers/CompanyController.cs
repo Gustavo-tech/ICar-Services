@@ -1,7 +1,5 @@
 ﻿using ICar.API.ViewModels;
-using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Accounts;
-using ICar.Infrastructure.Models.Entities;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +20,7 @@ namespace ICar.API.Controllers
         private readonly IBaseRepository _baseRepository;
 
         public CompanyController(
-            ICompanyRepository companyQueries, 
+            ICompanyRepository companyQueries,
             ICityRepository cityRepository,
             ICompanyCityRepository companyCityRepository,
             IBaseRepository baseRepository
@@ -76,6 +74,8 @@ namespace ICar.API.Controllers
                     List<City> companyCities = await HandleCitiesInsertionAsync(newCompany.Cnpj, newCompany.Cities);
                     Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
                         newCompany.Password, companyCities, "client");
+
+                    await _baseRepository.AddAsync(companyToInsert);
 
                     return Ok(new
                     {

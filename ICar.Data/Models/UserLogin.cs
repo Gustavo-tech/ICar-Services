@@ -1,7 +1,6 @@
-﻿using ICar.Data.Models.Entities.Accounts;
-using System;
+﻿using System;
 
-namespace ICar.Data.Models.Entities.Logins
+namespace ICar.Infrastructure.Models
 {
     public class UserLogin
     {

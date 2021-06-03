@@ -1,11 +1,8 @@
-﻿using ICar.Data;
-using ICar.Infrastructure.Models.Entities;
+﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories

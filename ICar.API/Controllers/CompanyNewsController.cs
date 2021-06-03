@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Entities.News;
+﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

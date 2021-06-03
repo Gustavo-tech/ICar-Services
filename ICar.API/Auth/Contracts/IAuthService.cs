@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Abstracts;
+﻿using ICar.Infrastructure.Models.Abstracts;
 
 namespace ICar.API.Auth.Contracts
 {

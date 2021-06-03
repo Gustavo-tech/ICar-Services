@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Converter;
-using ICar.Data.Models.Entities.Cars;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;

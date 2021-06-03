@@ -1,7 +1,6 @@
-﻿using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities.Accounts;
+﻿using ICar.Infrastructure.Models.Abstracts;
 
-namespace ICar.Data.Models.Entities.News
+namespace ICar.Infrastructure.Models
 {
     public class UserNews : AbstractNews
     {

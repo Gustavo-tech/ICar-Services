@@ -1,10 +1,10 @@
-﻿using ICar.Data.Models.Entities;
+﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories
+namespace ICar.Infrastructure.Repositories
 {
     public class CityRepository : ICityRepository
     {

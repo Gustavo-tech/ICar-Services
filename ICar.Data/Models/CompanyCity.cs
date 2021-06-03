@@ -1,7 +1,4 @@
-﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Accounts;
-
-namespace ICar.Infrastructure.Models.Entities
+﻿namespace ICar.Infrastructure.Models
 {
     public sealed class CompanyCity
     {

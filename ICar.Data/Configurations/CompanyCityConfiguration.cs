@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Models.Entities;
+﻿using ICar.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

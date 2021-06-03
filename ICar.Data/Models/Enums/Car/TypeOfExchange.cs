@@ -1,4 +1,4 @@
-﻿namespace ICar.Data.Models.Enums.Car
+﻿namespace ICar.Infrastructure.Models.Enums.Car
 {
     public enum TypeOfExchange
     {

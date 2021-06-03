@@ -15,10 +15,6 @@ namespace ICar.Infrastructure.Migrations
                 table: "CarImages");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Cities_Companies_CompanyCnpj",
-                table: "Cities");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Cities_Companies_CompanyCnpj1",
                 table: "Cities");
 
@@ -91,20 +87,12 @@ namespace ICar.Infrastructure.Migrations
                 table: "CompanyCities");
 
             migrationBuilder.DropIndex(
-                name: "IX_CompanyCities_CompanyCnpj",
-                table: "CompanyCities");
-
-            migrationBuilder.DropIndex(
                 name: "IX_CompanyCars_CityId1",
                 table: "CompanyCars");
 
             migrationBuilder.DropIndex(
                 name: "IX_CompanyCars_CompanyCnpj1",
                 table: "CompanyCars");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Cities_CompanyCnpj",
-                table: "Cities");
 
             migrationBuilder.DropIndex(
                 name: "IX_Cities_CompanyCnpj1",
@@ -151,10 +139,6 @@ namespace ICar.Infrastructure.Migrations
                 table: "CompanyCars");
 
             migrationBuilder.DropColumn(
-                name: "CompanyCnpj",
-                table: "Cities");
-
-            migrationBuilder.DropColumn(
                 name: "CompanyCnpj1",
                 table: "Cities");
 
@@ -166,21 +150,12 @@ namespace ICar.Infrastructure.Migrations
                 name: "PK_CompanyCities",
                 table: "CompanyCities",
                 columns: new[] { "CompanyCnpj", "CityId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyCities_CompanyCnpj",
-                table: "CompanyCities",
-                column: "CompanyCnpj");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropPrimaryKey(
                 name: "PK_CompanyCities",
-                table: "CompanyCities");
-
-            migrationBuilder.DropIndex(
-                name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities");
 
             migrationBuilder.AddColumn<int>(
@@ -234,12 +209,6 @@ namespace ICar.Infrastructure.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "CompanyCnpj1",
                 table: "CompanyCars",
-                type: "CHAR(18)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "CompanyCnpj",
-                table: "Cities",
                 type: "CHAR(18)",
                 nullable: true);
 
@@ -296,12 +265,6 @@ namespace ICar.Infrastructure.Migrations
                 column: "CompanyCnpj1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CompanyCities_CompanyCnpj",
-                table: "CompanyCities",
-                column: "CompanyCnpj",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CompanyCars_CityId1",
                 table: "CompanyCars",
                 column: "CityId1");
@@ -310,11 +273,6 @@ namespace ICar.Infrastructure.Migrations
                 name: "IX_CompanyCars_CompanyCnpj1",
                 table: "CompanyCars",
                 column: "CompanyCnpj1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_CompanyCnpj",
-                table: "Cities",
-                column: "CompanyCnpj");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CompanyCnpj1",
@@ -340,14 +298,6 @@ namespace ICar.Infrastructure.Migrations
                 column: "CarPlate",
                 principalTable: "UserCars",
                 principalColumn: "Plate",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Cities_Companies_CompanyCnpj",
-                table: "Cities",
-                column: "CompanyCnpj",
-                principalTable: "Companies",
-                principalColumn: "Cnpj",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(

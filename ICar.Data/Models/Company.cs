@@ -1,11 +1,8 @@
-﻿using ICar.Data.Models.Abstracts;
-using ICar.Data.Models.Entities.Cars;
-using ICar.Data.Models.Entities.Logins;
-using ICar.Data.Models.Entities.News;
+﻿using ICar.Infrastructure.Models.Abstracts;
 using System;
 using System.Collections.Generic;
 
-namespace ICar.Data.Models.Entities.Accounts
+namespace ICar.Infrastructure.Models
 {
     public class Company : Entity
     {

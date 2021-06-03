@@ -1,11 +1,10 @@
-﻿using ICar.Data.Models.Entities.News;
+﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories
+namespace ICar.Infrastructure.Repositories
 {
     public class CompanyNewsRepository : INewsRepository<CompanyNews>
     {

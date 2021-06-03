@@ -1,6 +1,4 @@
-﻿using ICar.Data.Models.Entities.Cars;
-
-namespace ICar.Data.Models.Entities
+﻿namespace ICar.Infrastructure.Models.Entities
 {
     public class CarImage
     {

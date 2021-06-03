@@ -1,5 +1,4 @@
-﻿using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Models.Entities.Logins;
+﻿using ICar.Infrastructure.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

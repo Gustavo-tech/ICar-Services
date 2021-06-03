@@ -26,7 +26,7 @@ namespace ICar.API.ViewModels
         [Required(ErrorMessage = "{0} is required")]
         public List<string> Cities { get; }
 
-        public NewCompanyViewModel(string cnpj, string name, string email, 
+        public NewCompanyViewModel(string cnpj, string name, string email,
             string password, List<string> cities)
         {
             Cnpj = cnpj;

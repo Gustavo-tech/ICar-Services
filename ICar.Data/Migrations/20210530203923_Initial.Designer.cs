@@ -21,7 +21,7 @@ namespace ICar.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Accounts.Company", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Company", b =>
                 {
                     b.Property<string>("Cnpj")
                         .HasColumnType("CHAR(18)");
@@ -54,7 +54,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Accounts.User", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>
                 {
                     b.Property<string>("Cpf")
                         .HasMaxLength(14)
@@ -99,7 +99,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.CarImage", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Entities.CarImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,7 +130,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("CarImages");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Cars.CompanyCar", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCar", b =>
                 {
                     b.Property<string>("Plate")
                         .HasColumnType("Char(8)");
@@ -217,7 +217,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("CompanyCars");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Cars.UserCar", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserCar", b =>
                 {
                     b.Property<string>("Plate")
                         .HasColumnType("Char(8)");
@@ -304,7 +304,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("UserCars");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.City", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Entities.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -334,7 +334,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Logins.CompanyLogin", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyLogin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -359,7 +359,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("CompanyLogins");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Logins.UserLogin", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserLogin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -384,7 +384,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("UserLogins");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.News.CompanyNews", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyNews", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -422,7 +422,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("CompanyNews");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.News.UserNews", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserNews", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -460,7 +460,7 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("UserNews");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Models.Entities.CompanyCity", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
                     b.Property<int>("CityId")
                         .HasColumnType("INT");
@@ -479,57 +479,57 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("CompanyCities");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Accounts.User", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.City", null)
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", null)
                         .WithOne()
-                        .HasForeignKey("ICar.Data.Models.Entities.Accounts.User", "CityId")
+                        .HasForeignKey("ICar.Infrastructure.Models.User", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ICar.Data.Models.Entities.City", "City")
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId1");
 
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.CarImage", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Entities.CarImage", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.Cars.CompanyCar", null)
+                    b.HasOne("ICar.Infrastructure.Models.CompanyCar", null)
                         .WithMany()
                         .HasForeignKey("CarPlate");
 
-                    b.HasOne("ICar.Data.Models.Entities.Cars.UserCar", null)
+                    b.HasOne("ICar.Infrastructure.Models.UserCar", null)
                         .WithMany()
                         .HasForeignKey("CarPlate");
 
-                    b.HasOne("ICar.Data.Models.Entities.Cars.CompanyCar", null)
+                    b.HasOne("ICar.Infrastructure.Models.CompanyCar", null)
                         .WithMany("CarImages")
                         .HasForeignKey("CompanyCarPlate");
 
-                    b.HasOne("ICar.Data.Models.Entities.Cars.UserCar", null)
+                    b.HasOne("ICar.Infrastructure.Models.UserCar", null)
                         .WithMany("CarImages")
                         .HasForeignKey("UserCarPlate");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Cars.CompanyCar", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCar", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.City", null)
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", null)
                         .WithOne()
-                        .HasForeignKey("ICar.Data.Models.Entities.Cars.CompanyCar", "CityId")
+                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCar", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ICar.Data.Models.Entities.City", "City")
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId1");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", null)
+                    b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("CompanyCars")
                         .HasForeignKey("CompanyCnpj");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", "Company")
+                    b.HasOne("ICar.Infrastructure.Models.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyCnpj1");
 
@@ -538,23 +538,23 @@ namespace ICar.Infrastructure.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Cars.UserCar", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserCar", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.City", null)
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", null)
                         .WithOne()
-                        .HasForeignKey("ICar.Data.Models.Entities.Cars.UserCar", "CityId")
+                        .HasForeignKey("ICar.Infrastructure.Models.UserCar", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ICar.Data.Models.Entities.City", "City")
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId1");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("UserCars")
                         .HasForeignKey("UserCpf");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.User", "User")
+                    b.HasOne("ICar.Infrastructure.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserCpf1");
 
@@ -563,80 +563,80 @@ namespace ICar.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.City", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Entities.City", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", null)
+                    b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany()
                         .HasForeignKey("CompanyCnpj");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", null)
+                    b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("Cities")
                         .HasForeignKey("CompanyCnpj1");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Logins.CompanyLogin", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyLogin", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", null)
+                    b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("CompanyLogins")
                         .HasForeignKey("CompanyCnpj");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", "Company")
+                    b.HasOne("ICar.Infrastructure.Models.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyCnpj1");
 
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Logins.UserLogin", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserLogin", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("UserLogins")
                         .HasForeignKey("UserCpf");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.User", "User")
+                    b.HasOne("ICar.Infrastructure.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserCpf1");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.News.CompanyNews", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyNews", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", null)
+                    b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("CompanyNews")
                         .HasForeignKey("CompanyCnpj");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", "PublishedBy")
+                    b.HasOne("ICar.Infrastructure.Models.Company", "PublishedBy")
                         .WithMany()
                         .HasForeignKey("PublishedByCnpj");
 
                     b.Navigation("PublishedBy");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.News.UserNews", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserNews", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.User", "PublishedBy")
+                    b.HasOne("ICar.Infrastructure.Models.User", "PublishedBy")
                         .WithMany()
                         .HasForeignKey("PublishedByCpf");
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("UserNews")
                         .HasForeignKey("UserCpf");
 
                     b.Navigation("PublishedBy");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Models.Entities.CompanyCity", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
-                    b.HasOne("ICar.Data.Models.Entities.City", "City")
+                    b.HasOne("ICar.Infrastructure.Models.Entities.City", "City")
                         .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.Entities.CompanyCity", "CityId")
+                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ICar.Data.Models.Entities.Accounts.Company", "Company")
+                    b.HasOne("ICar.Infrastructure.Models.Company", "Company")
                         .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.Entities.CompanyCity", "CompanyCnpj")
+                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CompanyCnpj")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -645,7 +645,7 @@ namespace ICar.Infrastructure.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Accounts.Company", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Company", b =>
                 {
                     b.Navigation("Cities");
 
@@ -656,7 +656,7 @@ namespace ICar.Infrastructure.Migrations
                     b.Navigation("CompanyNews");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Accounts.User", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>
                 {
                     b.Navigation("UserCars");
 
@@ -665,12 +665,12 @@ namespace ICar.Infrastructure.Migrations
                     b.Navigation("UserNews");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Cars.CompanyCar", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCar", b =>
                 {
                     b.Navigation("CarImages");
                 });
 
-            modelBuilder.Entity("ICar.Data.Models.Entities.Cars.UserCar", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.UserCar", b =>
                 {
                     b.Navigation("CarImages");
                 });

@@ -1,10 +1,10 @@
-﻿using ICar.Data.Models.Entities.Logins;
+﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories
+namespace ICar.Infrastructure.Repositories
 {
     public class UserLoginRepository : ILoginRepository<UserLogin>
     {
