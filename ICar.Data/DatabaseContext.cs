@@ -1,13 +1,9 @@
-﻿using ICar.Data.Models.Entities;
-using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Models.Entities.Cars;
-using ICar.Data.Models.Entities.Logins;
-using ICar.Data.Models.Entities.News;
-using ICar.Infrastructure.Configurations;
+﻿using ICar.Infrastructure.Configurations;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ICar.Data
+namespace ICar.Infrastructure
 {
     public class DatabaseContext : DbContext
     {

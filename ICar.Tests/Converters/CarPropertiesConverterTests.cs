@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Converter;
-using ICar.Data.Models.Enums.Car;
+using ICar.Infrastructure.Models.Enums.Car;
 using NUnit.Framework;
 
 namespace ICar.Tests.Converters

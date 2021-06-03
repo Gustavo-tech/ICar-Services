@@ -7,6 +7,7 @@ namespace ICar.API.ViewModels
     {
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(18, MinimumLength = 18, ErrorMessage = "A CNPJ should contain 18 characters")]
+        [RegularExpression("[0-9]{2}[.][0-9]{3}.[0-9]{3}[/][0-9]{4}[-][0-9]{2}")]
         public string Cnpj { get; }
 
         [Required(ErrorMessage = "{0} is required")]
@@ -25,7 +26,8 @@ namespace ICar.API.ViewModels
         [Required(ErrorMessage = "{0} is required")]
         public List<string> Cities { get; }
 
-        public NewCompanyViewModel(string cnpj, string name, string email, string password, List<string> cities)
+        public NewCompanyViewModel(string cnpj, string name, string email,
+            string password, List<string> cities)
         {
             Cnpj = cnpj;
             Name = name;

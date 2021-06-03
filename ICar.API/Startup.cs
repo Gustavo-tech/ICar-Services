@@ -1,15 +1,9 @@
 using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
-using ICar.Data;
-using ICar.Data.Models.Entities.Cars;
-using ICar.Data.Models.Entities.Logins;
-using ICar.Data.Models.Entities.News;
-using ICar.Data.Repositories.Accounts;
-using ICar.Data.Repositories.Cars;
-using ICar.Data.Repositories.Interfaces;
-using ICar.Data.Repositories.Interfaces.Accounts;
-using ICar.Data.Repositories.Logins;
-using ICar.Data.Repositories.News;
+using ICar.Infrastructure;
+using ICar.Infrastructure.Models;
+using ICar.Infrastructure.Repositories;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +27,10 @@ namespace ICar.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options => 
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar.API", Version = "v1" });
@@ -41,17 +38,17 @@ namespace ICar.API
 
             // Dependency injection
             services.AddScoped<IAuthService, JwtService>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-
             services.AddScoped<INewsRepository<UserNews>, UserNewsRepository>();
-            services.AddScoped<INewsRepository<CompanyNews>, CompanyNewsRepository>();
-
             services.AddScoped<ICarRepository<UserCar>, UserCarRepository>();
-            services.AddScoped<ICarRepository<CompanyCar>, CompanyCarRepository>();
-
             services.AddScoped<ILoginRepository<UserLogin>, UserLoginRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<INewsRepository<CompanyNews>, CompanyNewsRepository>();
+            services.AddScoped<ICarRepository<CompanyCar>, CompanyCarRepository>();
             services.AddScoped<ILoginRepository<CompanyLogin>, CompanyLoginRepository>();
+            services.AddScoped<ICompanyCityRepository, CompanyCityRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IBaseRepository, BaseRepository>();
 
             // Entity Framework
             services.AddDbContext<DatabaseContext>(options =>

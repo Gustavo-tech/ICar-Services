@@ -1,5 +1,5 @@
 ﻿using ICar.API.Auth.Contracts;
-using ICar.Data.Models.Abstracts;
+using ICar.Infrastructure.Models.Abstracts;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;

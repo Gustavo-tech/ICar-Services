@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Entities.Accounts;
+﻿using ICar.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -39,6 +39,8 @@ namespace ICar.Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(30);
+
+            builder.Ignore(x => x.Cities);
 
             builder.HasMany(x => x.CompanyCars)
                 .WithOne(x => x.Company);

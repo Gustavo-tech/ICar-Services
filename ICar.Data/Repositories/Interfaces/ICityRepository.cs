@@ -1,12 +1,11 @@
-﻿using ICar.Data.Models.Entities;
+﻿using ICar.Infrastructure.Models;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories.Interfaces
+namespace ICar.Infrastructure.Repositories.Interfaces
 {
     public interface ICityRepository
     {
         Task<City> GetCityByIdAsync(int id);
         Task<City> GetCityByNameAsync(string name);
-        Task InsertCityAsync(City city);
     }
 }

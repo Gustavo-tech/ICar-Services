@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ICar.Data.Models.Abstracts
+namespace ICar.Infrastructure.Models.Abstracts
 {
     public abstract class AbstractNews
     {

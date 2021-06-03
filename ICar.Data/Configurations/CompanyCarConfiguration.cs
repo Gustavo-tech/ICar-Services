@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Entities.Cars;
+﻿using ICar.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -77,6 +77,10 @@ namespace ICar.Infrastructure.Configurations
             builder.Property(x => x.NumberOfViews)
                 .HasColumnType("INT")
                 .IsRequired();
+
+            builder.HasOne(x => x.City)
+                .WithOne()
+                .HasForeignKey<CompanyCar>(x => x.CityId);
 
             builder.HasMany(x => x.CarImages)
                 .WithOne(x => x.CompanyCar);

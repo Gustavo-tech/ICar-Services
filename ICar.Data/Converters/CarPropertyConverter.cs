@@ -1,4 +1,4 @@
-﻿using ICar.Data.Models.Enums.Car;
+﻿using ICar.Infrastructure.Models.Enums.Car;
 using System;
 
 namespace ICar.Data.Converter
