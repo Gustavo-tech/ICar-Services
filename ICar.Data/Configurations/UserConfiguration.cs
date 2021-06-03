@@ -14,8 +14,8 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Cpf);
 
             builder.Property(x => x.Cpf)
-                .HasColumnType("CHAR")
-                .HasMaxLength(14);
+                .HasColumnType("NVARCHAR")
+                .HasMaxLength(18);
 
             builder.Property(x => x.Name)
                 .IsRequired()
