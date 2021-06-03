@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities.Cars;
-using ICar.Data.Repositories.Interfaces;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +31,6 @@ namespace ICar.Data.Repositories
             return await _dbContext.UserCars.Where(x => x.User.Cpf == cpf).ToListAsync();
         }
 
-        public async Task InsertCarAsync(UserCar car)
-        {
-            await _dbContext.UserCars.AddAsync(car);
-            await _dbContext.SaveChangesAsync();
-        }
-
         public async Task IncreaseNumberOfViewsAsync(string carPlate)
         {
             UserCar uc = await _dbContext.UserCars.Where(x => x.Plate == carPlate).FirstOrDefaultAsync();
@@ -44,23 +38,6 @@ namespace ICar.Data.Repositories
 
             _dbContext.Update(uc);
             await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateCarAsync(UserCar car)
-        {
-            _dbContext.UserCars.Update(car);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteCarAsync(string plate)
-        {
-            UserCar uc = await _dbContext.UserCars.Where(x => x.Plate == plate).FirstAsync();
-
-            if (uc != null)
-            {
-                _dbContext.Remove(uc);
-                await _dbContext.SaveChangesAsync();
-            }
         }
     }
 }

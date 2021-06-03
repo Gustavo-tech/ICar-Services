@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Repositories.Interfaces.Accounts;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,12 +29,6 @@ namespace ICar.Data.Repositories
         public async Task<Company> GetCompanyByEmailAsync(string email)
         {
             return await _dbContext.Companies.Where(x => x.Email == email).FirstOrDefaultAsync();
-        }
-
-        public async Task InsertCompanyAsync(Company company)
-        {
-            await _dbContext.Companies.AddAsync(company);
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities.News;
-using ICar.Data.Repositories.Interfaces;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +11,11 @@ namespace ICar.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CompanyNewsController : ControllerBase
+    public class UserNewsController : ControllerBase
     {
-        private readonly INewsRepository<CompanyNews> _repository;
+        private readonly INewsRepository<UserNews> _repository;
 
-        public CompanyNewsController(INewsRepository<CompanyNews> repository)
+        public UserNewsController(INewsRepository<UserNews> repository)
         {
             _repository = repository;
         }
@@ -26,8 +26,8 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<CompanyNews> cn = await _repository.GetNewsAsync();
-                return Ok(cn);
+                List<UserNews> un = await _repository.GetNewsAsync();
+                return Ok(un);
             }
             catch (Exception)
             {

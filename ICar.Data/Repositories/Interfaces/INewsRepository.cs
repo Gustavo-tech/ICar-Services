@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICar.Data.Repositories.Interfaces
+namespace ICar.Infrastructure.Repositories.Interfaces
 {
     public interface INewsRepository<T>
     {
         Task<List<T>> GetNewsAsync();
-        Task InsertNewsAsync(T news);
-        Task UpdateNewsAsync(T news);
-        Task DeleteNewsAsync(int id);
     }
 }

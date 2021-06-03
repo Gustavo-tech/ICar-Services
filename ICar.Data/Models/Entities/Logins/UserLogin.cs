@@ -5,7 +5,7 @@ namespace ICar.Data.Models.Entities.Logins
 {
     public class UserLogin
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string UserCpf { get; set; }
         public User User { get; set; }
         public DateTime Time { get; set; }
@@ -13,12 +13,11 @@ namespace ICar.Data.Models.Entities.Logins
         public UserLogin()
         { }
 
-        public UserLogin(int id, string userCpf, User user, DateTime time)
+        public UserLogin(User user)
         {
-            Id = id;
-            UserCpf = userCpf;
             User = user;
-            Time = time;
+            UserCpf = user.Cpf;
+            Time = DateTime.Now;
         }
     }
 }

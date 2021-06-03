@@ -20,7 +20,7 @@ namespace ICar.Data.Models.Entities.Accounts
         { }
 
         public User(string cpf, string name, string email, 
-            string password, string role, string city)
+            string password, string role)
         {
             Cpf = cpf;
             Name = name;
@@ -28,7 +28,6 @@ namespace ICar.Data.Models.Entities.Accounts
             Password = password;
             AccountCreationDate = DateTime.Now;
             Role = role;
-            City = new City(city);
         }
     }
 }

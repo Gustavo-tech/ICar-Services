@@ -2,8 +2,7 @@
 using ICar.API.ViewModels.User;
 using ICar.Data.Models.Entities;
 using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Repositories.Interfaces;
-using ICar.Data.Repositories.Interfaces.Accounts;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +19,17 @@ namespace ICar.API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly ICityRepository _cityRepository;
+        private readonly IBaseRepository _baseRepository;
 
-        public UserController(IUserRepository userQueries, ICityRepository cityRepository)
+        public UserController(
+            IUserRepository userQueries, 
+            ICityRepository cityRepository,
+            IBaseRepository baseRepository
+            )
         {
             _userRepository = userQueries;
             _cityRepository = cityRepository;
+            _baseRepository = baseRepository;
         }
 
         [HttpGet("all")]
@@ -58,7 +63,7 @@ namespace ICar.API.Controllers
                         City city = await HandleCityInsertion(newUser.City);
                         userToInsert.City = city;
 
-                        await _userRepository.InsertUserAsync(userToInsert);
+                        await _baseRepository.AddAsync(userToInsert);
                         return Ok(new
                         {
                             CPF = newUser.Cpf,
@@ -108,7 +113,7 @@ namespace ICar.API.Controllers
                         user.Name = updateUser.Name;
                         user.City = await HandleCityInsertion(updateUser.City);
 
-                        await _userRepository.UpdateUserAsync(user);
+                        await _baseRepository.UpdateAsync(user);
                         return Ok();
                     }
                     catch (Exception)
@@ -135,7 +140,7 @@ namespace ICar.API.Controllers
             {
                 if (user.Password == deleteUser.Password)
                 {
-                    await _userRepository.DeleteUserAsync(user);
+                    await _baseRepository.DeleteAsync(user);
                     return Ok(new
                     {
                         Message = "User deleted successfully"
@@ -160,7 +165,7 @@ namespace ICar.API.Controllers
             if (city == null)
             {
                 City insertedCity = new(cityName);
-                await _cityRepository.InsertCityAsync(insertedCity);
+                await _baseRepository.AddAsync(insertedCity);
                 return insertedCity;
             }
 

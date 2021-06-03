@@ -1,5 +1,6 @@
 ﻿using ICar.Data.Models.Entities.Accounts;
-using ICar.Data.Repositories.Interfaces.Accounts;
+using ICar.Data.Models.Entities.Logins;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,9 @@ namespace ICar.Data.Repositories
             return await _dbContext.Users.ToListAsync();
         }
 
-        public async Task InsertUserAsync(User user)
+        public async Task<List<UserLogin>> GetUserLoginsAsync(string cpf)
         {
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            return await _dbContext.UserLogins.Where(x => x.UserCpf == cpf).ToListAsync();
         }
     }
 }

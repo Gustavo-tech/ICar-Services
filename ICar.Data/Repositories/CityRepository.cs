@@ -1,5 +1,5 @@
 ﻿using ICar.Data.Models.Entities;
-using ICar.Data.Repositories.Interfaces;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,12 +23,6 @@ namespace ICar.Data.Repositories
         public async Task<City> GetCityByNameAsync(string name)
         {
             return await _dbContext.Cities.Where(x => x.Name == name).FirstOrDefaultAsync();
-        }
-
-        public async Task InsertCityAsync(City city)
-        {
-            _dbContext.Cities.Add(city);
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

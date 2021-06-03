@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories.Interfaces
 {
-    public interface ILoginRepository<T>
+    public interface IBaseRepository
     {
-        Task<List<T>> GetAllLogins();
+        Task AddAsync<T>(T t);
+        Task UpdateAsync<T>(T t);
+        Task DeleteAsync<T>(T t);
     }
 }

@@ -2,8 +2,7 @@
 using ICar.API.ViewModels;
 using ICar.Data.Models.Entities.Accounts;
 using ICar.Data.Models.Entities.Logins;
-using ICar.Data.Repositories.Interfaces;
-using ICar.Data.Repositories.Interfaces.Accounts;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -18,13 +17,15 @@ namespace ICar.API.Controllers
         private readonly ILoginRepository<CompanyLogin> _companyLoginRepository;
         private readonly IUserRepository _userRepository;
         private readonly ILoginRepository<UserLogin> _userLoginRepository;
+        private readonly IBaseRepository _baseRepository;
 
         public AuthController(
             IAuthService authService,
             ICompanyRepository companyQueries,
             ILoginRepository<CompanyLogin> companyLoginRepo,
             IUserRepository userQueries,
-            ILoginRepository<UserLogin> userLoginRepo
+            ILoginRepository<UserLogin> userLoginRepo,
+            IBaseRepository baseRepository
             )
         {
             _authService = authService;
@@ -32,6 +33,7 @@ namespace ICar.API.Controllers
             _companyLoginRepository = companyLoginRepo;
             _userRepository = userQueries;
             _userLoginRepository = userLoginRepo;
+            _baseRepository = baseRepository;
         }
 
         //[HttpPost("authenticate/company")]
@@ -76,7 +78,7 @@ namespace ICar.API.Controllers
             {
                 if (user.Password == login.Password)
                 {
-                    await _userLoginRepository.AddLogin(new UserLogin(user));
+                    await _baseRepository.AddAsync(new UserLogin(user));
                     dynamic responseObject = new
                     {
                         User = user.Name,
