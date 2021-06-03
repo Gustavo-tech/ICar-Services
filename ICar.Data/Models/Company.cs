@@ -7,7 +7,7 @@ namespace ICar.Infrastructure.Models
     public class Company : Entity
     {
         public string Cnpj { get; set; }
-        public List<CompanyCar> CompanyCars { get; set; }
+        public List<Car> CompanyCars { get; set; }
         public List<City> Cities { get; set; }
         public List<CompanyLogin> CompanyLogins { get; set; }
         public List<CompanyNews> CompanyNews { get; set; }

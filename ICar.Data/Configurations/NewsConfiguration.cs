@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ICar.Infrastructure.Configurations
 {
-    public sealed class CompanyNewsConfiguration : IEntityTypeConfiguration<CompanyNews>
+    public sealed class NewsConfiguration : IEntityTypeConfiguration<News>
     {
-        public CompanyNewsConfiguration()
+        public NewsConfiguration()
         { }
 
-        public void Configure(EntityTypeBuilder<CompanyNews> builder)
+        public void Configure(EntityTypeBuilder<News> builder)
         {
             builder.HasKey(x => x.Id);
 

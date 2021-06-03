@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories
 {
-    public class CompanyNewsRepository : INewsRepository<CompanyNews>
+    public class NewsRepository : INewsRepository
     {
         private readonly DatabaseContext _dbContext;
 
-        public CompanyNewsRepository(DatabaseContext dbContext)
+        public NewsRepository(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<List<CompanyNews>> GetNewsAsync()
+        public async Task<List<News>> GetNewsAsync()
         {
-            return await _dbContext.CompanyNews.ToListAsync();
+            return await _dbContext.News.ToListAsync();
         }
     }
 }

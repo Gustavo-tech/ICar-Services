@@ -1,4 +1,5 @@
-﻿using ICar.API.ViewModels;
+﻿using ICar.API.Generators;
+using ICar.API.ViewModels;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -43,14 +44,7 @@ namespace ICar.API.Controllers
 
                 for (int i = 0; i <= companiesInDatabase.Count - 1; i++)
                 {
-                    companiesOutput[i] = new
-                    {
-                        CNPJ = companiesInDatabase[i].Cnpj,
-                        companiesInDatabase[i].Name,
-                        companiesInDatabase[i].Email,
-                        companiesInDatabase[i].AccountCreationDate,
-                        companiesInDatabase[i].Role,
-                    };
+                    companiesOutput[i] = CompanyOutputGenerator.GenerateCompanyOutput(companiesInDatabase[i]);
                 }
 
                 return Ok(companiesOutput);
@@ -128,17 +122,16 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<CompanyCity> companyCities = await _companyCityRepository.GetCompanyCitiesAsync(companyCnpj);
+                CompanyCity companyCity = await _companyCityRepository.GetCompanyCityAsync(companyCnpj, cityId);
 
-                foreach (CompanyCity companyCity in companyCities)
+                if (companyCity == null)
                 {
-                    CompanyCity companyCityInDatabase = await _companyCityRepository.GetCompanyCityAsync(companyCnpj, cityId);
-
-                    if (companyCityInDatabase == null)
+                    CompanyCity companyCityToInsert = new()
                     {
-                        CompanyCity companyCityToInsert = new() { CityId = cityId, CompanyCnpj = companyCnpj };
-                        await _baseRepository.AddAsync(companyCityToInsert);
-                    }
+                        CompanyCnpj = companyCnpj,
+                        CityId = cityId
+                    };
+                    await _baseRepository.AddAsync(companyCityToInsert);
                 }
             }
             catch (Exception)

@@ -36,7 +36,7 @@ namespace ICar.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<UserLogin>> GetUserLoginsAsync(string cpf)
+        public async Task<List<Login>> GetUserLoginsAsync(string cpf)
         {
             return await _dbContext.UserLogins.Where(x => x.UserCpf == cpf).ToListAsync();
         }

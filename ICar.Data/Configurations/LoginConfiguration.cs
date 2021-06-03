@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ICar.Infrastructure.Configurations
 {
-    public sealed class CompanyLoginConfiguration : IEntityTypeConfiguration<CompanyLogin>
+    public sealed class LoginConfiguration : IEntityTypeConfiguration<Login>
     {
-        public CompanyLoginConfiguration()
+        public LoginConfiguration()
         { }
 
-        public void Configure(EntityTypeBuilder<CompanyLogin> builder)
+        public void Configure(EntityTypeBuilder<Login> builder)
         {
             builder.HasKey(x => x.Id);
 

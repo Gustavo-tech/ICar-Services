@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using ICar.Infrastructure.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories.Interfaces
 {
-    public interface INewsRepository<T>
+    public interface INewsRepository
     {
-        Task<List<T>> GetNewsAsync();
+        Task<List<News>> GetNewsAsync();
     }
 }

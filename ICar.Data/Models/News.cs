@@ -1,13 +1,17 @@
 ﻿using System;
 
-namespace ICar.Infrastructure.Models.Abstracts
+namespace ICar.Infrastructure.Models
 {
-    public abstract class AbstractNews
+    public class News
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
+        public string Discriminator { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime LastUpdate { get; set; }
+
+        public News()
+        { }
     }
 }

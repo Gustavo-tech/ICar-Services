@@ -9,6 +9,6 @@ namespace ICar.Infrastructure.Repositories.Interfaces
         Task<List<User>> GetUsersAsync();
         Task<User> GetUserByEmailAsync(string email);
         Task<User> GetUserByCpfAsync(string cpf);
-        Task<List<UserLogin>> GetUserLoginsAsync(string cpf);
+        Task<List<Login>> GetUserLoginsAsync(string cpf);
     }
 }

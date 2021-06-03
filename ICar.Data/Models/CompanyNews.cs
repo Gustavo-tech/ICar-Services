@@ -2,7 +2,7 @@
 
 namespace ICar.Infrastructure.Models
 {
-    public class CompanyNews : AbstractNews
+    public class CompanyNews : News
     {
         public Company PublishedBy { get; set; }
 

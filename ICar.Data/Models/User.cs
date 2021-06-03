@@ -7,9 +7,6 @@ namespace ICar.Infrastructure.Models
     public class User : Entity
     {
         public string Cpf { get; set; }
-        public List<UserCar> UserCars { get; set; }
-        public List<UserLogin> UserLogins { get; set; }
-        public List<UserNews> UserNews { get; set; }
         public int CityId { get; set; }
         public City City { get; set; }
 
@@ -29,8 +26,8 @@ namespace ICar.Infrastructure.Models
 
         public User(string cpf, string name, string email,
             string password, DateTime accountCreationDate, string role,
-            City city, List<UserCar> userCars, List<UserLogin> userLogins,
-            List<UserNews> userNews)
+            City city, List<Car> userCars, List<Login> userLogins,
+            List<News> userNews)
         {
             Cpf = cpf;
             Name = name;
@@ -39,9 +36,9 @@ namespace ICar.Infrastructure.Models
             AccountCreationDate = accountCreationDate;
             Role = role;
             City = city;
-            UserCars = userCars;
-            UserLogins = userLogins;
-            UserNews = userNews;
+            Cars = userCars;
+            Logins = userLogins;
+            News = userNews;
         }
     }
 }

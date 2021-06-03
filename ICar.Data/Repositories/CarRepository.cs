@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories
 {
-    public class UserCarRepository : ICarRepository<UserCar>
+    public class CarRepository : ICarRepository<UserCar>
     {
         private readonly DatabaseContext _dbContext;
 
-        public UserCarRepository(DatabaseContext dbContext)
+        public CarRepository(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }

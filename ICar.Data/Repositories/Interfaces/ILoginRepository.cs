@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using ICar.Infrastructure.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories.Interfaces
 {
-    public interface ILoginRepository<T>
+    public interface ILoginRepository
     {
-        Task<List<T>> GetAllLogins();
+        Task<List<Login>> GetAllLogins();
     }
 }

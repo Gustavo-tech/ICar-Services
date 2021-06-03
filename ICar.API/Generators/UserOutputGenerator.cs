@@ -1,6 +1,7 @@
 ﻿using ICar.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ICar.API.Generators
 {
@@ -14,55 +15,18 @@ namespace ICar.API.Generators
                 user.Name,
                 user.Email,
                 user.AccountCreationDate,
-                City = GeneralOutputGenerator.GenerateCityOutput(user.City),
+                City = user.City.Name,
                 user.Role,
                 user.UserCars,
-                UserLogins = GenerateLoginTimes(user),
-                user.UserNews
+                UserLogins = user.UserLogins.Select(x => x.Time),
+                UserNews = user.UserNews.Select(x => new
+                {
+                    x.Title,
+                    x.Text,
+                    x.LastUpdate,
+                    x.CreatedOn
+                })
             };
-        }
-
-        public static dynamic[] GenerateUserOutput(List<User> users)
-        {
-            dynamic[] outputs = new dynamic[users.Count];
-
-            for (int i = 0; i <= users.Count - 1; i++)
-            {
-                List<DateTime> userLoginTimes = GenerateLoginTimes(users[i]);
-                outputs[i] = new
-                {
-                    CPF = users[i].Cpf,
-                    users[i].Name,
-                    users[i].Email,
-                    users[i].AccountCreationDate,
-                    City = GeneralOutputGenerator.GenerateCityOutput(users[i].City),
-                    users[i].Role,
-                    users[i].UserCars,
-                    UserLogins = GeneralOutputGenerator.GenerateLoginsOutput(userLoginTimes),
-                    users[i].UserNews
-                };
-            }
-
-            return outputs;
-        }
-
-        private static List<DateTime> GenerateLoginTimes(User user)
-        {
-            List<DateTime> userLoginTimes = new();
-
-            try
-            {
-                foreach (UserLogin login in user.UserLogins)
-                {
-                    userLoginTimes.Add(login.Time);
-                }
-
-                return userLoginTimes;
-            }
-            catch (Exception)
-            {
-                return userLoginTimes;
-            }
         }
     }
 }

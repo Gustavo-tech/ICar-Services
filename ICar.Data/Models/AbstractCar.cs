@@ -3,9 +3,9 @@ using ICar.Infrastructure.Models.Enums.Car;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ICar.Infrastructure.Models.Abstracts
+namespace ICar.Infrastructure.Models
 {
-    public abstract class AbstractCar
+    public class Car
     {
         [Key]
         public string Plate { get; set; }
@@ -28,7 +28,7 @@ namespace ICar.Infrastructure.Models.Abstracts
         public List<CarImage> CarImages { get; set; }
         public int NumberOfViews { get; set; }
 
-        public AbstractCar()
+        public Car()
         { }
     }
 }

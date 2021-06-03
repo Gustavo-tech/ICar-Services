@@ -39,7 +39,11 @@ namespace ICar.API.Controllers
             try
             {
                 List<User> users = await _userRepository.GetUsersAsync();
-                dynamic[] output = UserOutputGenerator.GenerateUserOutput(users);
+                dynamic[] output = new dynamic[users.Count];
+                for (int i = 0; i < users.Count; i++)
+                {
+                    output[i] = UserOutputGenerator.GenerateUserOutput(users[i]);
+                }
                 return Ok(output);
             }
             catch (Exception)
@@ -173,7 +177,7 @@ namespace ICar.API.Controllers
             return city;
         }
 
-        private dynamic[] GenerateUserLoginOutput(List<UserLogin> userLogins)
+        private dynamic[] GenerateUserLoginOutput(List<Login> userLogins)
         {
             dynamic[] output = new dynamic[userLogins.Count];
 

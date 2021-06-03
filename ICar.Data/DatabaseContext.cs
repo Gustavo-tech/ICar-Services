@@ -11,13 +11,9 @@ namespace ICar.Infrastructure
         { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<UserCar> UserCars { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
-        public DbSet<UserNews> UserNews { get; set; }
+        public DbSet<Login> Logins { get; set; }
+        public DbSet<News> News { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<CompanyCar> CompanyCars { get; set; }
-        public DbSet<CompanyLogin> CompanyLogins { get; set; }
-        public DbSet<CompanyNews> CompanyNews { get; set; }
         public DbSet<CompanyCity> CompanyCities { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
@@ -26,17 +22,12 @@ namespace ICar.Infrastructure
         {
             // company
             builder.ApplyConfiguration(new CompanyConfiguration());
-            builder.ApplyConfiguration(new CompanyCarConfiguration());
-            builder.ApplyConfiguration(new CompanyNewsConfiguration());
-            builder.ApplyConfiguration(new CompanyLoginConfiguration());
+            builder.ApplyConfiguration(new LoginConfiguration());
             builder.ApplyConfiguration(new CompanyCityConfiguration());
 
             // user
             builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new UserCarConfiguration());
-            builder.ApplyConfiguration(new UserNewsConfiguration());
-            builder.ApplyConfiguration(new UserLoginConfiguration());
-
+            builder.ApplyConfiguration(new NewsConfiguration());
 
             builder.ApplyConfiguration(new CityConfiguration());
             builder.ApplyConfiguration(new CarImageConfiguration());

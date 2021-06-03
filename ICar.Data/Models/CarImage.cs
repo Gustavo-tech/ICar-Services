@@ -4,8 +4,7 @@
     {
         public int Id { get; set; }
         public string ImageStream { get; set; }
-        public UserCar UserCar { get; set; }
-        public CompanyCar CompanyCar { get; set; }
+        public Car Car { get; set; }
         public CarImage()
         { }
     }
