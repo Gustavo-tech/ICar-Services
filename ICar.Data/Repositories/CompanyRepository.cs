@@ -18,17 +18,32 @@ namespace ICar.Infrastructure.Repositories
 
         public async Task<List<Company>> GetCompaniesAsync()
         {
-            return await _dbContext.Companies.ToListAsync();
+            return await _dbContext.Companies
+                .Include(x => x.CompanyCars)
+                .Include(x => x.CompanyLogins)
+                .Include(x => x.CompanyNews)
+                .Include(x => x.Cities)
+                .ToListAsync();
         }
 
         public async Task<Company> GetCompanyByCnpjAsync(string cnpj)
         {
-            return await _dbContext.Companies.Where(x => x.Cnpj == cnpj).FirstOrDefaultAsync();
+            return await _dbContext.Companies
+                .Where(x => x.Cnpj == cnpj)
+                .Include(x => x.CompanyCars)
+                .Include(x => x.CompanyLogins)
+                .Include(x => x.CompanyNews)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Company> GetCompanyByEmailAsync(string email)
         {
-            return await _dbContext.Companies.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return await _dbContext.Companies
+                .Where(x => x.Email == email)
+                .Include(x => x.CompanyCars)
+                .Include(x => x.CompanyLogins)
+                .Include(x => x.CompanyNews)
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -50,7 +50,6 @@ namespace ICar.API.Controllers
                         companiesInDatabase[i].Email,
                         companiesInDatabase[i].AccountCreationDate,
                         companiesInDatabase[i].Role,
-                        companiesInDatabase[i].Cities
                     };
                 }
 
@@ -77,13 +76,16 @@ namespace ICar.API.Controllers
 
                     await _baseRepository.AddAsync(companyToInsert);
 
-                    return Ok(new
+                    dynamic output = new
                     {
-                        newCompany.Cnpj,
-                        newCompany.Email,
+                        CNPJ = newCompany.Cnpj,
                         newCompany.Name,
+                        newCompany.Email,
                         newCompany.Cities,
-                    });
+                        Message = "Company inserted successfully"
+                    };
+
+                    return Ok(output);
                 }
 
                 else
@@ -101,7 +103,7 @@ namespace ICar.API.Controllers
             foreach (string city in cities)
             {
                 City cityResult = await InsertCityIfDoesntExistsAsync(city);
-                await InsertCompanyCityIfDoesnExistAsync(companyCnpj, cityResult.Id.Value);
+                await InsertCompanyCityIfDoesntExistAsync(companyCnpj, cityResult.Id.Value);
                 companyCities.Add(cityResult);
             }
 
@@ -122,7 +124,7 @@ namespace ICar.API.Controllers
                 return cityInDatabase;
         }
 
-        private async Task InsertCompanyCityIfDoesnExistAsync(string companyCnpj, int cityId)
+        private async Task InsertCompanyCityIfDoesntExistAsync(string companyCnpj, int cityId)
         {
             try
             {

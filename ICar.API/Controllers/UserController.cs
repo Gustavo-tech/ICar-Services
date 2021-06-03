@@ -1,4 +1,5 @@
-﻿using ICar.API.ViewModels;
+﻿using ICar.API.Generators;
+using ICar.API.ViewModels;
 using ICar.API.ViewModels.User;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
@@ -43,44 +44,9 @@ namespace ICar.API.Controllers
 
                 for (int i = 0; i < users.Count; i++)
                 {
-                    output[i] = new
-                    {
-                        CPF = users[i].Cpf,
-                        users[i].Name,
-                        users[i].Email,
-                        users[i].AccountCreationDate,
-                        City = new
-                        {
-                            users[i].City.Name
-                        },
-                        UserLogins = users[i].UserLogins.Select(x => x.Time).ToList(),
-                        UserCars = users[i].UserCars
-                        .Select(x => new {
-                            x.Plate,
-                            x.Maker,
-                            x.Model,
-                            x.City.Name,
-                            x.AcceptsChange,
-                            x.IsArmored,
-                            x.IpvaIsPaid,
-                            x.KilometersTraveled,
-                            x.MakeDate,
-                            x.MakedDate,
-                            x.NumberOfViews,
-                            x.Color,
-                            x.GasolineType,
-                            x.TypeOfExchange,
-                            x.Price
-                        }),
-                        UserNews = users[i].UserNews.Select(x => new
-                        {
-                            x.Title,
-                            x.Text,
-                            x.CreatedOn,
-                            x.LastUpdate
-                        })
-                    };
+                    output[i] = UserOutputGenerator.GenerateUserOutput(users[i]);
                 }
+                
                 return Ok(output);
             }
             catch (Exception)
@@ -212,45 +178,6 @@ namespace ICar.API.Controllers
             }
 
             return city;
-        }
-
-        private dynamic GenerateUserOutput(User user)
-        {
-            return new
-            {
-                CPF = user.Cpf,
-                user.Name,
-                user.Email,
-                user.AccountCreationDate,
-                user.City,
-                user.Role,
-                user.UserCars,
-                user.UserLogins,
-                user.UserNews
-            };
-        }
-
-        private dynamic[] GenerateUserOutput(List<User> users)
-        {
-            dynamic[] outputs = new dynamic[users.Count];
-
-            for (int i = 0; i <= users.Count - 1; i++)
-            {
-                outputs[i] = new
-                {
-                    CPF = users[i].Cpf,
-                    users[i].Name,
-                    users[i].Email,
-                    users[i].AccountCreationDate,
-                    City = users[i].City.Name,
-                    users[i].Role,
-                    users[i].UserCars,
-                    UserLogins = GenerateUserLoginOutput(users[i].UserLogins),
-                    users[i].UserNews
-                };
-            }
-
-            return outputs;
         }
 
         private dynamic[] GenerateUserLoginOutput(List<UserLogin> userLogins)
