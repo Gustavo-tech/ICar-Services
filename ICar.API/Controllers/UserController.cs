@@ -39,7 +39,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<User> users = await _userRepository.GetUsersAsync();
-                dynamic[] output = GenerateUserOutput(users);
+                dynamic[] output = UserOutputGenerator.GenerateUserOutput(users);
                 return Ok(output);
             }
             catch (Exception)

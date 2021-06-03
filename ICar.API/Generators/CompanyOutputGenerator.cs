@@ -8,6 +8,19 @@ namespace ICar.API.Generators
 {
     public static class CompanyOutputGenerator
     {
+        public static dynamic GenerateCompanyOutput(Company company)
+        {
+            List<DateTime> companyLoginTimes = GenerateCompanyLoginTimes(company);
+            return new
+            {
+                CNPJ = company.Cnpj,
+                company.Email,
+                company.Name,
+                Cities = GeneralOutputGenerator.GenerateCityOutput(company.Cities),
+                CompanyLogins = GeneralOutputGenerator.GenerateLoginsOutput(companyLoginTimes)
+            };
+        }
+
         public static dynamic[] GenerateCompanyOutput(List<Company> companies)
         {
             dynamic[] output = new dynamic[companies.Count];

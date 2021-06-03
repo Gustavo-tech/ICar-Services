@@ -1,5 +1,4 @@
-﻿using ICar.API.Generators;
-using ICar.API.ViewModels;
+﻿using ICar.API.ViewModels;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -51,7 +50,6 @@ namespace ICar.API.Controllers
                         companiesInDatabase[i].Email,
                         companiesInDatabase[i].AccountCreationDate,
                         companiesInDatabase[i].Role,
-                        companiesInDatabase[i].Cities
                     };
                 }
 
@@ -78,7 +76,15 @@ namespace ICar.API.Controllers
 
                     await _baseRepository.AddAsync(companyToInsert);
 
-                    dynamic[] output = CompanyOutputGenerator.GenerateCompanyOutput(companyToInsert);
+                    dynamic output = new
+                    {
+                        CNPJ = newCompany.Cnpj,
+                        newCompany.Name,
+                        newCompany.Email,
+                        newCompany.Cities,
+                        Message = "Company inserted successfully"
+                    };
+
                     return Ok(output);
                 }
 
@@ -97,7 +103,7 @@ namespace ICar.API.Controllers
             foreach (string city in cities)
             {
                 City cityResult = await InsertCityIfDoesntExistsAsync(city);
-                await InsertCompanyCityIfDoesnExistAsync(companyCnpj, cityResult.Id.Value);
+                await InsertCompanyCityIfDoesntExistAsync(companyCnpj, cityResult.Id.Value);
                 companyCities.Add(cityResult);
             }
 
@@ -118,7 +124,7 @@ namespace ICar.API.Controllers
                 return cityInDatabase;
         }
 
-        private async Task InsertCompanyCityIfDoesnExistAsync(string companyCnpj, int cityId)
+        private async Task InsertCompanyCityIfDoesntExistAsync(string companyCnpj, int cityId)
         {
             try
             {
