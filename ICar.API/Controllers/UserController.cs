@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -38,7 +39,48 @@ namespace ICar.API.Controllers
             try
             {
                 List<User> users = await _userRepository.GetUsersAsync();
-                dynamic[] output = GenerateUserOutput(users);
+                dynamic[] output = new dynamic[users.Count];
+
+                for (int i = 0; i < users.Count; i++)
+                {
+                    output[i] = new
+                    {
+                        CPF = users[i].Cpf,
+                        users[i].Name,
+                        users[i].Email,
+                        users[i].AccountCreationDate,
+                        City = new
+                        {
+                            users[i].City.Name
+                        },
+                        UserLogins = users[i].UserLogins.Select(x => x.Time).ToList(),
+                        UserCars = users[i].UserCars
+                        .Select(x => new {
+                            x.Plate,
+                            x.Maker,
+                            x.Model,
+                            x.City.Name,
+                            x.AcceptsChange,
+                            x.IsArmored,
+                            x.IpvaIsPaid,
+                            x.KilometersTraveled,
+                            x.MakeDate,
+                            x.MakedDate,
+                            x.NumberOfViews,
+                            x.Color,
+                            x.GasolineType,
+                            x.TypeOfExchange,
+                            x.Price
+                        }),
+                        UserNews = users[i].UserNews.Select(x => new
+                        {
+                            x.Title,
+                            x.Text,
+                            x.CreatedOn,
+                            x.LastUpdate
+                        })
+                    };
+                }
                 return Ok(output);
             }
             catch (Exception)
