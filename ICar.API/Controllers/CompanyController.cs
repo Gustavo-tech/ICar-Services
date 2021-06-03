@@ -1,4 +1,5 @@
-﻿using ICar.API.ViewModels;
+﻿using ICar.API.Generators;
+using ICar.API.ViewModels;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -77,13 +78,8 @@ namespace ICar.API.Controllers
 
                     await _baseRepository.AddAsync(companyToInsert);
 
-                    return Ok(new
-                    {
-                        newCompany.Cnpj,
-                        newCompany.Email,
-                        newCompany.Name,
-                        newCompany.Cities,
-                    });
+                    dynamic[] output = CompanyOutputGenerator.GenerateCompanyOutput(companyToInsert);
+                    return Ok(output);
                 }
 
                 else
@@ -143,11 +139,6 @@ namespace ICar.API.Controllers
             {
                 return;
             }
-        }
-
-        private dynamic[] GenerateCompanyOutput(List<Company> companies)
-        {
-
         }
     }
 }

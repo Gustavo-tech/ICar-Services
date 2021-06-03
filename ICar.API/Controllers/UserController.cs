@@ -173,45 +173,6 @@ namespace ICar.API.Controllers
             return city;
         }
 
-        private dynamic GenerateUserOutput(User user)
-        {
-            return new
-            {
-                CPF = user.Cpf,
-                user.Name,
-                user.Email,
-                user.AccountCreationDate,
-                City = OutputGenerator.GenerateCityOutput(user.City),
-                user.Role,
-                user.UserCars,
-                user.UserLogins,
-                user.UserNews
-            };
-        }
-
-        private dynamic[] GenerateUserOutput(List<User> users)
-        {
-            dynamic[] outputs = new dynamic[users.Count];
-
-            for (int i = 0; i <= users.Count - 1; i++)
-            {
-                outputs[i] = new
-                {
-                    CPF = users[i].Cpf,
-                    users[i].Name,
-                    users[i].Email,
-                    users[i].AccountCreationDate,
-                    City = OutputGenerator.GenerateCityOutput(users[i].City),
-                    users[i].Role,
-                    users[i].UserCars,
-                    UserLogins = GenerateUserLoginOutput(users[i].UserLogins),
-                    users[i].UserNews
-                };
-            }
-
-            return outputs;
-        }
-
         private dynamic[] GenerateUserLoginOutput(List<UserLogin> userLogins)
         {
             dynamic[] output = new dynamic[userLogins.Count];
