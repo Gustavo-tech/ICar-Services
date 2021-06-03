@@ -26,5 +26,22 @@ namespace ICar.Infrastructure.Models
             AccountCreationDate = DateTime.Now;
             Role = role;
         }
+
+        public User(string cpf, string name, string email,
+            string password, DateTime accountCreationDate, string role,
+            City city, List<UserCar> userCars, List<UserLogin> userLogins,
+            List<UserNews> userNews)
+        {
+            Cpf = cpf;
+            Name = name;
+            Email = email;
+            Password = password;
+            AccountCreationDate = accountCreationDate;
+            Role = role;
+            City = city;
+            UserCars = userCars;
+            UserLogins = userLogins;
+            UserNews = userNews;
+        }
     }
 }

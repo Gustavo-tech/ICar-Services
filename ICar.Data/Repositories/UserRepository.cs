@@ -28,7 +28,12 @@ namespace ICar.Infrastructure.Repositories
 
         public async Task<List<User>> GetUsersAsync()
         {
-            return await _dbContext.Users.ToListAsync();
+            return await _dbContext.Users
+                .Include(x => x.City)
+                .Include(x => x.UserNews)
+                .Include(x => x.UserCars)
+                .Include(x => x.UserLogins)
+                .ToListAsync();
         }
 
         public async Task<List<UserLogin>> GetUserLoginsAsync(string cpf)
