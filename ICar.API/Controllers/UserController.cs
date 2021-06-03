@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -40,6 +41,7 @@ namespace ICar.API.Controllers
             {
                 List<User> users = await _userRepository.GetUsersAsync();
                 dynamic[] output = new dynamic[users.Count];
+
                 for (int i = 0; i < users.Count; i++)
                 {
                     output[i] = UserOutputGenerator.GenerateUserOutput(users[i]);

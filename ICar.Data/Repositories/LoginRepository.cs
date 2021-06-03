@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories
 {
-    public class LoginRepository : ILoginRepository<Login>
+    public class LoginRepository : ILoginRepository
     {
         private readonly DatabaseContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace ICar.Infrastructure.Repositories
 
         public async Task<List<Login>> GetAllLogins()
         {
-            return await _dbContext.UserLogins.ToListAsync();
+            return await _dbContext.Logins.ToListAsync();
         }
     }
 }

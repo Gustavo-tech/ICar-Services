@@ -30,15 +30,15 @@ namespace ICar.Infrastructure.Repositories
         {
             return await _dbContext.Users
                 .Include(x => x.City)
-                .Include(x => x.UserNews)
-                .Include(x => x.UserCars)
-                .Include(x => x.UserLogins)
+                .Include(x => x.News)
+                .Include(x => x.Cars)
+                .Include(x => x.Logins)
                 .ToListAsync();
         }
 
         public async Task<List<Login>> GetUserLoginsAsync(string cpf)
         {
-            return await _dbContext.UserLogins.Where(x => x.UserCpf == cpf).ToListAsync();
+            return await _dbContext.Logins.Where(x => x.Discriminator == cpf).ToListAsync();
         }
     }
 }

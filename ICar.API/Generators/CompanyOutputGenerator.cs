@@ -15,12 +15,13 @@ namespace ICar.API.Generators
                 CNPJ = company.Cnpj,
                 company.Email,
                 company.Name,
-                Cities = company.Cities.Select(x => x.Name),
-                CompanyLogins = company.CompanyLogins.Select(x => x.Time),
-                CompanyNews = company.CompanyNews.Select(x => new
+                company.AccountCreationDate,
+                Cities = company.Cities.Select(x => x.Name).ToList(),
+                CompanyLogins = company.Logins.Select(x => x.Time),
+                CompanyNews = company.News.Select(x => new
                 {
-                    x.Title,
                     x.Text,
+                    x.Title,
                     x.LastUpdate,
                     x.CreatedOn
                 })

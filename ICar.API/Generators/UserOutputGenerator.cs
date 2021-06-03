@@ -17,14 +17,31 @@ namespace ICar.API.Generators
                 user.AccountCreationDate,
                 City = user.City.Name,
                 user.Role,
-                user.UserCars,
-                UserLogins = user.UserLogins.Select(x => x.Time),
-                UserNews = user.UserNews.Select(x => new
+                UserCars = user.Cars
+                .Select(x => new {
+                    x.Plate,
+                    x.Maker,
+                    x.Model,
+                    x.City.Name,
+                    x.AcceptsChange,
+                    x.IsArmored,
+                    x.IpvaIsPaid,
+                    x.KilometersTraveled,
+                    x.MakeDate,
+                    x.MakedDate,
+                    x.NumberOfViews,
+                    x.Color,
+                    x.GasolineType,
+                    x.TypeOfExchange,
+                    x.Price
+                }),
+                UserLogins = user.Logins.Select(x => x.Time).ToList(),
+                UserNews = user.News.Select(x => new
                 {
                     x.Title,
                     x.Text,
-                    x.LastUpdate,
-                    x.CreatedOn
+                    x.CreatedOn,
+                    x.LastUpdate
                 })
             };
         }

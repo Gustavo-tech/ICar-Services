@@ -12,9 +12,9 @@ namespace ICar.API.Controllers
     [ApiController]
     public class CompanyCarController : ControllerBase
     {
-        private readonly ICarRepository<CompanyCar> _carRepository;
+        private readonly ICarRepository _carRepository;
 
-        public CompanyCarController(ICarRepository<CompanyCar> carRepository)
+        public CompanyCarController(ICarRepository carRepository)
         {
             _carRepository = carRepository;
         }
@@ -24,11 +24,11 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<CompanyCar> carsInDatabase = await _carRepository.GetAllCarsAsync();
+                List<Car> carsInDatabase = await _carRepository.GetAllCarsAsync();
 
                 List<dynamic> carsOutput = new();
 
-                foreach (CompanyCar CompanyCar in carsInDatabase)
+                foreach (Car CompanyCar in carsInDatabase)
                 {
                     carsOutput.Add(new
                     {

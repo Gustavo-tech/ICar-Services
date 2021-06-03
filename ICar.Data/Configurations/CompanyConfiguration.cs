@@ -42,14 +42,17 @@ namespace ICar.Infrastructure.Configurations
 
             builder.Ignore(x => x.Cities);
 
-            builder.HasMany(x => x.CompanyCars)
-                .WithOne(x => x.Company);
+            builder.HasMany(x => x.Cars)
+                .WithOne()
+                .HasForeignKey(x => x.Discriminator);
 
-            builder.HasMany(x => x.CompanyNews)
-                .WithOne(x => x.PublishedBy);
+            builder.HasMany(x => x.News)
+                .WithOne()
+                .HasForeignKey(x => x.Discriminator);
 
-            builder.HasMany(x => x.CompanyLogins)
-                .WithOne(x => x.Company);
+            builder.HasMany(x => x.Logins)
+                .WithOne()
+                .HasForeignKey(x => x.Discriminator);
         }
     }
 }

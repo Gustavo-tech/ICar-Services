@@ -41,18 +41,21 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(30);
 
-            builder.HasMany(x => x.UserCars)
-                .WithOne(x => x.User);
+            builder.HasMany(x => x.Cars)
+                .WithOne()
+                .HasForeignKey(x => x.Discriminator);
 
             builder.HasOne(x => x.City)
                 .WithOne()
                 .HasForeignKey<User>(x => x.CityId);
 
-            builder.HasMany(x => x.UserNews)
-                .WithOne(x => x.PublishedBy);
+            builder.HasMany(x => x.News)
+                .WithOne()
+                .HasForeignKey(x => x.Discriminator);
 
-            builder.HasMany(x => x.UserLogins)
-                .WithOne(x => x.User);
+            builder.HasMany(x => x.Logins)
+                .WithOne()
+                .HasForeignKey(x => x.Discriminator);
         }
     }
 }

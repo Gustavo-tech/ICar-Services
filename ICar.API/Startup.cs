@@ -39,13 +39,10 @@ namespace ICar.API
             // Dependency injection
             services.AddScoped<IAuthService, JwtService>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<INewsRepository<News>, NewsRepository>();
-            services.AddScoped<ICarRepository<UserCar>, CarRepository>();
-            services.AddScoped<ILoginRepository<Login>, LoginRepository>();
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<INewsRepository<CompanyNews>, CompanyNewsRepository>();
-            services.AddScoped<ICarRepository<CompanyCar>, CompanyCarRepository>();
-            services.AddScoped<ILoginRepository<CompanyLogin>, CompanyLoginRepository>();
             services.AddScoped<ICompanyCityRepository, CompanyCityRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IBaseRepository, BaseRepository>();

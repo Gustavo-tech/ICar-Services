@@ -71,7 +71,7 @@ namespace ICar.API.Controllers
             {
                 if (user.Password == login.Password)
                 {
-                    await _baseRepository.AddAsync(new Login(user));
+                    await _baseRepository.AddAsync(new Login(user.Name));
                     dynamic responseObject = new
                     {
                         User = user.Name,
