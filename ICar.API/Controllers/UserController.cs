@@ -200,15 +200,30 @@ namespace ICar.API.Controllers
                     users[i].Name,
                     users[i].Email,
                     users[i].AccountCreationDate,
-                    users[i].City,
+                    City = users[i].City.Name,
                     users[i].Role,
                     users[i].UserCars,
-                    users[i].UserLogins,
+                    UserLogins = GenerateUserLoginOutput(users[i].UserLogins),
                     users[i].UserNews
                 };
             }
 
             return outputs;
+        }
+
+        private dynamic[] GenerateUserLoginOutput(List<UserLogin> userLogins)
+        {
+            dynamic[] output = new dynamic[userLogins.Count];
+
+            for (int i = 0; i < userLogins.Count; i++)
+            {
+                output[i] = new
+                {
+                    userLogins[i].Time
+                };
+            }
+
+            return output;
         }
     }
 }
