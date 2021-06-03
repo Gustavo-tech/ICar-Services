@@ -15,6 +15,10 @@ namespace ICar.Infrastructure.Migrations
                 table: "CarImages");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Cities_Companies_CompanyCnpj",
+                table: "Cities");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Cities_Companies_CompanyCnpj1",
                 table: "Cities");
 
@@ -95,6 +99,10 @@ namespace ICar.Infrastructure.Migrations
                 table: "CompanyCars");
 
             migrationBuilder.DropIndex(
+                name: "IX_Cities_CompanyCnpj",
+                table: "Cities");
+
+            migrationBuilder.DropIndex(
                 name: "IX_Cities_CompanyCnpj1",
                 table: "Cities");
 
@@ -137,6 +145,10 @@ namespace ICar.Infrastructure.Migrations
             migrationBuilder.DropColumn(
                 name: "CompanyCnpj1",
                 table: "CompanyCars");
+
+            migrationBuilder.DropColumn(
+                name: "CompanyCnpj",
+                table: "Cities");
 
             migrationBuilder.DropColumn(
                 name: "CompanyCnpj1",
@@ -213,6 +225,12 @@ namespace ICar.Infrastructure.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
+                name: "CompanyCnpj",
+                table: "Cities",
+                type: "CHAR(18)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
                 name: "CompanyCnpj1",
                 table: "Cities",
                 type: "CHAR(18)",
@@ -275,6 +293,11 @@ namespace ICar.Infrastructure.Migrations
                 column: "CompanyCnpj1");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cities_CompanyCnpj",
+                table: "Cities",
+                column: "CompanyCnpj");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cities_CompanyCnpj1",
                 table: "Cities",
                 column: "CompanyCnpj1");
@@ -298,6 +321,14 @@ namespace ICar.Infrastructure.Migrations
                 column: "CarPlate",
                 principalTable: "UserCars",
                 principalColumn: "Plate",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Cities_Companies_CompanyCnpj",
+                table: "Cities",
+                column: "CompanyCnpj",
+                principalTable: "Companies",
+                principalColumn: "Cnpj",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(

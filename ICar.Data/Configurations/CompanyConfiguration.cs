@@ -40,6 +40,8 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(30);
 
+            builder.Ignore(x => x.Cities);
+
             builder.HasMany(x => x.CompanyCars)
                 .WithOne(x => x.Company);
 
