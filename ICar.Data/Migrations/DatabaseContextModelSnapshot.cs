@@ -33,8 +33,11 @@ namespace ICar.Infrastructure.Migrations
                     b.Property<int>("Color")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
+                    b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
+
+                    b.Property<string>("Discriminator")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GasolineType")
                         .HasColumnType("int");
@@ -75,11 +78,16 @@ namespace ICar.Infrastructure.Migrations
                     b.Property<int>("TypeOfExchange")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserCpf")
+                        .HasColumnType("NVARCHAR(18)");
+
                     b.HasKey("Plate");
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("Discriminator");
+                    b.HasIndex("CompanyCnpj");
+
+                    b.HasIndex("UserCpf");
 
                     b.ToTable("Cars");
                 });
@@ -185,15 +193,23 @@ namespace ICar.Infrastructure.Migrations
                         .HasColumnType("INT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
+                    b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
+
+                    b.Property<string>("Discriminator")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("DATETIME");
 
+                    b.Property<string>("UserCpf")
+                        .HasColumnType("NVARCHAR(18)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Discriminator");
+                    b.HasIndex("CompanyCnpj");
+
+                    b.HasIndex("UserCpf");
 
                     b.ToTable("Logins");
                 });
@@ -205,11 +221,14 @@ namespace ICar.Infrastructure.Migrations
                         .HasColumnType("INT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CompanyCnpj")
+                        .HasColumnType("NVARCHAR(18)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
 
                     b.Property<string>("Discriminator")
-                        .HasColumnType("NVARCHAR(18)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("DATETIME");
@@ -224,9 +243,14 @@ namespace ICar.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("NVARCHAR(20)");
 
+                    b.Property<string>("UserCpf")
+                        .HasColumnType("NVARCHAR(18)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Discriminator");
+                    b.HasIndex("CompanyCnpj");
+
+                    b.HasIndex("UserCpf");
 
                     b.ToTable("News");
                 });
@@ -281,11 +305,11 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("Cars")
-                        .HasForeignKey("Discriminator");
+                        .HasForeignKey("CompanyCnpj");
 
                     b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("Cars")
-                        .HasForeignKey("Discriminator");
+                        .HasForeignKey("UserCpf");
 
                     b.Navigation("City");
                 });
@@ -322,22 +346,22 @@ namespace ICar.Infrastructure.Migrations
                 {
                     b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("Logins")
-                        .HasForeignKey("Discriminator");
+                        .HasForeignKey("CompanyCnpj");
 
                     b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("Logins")
-                        .HasForeignKey("Discriminator");
+                        .HasForeignKey("UserCpf");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.Company", null)
                         .WithMany("News")
-                        .HasForeignKey("Discriminator");
+                        .HasForeignKey("CompanyCnpj");
 
                     b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("News")
-                        .HasForeignKey("Discriminator");
+                        .HasForeignKey("UserCpf");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>

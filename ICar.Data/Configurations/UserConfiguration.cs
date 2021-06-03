@@ -42,20 +42,17 @@ namespace ICar.Infrastructure.Configurations
                 .HasMaxLength(30);
 
             builder.HasMany(x => x.Cars)
-                .WithOne()
-                .HasForeignKey(x => x.Discriminator);
+                .WithOne();
 
             builder.HasOne(x => x.City)
                 .WithOne()
                 .HasForeignKey<User>(x => x.CityId);
 
             builder.HasMany(x => x.News)
-                .WithOne()
-                .HasForeignKey(x => x.Discriminator);
+                .WithOne();
 
             builder.HasMany(x => x.Logins)
-                .WithOne()
-                .HasForeignKey(x => x.Discriminator);
+                .WithOne();
         }
     }
 }

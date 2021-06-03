@@ -102,9 +102,11 @@ namespace ICar.Infrastructure.Migrations
                     TypeOfExchange = table.Column<int>(type: "int", nullable: false),
                     Color = table.Column<int>(type: "int", nullable: false),
                     GasolineType = table.Column<int>(type: "int", nullable: false),
-                    Discriminator = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CityId = table.Column<int>(type: "INT", nullable: false),
-                    NumberOfViews = table.Column<int>(type: "int", nullable: false)
+                    NumberOfViews = table.Column<int>(type: "int", nullable: false),
+                    CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
+                    UserCpf = table.Column<string>(type: "NVARCHAR(18)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -116,14 +118,14 @@ namespace ICar.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cars_Companies_Discriminator",
-                        column: x => x.Discriminator,
+                        name: "FK_Cars_Companies_CompanyCnpj",
+                        column: x => x.CompanyCnpj,
                         principalTable: "Companies",
                         principalColumn: "Cnpj",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cars_Users_Discriminator",
-                        column: x => x.Discriminator,
+                        name: "FK_Cars_Users_UserCpf",
+                        column: x => x.UserCpf,
                         principalTable: "Users",
                         principalColumn: "Cpf",
                         onDelete: ReferentialAction.Restrict);
@@ -135,21 +137,23 @@ namespace ICar.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Discriminator = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
-                    Time = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Time = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
+                    UserCpf = table.Column<string>(type: "NVARCHAR(18)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Logins", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Logins_Companies_Discriminator",
-                        column: x => x.Discriminator,
+                        name: "FK_Logins_Companies_CompanyCnpj",
+                        column: x => x.CompanyCnpj,
                         principalTable: "Companies",
                         principalColumn: "Cnpj",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Logins_Users_Discriminator",
-                        column: x => x.Discriminator,
+                        name: "FK_Logins_Users_UserCpf",
+                        column: x => x.UserCpf,
                         principalTable: "Users",
                         principalColumn: "Cpf",
                         onDelete: ReferentialAction.Restrict);
@@ -163,22 +167,24 @@ namespace ICar.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
-                    Discriminator = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
+                    UserCpf = table.Column<string>(type: "NVARCHAR(18)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_Companies_Discriminator",
-                        column: x => x.Discriminator,
+                        name: "FK_News_Companies_CompanyCnpj",
+                        column: x => x.CompanyCnpj,
                         principalTable: "Companies",
                         principalColumn: "Cnpj",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_News_Users_Discriminator",
-                        column: x => x.Discriminator,
+                        name: "FK_News_Users_UserCpf",
+                        column: x => x.UserCpf,
                         principalTable: "Users",
                         principalColumn: "Cpf",
                         onDelete: ReferentialAction.Restrict);
@@ -215,9 +221,14 @@ namespace ICar.Infrastructure.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_Discriminator",
+                name: "IX_Cars_CompanyCnpj",
                 table: "Cars",
-                column: "Discriminator");
+                column: "CompanyCnpj");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_UserCpf",
+                table: "Cars",
+                column: "UserCpf");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_Name",
@@ -238,14 +249,24 @@ namespace ICar.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logins_Discriminator",
+                name: "IX_Logins_CompanyCnpj",
                 table: "Logins",
-                column: "Discriminator");
+                column: "CompanyCnpj");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_Discriminator",
+                name: "IX_Logins_UserCpf",
+                table: "Logins",
+                column: "UserCpf");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_CompanyCnpj",
                 table: "News",
-                column: "Discriminator");
+                column: "CompanyCnpj");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_UserCpf",
+                table: "News",
+                column: "UserCpf");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_CityId",
