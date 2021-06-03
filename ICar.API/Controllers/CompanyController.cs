@@ -144,5 +144,10 @@ namespace ICar.API.Controllers
                 return;
             }
         }
+
+        private dynamic[] GenerateCompanyOutput(List<Company> companies)
+        {
+
+        }
     }
 }

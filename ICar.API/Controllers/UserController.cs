@@ -1,4 +1,5 @@
-﻿using ICar.API.ViewModels;
+﻿using ICar.API.Generators;
+using ICar.API.ViewModels;
 using ICar.API.ViewModels.User;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
@@ -180,7 +181,7 @@ namespace ICar.API.Controllers
                 user.Name,
                 user.Email,
                 user.AccountCreationDate,
-                user.City,
+                City = OutputGenerator.GenerateCityOutput(user.City),
                 user.Role,
                 user.UserCars,
                 user.UserLogins,
@@ -200,7 +201,7 @@ namespace ICar.API.Controllers
                     users[i].Name,
                     users[i].Email,
                     users[i].AccountCreationDate,
-                    City = users[i].City.Name,
+                    City = OutputGenerator.GenerateCityOutput(users[i].City),
                     users[i].Role,
                     users[i].UserCars,
                     UserLogins = GenerateUserLoginOutput(users[i].UserLogins),
