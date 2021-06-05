@@ -117,7 +117,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                Company companyInDatabase = await _companyRepository.GetCompanyByCnpjAsync(delete.Cnpj);
+                Company companyInDatabase = await _companyRepository.GetCompanyByEmailAsync(delete.Email);
 
                 if (companyInDatabase.Password == delete.Password)
                 {

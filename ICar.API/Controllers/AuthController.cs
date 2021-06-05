@@ -30,38 +30,35 @@ namespace ICar.API.Controllers
             _baseRepository = baseRepository;
         }
 
-        //[HttpPost("authenticate/company")]
-        //public async Task<IActionResult> AuthenticateCompany([FromBody] LoginViewModel login)
-        //{
-        //    Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
+        [HttpPost("authenticate/company")]
+        public async Task<IActionResult> AuthenticateCompany([FromBody] LoginViewModel login)
+        {
+            Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
 
-        //    if (company != null)
-        //    {
-        //        if (company.Password == login.Password)
-        //        {
-        //            //await _companyLoginRepository.AddLogin(new CompanyLogin(company, DateTime.Now));
-        //            dynamic responseObject = new
-        //            {
-        //                Company = company.Name,
-        //                Cnpj = company.Cnpj,
-        //                Email = company.Email,
-        //                Role = company.Role,
-        //                Cities = company.Cities,
-        //                Token = _authService.GenerateToken(company),
-        //            };
-
-        //            return Ok(responseObject);
-        //        }
-        //        else
-        //        {
-        //            return Unauthorized("Identification is wrong");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return NotFound("This company does't exist");
-        //    }
-        //}
+            if (company != null)
+            {
+                if (company.Password == login.Password)
+                {
+                    await _baseRepository.AddAsync(new Login { Time = DateTime.Now, CompanyCnpj = company.Cnpj });
+                    return Ok(new
+                    {
+                        Company = company.Name,
+                        company.Cnpj,
+                        company.Email,
+                        company.Role,
+                        Token = _authService.GenerateToken(company),
+                    });
+                }
+                else
+                {
+                    return Unauthorized("Identification is wrong");
+                }
+            }
+            else
+            {
+                return NotFound("This company does't exist");
+            }
+        }
 
         [HttpPost("authenticate/user")]
         public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
