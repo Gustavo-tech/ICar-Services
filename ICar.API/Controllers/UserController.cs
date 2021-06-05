@@ -55,25 +55,25 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateUser([FromBody] NewUserViewModel newUser)
+        public async Task<IActionResult> CreateUser([FromBody] UserViewModel create)
         {
             try
             {
-                User user = await _userRepository.GetUserByCpfAsync(newUser.Cpf);
+                User user = await _userRepository.GetUserByCpfAsync(create.Cpf);
 
                 if (user == null)
                 {
                     try
                     {
-                        User userToInsert = new(newUser.Cpf, newUser.Name, newUser.Email,
-                            newUser.Password, "client");
+                        User userToInsert = new(create.Cpf, create.Name, create.Email,
+                            create.Password, "client");
 
                         await _baseRepository.AddAsync(userToInsert);
                         return Ok(new
                         {
-                            CPF = newUser.Cpf,
-                            newUser.Name,
-                            newUser.Email,
+                            CPF = create.Cpf,
+                            create.Name,
+                            create.Email,
                             Message = "User inserted succesffully"
                         });
                     }
@@ -86,9 +86,9 @@ namespace ICar.API.Controllers
                 {
                     return Conflict(new
                     {
-                        CPF = newUser.Cpf,
-                        newUser.Name,
-                        newUser.Email,
+                        CPF = create.Cpf,
+                        create.Name,
+                        create.Email,
                         Message = "This user already exists"
                     });
                 }
@@ -101,19 +101,19 @@ namespace ICar.API.Controllers
 
         [HttpPut("update")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserViewModel updateUser)
+        public async Task<IActionResult> UpdateUser([FromBody] UserViewModel update)
         {
-            User user = await _userRepository.GetUserByEmailAsync(updateUser.Email);
+            User user = await _userRepository.GetUserByEmailAsync(update.Email);
 
             if (user != null)
             {
-                if (user.Password == updateUser.Password)
+                if (user.Password == update.Password)
                 {
                     try
                     {
-                        user.Cpf = updateUser.Cpf;
-                        user.Email = updateUser.Email;
-                        user.Name = updateUser.Name;
+                        user.Cpf = update.Cpf;
+                        user.Email = update.Email;
+                        user.Name = update.Name;
 
                         await _baseRepository.UpdateAsync(user);
                         return Ok();
