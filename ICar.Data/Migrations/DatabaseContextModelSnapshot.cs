@@ -145,19 +145,18 @@ namespace ICar.Infrastructure.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
-                    b.Property<string>("CompanyCnpj")
-                        .HasColumnType("NVARCHAR(18)");
-
                     b.Property<int>("CityId")
                         .HasColumnType("INT");
 
-                    b.HasKey("CompanyCnpj", "CityId");
+                    b.Property<string>("CompanyCnpj")
+                        .HasColumnType("NVARCHAR(18)");
 
                     b.HasIndex("CityId")
                         .IsUnique();
 
                     b.HasIndex("CompanyCnpj")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CompanyCnpj] IS NOT NULL");
 
                     b.ToTable("CompanyCities");
                 });
@@ -315,9 +314,7 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasOne("ICar.Infrastructure.Models.Company", "Company")
                         .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CompanyCnpj")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CompanyCnpj");
 
                     b.Navigation("City");
 

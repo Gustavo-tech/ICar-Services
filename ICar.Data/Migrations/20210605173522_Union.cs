@@ -63,12 +63,11 @@ namespace ICar.Infrastructure.Migrations
                 name: "CompanyCities",
                 columns: table => new
                 {
-                    CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: false),
+                    CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
                     CityId = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CompanyCities", x => new { x.CompanyCnpj, x.CityId });
                     table.ForeignKey(
                         name: "FK_CompanyCities_Cities_CityId",
                         column: x => x.CityId,
@@ -80,7 +79,7 @@ namespace ICar.Infrastructure.Migrations
                         column: x => x.CompanyCnpj,
                         principalTable: "Companies",
                         principalColumn: "Cnpj",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,7 +242,8 @@ namespace ICar.Infrastructure.Migrations
                 name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities",
                 column: "CompanyCnpj",
-                unique: true);
+                unique: true,
+                filter: "[CompanyCnpj] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_CompanyCnpj",
