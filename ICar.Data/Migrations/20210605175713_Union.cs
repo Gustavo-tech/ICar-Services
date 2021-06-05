@@ -63,11 +63,14 @@ namespace ICar.Infrastructure.Migrations
                 name: "CompanyCities",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
                     CityId = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_CompanyCities", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CompanyCities_Cities_CityId",
                         column: x => x.CityId,

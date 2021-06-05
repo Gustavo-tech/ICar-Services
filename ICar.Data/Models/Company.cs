@@ -12,13 +12,12 @@ namespace ICar.Infrastructure.Models
         public Company()
         { }
 
-        public Company(string cnpj, string name, string email, string password, List<City> cities, string role)
+        public Company(string cnpj, string name, string email, string password, string role)
         {
             Cnpj = cnpj;
             Name = name;
             Email = email;
             Password = password;
-            Cities = cities;
             Role = role;
             AccountCreationDate = DateTime.Now;
         }

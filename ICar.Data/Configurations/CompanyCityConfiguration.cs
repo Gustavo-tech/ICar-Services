@@ -8,7 +8,10 @@ namespace ICar.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<CompanyCity> builder)
         {
-            builder.HasNoKey();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+
             builder.HasIndex(x => x.CompanyCnpj);
             builder.HasIndex(x => x.CityId);
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210605173522_Union")]
+    [Migration("20210605175713_Union")]
     partial class Union
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,11 +147,18 @@ namespace ICar.Infrastructure.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("CityId")
                         .HasColumnType("INT");
 
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CityId")
                         .IsUnique();

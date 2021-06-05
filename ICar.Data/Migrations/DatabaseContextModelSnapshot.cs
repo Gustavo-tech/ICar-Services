@@ -145,11 +145,18 @@ namespace ICar.Infrastructure.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("CityId")
                         .HasColumnType("INT");
 
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CityId")
                         .IsUnique();

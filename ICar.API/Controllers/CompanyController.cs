@@ -64,11 +64,12 @@ namespace ICar.API.Controllers
 
                 if (company == null)
                 {
-                    List<City> companyCities = await HandleCitiesInsertionAsync(newCompany.Cnpj, newCompany.Cities);
+                    await HandleCitiesInsertionAsync(newCompany.Cnpj, newCompany.Cities);
                     Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
-                        newCompany.Password, companyCities, "client");
+                        newCompany.Password, "client");
 
                     await _baseRepository.AddAsync(companyToInsert);
+                    await InsertCompanyCityIfDoesntExistAsync(newCompany.Cnpj, newCompany.Cities);
 
                     dynamic output = new
                     {
@@ -91,47 +92,35 @@ namespace ICar.API.Controllers
             }
         }
 
-        private async Task<List<City>> HandleCitiesInsertionAsync(string companyCnpj, List<string> cities)
+        private async Task HandleCitiesInsertionAsync(string companyCnpj, List<string> cities)
         {
-            List<City> companyCities = new();
-            foreach (string city in cities)
+            foreach (string cityName in cities)
             {
-                City cityResult = await InsertCityIfDoesntExistsAsync(city);
-                await InsertCompanyCityIfDoesntExistAsync(companyCnpj, cityResult.Id.Value);
-                companyCities.Add(cityResult);
-            }
+                City cityInDatabase = await _cityRepository.GetCityByNameAsync(cityName);
 
-            return companyCities;
+                if (cityInDatabase == null)
+                {
+                    City cityToInsert = new(cityName);
+                    await _baseRepository.AddAsync(cityToInsert);
+                }
+            }
         }
 
-        private async Task<City> InsertCityIfDoesntExistsAsync(string city)
-        {
-            City cityInDatabase = await _cityRepository.GetCityByNameAsync(city);
-
-            if (cityInDatabase == null)
-            {
-                City cityToInsert = new(city);
-                await _baseRepository.AddAsync(cityToInsert);
-                return cityToInsert;
-            }
-            else
-                return cityInDatabase;
-        }
-
-        private async Task InsertCompanyCityIfDoesntExistAsync(string companyCnpj, int cityId)
+        private async Task InsertCompanyCityIfDoesntExistAsync(string companyCnpj, List<string> cities)
         {
             try
             {
-                CompanyCity companyCity = await _companyCityRepository.GetCompanyCityAsync(companyCnpj, cityId);
-
-                if (companyCity == null)
+                foreach (string cityName in cities)
                 {
-                    CompanyCity companyCityToInsert = new()
+                    City city = await _cityRepository.GetCityByNameAsync(cityName);
+                    CompanyCity companyCityInDatabase = await _companyCityRepository
+                        .GetCompanyCityAsync(companyCnpj, city.Id.Value);
+
+                    if (companyCityInDatabase == null)
                     {
-                        CompanyCnpj = companyCnpj,
-                        CityId = cityId
-                    };
-                    await _baseRepository.AddAsync(companyCityToInsert);
+                        CompanyCity companyCityToInsert = new() { CompanyCnpj = companyCnpj, CityId = city.Id.Value };
+                        await _baseRepository.AddAsync(companyCityToInsert);
+                    }
                 }
             }
             catch (Exception)
