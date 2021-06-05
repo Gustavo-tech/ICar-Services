@@ -158,12 +158,9 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId")
-                        .IsUnique();
+                    b.HasIndex("CityId");
 
-                    b.HasIndex("CompanyCnpj")
-                        .IsUnique()
-                        .HasFilter("[CompanyCnpj] IS NOT NULL");
+                    b.HasIndex("CompanyCnpj");
 
                     b.ToTable("CompanyCities");
                 });
@@ -314,14 +311,14 @@ namespace ICar.Infrastructure.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.City", "City")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CityId")
+                        .WithMany()
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ICar.Infrastructure.Models.Company", "Company")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CompanyCnpj");
+                        .WithMany()
+                        .HasForeignKey("CompanyCnpj");
 
                     b.Navigation("City");
 

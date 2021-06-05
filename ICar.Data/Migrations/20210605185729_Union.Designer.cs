@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210605175713_Union")]
+    [Migration("20210605185729_Union")]
     partial class Union
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,12 +160,9 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId")
-                        .IsUnique();
+                    b.HasIndex("CityId");
 
-                    b.HasIndex("CompanyCnpj")
-                        .IsUnique()
-                        .HasFilter("[CompanyCnpj] IS NOT NULL");
+                    b.HasIndex("CompanyCnpj");
 
                     b.ToTable("CompanyCities");
                 });
@@ -316,14 +313,14 @@ namespace ICar.Infrastructure.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.City", "City")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CityId")
+                        .WithMany()
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ICar.Infrastructure.Models.Company", "Company")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CompanyCnpj");
+                        .WithMany()
+                        .HasForeignKey("CompanyCnpj");
 
                     b.Navigation("City");
 

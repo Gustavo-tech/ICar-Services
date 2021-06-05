@@ -238,15 +238,12 @@ namespace ICar.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CompanyCities_CityId",
                 table: "CompanyCities",
-                column: "CityId",
-                unique: true);
+                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CompanyCities_CompanyCnpj",
                 table: "CompanyCities",
-                column: "CompanyCnpj",
-                unique: true,
-                filter: "[CompanyCnpj] IS NOT NULL");
+                column: "CompanyCnpj");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_CompanyCnpj",

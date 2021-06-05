@@ -16,12 +16,12 @@ namespace ICar.Infrastructure.Configurations
             builder.HasIndex(x => x.CityId);
 
             builder.HasOne(x => x.Company)
-                .WithOne()
-                .HasForeignKey<CompanyCity>(x => x.CompanyCnpj);
+                .WithMany()
+                .HasForeignKey(x => x.CompanyCnpj);
 
             builder.HasOne(x => x.City)
-                .WithOne()
-                .HasForeignKey<CompanyCity>(x => x.CityId);
+                .WithMany()
+                .HasForeignKey(x => x.CityId);
         }
     }
 }
