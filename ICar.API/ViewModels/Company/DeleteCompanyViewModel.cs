@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICar.API.ViewModels.Company
 {
-    public class CompanyViewModel
+    public class DeleteCompanyViewModel
     {
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(18, MinimumLength = 18, ErrorMessage = "A CNPJ should contain 18 characters")]
@@ -11,22 +14,13 @@ namespace ICar.API.ViewModels.Company
         public string Cnpj { get; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public string Name { get; }
-
-        [Required(ErrorMessage = "{0} is required")]
-        public string Email { get; }
-
         [StringLength(maximumLength: int.MaxValue, MinimumLength = 8,
         ErrorMessage = "{0} should contain at least {1} characters")]
-        [Required(ErrorMessage = "{0} is required")]
         public string Password { get; }
 
-        public CompanyViewModel(string cnpj, string name, string email,
-            string password)
+        public DeleteCompanyViewModel(string cnpj, string password)
         {
             Cnpj = cnpj;
-            Name = name;
-            Email = email;
             Password = password;
         }
     }

@@ -29,7 +29,6 @@ namespace ICar.Infrastructure.Repositories
         public async Task<List<User>> GetUsersAsync()
         {
             return await _dbContext.Users
-                .Include(x => x.City)
                 .Include(x => x.News)
                 .Include(x => x.Cars)
                 .Include(x => x.Logins)

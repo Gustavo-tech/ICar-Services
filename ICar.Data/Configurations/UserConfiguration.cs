@@ -44,10 +44,6 @@ namespace ICar.Infrastructure.Configurations
             builder.HasMany(x => x.Cars)
                 .WithOne();
 
-            builder.HasOne(x => x.City)
-                .WithOne()
-                .HasForeignKey<User>(x => x.CityId);
-
             builder.HasMany(x => x.News)
                 .WithOne();
 

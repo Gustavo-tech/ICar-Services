@@ -41,7 +41,6 @@ namespace ICar.Infrastructure.Migrations
                 columns: table => new
                 {
                     Cpf = table.Column<string>(type: "NVARCHAR(18)", maxLength: 18, nullable: false),
-                    CityId = table.Column<int>(type: "INT", nullable: false),
                     Name = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     Email = table.Column<string>(type: "NVARCHAR(320)", maxLength: 320, nullable: false),
                     Password = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
@@ -51,63 +50,31 @@ namespace ICar.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Cpf);
-                    table.ForeignKey(
-                        name: "FK_Users_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CompanyCities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
-                    CityId = table.Column<int>(type: "INT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompanyCities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CompanyCities_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CompanyCities_Companies_CompanyCnpj",
-                        column: x => x.CompanyCnpj,
-                        principalTable: "Companies",
-                        principalColumn: "Cnpj",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Cars",
                 columns: table => new
                 {
-                    Plate = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Maker = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MakeDate = table.Column<int>(type: "int", nullable: false),
-                    MakedDate = table.Column<int>(type: "int", nullable: false),
+                    Plate = table.Column<string>(type: "Char(8)", nullable: false),
+                    Maker = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
+                    Model = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
+                    MakeDate = table.Column<int>(type: "INT", nullable: false),
+                    MakedDate = table.Column<int>(type: "INT", nullable: false),
                     KilometersTraveled = table.Column<double>(type: "float", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    AcceptsChange = table.Column<bool>(type: "bit", nullable: false),
-                    IpvaIsPaid = table.Column<bool>(type: "bit", nullable: false),
-                    IsLicensed = table.Column<bool>(type: "bit", nullable: false),
-                    IsArmored = table.Column<bool>(type: "bit", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeOfExchange = table.Column<int>(type: "int", nullable: false),
-                    Color = table.Column<int>(type: "int", nullable: false),
-                    GasolineType = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "DECIMAL(38,17)", maxLength: 10000000, nullable: false),
+                    AcceptsChange = table.Column<bool>(type: "BIT", nullable: false),
+                    IpvaIsPaid = table.Column<bool>(type: "BIT", nullable: false),
+                    IsLicensed = table.Column<bool>(type: "BIT", nullable: false),
+                    IsArmored = table.Column<bool>(type: "BIT", nullable: false),
+                    Message = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
+                    TypeOfExchange = table.Column<string>(type: "CHAR(3)", nullable: false),
+                    Color = table.Column<int>(type: "INT", maxLength: 3, nullable: false),
+                    GasolineType = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     CompanyCnpj = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
                     UserCpf = table.Column<string>(type: "NVARCHAR(18)", nullable: true),
                     CityId = table.Column<int>(type: "INT", nullable: false),
-                    NumberOfViews = table.Column<int>(type: "int", nullable: false)
+                    NumberOfViews = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,7 +163,7 @@ namespace ICar.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImageStream = table.Column<string>(type: "NVARCHAR", nullable: false),
-                    CarPlate = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CarPlate = table.Column<string>(type: "Char(8)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -217,7 +184,8 @@ namespace ICar.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_CityId",
                 table: "Cars",
-                column: "CityId");
+                column: "CityId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_CompanyCnpj",
@@ -234,16 +202,6 @@ namespace ICar.Infrastructure.Migrations
                 table: "Cities",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyCities_CityId",
-                table: "CompanyCities",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyCities_CompanyCnpj",
-                table: "CompanyCities",
-                column: "CompanyCnpj");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_CompanyCnpj",
@@ -264,21 +222,12 @@ namespace ICar.Infrastructure.Migrations
                 name: "IX_News_UserCpf",
                 table: "News",
                 column: "UserCpf");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_CityId",
-                table: "Users",
-                column: "CityId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "CarImages");
-
-            migrationBuilder.DropTable(
-                name: "CompanyCities");
 
             migrationBuilder.DropTable(
                 name: "Logins");
@@ -290,13 +239,13 @@ namespace ICar.Infrastructure.Migrations
                 name: "Cars");
 
             migrationBuilder.DropTable(
+                name: "Cities");
+
+            migrationBuilder.DropTable(
                 name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using ICar.Infrastructure.Models.Abstracts;
 using System;
-using System.Collections.Generic;
 
 namespace ICar.Infrastructure.Models
 {
     public class Company : Entity
     {
         public string Cnpj { get; set; }
-        public List<City> Cities { get; set; }
 
         public Company()
         { }

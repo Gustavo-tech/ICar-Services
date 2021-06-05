@@ -1,5 +1,5 @@
 ﻿using ICar.API.Generators;
-using ICar.API.ViewModels;
+using ICar.API.ViewModels.Company;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,19 +17,16 @@ namespace ICar.API.Controllers
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly ICityRepository _cityRepository;
-        private readonly ICompanyCityRepository _companyCityRepository;
         private readonly IBaseRepository _baseRepository;
 
         public CompanyController(
             ICompanyRepository companyQueries,
             ICityRepository cityRepository,
-            ICompanyCityRepository companyCityRepository,
             IBaseRepository baseRepository
             )
         {
             _companyRepository = companyQueries;
             _cityRepository = cityRepository;
-            _companyCityRepository = companyCityRepository;
             _baseRepository = baseRepository;
         }
 
@@ -64,19 +61,16 @@ namespace ICar.API.Controllers
 
                 if (company == null)
                 {
-                    await HandleCitiesInsertionAsync(insert.Cnpj, insert.Cities);
                     Company companyToInsert = new(insert.Cnpj, insert.Name, insert.Email,
                         insert.Password, "client");
 
                     await _baseRepository.AddAsync(companyToInsert);
-                    await InsertCompanyCityIfDoesntExistAsync(insert.Cnpj, insert.Cities);
 
                     dynamic output = new
                     {
                         CNPJ = insert.Cnpj,
                         insert.Name,
                         insert.Email,
-                        insert.Cities,
                         Message = "Company inserted successfully"
                     };
 
@@ -93,6 +87,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateCompanyAsync([FromBody] CompanyViewModel update)
         {
             try
@@ -104,6 +99,7 @@ namespace ICar.API.Controllers
                     companyInDatabase.Email = update.Email;
                     companyInDatabase.Password = update.Password;
 
+                    await _baseRepository.UpdateAsync(companyInDatabase);
                     return Ok();
                 }
 
@@ -115,40 +111,25 @@ namespace ICar.API.Controllers
             }
         }
 
-        private async Task HandleCitiesInsertionAsync(string companyCnpj, List<string> cities)
-        {
-            foreach (string cityName in cities)
-            {
-                City cityInDatabase = await _cityRepository.GetCityByNameAsync(cityName);
-
-                if (cityInDatabase == null)
-                {
-                    City cityToInsert = new(cityName);
-                    await _baseRepository.AddAsync(cityToInsert);
-                }
-            }
-        }
-
-        private async Task InsertCompanyCityIfDoesntExistAsync(string companyCnpj, List<string> cities)
+        [HttpDelete("delete")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteCompanyAsync([FromBody] DeleteCompanyViewModel delete)
         {
             try
             {
-                foreach (string cityName in cities)
-                {
-                    City city = await _cityRepository.GetCityByNameAsync(cityName);
-                    CompanyCity companyCityInDatabase = await _companyCityRepository
-                        .GetCompanyCityAsync(companyCnpj, city.Id.Value);
+                Company companyInDatabase = await _companyRepository.GetCompanyByCnpjAsync(delete.Cnpj);
 
-                    if (companyCityInDatabase == null)
-                    {
-                        CompanyCity companyCityToInsert = new() { CompanyCnpj = companyCnpj, CityId = city.Id.Value };
-                        await _baseRepository.AddAsync(companyCityToInsert);
-                    }
+                if (companyInDatabase.Password == delete.Password)
+                {
+                    await _baseRepository.DeleteAsync(companyInDatabase);
+                    return Ok();
                 }
+                else
+                    return BadRequest();
             }
             catch (Exception)
             {
-                return;
+                return Problem();
             }
         }
     }

@@ -15,23 +15,18 @@ namespace ICar.Infrastructure
         public DbSet<News> News { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<CompanyCity> CompanyCities { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // company
             builder.ApplyConfiguration(new CompanyConfiguration());
-            builder.ApplyConfiguration(new LoginConfiguration());
-            builder.ApplyConfiguration(new CompanyCityConfiguration());
-
-            // user
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new NewsConfiguration());
-
             builder.ApplyConfiguration(new CityConfiguration());
             builder.ApplyConfiguration(new CarImageConfiguration());
+            builder.ApplyConfiguration(new CarConfiguration());
+            builder.ApplyConfiguration(new LoginConfiguration());
         }
     }
 }
