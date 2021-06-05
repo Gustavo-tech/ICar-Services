@@ -56,27 +56,27 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCompany([FromBody] NewCompanyViewModel newCompany)
+        public async Task<IActionResult> CreateCompany([FromBody] CompanyViewModel insert)
         {
             try
             {
-                Company company = await _companyRepository.GetCompanyByCnpjAsync(newCompany.Cnpj);
+                Company company = await _companyRepository.GetCompanyByCnpjAsync(insert.Cnpj);
 
                 if (company == null)
                 {
-                    await HandleCitiesInsertionAsync(newCompany.Cnpj, newCompany.Cities);
-                    Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
-                        newCompany.Password, "client");
+                    await HandleCitiesInsertionAsync(insert.Cnpj, insert.Cities);
+                    Company companyToInsert = new(insert.Cnpj, insert.Name, insert.Email,
+                        insert.Password, "client");
 
                     await _baseRepository.AddAsync(companyToInsert);
-                    await InsertCompanyCityIfDoesntExistAsync(newCompany.Cnpj, newCompany.Cities);
+                    await InsertCompanyCityIfDoesntExistAsync(insert.Cnpj, insert.Cities);
 
                     dynamic output = new
                     {
-                        CNPJ = newCompany.Cnpj,
-                        newCompany.Name,
-                        newCompany.Email,
-                        newCompany.Cities,
+                        CNPJ = insert.Cnpj,
+                        insert.Name,
+                        insert.Email,
+                        insert.Cities,
                         Message = "Company inserted successfully"
                     };
 
@@ -85,6 +85,29 @@ namespace ICar.API.Controllers
 
                 else
                     return Problem(detail: "This company already exists");
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateCompanyAsync([FromBody] CompanyViewModel update)
+        {
+            try
+            {
+                Company companyInDatabase = await _companyRepository.GetCompanyByCnpjAsync(update.Cnpj);
+                if (companyInDatabase != null)
+                {
+                    companyInDatabase.Name = update.Name;
+                    companyInDatabase.Email = update.Email;
+                    companyInDatabase.Password = update.Password;
+
+                    return Ok();
+                }
+
+                return NotFound();
             }
             catch (Exception)
             {
