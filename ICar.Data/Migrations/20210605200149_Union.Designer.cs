@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210603174908_Discriminator")]
-    partial class Discriminator
+    [Migration("20210605200149_Union")]
+    partial class Union
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,68 +24,77 @@ namespace ICar.Infrastructure.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
                     b.Property<string>("Plate")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("Char(8)");
 
                     b.Property<bool>("AcceptsChange")
-                        .HasColumnType("bit");
+                        .HasColumnType("BIT");
 
                     b.Property<int>("CityId")
                         .HasColumnType("INT");
 
                     b.Property<int>("Color")
-                        .HasColumnType("int");
+                        .HasMaxLength(3)
+                        .HasColumnType("INT");
 
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
 
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GasolineType")
-                        .HasColumnType("int");
+                    b.Property<string>("GasolineType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("NVARCHAR(20)");
 
                     b.Property<bool>("IpvaIsPaid")
-                        .HasColumnType("bit");
+                        .HasColumnType("BIT");
 
                     b.Property<bool>("IsArmored")
-                        .HasColumnType("bit");
+                        .HasColumnType("BIT");
 
                     b.Property<bool>("IsLicensed")
-                        .HasColumnType("bit");
+                        .HasColumnType("BIT");
 
                     b.Property<double>("KilometersTraveled")
                         .HasColumnType("float");
 
                     b.Property<int>("MakeDate")
-                        .HasColumnType("int");
+                        .HasColumnType("INT");
 
                     b.Property<int>("MakedDate")
-                        .HasColumnType("int");
+                        .HasColumnType("INT");
 
                     b.Property<string>("Maker")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("NVARCHAR(60)");
 
                     b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("NVARCHAR(500)");
 
                     b.Property<string>("Model")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("NVARCHAR(60)");
 
                     b.Property<int>("NumberOfViews")
-                        .HasColumnType("int");
+                        .HasColumnType("INT");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasMaxLength(10000000)
+                        .HasColumnType("DECIMAL(38,17)");
 
-                    b.Property<int>("TypeOfExchange")
-                        .HasColumnType("int");
+                    b.Property<string>("TypeOfExchange")
+                        .IsRequired()
+                        .HasColumnType("CHAR(3)");
 
                     b.Property<string>("UserCpf")
                         .HasColumnType("NVARCHAR(18)");
 
                     b.HasKey("Plate");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("CityId")
+                        .IsUnique();
 
                     b.HasIndex("CompanyCnpj");
 
@@ -148,25 +157,6 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
-                {
-                    b.Property<string>("CompanyCnpj")
-                        .HasColumnType("NVARCHAR(18)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("INT");
-
-                    b.HasKey("CompanyCnpj", "CityId");
-
-                    b.HasIndex("CityId")
-                        .IsUnique();
-
-                    b.HasIndex("CompanyCnpj")
-                        .IsUnique();
-
-                    b.ToTable("CompanyCities");
-                });
-
             modelBuilder.Entity("ICar.Infrastructure.Models.Entities.CarImage", b =>
                 {
                     b.Property<int>("Id")
@@ -175,7 +165,7 @@ namespace ICar.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CarPlate")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("Char(8)");
 
                     b.Property<string>("ImageStream")
                         .IsRequired()
@@ -197,9 +187,6 @@ namespace ICar.Infrastructure.Migrations
 
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
-
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("DATETIME");
@@ -228,9 +215,6 @@ namespace ICar.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
-
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("DATETIME");
@@ -266,9 +250,6 @@ namespace ICar.Infrastructure.Migrations
                     b.Property<DateTime>("AccountCreationDate")
                         .HasColumnType("DATETIME");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("INT");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(320)
@@ -291,17 +272,14 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasKey("Cpf");
 
-                    b.HasIndex("CityId")
-                        .IsUnique();
-
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
+                        .WithOne()
+                        .HasForeignKey("ICar.Infrastructure.Models.Car", "CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -314,25 +292,6 @@ namespace ICar.Infrastructure.Migrations
                         .HasForeignKey("UserCpf");
 
                     b.Navigation("City");
-                });
-
-            modelBuilder.Entity("ICar.Infrastructure.Models.CompanyCity", b =>
-                {
-                    b.HasOne("ICar.Infrastructure.Models.City", "City")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ICar.Infrastructure.Models.Company", "Company")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.CompanyCity", "CompanyCnpj")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Entities.CarImage", b =>
@@ -364,17 +323,6 @@ namespace ICar.Infrastructure.Migrations
                     b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany("News")
                         .HasForeignKey("UserCpf");
-                });
-
-            modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>
-                {
-                    b.HasOne("ICar.Infrastructure.Models.City", "City")
-                        .WithOne()
-                        .HasForeignKey("ICar.Infrastructure.Models.User", "CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>

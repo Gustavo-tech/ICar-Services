@@ -1,5 +1,5 @@
 ﻿using ICar.API.Generators;
-using ICar.API.ViewModels;
+using ICar.API.ViewModels.Company;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,19 +17,16 @@ namespace ICar.API.Controllers
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly ICityRepository _cityRepository;
-        private readonly ICompanyCityRepository _companyCityRepository;
         private readonly IBaseRepository _baseRepository;
 
         public CompanyController(
             ICompanyRepository companyQueries,
             ICityRepository cityRepository,
-            ICompanyCityRepository companyCityRepository,
             IBaseRepository baseRepository
             )
         {
             _companyRepository = companyQueries;
             _cityRepository = cityRepository;
-            _companyCityRepository = companyCityRepository;
             _baseRepository = baseRepository;
         }
 
@@ -56,26 +53,24 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCompany([FromBody] NewCompanyViewModel newCompany)
+        public async Task<IActionResult> CreateCompany([FromBody] CompanyViewModel insert)
         {
             try
             {
-                Company company = await _companyRepository.GetCompanyByCnpjAsync(newCompany.Cnpj);
+                Company company = await _companyRepository.GetCompanyByCnpjAsync(insert.Cnpj);
 
                 if (company == null)
                 {
-                    List<City> companyCities = await HandleCitiesInsertionAsync(newCompany.Cnpj, newCompany.Cities);
-                    Company companyToInsert = new(newCompany.Cnpj, newCompany.Name, newCompany.Email,
-                        newCompany.Password, companyCities, "client");
+                    Company companyToInsert = new(insert.Cnpj, insert.Name, insert.Email,
+                        insert.Password, "client");
 
                     await _baseRepository.AddAsync(companyToInsert);
 
                     dynamic output = new
                     {
-                        CNPJ = newCompany.Cnpj,
-                        newCompany.Name,
-                        newCompany.Email,
-                        newCompany.Cities,
+                        CNPJ = insert.Cnpj,
+                        insert.Name,
+                        insert.Email,
                         Message = "Company inserted successfully"
                     };
 
@@ -91,52 +86,50 @@ namespace ICar.API.Controllers
             }
         }
 
-        private async Task<List<City>> HandleCitiesInsertionAsync(string companyCnpj, List<string> cities)
-        {
-            List<City> companyCities = new();
-            foreach (string city in cities)
-            {
-                City cityResult = await InsertCityIfDoesntExistsAsync(city);
-                await InsertCompanyCityIfDoesntExistAsync(companyCnpj, cityResult.Id.Value);
-                companyCities.Add(cityResult);
-            }
-
-            return companyCities;
-        }
-
-        private async Task<City> InsertCityIfDoesntExistsAsync(string city)
-        {
-            City cityInDatabase = await _cityRepository.GetCityByNameAsync(city);
-
-            if (cityInDatabase == null)
-            {
-                City cityToInsert = new(city);
-                await _baseRepository.AddAsync(cityToInsert);
-                return cityToInsert;
-            }
-            else
-                return cityInDatabase;
-        }
-
-        private async Task InsertCompanyCityIfDoesntExistAsync(string companyCnpj, int cityId)
+        [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateCompanyAsync([FromBody] CompanyViewModel update)
         {
             try
             {
-                CompanyCity companyCity = await _companyCityRepository.GetCompanyCityAsync(companyCnpj, cityId);
-
-                if (companyCity == null)
+                Company companyInDatabase = await _companyRepository.GetCompanyByCnpjAsync(update.Cnpj);
+                if (companyInDatabase != null)
                 {
-                    CompanyCity companyCityToInsert = new()
-                    {
-                        CompanyCnpj = companyCnpj,
-                        CityId = cityId
-                    };
-                    await _baseRepository.AddAsync(companyCityToInsert);
+                    companyInDatabase.Name = update.Name;
+                    companyInDatabase.Email = update.Email;
+                    companyInDatabase.Password = update.Password;
+
+                    await _baseRepository.UpdateAsync(companyInDatabase);
+                    return Ok();
                 }
+
+                return NotFound();
             }
             catch (Exception)
             {
-                return;
+                return Problem();
+            }
+        }
+
+        [HttpDelete("delete")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteCompanyAsync([FromBody] DeleteCompanyViewModel delete)
+        {
+            try
+            {
+                Company companyInDatabase = await _companyRepository.GetCompanyByEmailAsync(delete.Email);
+
+                if (companyInDatabase.Password == delete.Password)
+                {
+                    await _baseRepository.DeleteAsync(companyInDatabase);
+                    return Ok();
+                }
+                else
+                    return BadRequest();
+            }
+            catch (Exception)
+            {
+                return Problem();
             }
         }
     }

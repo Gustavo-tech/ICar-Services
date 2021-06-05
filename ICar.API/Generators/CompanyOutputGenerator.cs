@@ -16,7 +16,6 @@ namespace ICar.API.Generators
                 company.Email,
                 company.Name,
                 company.AccountCreationDate,
-                Cities = company.Cities.Select(x => x.Name).ToList(),
                 CompanyLogins = company.Logins.Select(x => x.Time),
                 CompanyNews = company.News.Select(x => new
                 {

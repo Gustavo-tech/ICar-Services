@@ -22,7 +22,6 @@ namespace ICar.Infrastructure.Repositories
                 .Include(x => x.Cars)
                 .Include(x => x.Logins)
                 .Include(x => x.News)
-                .Include(x => x.Cities)
                 .ToListAsync();
         }
 

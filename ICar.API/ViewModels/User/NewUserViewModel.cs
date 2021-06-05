@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ICar.API.ViewModels
+namespace ICar.API.ViewModels.User
 {
     public sealed class NewUserViewModel
     {
@@ -21,16 +21,12 @@ namespace ICar.API.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; }
 
-        [Required(ErrorMessage = "{0} is required")]
-        public string City { get; }
-
-        public NewUserViewModel(string cpf, string name, string email, string password, string city)
+        public NewUserViewModel(string cpf, string name, string email, string password)
         {
             Cpf = cpf;
             Name = name;
             Email = email;
             Password = password;
-            City = city;
         }
     }
 }

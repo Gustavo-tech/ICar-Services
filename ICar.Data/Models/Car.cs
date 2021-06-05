@@ -7,7 +7,6 @@ namespace ICar.Infrastructure.Models
 {
     public class Car
     {
-        [Key]
         public string Plate { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
@@ -23,7 +22,8 @@ namespace ICar.Infrastructure.Models
         public TypeOfExchange TypeOfExchange { get; set; }
         public Color Color { get; set; }
         public GasolineType GasolineType { get; set; }
-        public string Discriminator { get; set; }
+        public string CompanyCnpj { get; set; }
+        public string UserCpf { get; set; }
         public int CityId { get; set; }
         public City City { get; set; }
         public List<CarImage> CarImages { get; set; }

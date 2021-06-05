@@ -67,8 +67,6 @@ namespace ICar.API.Controllers
                     {
                         User userToInsert = new(newUser.Cpf, newUser.Name, newUser.Email,
                             newUser.Password, "client");
-                        City city = await HandleCityInsertion(newUser.City);
-                        userToInsert.City = city;
 
                         await _baseRepository.AddAsync(userToInsert);
                         return Ok(new
@@ -76,7 +74,6 @@ namespace ICar.API.Controllers
                             CPF = newUser.Cpf,
                             newUser.Name,
                             newUser.Email,
-                            newUser.City,
                             Message = "User inserted succesffully"
                         });
                     }
@@ -92,7 +89,6 @@ namespace ICar.API.Controllers
                         CPF = newUser.Cpf,
                         newUser.Name,
                         newUser.Email,
-                        newUser.City,
                         Message = "This user already exists"
                     });
                 }
@@ -118,7 +114,6 @@ namespace ICar.API.Controllers
                         user.Cpf = updateUser.Cpf;
                         user.Email = updateUser.Email;
                         user.Name = updateUser.Name;
-                        user.City = await HandleCityInsertion(updateUser.City);
 
                         await _baseRepository.UpdateAsync(user);
                         return Ok();
@@ -163,20 +158,6 @@ namespace ICar.API.Controllers
             }
             else
                 return NotFound();
-        }
-
-        private async Task<City> HandleCityInsertion(string cityName)
-        {
-            City city = await _cityRepository.GetCityByNameAsync(cityName);
-
-            if (city == null)
-            {
-                City insertedCity = new(cityName);
-                await _baseRepository.AddAsync(insertedCity);
-                return insertedCity;
-            }
-
-            return city;
         }
     }
 }

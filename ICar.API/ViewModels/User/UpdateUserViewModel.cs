@@ -15,9 +15,6 @@ namespace ICar.API.ViewModels.User
         public string Email { get; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public string City { get; }
-
-        [Required(ErrorMessage = "{0} is required")]
         public string Password { get; }
 
         public UpdateUserViewModel(string cpf, string name, string email, string city, string password)
@@ -25,7 +22,6 @@ namespace ICar.API.ViewModels.User
             Cpf = cpf;
             Name = name;
             Email = email;
-            City = city;
             Password = password;
         }
     }

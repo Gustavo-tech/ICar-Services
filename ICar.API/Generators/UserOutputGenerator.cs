@@ -15,7 +15,6 @@ namespace ICar.API.Generators
                 user.Name,
                 user.Email,
                 user.AccountCreationDate,
-                City = user.City.Name,
                 user.Role,
                 UserCars = user.Cars
                 .Select(x => new {
