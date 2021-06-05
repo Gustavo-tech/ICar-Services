@@ -3,6 +3,7 @@ using ICar.API.ViewModels;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -71,7 +72,7 @@ namespace ICar.API.Controllers
             {
                 if (user.Password == login.Password)
                 {
-                    await _baseRepository.AddAsync(new Login(user.Name));
+                    await _baseRepository.AddAsync(new Login { Time = DateTime.Now, UserCpf = user.Cpf });
                     dynamic responseObject = new
                     {
                         User = user.Name,

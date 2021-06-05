@@ -8,7 +8,8 @@ namespace ICar.Infrastructure.Repositories.Interfaces
     {
         public Task<Car> GetCarByPlateAsync(string plate);
         public Task<List<Car>> GetAllCarsAsync();
-        public Task<List<Car>> GetByIdentificationAsync(string identification);
+        public Task<List<Car>> GetByUserCpfAsync(string userCpf);
+        public Task<List<Car>> GetByCompanyCnpjAsync(string companyCnpj);
         public Task IncreaseNumberOfViewsAsync(string carPlate);
     }
 }

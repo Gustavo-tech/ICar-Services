@@ -26,9 +26,14 @@ namespace ICar.Infrastructure.Repositories
             return await _dbContext.Cars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Car>> GetByIdentificationAsync(string identification)
+        public async Task<List<Car>> GetByUserCpfAsync(string userCpf)
         {
-            return await _dbContext.Cars.Where(x => x.Discriminator == identification).ToListAsync();
+            return await _dbContext.Cars.Where(x => x.UserCpf == userCpf).ToListAsync();
+        }
+
+        public async Task<List<Car>> GetByCompanyCnpjAsync(string companyCnpj)
+        {
+            return await _dbContext.Cars.Where(x => x.CompanyCnpj == companyCnpj).ToListAsync();
         }
 
         public async Task IncreaseNumberOfViewsAsync(string carPlate)

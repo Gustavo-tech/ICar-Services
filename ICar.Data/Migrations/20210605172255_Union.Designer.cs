@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210603174908_Discriminator")]
-    partial class Discriminator
+    [Migration("20210605172255_Union")]
+    partial class Union
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,9 +37,6 @@ namespace ICar.Infrastructure.Migrations
 
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
-
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GasolineType")
                         .HasColumnType("int");
@@ -198,9 +195,6 @@ namespace ICar.Infrastructure.Migrations
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
 
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("Time")
                         .HasColumnType("DATETIME");
 
@@ -228,9 +222,6 @@ namespace ICar.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
-
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("DATETIME");

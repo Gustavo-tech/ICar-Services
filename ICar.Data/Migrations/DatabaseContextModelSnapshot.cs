@@ -36,9 +36,6 @@ namespace ICar.Infrastructure.Migrations
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
 
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("GasolineType")
                         .HasColumnType("int");
 
@@ -196,9 +193,6 @@ namespace ICar.Infrastructure.Migrations
                     b.Property<string>("CompanyCnpj")
                         .HasColumnType("NVARCHAR(18)");
 
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("Time")
                         .HasColumnType("DATETIME");
 
@@ -226,9 +220,6 @@ namespace ICar.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
-
-                    b.Property<string>("Discriminator")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("DATETIME");
