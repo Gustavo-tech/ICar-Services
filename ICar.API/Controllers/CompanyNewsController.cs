@@ -1,4 +1,5 @@
 ﻿using ICar.API.Generators;
+using ICar.API.ViewModels.CompayNews;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,11 +15,13 @@ namespace ICar.API.Controllers
     [ApiController]
     public class CompanyNewsController : ControllerBase
     {
-        private readonly INewsRepository _repository;
+        private readonly INewsRepository _newsRepository;
+        private readonly IBaseRepository _baseRepository;
 
-        public CompanyNewsController(INewsRepository repository)
+        public CompanyNewsController(INewsRepository repository, IBaseRepository baseRepository)
         {
-            _repository = repository;
+            _newsRepository = repository;
+            _baseRepository = baseRepository;
         }
 
         [HttpGet("get")]
@@ -26,9 +29,25 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<News> companyNews = await _repository.GetCompanyNewsAsync();
+                List<News> companyNews = await _newsRepository.GetCompanyNewsAsync();
                 dynamic[] output = NewsOutputGenerator.GenerateCompanyNewsOutput(companyNews);
                 return Ok(output);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> InsertNewsAsync([FromBody] CompanyNewsViewModel create)
+        {
+            try
+            {
+                if (await _newsRepository.GetCompanyNewsAsync(create.Title, create.Text) == null)
+                {
+                    
+                }
             }
             catch (Exception)
             {
