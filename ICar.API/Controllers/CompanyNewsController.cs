@@ -46,7 +46,13 @@ namespace ICar.API.Controllers
             {
                 if (await _newsRepository.GetCompanyNewsAsync(create.Title, create.Text) == null)
                 {
-                    
+                    News newsToInsert = new(create.Title, create.Text, create.CompanyCnpj);
+                    await _baseRepository.AddAsync(newsToInsert);
+                    return Ok(create);
+                }
+                else
+                {
+                    return Conflict();
                 }
             }
             catch (Exception)

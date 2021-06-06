@@ -15,11 +15,17 @@ namespace ICar.Infrastructure.Models
         public News()
         { }
 
-        public News(string title, string text, string companyCnpj)
+        public News(string title, string text, string identification, bool isACompany = true)
         {
             Title = title;
             Text = text;
-            CompanyCnpj = companyCnpj;
+            CreatedOn = DateTime.Now;
+            LastUpdate = DateTime.Now;
+
+            if (isACompany)
+                CompanyCnpj = identification;
+            else
+                UserCpf = identification;
         }
     }
 }
