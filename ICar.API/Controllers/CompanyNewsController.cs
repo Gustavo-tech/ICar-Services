@@ -45,7 +45,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                if (await _newsRepository.GetCompanyNewsAsync(create.Title, create.Text) == null)
+                if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
                 {
                     News newsToInsert = new(create.Title, create.Text, create.CompanyCnpj);
                     await _baseRepository.AddAsync(newsToInsert);
@@ -68,7 +68,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                News newsInDatabase = await _newsRepository.GetCompanyNewsAsync(update.Id);
+                News newsInDatabase = await _newsRepository.GetNewsAsync(update.Id);
                 if (newsInDatabase != null)
                 {
                     newsInDatabase.Title = update.Title;
@@ -92,7 +92,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                News news = await _newsRepository.GetCompanyNewsAsync(id);
+                News news = await _newsRepository.GetNewsAsync(id);
                 await _baseRepository.DeleteAsync(news);
                 return Ok();
             }

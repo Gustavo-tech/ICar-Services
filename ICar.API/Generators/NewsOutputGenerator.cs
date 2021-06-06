@@ -57,5 +57,31 @@ namespace ICar.API.Generators
                 news.CreatedOn
             };
         }
+
+        internal static dynamic[] GenerateUserNewsOutput(List<News> news)
+        {
+            dynamic[] output = new dynamic[news.Count];
+            try
+            {
+                for (int x = 0; x < news.Count; x++)
+                {
+                    output[x] = new
+                    {
+                        news[x].Id,
+                        PublishedBy = news[x].UserCpf,
+                        news[x].Title,
+                        news[x].Text,
+                        news[x].LastUpdate,
+                        news[x].CreatedOn
+                    };
+                }
+
+                return output;
+            }
+            catch (Exception)
+            {
+                return output;
+            }
+        }
     }
 }
