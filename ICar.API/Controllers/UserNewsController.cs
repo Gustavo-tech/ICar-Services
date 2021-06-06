@@ -1,4 +1,6 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.API.Generators;
+using ICar.API.ViewModels.UserNews;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,26 +15,91 @@ namespace ICar.API.Controllers
     [ApiController]
     public class UserNewsController : ControllerBase
     {
-        private readonly INewsRepository _repository;
+        private readonly INewsRepository _newsRepository;
+        private readonly IBaseRepository _baseRepository;
 
-        public UserNewsController(INewsRepository repository)
+        public UserNewsController(INewsRepository newsRepository, IBaseRepository baseRepository)
         {
-            _repository = repository;
+            _newsRepository = newsRepository;
+            _baseRepository = baseRepository;
         }
 
-        //[HttpGet("get")]
-        //[Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "client, admin")]
-        //public async Task<IActionResult> GetNewsAsync()
-        //{
-        //    try
-        //    {
-        //        List<News> un = await _repository.GetNewsAsync();
-        //        return Ok(un);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Problem();
-        //    }
-        //}
+        [HttpGet("get")]
+        public async Task<IActionResult> GetNewsAsync()
+        {
+            try
+            {
+                List<News> userNews = await _newsRepository.GetUserNewsAsync();
+                dynamic[] output = NewsOutputGenerator.GenerateUserNewsOutput(userNews);
+                return Ok(output);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPost("create")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> InsertNewsAsync([FromBody] UserNewsViewModel create)
+        {
+            try
+            {
+                if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
+                {
+                    News newsToInsert = new(create.Title, create.Text, create.Cpf, false);
+                    await _baseRepository.AddAsync(newsToInsert);
+                    return Ok(create);
+                }
+                else
+                {
+                    return Conflict();
+                }
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateNewsAsync([FromBody] UpdateUserNewsViewModel update)
+        {
+            try
+            {
+                News newsInDatabase = await _newsRepository.GetNewsAsync(update.Id);
+                if (newsInDatabase != null)
+                {
+                    newsInDatabase.Title = update.Title;
+                    newsInDatabase.Text = update.Text;
+                    newsInDatabase.LastUpdate = DateTime.Now;
+                    await _baseRepository.UpdateAsync(newsInDatabase);
+                    return Ok();
+                }
+                else
+                    return NotFound();
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteNewsAsync([FromRoute] int id)
+        {
+            try
+            {
+                News news = await _newsRepository.GetNewsAsync(id);
+                await _baseRepository.DeleteAsync(news);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
     }
 }
