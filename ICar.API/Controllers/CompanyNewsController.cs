@@ -40,6 +40,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> InsertNewsAsync([FromBody] CompanyNewsViewModel create)
         {
             try
@@ -54,6 +55,30 @@ namespace ICar.API.Controllers
                 {
                     return Conflict();
                 }
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateNewsAsync([FromBody] UpdateCompanyNewsViewModel update)
+        {
+            try
+            {
+                News newsInDatabase = await _newsRepository.GetCompanyNewsAsync(update.Id);
+                if (newsInDatabase != null)
+                {
+                    newsInDatabase.Title = update.Title;
+                    newsInDatabase.Text = update.Text;
+                    newsInDatabase.LastUpdate = DateTime.Now;
+                    await _baseRepository.UpdateAsync(newsInDatabase);
+                    return Ok();
+                }
+                else
+                    return NotFound();
             }
             catch (Exception)
             {

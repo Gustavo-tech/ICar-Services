@@ -21,6 +21,11 @@ namespace ICar.Infrastructure.Repositories
             return await _dbContext.News.Where(x => x.CompanyCnpj != null).ToListAsync();
         }
 
+        public async Task<News> GetCompanyNewsAsync(int id)
+        {
+            return await _dbContext.News.FindAsync(id);
+        }
+
         public async Task<List<News>> GetCompanyNewsAsync(string companyCnpj)
         {
             return await _dbContext.News.Where(x => x.CompanyCnpj == companyCnpj).ToListAsync();

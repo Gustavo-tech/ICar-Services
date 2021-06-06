@@ -10,6 +10,7 @@ namespace ICar.API.Generators
         {
             return new
             {
+                news.Id,
                 PublishedBy = news.CompanyCnpj,
                 news.Title,
                 news.Text,
@@ -27,6 +28,7 @@ namespace ICar.API.Generators
                 {
                     output[x] = new
                     {
+                        news[x].Id,
                         PublishedBy = news[x].CompanyCnpj,
                         news[x].Title,
                         news[x].Text,
@@ -47,6 +49,7 @@ namespace ICar.API.Generators
         {
             return new
             {
+                news.Id,
                 PublishedBy = news.UserCpf,
                 news.Title,
                 news.Text,
