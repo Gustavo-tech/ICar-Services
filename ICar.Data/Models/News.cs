@@ -4,7 +4,7 @@ namespace ICar.Infrastructure.Models
 {
     public class News
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
         public string CompanyCnpj { get; set; }
@@ -14,5 +14,18 @@ namespace ICar.Infrastructure.Models
 
         public News()
         { }
+
+        public News(string title, string text, string identification, bool isACompany = true)
+        {
+            Title = title;
+            Text = text;
+            CreatedOn = DateTime.Now;
+            LastUpdate = DateTime.Now;
+
+            if (isACompany)
+                CompanyCnpj = identification;
+            else
+                UserCpf = identification;
+        }
     }
 }
