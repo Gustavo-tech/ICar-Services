@@ -6,6 +6,7 @@ namespace ICar.Infrastructure.Repositories.Interfaces
 {
     public interface INewsRepository
     {
-        Task<List<News>> GetNewsAsync();
+        Task<List<News>> GetCompanyNewsAsync();
+        Task<List<News>> GetUserNewsAsync();
     }
 }

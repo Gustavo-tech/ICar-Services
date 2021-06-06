@@ -1,4 +1,5 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.API.Generators;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -21,13 +22,13 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("get")]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "client, admin")]
         public async Task<IActionResult> GetNewsAsync()
         {
             try
             {
-                List<News> cn = await _repository.GetNewsAsync();
-                return Ok(cn);
+                List<News> companyNews = await _repository.GetCompanyNewsAsync();
+                dynamic[] output = NewsOutputGenerator.GenerateCompanyNewsOutput(companyNews);
+                return Ok(output);
             }
             catch (Exception)
             {

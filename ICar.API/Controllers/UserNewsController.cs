@@ -20,19 +20,19 @@ namespace ICar.API.Controllers
             _repository = repository;
         }
 
-        [HttpGet("get")]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "client, admin")]
-        public async Task<IActionResult> GetNewsAsync()
-        {
-            try
-            {
-                List<News> un = await _repository.GetNewsAsync();
-                return Ok(un);
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
+        //[HttpGet("get")]
+        //[Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "client, admin")]
+        //public async Task<IActionResult> GetNewsAsync()
+        //{
+        //    try
+        //    {
+        //        List<News> un = await _repository.GetNewsAsync();
+        //        return Ok(un);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Problem();
+        //    }
+        //}
     }
 }

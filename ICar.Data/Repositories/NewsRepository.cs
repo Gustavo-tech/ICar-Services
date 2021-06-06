@@ -2,6 +2,7 @@
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories
@@ -15,9 +16,14 @@ namespace ICar.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<News>> GetNewsAsync()
+        public async Task<List<News>> GetCompanyNewsAsync()
         {
-            return await _dbContext.News.ToListAsync();
+            return await _dbContext.News.Where(x => x.CompanyCnpj != null).ToListAsync();
+        }
+
+        public async Task<List<News>> GetUserNewsAsync()
+        {
+            return await _dbContext.News.Where(x => x.UserCpf != null).ToListAsync();
         }
     }
 }
