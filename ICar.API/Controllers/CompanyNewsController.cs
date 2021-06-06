@@ -85,5 +85,21 @@ namespace ICar.API.Controllers
                 return Problem();
             }
         }
+
+        [HttpDelete("delete/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteNewsAsync([FromRoute] int id)
+        {
+            try
+            {
+                News news = await _newsRepository.GetCompanyNewsAsync(id);
+                await _baseRepository.DeleteAsync(news);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
     }
 }
