@@ -78,9 +78,6 @@ namespace ICar.Infrastructure.Configurations
             builder.HasOne(x => x.City)
                 .WithOne()
                 .HasForeignKey<Car>(x => x.CityId);
-
-            builder.HasMany(x => x.CarImages)
-                .WithOne(x => x.Car);
         }
     }
 }

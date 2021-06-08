@@ -1,7 +1,5 @@
-﻿using ICar.Infrastructure.Models.Entities;
+﻿using ICar.Data.Converter;
 using ICar.Infrastructure.Models.Enums.Car;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace ICar.Infrastructure.Models
 {
@@ -26,10 +24,11 @@ namespace ICar.Infrastructure.Models
         public string UserCpf { get; set; }
         public int CityId { get; set; }
         public City City { get; set; }
-        public List<CarImage> CarImages { get; set; }
         public int NumberOfViews { get; set; }
 
         public Car()
         { }
+
+
     }
 }

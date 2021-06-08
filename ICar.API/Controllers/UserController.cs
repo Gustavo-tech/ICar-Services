@@ -44,7 +44,7 @@ namespace ICar.API.Controllers
 
                 for (int i = 0; i < users.Count; i++)
                 {
-                    output[i] = UserOutputGenerator.GenerateUserOutput(users[i]);
+                    output[i] = UserOutputFactory.GenerateUserOutput(users[i]);
                 }
                 return Ok(output);
             }

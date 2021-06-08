@@ -24,7 +24,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                List<Car> carsInDatabase = await _carRepository.GetAllCarsAsync();
+                List<Car> carsInDatabase = await _carRepository.GetCompanyCarsAsync();
 
                 List<dynamic> carsOutput = new();
 

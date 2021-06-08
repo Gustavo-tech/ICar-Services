@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ICar.API.Generators
 {
-    public static class CompanyOutputGenerator
+    public static class CompanyOutputFactory
     {
         public static dynamic GenerateCompanyOutput(Company company)
         {

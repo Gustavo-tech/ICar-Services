@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ICar.API.Generators
 {
-    internal static class NewsOutputGenerator
+    internal static class NewsOutputFactory
     {
         internal static dynamic GenerateCompanyNewsOutput(News news)
         {

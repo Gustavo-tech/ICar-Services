@@ -16,22 +16,31 @@ namespace ICar.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<Car>> GetAllCarsAsync()
-        {
-            return await _dbContext.Cars.ToListAsync();
-        }
-
-        public async Task<Car> GetCarByPlateAsync(string plate)
+        public async Task<Car> GetCarsAsync(string plate)
         {
             return await _dbContext.Cars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Car>> GetByUserCpfAsync(string userCpf)
+        public async Task<List<Car>> GetUserCarsAsync()
+        {
+            return await _dbContext.Cars
+                .Where(x => x.UserCpf != null)
+                .ToListAsync();
+        }
+
+        public async Task<List<Car>> GetUserCarsAsync(string userCpf)
         {
             return await _dbContext.Cars.Where(x => x.UserCpf == userCpf).ToListAsync();
         }
 
-        public async Task<List<Car>> GetByCompanyCnpjAsync(string companyCnpj)
+        public async Task<List<Car>> GetCompanyCarsAsync()
+        {
+            return await _dbContext.Cars
+                .Where(x => x.CompanyCnpj != null)
+                .ToListAsync();
+        }
+
+        public async Task<List<Car>> GetCompanyCarsAsync(string companyCnpj)
         {
             return await _dbContext.Cars.Where(x => x.CompanyCnpj == companyCnpj).ToListAsync();
         }

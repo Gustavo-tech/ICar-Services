@@ -41,7 +41,7 @@ namespace ICar.API.Controllers
 
                 for (int i = 0; i <= companiesInDatabase.Count - 1; i++)
                 {
-                    companiesOutput[i] = CompanyOutputGenerator.GenerateCompanyOutput(companiesInDatabase[i]);
+                    companiesOutput[i] = CompanyOutputFactory.GenerateCompanyOutput(companiesInDatabase[i]);
                 }
 
                 return Ok(companiesOutput);

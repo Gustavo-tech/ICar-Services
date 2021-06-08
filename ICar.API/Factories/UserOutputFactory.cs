@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ICar.API.Generators
 {
-    public static class UserOutputGenerator
+    public static class UserOutputFactory
     {
         public static dynamic GenerateUserOutput(User user)
         {

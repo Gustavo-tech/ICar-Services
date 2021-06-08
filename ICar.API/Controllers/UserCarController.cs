@@ -1,6 +1,11 @@
-﻿using ICar.Data.Converter;
+﻿using ICar.API.Builders;
+using ICar.API.Generators;
+using ICar.API.ViewModels.UserCar;
+using ICar.Data.Converter;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,44 +18,23 @@ namespace ICar.API.Controllers
     public class UserCarController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
+        private readonly IBaseRepository _baseRepository;
 
-        public UserCarController(ICarRepository carRepository)
+        public UserCarController(ICarRepository carRepository, IBaseRepository baseRepository)
         {
             _carRepository = carRepository;
+            _baseRepository = baseRepository;
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetCars()
+        [HttpGet("get")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetCarsAsync()
         {
             try
             {
-                List<Car> carsInDatabase = await _carRepository.GetAllCarsAsync();
-
-                List<dynamic> carsOutput = new();
-
-                foreach (Car UserCar in carsInDatabase)
-                {
-                    carsOutput.Add(new
-                    {
-                        UserCar.Plate,
-                        UserCar.Maker,
-                        UserCar.Model,
-                        UserCar.MakeDate,
-                        UserCar.MakedDate,
-                        UserCar.KilometersTraveled,
-                        UserCar.Price,
-                        UserCar.AcceptsChange,
-                        UserCar.IpvaIsPaid,
-                        UserCar.IsLicensed,
-                        UserCar.IsArmored,
-                        UserCar.Message,
-                        Color = CarPropertyConverter.ConvertColorToString(UserCar.Color),
-                        GasolineType = (CarPropertyConverter.ConvertGasolineTypeToString(UserCar.GasolineType)),
-                        UserCar.City
-                    });
-                }
-
-                return Ok(carsOutput);
+                List<Car> carsInDatabase = await _carRepository.GetUserCarsAsync();
+                dynamic[] output = CarOutputFactory.GenerateUserCarOutput(carsInDatabase);
+                return Ok(output);
             }
             catch (Exception exception)
             {
@@ -59,77 +43,47 @@ namespace ICar.API.Controllers
             }
         }
 
-        //[HttpGet("plate/{plate}")]
-        //[Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
-        //public async Task<IActionResult> GetCar([FromRoute] string plate)
-        //{
-        //    plate = plate.ToUpper();
-        //    if (CarValidator.ValidatePlate(plate))
-        //    {
-        //        try
-        //        {
-        //            UserCar UserCar = await _carRepository.GetCarByPlateAsync(plate);
-        //            return Ok(UserCar);
-        //        }
-        //        catch (Exception exception)
-        //        {
-        //            return Problem(title: "Some error happened while getting the cars",
-        //                detail: exception.Message);
-        //        }
-        //    }
+        [HttpPost("create")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> InsertCarAsync([FromBody] UserCarViewModel create)
+        {
+            try
+            {
+                if (await _carRepository.GetCarsAsync(create.Plate) == null)
+                {
+                    Car car = BuildCar(create);
+                }
 
-        //    return BadRequest(new
-        //    {
-        //        Message = "This plate is invalid"
-        //    });
-        //}
+                return Conflict();
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
 
-        //[HttpGet("cpf/{cpf}")]
-        //[Authorize(JwtBearerDefaults.AuthenticationScheme, Roles = "client, admin")]
-        //public async Task<IActionResult> GetUserCars([FromRoute] string cpf)
-        //{
-        //    if (UserValidator.ValidateCpf(cpf))
-        //    {
-        //        try
-        //        {
-        //            List<UserCar> carsOfThisUser = await _carRepository.GetByIdentificationAsync(cpf);
-        //            return Ok(carsOfThisUser);
-        //        }
-        //        catch (Exception exception)
-        //        {
-        //            return Problem(title: "Some error happened while getting cars of this user",
-        //                detail: exception.Message);
-        //        }
-        //    }
+        private static Car BuildCar(UserCarViewModel userViewModel)
+        {
+            CarBuilder carBuilder = new();
+            carBuilder
+                .WithPlate(userViewModel.Plate)
+                .WithMaker(userViewModel.Maker)
+                .WithModel(userViewModel.Model)
+                .WithUserCpf(userViewModel.UserCpf)
+                .WithPrice(userViewModel.Price)
+                .WithMakeDate(userViewModel.MakeDate)
+                .WithMakedDate(userViewModel.MakedDate)
+                .WithKilometersTraveled(userViewModel.KilometersTraveled)
+                .WithAcceptsChange(userViewModel.AcceptsChange)
+                .WithIsArmored(userViewModel.IsArmored)
+                .WithIsLicensed(userViewModel.IsLicensed)
+                .WithIpvaIsPaid(userViewModel.IpvaIsPaid)
+                .WithMessage(userViewModel.Message)
+                .WithColor(userViewModel.Color)
+                .WithTypeOfExchange(userViewModel.TypeOfExchange)
+                .WithGasolineType(userViewModel.GasolineType);
 
-        //    return BadRequest(new
-        //    {
-        //        Message = "This is not a valid CPF"
-        //    });
-        //}
-
-        //[HttpPost("increase/views/{plate}")]
-        //public async Task<IActionResult> IncreaseNumberOfViews([FromRoute] string plate)
-        //{
-        //    if (CarValidator.ValidatePlate(plate))
-        //    {
-        //        try
-        //        {
-        //            await _carRepository.IncreaseNumberOfViewsAsync(plate);
-        //            return Ok("Number of views updated successfully");
-        //        }
-        //        catch (Exception exception)
-        //        {
-        //            return Problem(title: "Some error happened while updating the number of views",
-        //                detail: exception.Message);
-        //        }
-        //    }
-
-        //    return BadRequest(new
-        //    {
-        //        Message = "This plate is invalid"
-        //    });
-        //}
-
+            return carBuilder.GetResult();
+        }
     }
 }

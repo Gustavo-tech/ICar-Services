@@ -6,10 +6,11 @@ namespace ICar.Infrastructure.Repositories.Interfaces
 {
     public interface ICarRepository
     {
-        public Task<Car> GetCarByPlateAsync(string plate);
-        public Task<List<Car>> GetAllCarsAsync();
-        public Task<List<Car>> GetByUserCpfAsync(string userCpf);
-        public Task<List<Car>> GetByCompanyCnpjAsync(string companyCnpj);
+        public Task<Car> GetCarsAsync(string plate);
+        public Task<List<Car>> GetUserCarsAsync();
+        public Task<List<Car>> GetUserCarsAsync(string userCpf);
+        public Task<List<Car>> GetCompanyCarsAsync();
+        public Task<List<Car>> GetCompanyCarsAsync(string companyCnpj);
         public Task IncreaseNumberOfViewsAsync(string carPlate);
     }
 }

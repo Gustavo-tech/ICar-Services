@@ -1,6 +1,5 @@
 ﻿using ICar.Infrastructure.Configurations;
 using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ICar.Infrastructure
@@ -16,7 +15,6 @@ namespace ICar.Infrastructure
         public DbSet<Car> Cars { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<CarImage> CarImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,7 +22,6 @@ namespace ICar.Infrastructure
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new NewsConfiguration());
             builder.ApplyConfiguration(new CityConfiguration());
-            builder.ApplyConfiguration(new CarImageConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
             builder.ApplyConfiguration(new LoginConfiguration());
         }
