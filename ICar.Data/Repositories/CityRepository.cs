@@ -15,12 +15,12 @@ namespace ICar.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<City> GetCityByIdAsync(int id)
+        public async Task<City> GetCityAsync(int id)
         {
             return await _dbContext.Cities.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<City> GetCityByNameAsync(string name)
+        public async Task<City> GetCityAsync(string name)
         {
             return await _dbContext.Cities.Where(x => x.Name == name).FirstOrDefaultAsync();
         }

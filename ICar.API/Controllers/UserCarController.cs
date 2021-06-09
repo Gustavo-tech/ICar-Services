@@ -1,5 +1,6 @@
 ﻿using ICar.API.Builders;
 using ICar.API.Generators;
+using ICar.API.OperationsExtension;
 using ICar.API.ViewModels.UserCar;
 using ICar.Data.Converter;
 using ICar.Infrastructure.Models;
@@ -19,11 +20,13 @@ namespace ICar.API.Controllers
     {
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
+        private readonly CityOperationsExtension _cityOperationsExtension;
 
-        public UserCarController(ICarRepository carRepository, IBaseRepository baseRepository)
+        public UserCarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
+            _cityOperationsExtension = new(cityRepository, baseRepository);
         }
 
         [HttpGet("get")]
@@ -51,7 +54,10 @@ namespace ICar.API.Controllers
             {
                 if (await _carRepository.GetCarsAsync(create.Plate) == null)
                 {
+                    City city = await _cityOperationsExtension.InsertCityIfDoesntExist(create.City);
                     Car car = BuildCar(create);
+                    car.City = city;
+                    await _baseRepository.AddAsync(car);
                 }
 
                 return Conflict();
