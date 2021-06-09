@@ -1,31 +1,35 @@
 ﻿using ICar.API.Generators;
+using ICar.API.ViewModels.CompayNews;
 using ICar.API.ViewModels.UserNews;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class UserNewsController : ControllerBase
+    public class NewsController : ControllerBase
     {
         private readonly INewsRepository _newsRepository;
         private readonly IBaseRepository _baseRepository;
 
-        public UserNewsController(INewsRepository newsRepository, IBaseRepository baseRepository)
+        public NewsController(INewsRepository newsRepository, IBaseRepository baseRepository)
         {
             _newsRepository = newsRepository;
             _baseRepository = baseRepository;
         }
 
-        [HttpGet("get")]
-        public async Task<IActionResult> GetNewsAsync()
+        [HttpGet("user/get")]
+        public async Task<IActionResult> GetUserNewsAsync()
         {
             try
             {
@@ -39,9 +43,24 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPost("create")]
+        [HttpGet("company/get")]
+        public async Task<IActionResult> GetCompanyNewsAsync()
+        {
+            try
+            {
+                List<News> companyNews = await _newsRepository.GetCompanyNewsAsync();
+                dynamic[] output = NewsOutputFactory.GenerateCompanyNewsOutput(companyNews);
+                return Ok(output);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPost("user/create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> InsertNewsAsync([FromBody] UserNewsViewModel create)
+        public async Task<IActionResult> InsertUserNewsAsync([FromBody] UserNewsViewModel create)
         {
             try
             {
@@ -62,9 +81,56 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPost("company/create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> UpdateNewsAsync([FromBody] UpdateUserNewsViewModel update)
+        public async Task<IActionResult> InsertCompanyNewsAsync([FromBody] CompanyNewsViewModel create)
+        {
+            try
+            {
+                if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
+                {
+                    News newsToInsert = new(create.Title, create.Text, create.CompanyCnpj);
+                    await _baseRepository.AddAsync(newsToInsert);
+                    return Ok(create);
+                }
+                else
+                {
+                    return Conflict();
+                }
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPut("users/update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateUserNewsAsync([FromBody] UpdateUserNewsViewModel update)
+        {
+            try
+            {
+                News newsInDatabase = await _newsRepository.GetNewsAsync(update.Id);
+                if (newsInDatabase != null)
+                {
+                    newsInDatabase.Title = update.Title;
+                    newsInDatabase.Text = update.Text;
+                    newsInDatabase.LastUpdate = DateTime.Now;
+                    await _baseRepository.UpdateAsync(newsInDatabase);
+                    return Ok();
+                }
+                else
+                    return NotFound();
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPut("company/update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateCompanyNewsAsync([FromBody] UpdateCompanyNewsViewModel update)
         {
             try
             {
