@@ -7,31 +7,34 @@ using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class UserCarController : ControllerBase
+    public class CarController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly CityOperationsExtension _cityOperationsExtension;
 
-        public UserCarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository)
+        public CarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _cityOperationsExtension = new(cityRepository, baseRepository);
         }
 
-        [HttpGet("get")]
+        [HttpGet("user/get")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCarsAsync()
+        public async Task<IActionResult> GetUserCarsAsync()
         {
             try
             {
@@ -46,7 +49,47 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPost("create")]
+        [HttpGet("company/get")]
+        public async Task<IActionResult> GetCars()
+        {
+            try
+            {
+                List<Car> carsInDatabase = await _carRepository.GetCompanyCarsAsync();
+
+                List<dynamic> carsOutput = new();
+
+                foreach (Car CompanyCar in carsInDatabase)
+                {
+                    carsOutput.Add(new
+                    {
+                        Plate = CompanyCar.Plate,
+                        Maker = CompanyCar.Maker,
+                        Model = CompanyCar.Model,
+                        MakeDate = CompanyCar.MakeDate,
+                        MakedDate = CompanyCar.MakedDate,
+                        KilometersTraveled = CompanyCar.KilometersTraveled,
+                        Price = CompanyCar.Price,
+                        AcceptsChange = CompanyCar.AcceptsChange,
+                        IpvaIsPaid = CompanyCar.IpvaIsPaid,
+                        IsLicensed = CompanyCar.IsLicensed,
+                        IsArmored = CompanyCar.IsArmored,
+                        Message = CompanyCar.Message,
+                        Color = CarPropertyConverter.ConvertColorToString(CompanyCar.Color),
+                        GasolineType = (CarPropertyConverter.ConvertGasolineTypeToString(CompanyCar.GasolineType)),
+                        City = CompanyCar.City
+                    });
+                }
+
+                return Ok(carsOutput);
+            }
+            catch (Exception exception)
+            {
+                return Problem(title: "Some error happened while getting the cars",
+                    detail: exception.Message);
+            }
+        }
+
+        [HttpPost("user/create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> InsertCarAsync([FromBody] UserCarViewModel create)
         {
