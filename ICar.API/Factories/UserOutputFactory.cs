@@ -1,13 +1,11 @@
 ﻿using ICar.Infrastructure.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ICar.API.Generators
 {
-    public static class UserOutputFactory
+    internal static class UserOutputFactory
     {
-        public static dynamic GenerateUserOutput(User user)
+        internal static dynamic GenerateUserOutput(User user)
         {
             return new
             {
@@ -16,33 +14,26 @@ namespace ICar.API.Generators
                 user.Email,
                 user.AccountCreationDate,
                 user.Role,
-                UserCars = user.Cars
-                .Select(x => new {
-                    x.Plate,
-                    x.Maker,
-                    x.Model,
-                    x.City.Name,
-                    x.AcceptsChange,
-                    x.IsArmored,
-                    x.IpvaIsPaid,
-                    x.KilometersTraveled,
-                    x.MakeDate,
-                    x.MakedDate,
-                    x.NumberOfViews,
-                    x.Color,
-                    x.GasolineType,
-                    x.TypeOfExchange,
-                    x.Price
-                }),
-                UserLogins = user.Logins.Select(x => x.Time).ToList(),
-                UserNews = user.News.Select(x => new
-                {
-                    x.Title,
-                    x.Text,
-                    x.CreatedOn,
-                    x.LastUpdate
-                })
             };
+        }
+
+        internal static dynamic[] GenerateUserOutput(List<User> users)
+        {
+            dynamic[] output = new dynamic[users.Count];
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                output[i] = new
+                {
+                    CPF = users[i].Cpf,
+                    users[i].Name,
+                    users[i].Email,
+                    users[i].AccountCreationDate,
+                    users[i].Role,
+                };
+            }
+
+            return output;
         }
     }
 }

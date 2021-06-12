@@ -19,17 +19,11 @@ namespace ICar.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly ICityRepository _cityRepository;
         private readonly IBaseRepository _baseRepository;
 
-        public UserController(
-            IUserRepository userQueries,
-            ICityRepository cityRepository,
-            IBaseRepository baseRepository
-            )
+        public UserController(IUserRepository userQueries, IBaseRepository baseRepository)
         {
             _userRepository = userQueries;
-            _cityRepository = cityRepository;
             _baseRepository = baseRepository;
         }
 
@@ -40,12 +34,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<User> users = await _userRepository.GetUsersAsync();
-                dynamic[] output = new dynamic[users.Count];
-
-                for (int i = 0; i < users.Count; i++)
-                {
-                    output[i] = UserOutputFactory.GenerateUserOutput(users[i]);
-                }
+                dynamic[] output = UserOutputFactory.GenerateUserOutput(users);
                 return Ok(output);
             }
             catch (Exception)
