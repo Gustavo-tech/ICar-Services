@@ -46,6 +46,7 @@ namespace ICar.API.Controllers
                         company.Cnpj,
                         company.Email,
                         company.Role,
+                        AccountType = "company",
                         Token = _authService.GenerateToken(company),
                     });
                 }
@@ -76,6 +77,7 @@ namespace ICar.API.Controllers
                         user.Cpf,
                         user.Email,
                         user.Role,
+                        AccountType = "user",
                         Token = _authService.GenerateToken(user),
                     };
 

@@ -18,7 +18,12 @@ namespace ICar.Infrastructure.Repositories
 
         public async Task<User> GetUserByCpfAsync(string cpf)
         {
-            return await _dbContext.Users.Where(x => x.Cpf == cpf).FirstOrDefaultAsync();
+            return await _dbContext.Users
+                .Where(x => x.Cpf == cpf)
+                .Include(x => x.News)
+                .Include(x => x.Logins)
+                .Include(x => x.Cars)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<User> GetUserByEmailAsync(string email)

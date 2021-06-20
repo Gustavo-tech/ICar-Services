@@ -19,9 +19,9 @@ namespace ICar.API.Auth
 
         public string GenerateToken(Entity entity)
         {
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new();
             byte[] key = Encoding.ASCII.GetBytes(_key);
-            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
+            SecurityTokenDescriptor descriptor = new()
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {

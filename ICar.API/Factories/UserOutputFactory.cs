@@ -14,6 +14,7 @@ namespace ICar.API.Generators
                 user.Email,
                 user.AccountCreationDate,
                 user.Role,
+                AccountType = "user"
             };
         }
 
@@ -30,6 +31,7 @@ namespace ICar.API.Generators
                     users[i].Email,
                     users[i].AccountCreationDate,
                     users[i].Role,
+                    AccountType = "user"
                 };
             }
 

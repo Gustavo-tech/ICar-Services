@@ -43,6 +43,21 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpGet("logins/{cpf}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetLogins([FromRoute] string cpf)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByCpfAsync(cpf);
+                return Ok(user.Logins);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] UserViewModel create)
         {

@@ -16,14 +16,7 @@ namespace ICar.API.Generators
                 company.Email,
                 company.Name,
                 company.AccountCreationDate,
-                CompanyLogins = company.Logins.Select(x => x.Time),
-                CompanyNews = company.News.Select(x => new
-                {
-                    x.Text,
-                    x.Title,
-                    x.LastUpdate,
-                    x.CreatedOn
-                })
+                AccountType = "company"
             };
         }
     }

@@ -23,14 +23,14 @@ namespace ICar.Infrastructure.Storage
             _carContainer = client.GetContainerReference("car");
         }
 
-        public async Task UploadPicturesAsync(string carPlate, List<string> pictures)
-        {
-            CloudBlobDirectory blobDirectory = _carContainer.GetDirectoryReference(carPlate);
+        //public async Task UploadPicturesAsync(string carPlate, List<string> pictures)
+        //{
+        //    CloudBlobDirectory blobDirectory = _carContainer.GetDirectoryReference(carPlate);
 
-            for (int i = 0; i < pictures.Count; i++)
-            {
-                CloudBlockBlob blob = blobDirectory.GetBlockBlobReference($"{carPlate}-{i}");
-            }
-        }
+        //    for (int i = 0; i < pictures.Count; i++)
+        //    {
+        //        CloudBlockBlob blob = blobDirectory.GetBlockBlobReference($"{carPlate}-{i}");
+        //    }
+        //}
     }
 }
