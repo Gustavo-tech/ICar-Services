@@ -2,6 +2,8 @@
 using ICar.API.ViewModels;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
