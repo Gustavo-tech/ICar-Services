@@ -18,10 +18,10 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            var builder = services.AddIdentityServer()
-                            .AddDeveloperSigningCredential()
-                            .AddInMemoryApiScopes(ServerConfiguration.ApiScopes)
-                            .AddInMemoryClients(ServerConfiguration.Clients);
+            services.AddIdentityServer()
+            .AddDeveloperSigningCredential()
+            .AddInMemoryApiScopes(ServerConfiguration.ApiScopes)
+            .AddInMemoryClients(ServerConfiguration.Clients);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -32,7 +32,6 @@ namespace IdentityServer
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
