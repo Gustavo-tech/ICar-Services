@@ -14,8 +14,7 @@ namespace ICar.API.Auth
         private readonly string _key = Secret.key;
 
         public JwtService()
-        {
-        }
+        { }
 
         public string GenerateToken(Entity entity)
         {
