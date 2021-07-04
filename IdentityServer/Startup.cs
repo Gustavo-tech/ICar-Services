@@ -1,4 +1,5 @@
-using ICar.IdentityServer.Models;
+using ICar.Infrastructure.Database;
+using ICar.Infrastructure.Database.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

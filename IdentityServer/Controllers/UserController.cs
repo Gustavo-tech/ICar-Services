@@ -1,5 +1,5 @@
-﻿using ICar.IdentityServer.Models;
-using ICar.IdentityServer.ViewModels.User;
+﻿using ICar.IdentityServer.ViewModels.User;
+using ICar.Infrastructure.Database.Models;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +53,6 @@ namespace ICar.IdentityServer.Controllers
             {
                 Email = viewModel.Email,
                 Cpf = viewModel.Cpf,
-                UserName = viewModel.Name,
                 Password = viewModel.Password
             };
 
