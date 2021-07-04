@@ -1,11 +1,12 @@
-﻿using IdentityServer.Models;
+﻿using ICar.IdentityServer.Models;
+using ICar.IdentityServer.ViewModels.User;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace IdentityServer.Controllers
+namespace ICar.IdentityServer.Controllers
 {
     public class UserController : Controller
     {
@@ -26,17 +27,10 @@ namespace IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            User user = new User
-            {
-                Email = "gustavo@gmail.com",
-                Cpf = "1232321",
-                Name = "Gustavo",
-                AccountCreationDate = DateTime.Now,
-                Password = "gustavo10&",
-                Role = "admin"
-            };
 
-            var result = await _signInManager.PasswordSignInAsync(user, user.Password, false, false);
+            User user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            var result = await _signInManager.PasswordSignInAsync(user, user.Password, 
+                false, false);
 
             if (result.Succeeded)
             {
@@ -48,10 +42,27 @@ namespace IdentityServer.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RegisterUser()
+        public IActionResult Register()
         {
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> RegisterUser(UserViewModel viewModel)
+        {
+            User user = new User(viewModel.Cpf, viewModel.Name, viewModel.Email,
+                viewModel.Password, "client");
+
+            IdentityResult result = await _userManager.CreateAsync(user, viewModel.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("login");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

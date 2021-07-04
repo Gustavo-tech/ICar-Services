@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ICar.API.ViewModels.User
+namespace ICar.IdentityServer.ViewModels.User
 {
     public class DeleteUserViewModel
     {

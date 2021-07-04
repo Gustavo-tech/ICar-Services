@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace IdentityServer.Models
+namespace ICar.IdentityServer.Models
 {
     public class User : IdentityUser
     {

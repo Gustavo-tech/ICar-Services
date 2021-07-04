@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{95A225F6-C147-4F54-9FBB-7AC8BB997F41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{63D17688-5472-4F83-AD69-4A68D7082393}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.IdentityServer", "IdentityServer\ICar.IdentityServer.csproj", "{63D17688-5472-4F83-AD69-4A68D7082393}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{DA6C5700-69B0-4768-A705-08907C673255}"
 EndProject

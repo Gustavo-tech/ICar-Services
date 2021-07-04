@@ -1,4 +1,4 @@
-﻿using IdentityServer.Models;
+﻿using ICar.IdentityServer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer
@@ -9,6 +9,5 @@ namespace IdentityServer
         { }
 
         public DbSet<User> Users { get; set; }
-
     }
 }
