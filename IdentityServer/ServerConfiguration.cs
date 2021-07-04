@@ -11,6 +11,12 @@ namespace IdentityServer
                 new ApiScope("icarapi", "Icar api")
             };
 
+        public static IEnumerable<ApiResource> ApiResources =>
+            new List<ApiResource>
+            {
+                new ApiResource("Api")
+            };
+
         public static IEnumerable<Client> Clients =>
             new List<Client>
             {

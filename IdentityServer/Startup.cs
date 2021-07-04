@@ -18,6 +18,7 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddIdentityServer()
             .AddDeveloperSigningCredential()
             .AddInMemoryApiScopes(ServerConfiguration.ApiScopes)

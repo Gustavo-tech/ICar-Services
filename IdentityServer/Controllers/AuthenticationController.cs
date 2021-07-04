@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityServer.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace IdentityServer.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel loginViewModel)
+        {
+            return Ok();
         }
     }
 }

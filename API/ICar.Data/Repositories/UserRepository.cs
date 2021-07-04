@@ -42,11 +42,7 @@ namespace ICar.Infrastructure.Repositories
 
         public async Task<List<Login>> GetUserLoginsAsync(string cpf)
         {
-            return await _dbContext.Logins
-                .Where(x => x.UserCpf == cpf)
-                .OrderBy(x => x.Time)
-                .Take(10)
-                .ToListAsync();
+            return await _dbContext.Logins.Where(x => x.UserCpf == cpf).ToListAsync();
         }
     }
 }

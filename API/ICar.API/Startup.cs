@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
@@ -56,10 +55,11 @@ namespace ICar.API
             // JWT
             byte[] key = Encoding.ASCII.GetBytes(Secret.key);
             services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
+                .AddJwtBearer("Bearer", config =>
                 {
-                    options.Authority = "https://locahost:28298";
-                    options.TokenValidationParameters = ValidationParametersGenerator.GenerateTokenValidationParameters();
+                    config.Authority = "https://localhost:5002";
+                    config.Audience = "Api";
+                    config.RequireHttpsMetadata = false;
                 });
         }
 
@@ -74,8 +74,8 @@ namespace ICar.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseCors(options =>
             {
