@@ -1,5 +1,6 @@
 ﻿using ICar.API.Auth.Contracts;
 using ICar.Infrastructure.Database.Models.Abstracts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,10 +12,10 @@ namespace ICar.API.Auth
 {
     public class JwtService : IAuthService
     {
-        private readonly string _key = Secret.key;
-
-        public JwtService()
+        private readonly string _key;
+        public JwtService(IConfiguration configuration)
         {
+            _key = configuration["JwtKey"];
         }
 
         public string GenerateToken(Entity entity)

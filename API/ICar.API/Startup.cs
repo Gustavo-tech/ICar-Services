@@ -51,7 +51,7 @@ namespace ICar.API
             });
 
             // JWT
-            byte[] key = Encoding.ASCII.GetBytes(Secret.key);
+            byte[] key = Encoding.ASCII.GetBytes(Configuration["JwtKey"]);
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", config =>
                 {

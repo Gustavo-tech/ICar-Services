@@ -32,12 +32,18 @@ namespace ICar.IdentityServer.Controllers
 
             if (result.Succeeded)
             {
-                return Redirect("https://youtube.com");
+                return Redirect("http://localhost:3000");
             }
             else
             {
-                return Redirect("https://youtube.com/rico");
+                return View();
             }
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("login");
         }
 
         public IActionResult Register()
