@@ -53,6 +53,7 @@ namespace IdentityServer
             
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

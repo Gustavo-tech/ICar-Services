@@ -48,7 +48,7 @@ namespace ICar.IdentityServer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterUser(UserViewModel viewModel)
+        public async Task<IActionResult> RegisterUser(NewUserViewModel viewModel)
         {
             User user = new User(viewModel.Cpf, viewModel.Name, viewModel.Email,
                 viewModel.Password, "client");

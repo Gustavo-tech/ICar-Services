@@ -2,7 +2,7 @@
 
 namespace ICar.IdentityServer.ViewModels.User
 {
-    public sealed class UserViewModel
+    public sealed class NewUserViewModel
     {
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(14, MinimumLength = 14, ErrorMessage = "{0} should have {1} characters")]
@@ -21,7 +21,7 @@ namespace ICar.IdentityServer.ViewModels.User
         [DataType(DataType.Password)]
         public string Password { get; }
 
-        public UserViewModel(string cpf, string name, string email, string password)
+        public NewUserViewModel(string cpf, string name, string email, string password)
         {
             Cpf = cpf;
             Name = name;
