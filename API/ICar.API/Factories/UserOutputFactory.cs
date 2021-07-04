@@ -10,7 +10,7 @@ namespace ICar.API.Generators
             return new
             {
                 CPF = user.Cpf,
-                user.Name,
+                user.UserName,
                 user.Email,
                 user.AccountCreationDate,
                 user.Role,
@@ -27,7 +27,7 @@ namespace ICar.API.Generators
                 output[i] = new
                 {
                     CPF = users[i].Cpf,
-                    users[i].Name,
+                    users[i].UserName,
                     users[i].Email,
                     users[i].AccountCreationDate,
                     users[i].Role,

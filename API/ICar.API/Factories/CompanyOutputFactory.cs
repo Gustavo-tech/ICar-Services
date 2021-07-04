@@ -10,7 +10,7 @@ namespace ICar.API.Generators
             {
                 CNPJ = company.Cnpj,
                 company.Email,
-                company.Name,
+                company.UserName,
                 company.AccountCreationDate,
                 AccountType = "company"
             };

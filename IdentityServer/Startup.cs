@@ -33,6 +33,9 @@ namespace IdentityServer
                 x.Password.RequireDigit = false;
                 x.Password.RequireLowercase = false;
                 x.Password.RequireUppercase = false;
+                x.SignIn.RequireConfirmedEmail = false;
+                x.SignIn.RequireConfirmedPhoneNumber = false;
+                x.SignIn.RequireConfirmedAccount = false;
             })
                 .AddEntityFrameworkStores<ICarContext>()
                 .AddDefaultTokenProviders();
@@ -45,6 +48,7 @@ namespace IdentityServer
             });
 
             services.AddIdentityServer()
+            .AddAspNetIdentity<User>()
             .AddDeveloperSigningCredential()
             .AddInMemoryApiResources(ServerConfiguration.ApiResources)
             .AddInMemoryClients(ServerConfiguration.Clients);

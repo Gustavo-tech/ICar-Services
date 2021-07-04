@@ -30,68 +30,66 @@ namespace ICar.API.Controllers
             _baseRepository = baseRepository;
         }
 
-        [HttpPost("authenticate/company")]
-        public async Task<IActionResult> AuthenticateCompany([FromBody] LoginViewModel login)
-        {
-            Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
+        //[HttpPost("authenticate/company")]
+        //public async Task<IActionResult> AuthenticateCompany([FromBody] LoginViewModel login)
+        //{
+        //    Company company = await _companyRepository.GetCompanyByEmailAsync(login.Email);
 
-            if (company != null)
-            {
-                if (company.Password == login.Password)
-                {
-                    await _baseRepository.AddAsync(new Login { Time = DateTime.Now, CompanyCnpj = company.Cnpj });
-                    return Ok(new
-                    {
-                        Company = company.Name,
-                        company.Cnpj,
-                        company.Email,
-                        company.Role,
-                        AccountType = "company",
-                        Token = _authService.GenerateToken(company),
-                    });
-                }
-                else
-                {
-                    return Unauthorized("Identification is wrong");
-                }
-            }
-            else
-            {
-                return NotFound("This company does't exist");
-            }
-        }
+        //    if (company != null)
+        //    {
+        //        if (company.Password == login.Password)
+        //        {
+        //            await _baseRepository.AddAsync(new Login { Time = DateTime.Now, CompanyCnpj = company.Cnpj });
+        //            return Ok(new
+        //            {
+        //                Company = company.UserName,
+        //                company.Cnpj,
+        //                company.Email,
+        //                company.Role,
+        //                AccountType = "company",
+        //            });
+        //        }
+        //        else
+        //        {
+        //            return Unauthorized("Identification is wrong");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return NotFound("This company does't exist");
+        //    }
+        //}
 
-        [HttpPost("authenticate/user")]
-        public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
-        {
-            User user = await _userRepository.GetUserByEmailAsync(login.Email);
+        //[HttpPost("authenticate/user")]
+        //public async Task<IActionResult> AuthenticateUser([FromBody] LoginViewModel login)
+        //{
+        //    User user = await _userRepository.GetUserByEmailAsync(login.Email);
 
-            if (user != null)
-            {
-                if (user.Password == login.Password)
-                {
-                    await _baseRepository.AddAsync(new Login { Time = DateTime.Now, UserCpf = user.Cpf });
-                    dynamic responseObject = new
-                    {
-                        User = user.Name,
-                        user.Cpf,
-                        user.Email,
-                        user.Role,
-                        AccountType = "user",
-                        Token = _authService.GenerateToken(user),
-                    };
+        //    if (user != null)
+        //    {
+        //        if (user.Password == login.Password)
+        //        {
+        //            await _baseRepository.AddAsync(new Login { Time = DateTime.Now, UserCpf = user.Cpf });
+        //            dynamic responseObject = new
+        //            {
+        //                User = user.UserName,
+        //                user.Cpf,
+        //                user.Email,
+        //                user.Role,
+        //                AccountType = "user",
+        //            };
 
-                    return Ok(responseObject);
-                }
-                else
-                {
-                    return Unauthorized("Identification is wrong");
-                }
-            }
-            else
-            {
-                return NotFound("This user does't exist");
-            }
-        }
+        //            return Ok(responseObject);
+        //        }
+        //        else
+        //        {
+        //            return Unauthorized("Identification is wrong");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return NotFound("This user does't exist");
+        //    }
+        //}
     }
 }

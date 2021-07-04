@@ -3,6 +3,7 @@ using ICar.Infrastructure.Database.Models;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ICar.IdentityServer.Controllers
@@ -24,12 +25,10 @@ namespace ICar.IdentityServer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-
-            User user = await _userManager.FindByEmailAsync(loginViewModel.Email);
-            var result = await _signInManager.PasswordSignInAsync(user, user.Password,
-                false, false);
+            User user = await _userManager.FindByEmailAsync(model.Email);
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
             if (result.Succeeded)
             {
@@ -49,11 +48,13 @@ namespace ICar.IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(NewUserViewModel viewModel)
         {
-            User user = new User
+            User user = new()
             {
+                UserName = viewModel.Name,
                 Email = viewModel.Email,
                 Cpf = viewModel.Cpf,
-                Password = viewModel.Password
+                AccountCreationDate = DateTime.Now,
+                Role = "client"
             };
 
             IdentityResult result = await _userManager.CreateAsync(user, viewModel.Password);

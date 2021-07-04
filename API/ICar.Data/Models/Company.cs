@@ -1,21 +1,26 @@
-﻿using ICar.Infrastructure.Database.Models.Abstracts;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace ICar.Infrastructure.Database.Models
 {
-    public class Company : Entity
+    public class Company : IdentityUser
     {
         public string Cnpj { get; set; }
+        public DateTime AccountCreationDate { get; set; }
+        public string Role { get; set; }
+        public List<News> News { get; set; }
+        public List<Login> Logins { get; set; }
+        public List<Car> Cars { get; set; }
 
         public Company()
         { }
 
-        public Company(string cnpj, string name, string email, string password, string role)
+        public Company(string cnpj, string name, string email, string role)
         {
             Cnpj = cnpj;
-            Name = name;
+            UserName = name;
             Email = email;
-            Password = password;
             Role = role;
             AccountCreationDate = DateTime.Now;
         }

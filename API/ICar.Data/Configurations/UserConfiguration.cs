@@ -17,20 +17,10 @@ namespace ICar.Infrastructure.Database.Configurations
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(18);
 
-            builder.Property(x => x.Name)
-                .IsRequired()
-                .HasColumnType("NVARCHAR")
-                .HasMaxLength(60);
-
             builder.Property(x => x.Email)
                 .IsRequired()
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(320);
-
-            builder.Property(x => x.Password)
-                .IsRequired()
-                .HasColumnType("NVARCHAR")
-                .HasMaxLength(60);
 
             builder.Property(x => x.AccountCreationDate)
                 .IsRequired()

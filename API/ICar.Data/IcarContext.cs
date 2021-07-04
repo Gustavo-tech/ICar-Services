@@ -1,15 +1,16 @@
 ﻿using ICar.Infrastructure.Database.Configurations;
 using ICar.Infrastructure.Database.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ICar.Infrastructure.Database
 {
-    public class ICarContext : DbContext
+    public class ICarContext : IdentityDbContext<User>
     {
-        public ICarContext(DbContextOptions options) : base(options)
+        public ICarContext(DbContextOptions<ICarContext> options) : base(options)
         { }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Car> Cars { get; set; }
@@ -18,8 +19,8 @@ namespace ICar.Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.ApplyConfiguration(new CompanyConfiguration());
-            builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new NewsConfiguration());
             builder.ApplyConfiguration(new CityConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
