@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Controllers
 {
-    public class AuthenticationController : Controller
+    public class UserController : Controller
     {
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
-        public AuthenticationController(SignInManager<User> signInManager)
+        public UserController(SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Login()
@@ -30,12 +32,26 @@ namespace IdentityServer.Controllers
                 Cpf = "1232321",
                 Name = "Gustavo",
                 AccountCreationDate = DateTime.Now,
-                Password = "232132",
+                Password = "gustavo10&",
                 Role = "admin"
             };
 
-            await _signInManager.SignInAsync(user, false);
-            return Redirect("https://youtube.com");
+            var result = await _signInManager.PasswordSignInAsync(user, user.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                return Redirect("https://youtube.com");
+            }
+            else
+            {
+                return Redirect("https://youtube.com/rico");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterUser()
+        {
+
         }
     }
 }

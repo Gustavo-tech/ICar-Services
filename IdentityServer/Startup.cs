@@ -24,7 +24,7 @@ namespace IdentityServer
 
             services.AddDbContext<ICarContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("SqlServer"));
+                options.UseSqlServer(Configuration["DatabaseConnectionString"]);
             });
 
             services.AddIdentity<User, IdentityRole>()
