@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ICar.Infrastructure.Models.Abstracts
+namespace ICar.Infrastructure.Database.Models.Abstracts
 {
     public abstract class Entity
     {

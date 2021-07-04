@@ -1,8 +1,8 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.Repositories.Interfaces
+namespace ICar.Infrastructure.Database.Repositories.Interfaces
 {
     public interface ICompanyRepository
     {

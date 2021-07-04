@@ -1,16 +1,16 @@
-﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.Repositories
+namespace ICar.Infrastructure.Database.Repositories
 {
     public class CityRepository : ICityRepository
     {
-        private readonly IcarContext _dbContext;
+        private readonly ICarContext _dbContext;
 
-        public CityRepository(IcarContext dbContext)
+        public CityRepository(ICarContext dbContext)
         {
             _dbContext = dbContext;
         }

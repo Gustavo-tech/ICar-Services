@@ -1,8 +1,8 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ICar.Infrastructure.Configurations
+namespace ICar.Infrastructure.Database.Configurations
 {
     public sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -1,10 +1,6 @@
-﻿using ICar.Data.Converter;
-using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Models.Enums.Car;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ICar.Infrastructure.Database.Converter;
+using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Models.Enums.Car;
 
 namespace ICar.API.Builders
 {

@@ -1,8 +1,5 @@
-﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 namespace ICar.API.OperationsExtension

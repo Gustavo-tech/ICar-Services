@@ -1,7 +1,7 @@
-﻿using ICar.Infrastructure.Models.Enums.Car;
+﻿using ICar.Infrastructure.Database.Models.Enums.Car;
 using System;
 
-namespace ICar.Data.Converter
+namespace ICar.Infrastructure.Database.Converter
 {
     public static class CarPropertyConverter
     {

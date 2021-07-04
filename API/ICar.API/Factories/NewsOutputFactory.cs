@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using System;
 using System.Collections.Generic;
 
@@ -24,7 +24,7 @@ namespace ICar.API.Generators
             dynamic[] output = new dynamic[news.Count];
             try
             {
-                for(int x = 0; x < news.Count; x++)
+                for (int x = 0; x < news.Count; x++)
                 {
                     output[x] = new
                     {

@@ -1,13 +1,13 @@
-﻿using ICar.Infrastructure.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
 using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.Repositories
+namespace ICar.Infrastructure.Database.Repositories
 {
     public class BaseRepository : IBaseRepository
     {
-        private readonly IcarContext _dbContext;
+        private readonly ICarContext _dbContext;
 
-        public BaseRepository(IcarContext dbContext)
+        public BaseRepository(ICarContext dbContext)
         {
             _dbContext = dbContext;
         }

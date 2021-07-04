@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.Repositories.Interfaces
+namespace ICar.Infrastructure.Database.Repositories.Interfaces
 {
     public interface IBaseRepository
     {

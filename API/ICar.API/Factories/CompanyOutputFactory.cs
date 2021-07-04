@@ -1,8 +1,4 @@
-﻿using ICar.Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ICar.Infrastructure.Database.Models;
 
 namespace ICar.API.Generators
 {

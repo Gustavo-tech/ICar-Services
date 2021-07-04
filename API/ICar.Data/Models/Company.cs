@@ -1,7 +1,7 @@
-﻿using ICar.Infrastructure.Models.Abstracts;
+﻿using ICar.Infrastructure.Database.Models.Abstracts;
 using System;
 
-namespace ICar.Infrastructure.Models
+namespace ICar.Infrastructure.Database.Models
 {
     public class Company : Entity
     {

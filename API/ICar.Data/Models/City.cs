@@ -1,4 +1,4 @@
-﻿namespace ICar.Infrastructure.Models
+﻿namespace ICar.Infrastructure.Database.Models
 {
     public class City
     {

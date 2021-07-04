@@ -1,14 +1,7 @@
-﻿using Azure.Storage.Blobs;
-using Microsoft.Azure.Management.Storage.Models;
-using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.Storage
+namespace ICar.Infrastructure.Database.Storage
 {
     public sealed class CarPictureStorageAccessor
     {

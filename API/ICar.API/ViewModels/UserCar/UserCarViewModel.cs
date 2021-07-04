@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ICar.API.ViewModels.UserCar
 {
@@ -26,11 +23,11 @@ namespace ICar.API.ViewModels.UserCar
         public string City { get; }
         public List<string> CarImages { get; }
 
-        public UserCarViewModel(string plate, string maker, string model, 
-            int makeDate, int makedDate, double kilometersTraveled, double price, 
-            bool acceptsChange, bool ipvaIsPaid, bool isLicensed, 
-            bool isArmored, string message, string typeOfExchange, 
-            string color, string gasolineType, string userCpf, 
+        public UserCarViewModel(string plate, string maker, string model,
+            int makeDate, int makedDate, double kilometersTraveled, double price,
+            bool acceptsChange, bool ipvaIsPaid, bool isLicensed,
+            bool isArmored, string message, string typeOfExchange,
+            string color, string gasolineType, string userCpf,
             string city, List<string> carImages)
         {
             Plate = plate;

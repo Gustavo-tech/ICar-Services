@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using System.Collections.Generic;
 
 namespace ICar.API.Generators

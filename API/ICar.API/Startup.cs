@@ -1,10 +1,8 @@
 using ICar.API.Auth;
 using ICar.API.Auth.Contracts;
-using ICar.Infrastructure;
-using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Repositories;
-using ICar.Infrastructure.Repositories.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ICar.Infrastructure.Database;
+using ICar.Infrastructure.Database.Repositories;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +26,7 @@ namespace ICar.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                .AddNewtonsoftJson(options => 
+                .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
@@ -47,7 +45,7 @@ namespace ICar.API
             services.AddScoped<IBaseRepository, BaseRepository>();
 
             // Entity Framework
-            services.AddDbContext<IcarContext>(options =>
+            services.AddDbContext<ICarContext>(options =>
             {
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]);
             });

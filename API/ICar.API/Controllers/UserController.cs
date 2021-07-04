@@ -1,14 +1,12 @@
 ﻿using ICar.API.Generators;
-using ICar.API.ViewModels;
 using ICar.API.ViewModels.User;
-using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Repositories.Interfaces;
+using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers

@@ -1,8 +1,7 @@
-﻿using ICar.Data.Converter;
-using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Database.Converter;
+using ICar.Infrastructure.Database.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ICar.API.Generators
 {

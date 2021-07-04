@@ -1,8 +1,7 @@
-﻿using ICar.Infrastructure.Models.Abstracts;
+﻿using ICar.Infrastructure.Database.Models.Abstracts;
 using System;
-using System.Collections.Generic;
 
-namespace ICar.Infrastructure.Models
+namespace ICar.Infrastructure.Database.Models
 {
     public class User : Entity
     {

@@ -3,7 +3,6 @@ using ICar.IdentityServer.ViewModels.User;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace ICar.IdentityServer.Controllers
@@ -29,7 +28,7 @@ namespace ICar.IdentityServer.Controllers
         {
 
             User user = await _userManager.FindByEmailAsync(loginViewModel.Email);
-            var result = await _signInManager.PasswordSignInAsync(user, user.Password, 
+            var result = await _signInManager.PasswordSignInAsync(user, user.Password,
                 false, false);
 
             if (result.Succeeded)

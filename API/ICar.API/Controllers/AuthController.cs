@@ -1,7 +1,7 @@
 ﻿using ICar.API.Auth.Contracts;
 using ICar.API.ViewModels;
-using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Repositories.Interfaces;
+using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

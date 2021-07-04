@@ -1,12 +1,12 @@
-﻿using ICar.Infrastructure.Configurations;
-using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Database.Configurations;
+using ICar.Infrastructure.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ICar.Infrastructure
+namespace ICar.Infrastructure.Database
 {
-    public class IcarContext : DbContext
+    public class ICarContext : DbContext
     {
-        public IcarContext(DbContextOptions options) : base(options)
+        public ICarContext(DbContextOptions options) : base(options)
         { }
 
         public DbSet<User> Users { get; set; }
