@@ -9,9 +9,9 @@ namespace ICar.Infrastructure.Repositories
 {
     public class NewsRepository : INewsRepository
     {
-        private readonly DatabaseContext _dbContext;
+        private readonly IcarContext _dbContext;
 
-        public NewsRepository(DatabaseContext dbContext)
+        public NewsRepository(IcarContext dbContext)
         {
             _dbContext = dbContext;
         }

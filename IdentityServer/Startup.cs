@@ -1,5 +1,8 @@
+using IdentityServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,9 +22,25 @@ namespace IdentityServer
         {
             services.AddControllersWithViews();
 
+            services.AddDbContext<ICarContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServer"));
+            });
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ICarContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.Name = "identity.cookie";
+                config.LoginPath = "/Authentication/Login";
+                config.LogoutPath = "/Authentication/Logout";
+            });
+
             services.AddIdentityServer()
             .AddDeveloperSigningCredential()
-            .AddInMemoryApiScopes(ServerConfiguration.ApiScopes)
+            .AddInMemoryApiResources(ServerConfiguration.ApiResources)
             .AddInMemoryClients(ServerConfiguration.Clients);
         }
 
@@ -31,17 +50,9 @@ namespace IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseIdentityServer();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseIdentityServer();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -5,9 +5,9 @@ namespace ICar.Infrastructure.Repositories
 {
     public class BaseRepository : IBaseRepository
     {
-        private readonly DatabaseContext _dbContext;
+        private readonly IcarContext _dbContext;
 
-        public BaseRepository(DatabaseContext dbContext)
+        public BaseRepository(IcarContext dbContext)
         {
             _dbContext = dbContext;
         }

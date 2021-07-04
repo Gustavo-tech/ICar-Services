@@ -5,12 +5,6 @@ namespace IdentityServer
 {
     public class ServerConfiguration
     {
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new List<ApiScope>
-            {
-                new ApiScope("icarapi", "Icar api")
-            };
-
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {

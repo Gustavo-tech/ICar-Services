@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ICar.Infrastructure
 {
-    public class DatabaseContext : DbContext
+    public class IcarContext : DbContext
     {
-        public DatabaseContext(DbContextOptions options) : base(options)
+        public IcarContext(DbContextOptions options) : base(options)
         { }
 
         public DbSet<User> Users { get; set; }

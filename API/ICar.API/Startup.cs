@@ -47,7 +47,7 @@ namespace ICar.API
             services.AddScoped<IBaseRepository, BaseRepository>();
 
             // Entity Framework
-            services.AddDbContext<DatabaseContext>(options =>
+            services.AddDbContext<IcarContext>(options =>
             {
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]);
             });

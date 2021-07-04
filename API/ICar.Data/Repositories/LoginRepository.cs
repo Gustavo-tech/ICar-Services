@@ -8,9 +8,9 @@ namespace ICar.Infrastructure.Repositories
 {
     public class LoginRepository : ILoginRepository
     {
-        private readonly DatabaseContext _dbContext;
+        private readonly IcarContext _dbContext;
 
-        public LoginRepository(DatabaseContext dbContext)
+        public LoginRepository(IcarContext dbContext)
         {
             _dbContext = dbContext;
         }

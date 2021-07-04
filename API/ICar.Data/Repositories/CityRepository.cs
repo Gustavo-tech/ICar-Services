@@ -8,9 +8,9 @@ namespace ICar.Infrastructure.Repositories
 {
     public class CityRepository : ICityRepository
     {
-        private readonly DatabaseContext _dbContext;
+        private readonly IcarContext _dbContext;
 
-        public CityRepository(DatabaseContext dbContext)
+        public CityRepository(IcarContext dbContext)
         {
             _dbContext = dbContext;
         }

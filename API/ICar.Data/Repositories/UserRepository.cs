@@ -9,9 +9,9 @@ namespace ICar.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DatabaseContext _dbContext;
+        private readonly IcarContext _dbContext;
 
-        public UserRepository(DatabaseContext dbContext)
+        public UserRepository(IcarContext dbContext)
         {
             _dbContext = dbContext;
         }

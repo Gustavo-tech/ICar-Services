@@ -9,9 +9,9 @@ namespace ICar.Infrastructure.Repositories
 {
     public class CompanyRepository : ICompanyRepository
     {
-        private readonly DatabaseContext _dbContext;
+        private readonly IcarContext _dbContext;
 
-        public CompanyRepository(DatabaseContext dbContext)
+        public CompanyRepository(IcarContext dbContext)
         {
             _dbContext = dbContext;
         }
