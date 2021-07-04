@@ -48,10 +48,15 @@ namespace ICar.IdentityServer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterUser(NewUserViewModel viewModel)
+        public async Task<IActionResult> Register(NewUserViewModel viewModel)
         {
-            User user = new User(viewModel.Cpf, viewModel.Name, viewModel.Email,
-                viewModel.Password, "client");
+            User user = new User
+            {
+                Email = viewModel.Email,
+                Cpf = viewModel.Cpf,
+                UserName = viewModel.Name,
+                Password = viewModel.Password
+            };
 
             IdentityResult result = await _userManager.CreateAsync(user, viewModel.Password);
 

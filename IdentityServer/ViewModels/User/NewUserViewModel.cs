@@ -11,22 +11,14 @@ namespace ICar.IdentityServer.ViewModels.User
 
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(int.MaxValue, MinimumLength = 2, ErrorMessage = "{0} should have at least {2} characters")]
-        public string Name { get; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
         [DataType(DataType.Password)]
-        public string Password { get; }
-
-        public NewUserViewModel(string cpf, string name, string email, string password)
-        {
-            Cpf = cpf;
-            Name = name;
-            Email = email;
-            Password = password;
-        }
+        public string Password { get; set; }
     }
 }

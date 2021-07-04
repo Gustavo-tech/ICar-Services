@@ -27,7 +27,12 @@ namespace IdentityServer
                 options.UseSqlServer(Configuration["DatabaseConnectionString"]);
             });
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(x =>
+            {
+                x.Password.RequireDigit = false;
+                x.Password.RequireLowercase = false;
+                x.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<ICarContext>()
                 .AddDefaultTokenProviders();
 
