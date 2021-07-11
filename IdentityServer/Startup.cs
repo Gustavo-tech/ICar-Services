@@ -1,5 +1,8 @@
+using ICar.IdentityServer.Token;
+using ICar.IdentityServer.Token.Contracts;
 using ICar.Infrastructure.Database;
 using ICar.Infrastructure.Database.Models;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,8 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace IdentityServer
+namespace ICar.IdentityServer
 {
     public class Startup
     {
@@ -22,6 +26,16 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSingleton<ICorsPolicyService>((container) => {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowedOrigins = { "http://localhost:3000" }
+                };
+            });
+
+            services.AddSingleton<Token.Contracts.ITokenService, JwtService>();
 
             services.AddDbContext<ICarContext>(options =>
             {
@@ -43,15 +57,17 @@ namespace IdentityServer
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "identity.cookie";
-                config.LoginPath = "/Authentication/Login";
-                config.LogoutPath = "/Authentication/Logout";
+                config.LoginPath = "/auth/login";
+                config.LogoutPath = "/auth/logout";
             });
+
 
             services.AddIdentityServer()
             .AddAspNetIdentity<User>()
             .AddDeveloperSigningCredential()
-            .AddInMemoryApiResources(ServerConfiguration.ApiResources)
-            .AddInMemoryClients(ServerConfiguration.Clients);
+            .AddInMemoryApiScopes(ServerConfiguration.ApiScopes)
+            .AddInMemoryClients(ServerConfiguration.Clients)
+            .AddInMemoryIdentityResources(ServerConfiguration.IdentityResources);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -64,6 +80,12 @@ namespace IdentityServer
             app.UseRouting();
             app.UseIdentityServer();
             app.UseStaticFiles();
+            app.UseCors(x =>
+            {
+                x.AllowAnyMethod();
+                x.AllowAnyOrigin();
+                x.AllowAnyHeader();
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

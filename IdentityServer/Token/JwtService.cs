@@ -1,4 +1,5 @@
-﻿using ICar.API.Auth.Contracts;
+﻿using ICar.IdentityServer.Token.Contracts;
+using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Models.Abstracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -8,9 +9,9 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 
-namespace ICar.API.Auth
+namespace ICar.IdentityServer.Token
 {
-    public class JwtService : IAuthService
+    public class JwtService : ITokenService
     {
         private readonly string _key;
         public JwtService(IConfiguration configuration)
@@ -18,7 +19,7 @@ namespace ICar.API.Auth
             _key = configuration["JwtKey"];
         }
 
-        public string GenerateToken(Entity entity)
+        public string GenerateToken(User entity)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             byte[] key = Encoding.ASCII.GetBytes(_key);
@@ -26,33 +27,14 @@ namespace ICar.API.Auth
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, entity.Name),
+                    new Claim(ClaimTypes.Name, entity.UserName),
                     new Claim(ClaimTypes.Email, entity.Email),
-                    new Claim(ClaimTypes.Role, entity.Role)
                 }),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
             SecurityToken token = tokenHandler.CreateToken(descriptor);
             return tokenHandler.WriteToken(token);
-        }
-
-        public bool ValidateToken(string token)
-        {
-            try
-            {
-                JwtSecurityTokenHandler tokenHandler = new();
-                ValidationParametersGenerator tokenValidation = new(_key);
-                SecurityToken validatedToken;
-
-                IPrincipal principal = tokenHandler.ValidateToken(token, 
-                    tokenValidation.GenerateTokenValidationParameters(), out validatedToken);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
     }
 }

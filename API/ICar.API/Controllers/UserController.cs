@@ -17,89 +17,42 @@ namespace ICar.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IBaseRepository _baseRepository;
 
-        public UserController(IUserRepository userQueries, IBaseRepository baseRepository)
+        public UserController(IUserRepository userQueries)
         {
             _userRepository = userQueries;
-            _baseRepository = baseRepository;
         }
 
-        //[HttpGet("all")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
-        //public async Task<IActionResult> GetUsers()
-        //{
-        //    try
-        //    {
-        //        List<User> users = await _userRepository.GetUsersAsync();
-        //        dynamic[] output = UserOutputFactory.GenerateUserOutput(users);
-        //        return Ok(output);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Problem();
-        //    }
-        //}
+        [HttpGet("all")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        public async Task<IActionResult> GetUsers()
+        {
+            try
+            {
+                List<User> users = await _userRepository.GetUsersAsync();
+                dynamic[] output = UserOutputFactory.GenerateUserOutput(users);
+                return Ok(output);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
 
-        //[HttpGet("logins/{cpf}")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //public async Task<IActionResult> GetLogins([FromRoute] string cpf)
-        //{
-        //    try
-        //    {
-        //        User user = await _userRepository.GetUserByCpfAsync(cpf);
-        //        return Ok(user.Logins);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Problem();
-        //    }
-        //}
-
-        //[HttpPost("create")]
-        //public async Task<IActionResult> CreateUser([FromBody] UserViewModel create)
-        //{
-        //    try
-        //    {
-        //        User user = await _userRepository.GetUserByCpfAsync(create.Cpf);
-
-        //        if (user == null)
-        //        {
-        //            try
-        //            {
-        //                User userToInsert = new(create.Cpf, create.Name, create.Email,
-        //                    create.Password, "client");
-
-        //                await _baseRepository.AddAsync(userToInsert);
-        //                return Ok(new
-        //                {
-        //                    CPF = create.Cpf,
-        //                    create.Name,
-        //                    create.Email,
-        //                    Message = "User inserted succesffully"
-        //                });
-        //            }
-        //            catch (Exception)
-        //            {
-        //                return Problem();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            return Conflict(new
-        //            {
-        //                CPF = create.Cpf,
-        //                create.Name,
-        //                create.Email,
-        //                Message = "This user already exists"
-        //            });
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Problem();
-        //    }
-        //}
+        [HttpGet("logins/{cpf}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetLogins([FromRoute] string cpf)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByCpfAsync(cpf);
+                return Ok(user.Logins);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
 
         //[HttpPut("update")]
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

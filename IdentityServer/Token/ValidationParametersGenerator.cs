@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ICar.API.Auth
+namespace ICar.IdentityServer.Token
 {
     public class ValidationParametersGenerator
     {
