@@ -5,12 +5,14 @@ using ICar.Infrastructure.Database.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace ICar.IdentityServer
 {
@@ -57,10 +59,10 @@ namespace ICar.IdentityServer
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "identity.cookie";
+                config.Cookie.IsEssential = true;
                 config.LoginPath = "/auth/login";
                 config.LogoutPath = "/auth/logout";
             });
-
 
             services.AddIdentityServer()
             .AddAspNetIdentity<User>()
@@ -86,6 +88,8 @@ namespace ICar.IdentityServer
                 x.AllowAnyOrigin();
                 x.AllowAnyHeader();
             });
+
+            app.UseCookiePolicy();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
