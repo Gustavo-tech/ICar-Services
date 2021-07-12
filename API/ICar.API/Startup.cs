@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
@@ -58,6 +59,10 @@ namespace ICar.API
                     config.Authority = "https://localhost:5002";
                     config.Audience = "Api";
                     config.RequireHttpsMetadata = false;
+                    config.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
                 });
         }
 
