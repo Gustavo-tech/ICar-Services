@@ -1,5 +1,3 @@
-using ICar.API.Auth;
-using ICar.API.Auth.Contracts;
 using ICar.Infrastructure.Database;
 using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
@@ -36,7 +34,6 @@ namespace ICar.API
             });
 
             // Dependency injection
-            services.AddScoped<IAuthService, JwtService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<ICarRepository, CarRepository>();

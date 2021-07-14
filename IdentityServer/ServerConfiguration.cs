@@ -27,13 +27,13 @@ namespace ICar.IdentityServer
                     ClientId = "web",
                     AllowedGrantTypes = GrantTypes.Code,
                     ClientSecrets = { new Secret("icar".Sha256()) },
-                    AllowedScopes = 
-                    { 
+                    AllowedScopes =
+                    {
                         "Api",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     },
-                    RedirectUris = { "http://localhost:3000/authentication/callback", 
+                    RedirectUris = { "http://localhost:3000/authentication/callback",
                         "http://localhost:3000/authentication/silent_callback" },
                     RequireClientSecret = false,
                     RequirePkce = true,

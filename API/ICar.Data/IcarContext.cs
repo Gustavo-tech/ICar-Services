@@ -1,6 +1,5 @@
 ﻿using ICar.Infrastructure.Database.Configurations;
 using ICar.Infrastructure.Database.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
