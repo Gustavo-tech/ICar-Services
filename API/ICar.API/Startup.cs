@@ -38,7 +38,6 @@ namespace ICar.API
             services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IBaseRepository, BaseRepository>();
 
