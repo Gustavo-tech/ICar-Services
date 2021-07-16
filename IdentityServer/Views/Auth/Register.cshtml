@@ -8,22 +8,22 @@
     </div>
     <div class="register">
         <h2 class="register-title">Register</h2>
-        <form class="register-form">
+        <form class="register-form" asp-action="Register" asp-controller="Auth">
             <div class="form-group">
                 <label for="cpf">CPF</label>
-                <input class="form-control" type="text" id="cpf" required />
+                <input asp-for="Cpf" class="form-control" type="text" id="cpf" required />
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input class="form-control" type="email" id="email" required />
+                <input asp-for="Email" class="form-control" type="email" id="email" required />
             </div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input class="form-control" type="text" id="name" required />
+                <input asp-for="Name" class="form-control" type="text" id="name" required />
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input class="form-control" type="text" id="password" required />
+                <input asp-for="Password" class="form-control" type="password" id="password" required />
             </div>
 
             <button class="btn btn-danger" type="submit">Submit</button>

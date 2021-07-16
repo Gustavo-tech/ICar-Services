@@ -27,11 +27,11 @@ div.register {
     background-color: var(--red);
     height: 100%;
     width: 100%;
-    padding: 14% 12%;
+    padding: 9% 12%;
 }
 
 form.register-form {
-    background-color: var(--white);
+    background-color: #EFEFEF;
     border-radius: 7px;
     padding: 2%;
     width: 100%;
