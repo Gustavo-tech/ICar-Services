@@ -1,4 +1,5 @@
-﻿using ICar.Infrastructure.Database.Models;
+﻿using ICar.IdentityServer.ViewModels.User;
+using ICar.Infrastructure.Database.Models;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,25 @@ namespace ICar.IdentityServer.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             User user = await _userManager.FindByEmailAsync(model.Email);
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(NewUserViewModel model)
+        {
+            User newUser = new(model.Cpf, model.Name, model.Email, "client");
+            var result = await _userManager.CreateAsync(newUser, model.Password);
+
+            if (result.Succeeded)
+                return RedirectToAction("login");
+
             return View(model);
         }
     }

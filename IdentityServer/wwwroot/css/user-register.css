@@ -1,23 +1,39 @@
-﻿body {
+﻿div.page {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100vh;
+}
+
+h1.logo {
+    text-align: center;
+    color: var(--white);
+    font-family: 'Satisfy', cursive;
+    font-size: 72px;
+    margin-top: 7%;
+}
+
+div.welcome {
+    height: 100%;
+    width: 100%;
+    background-color: var(--black);
+}
+
+h2.register-title {
+    color: var(--white);
+    margin-top: 10%;
+}
+
+div.register {
     background-color: var(--red);
+    height: 100%;
+    width: 100%;
+    padding: 14% 12%;
 }
 
-div.register-container {
-    background-color: white;
+form.register-form {
+    background-color: var(--white);
+    border-radius: 7px;
     padding: 2%;
-    border-radius: 17px;
-    width: 65%;
+    width: 100%;
 }
 
-h1.register-title {
-    color: white;
-    font-family: 'Satisfy', cursive;
-    text-align: center;
-    font-size: 70px;
-}
-
-h3.form-title{
-    font-family: 'Satisfy', cursive;
-    text-align: center;
-    font-size: 32px;
-}
