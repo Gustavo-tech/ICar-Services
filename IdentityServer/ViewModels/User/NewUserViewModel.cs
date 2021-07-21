@@ -18,6 +18,9 @@ namespace ICar.IdentityServer.ViewModels.User
         public string Email { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
+        public string Phone { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

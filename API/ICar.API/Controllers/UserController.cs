@@ -3,6 +3,7 @@ using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace ICar.API.Controllers
     {
         private readonly IUserRepository _userRepository;
 
-        public UserController(IUserRepository userQueries)
+        public UserController(IUserRepository userRepository)
         {
-            _userRepository = userQueries;
+            _userRepository = userRepository;
         }
 
         [HttpGet("all")]
@@ -38,8 +39,29 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("logins/{cpf}")]
+        [HttpGet("info/{email}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetUserInformation([FromRoute] string email)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByEmailAsync(email);
+                return Ok(new
+                {
+                    user.Email,
+                    user.UserName,
+                    user.Cpf,
+                    user.AccountCreationDate
+                });
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpGet("logins/{cpf}")]
+        [Authorize]
         public async Task<IActionResult> GetLogins([FromRoute] string cpf)
         {
             try
@@ -52,66 +74,5 @@ namespace ICar.API.Controllers
                 return Problem();
             }
         }
-
-        //[HttpPut("update")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //public async Task<IActionResult> UpdateUser([FromBody] UserViewModel update)
-        //{
-        //    User user = await _userRepository.GetUserByEmailAsync(update.Email);
-
-        //    if (user != null)
-        //    {
-        //        if (user.Password == update.Password)
-        //        {
-        //            try
-        //            {
-        //                user.Cpf = update.Cpf;
-        //                user.Email = update.Email;
-        //                user.UserName = update.Name;
-
-        //                await _baseRepository.UpdateAsync(user);
-        //                return Ok();
-        //            }
-        //            catch (Exception)
-        //            {
-        //                return Problem();
-        //            }
-        //        }
-        //        else
-        //            return BadRequest();
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
-        //[HttpDelete("delete")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //public async Task<IActionResult> DeleteUser([FromBody] DeleteUserViewModel deleteUser)
-        //{
-        //    User user = await _userRepository.GetUserByEmailAsync(deleteUser.Email);
-
-        //    if (user != null)
-        //    {
-        //        if (user.Password == deleteUser.Password)
-        //        {
-        //            await _baseRepository.DeleteAsync(user);
-        //            return Ok(new
-        //            {
-        //                Message = "User deleted successfully"
-        //            });
-        //        }
-        //        else
-        //        {
-        //            return BadRequest(new
-        //            {
-        //                Message = "This email or password is wrong"
-        //            });
-        //        }
-        //    }
-        //    else
-        //        return NotFound();
-        //}
     }
 }

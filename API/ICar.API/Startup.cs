@@ -79,7 +79,7 @@ namespace ICar.API
             app.UseCors(options =>
             {
                 options.WithMethods("GET", "POST", "PUT", "DELETE");
-                options.WithOrigins("http://localhost:3000");
+                options.AllowAnyOrigin();
                 options.AllowAnyHeader();
             });
 

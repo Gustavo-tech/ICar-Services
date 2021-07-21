@@ -20,14 +20,14 @@ div.welcome {
 
 h2.register-title {
     color: var(--white);
-    margin-top: 10%;
+    margin-top: 6%;
 }
 
 div.register {
     background-color: var(--red);
     height: 100%;
     width: 100%;
-    padding: 9% 12%;
+    padding: 4% 9%;
 }
 
 form.register-form {
