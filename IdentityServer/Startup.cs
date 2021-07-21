@@ -1,18 +1,14 @@
-using ICar.IdentityServer.Token;
-using ICar.IdentityServer.Token.Contracts;
 using ICar.Infrastructure.Database;
 using ICar.Infrastructure.Database.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace ICar.IdentityServer
 {
@@ -29,15 +25,14 @@ namespace ICar.IdentityServer
         {
             services.AddControllersWithViews();
 
-            services.AddSingleton<ICorsPolicyService>((container) => {
+            services.AddSingleton<ICorsPolicyService>((container) =>
+            {
                 var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
                 return new DefaultCorsPolicyService(logger)
                 {
                     AllowedOrigins = { "http://localhost:3000" }
                 };
             });
-
-            services.AddSingleton<Token.Contracts.ITokenService, JwtService>();
 
             services.AddDbContext<ICarContext>(options =>
             {

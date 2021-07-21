@@ -1,5 +1,3 @@
-using ICar.API.Auth;
-using ICar.API.Auth.Contracts;
 using ICar.Infrastructure.Database;
 using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
@@ -36,12 +34,10 @@ namespace ICar.API
             });
 
             // Dependency injection
-            services.AddScoped<IAuthService, JwtService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IBaseRepository, BaseRepository>();
 
@@ -83,7 +79,7 @@ namespace ICar.API
             app.UseCors(options =>
             {
                 options.WithMethods("GET", "POST", "PUT", "DELETE");
-                options.WithOrigins("http://localhost:3000");
+                options.AllowAnyOrigin();
                 options.AllowAnyHeader();
             });
 

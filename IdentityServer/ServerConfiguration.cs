@@ -10,7 +10,9 @@ namespace ICar.IdentityServer
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResources.Phone()
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -27,18 +29,21 @@ namespace ICar.IdentityServer
                     ClientId = "web",
                     AllowedGrantTypes = GrantTypes.Code,
                     ClientSecrets = { new Secret("icar".Sha256()) },
-                    AllowedScopes = 
-                    { 
+                    AllowedScopes =
+                    {
                         "Api",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone
                     },
-                    RedirectUris = { "http://localhost:3000/authentication/callback", 
-                        "http://localhost:3000/authentication/silent_callback" },
+                    RedirectUris = 
+                    { 
+                        "http://localhost:3000/authentication/callback",
+                        "http://localhost:3000/authentication/silent_callback" 
+                    },
                     RequireClientSecret = false,
                     RequirePkce = true,
-                    
-                    //PostLogoutRedirectUris = { "http://localhost:3000" }
                 }
             };
     }

@@ -1,0 +1,36 @@
+﻿@using ICar.IdentityServer.ViewModels.User 
+
+@model NewUserViewModel
+
+<div class="page">
+    <div class="welcome">
+        <h1 class="logo">ICar</h1>
+    </div>
+    <div class="register">
+        <h2 class="register-title">Register</h2>
+        <form class="register-form" asp-action="Register" asp-controller="Auth">
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input asp-for="Cpf" class="form-control" type="text" id="cpf" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input asp-for="Email" class="form-control" type="email" id="email" required />
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input asp-for="Phone" class="form-control" type="text" id="phone" required />
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input asp-for="Name" class="form-control" type="text" id="name" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input asp-for="Password" class="form-control" type="password" id="password" required />
+            </div>
+
+            <button class="btn btn-danger" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
