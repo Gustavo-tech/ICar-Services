@@ -30,7 +30,7 @@ namespace ICar.IdentityServer.Controllers
         {
             User user = await _userManager.FindByEmailAsync(model.Email);
             await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
-            return View(model);
+            return Redirect("http://localhost:3000");
         }
 
         [HttpGet]
@@ -56,7 +56,20 @@ namespace ICar.IdentityServer.Controllers
             {
                 return View();
             }
-            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("login");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("login");
+            }
         }
     }
 }
