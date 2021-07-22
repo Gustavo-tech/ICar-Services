@@ -40,21 +40,6 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("company/get")]
-        public async Task<IActionResult> GetCompanyNewsAsync()
-        {
-            try
-            {
-                List<News> companyNews = await _newsRepository.GetCompanyNewsAsync();
-                dynamic[] output = NewsOutputFactory.GenerateCompanyNewsOutput(companyNews);
-                return Ok(output);
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
         [HttpPost("user/create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> InsertUserNewsAsync([FromBody] UserNewsViewModel create)
@@ -63,7 +48,7 @@ namespace ICar.API.Controllers
             {
                 if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
                 {
-                    News newsToInsert = new(create.Title, create.Text, create.Cpf, false);
+                    News newsToInsert = new(create.Title, create.Text, create.Cpf);
                     await _baseRepository.AddAsync(newsToInsert);
                     return Ok(create);
                 }

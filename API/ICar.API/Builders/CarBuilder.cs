@@ -111,12 +111,6 @@ namespace ICar.API.Builders
             return this;
         }
 
-        public CarBuilder WithCompanyCnpj(string cnpj)
-        {
-            _car.CompanyCnpj = cnpj;
-            return this;
-        }
-
         public CarBuilder WithUserCpf(string userCpf)
         {
             _car.UserCpf = userCpf;

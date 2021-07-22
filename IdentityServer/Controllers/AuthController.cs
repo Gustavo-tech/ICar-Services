@@ -1,5 +1,7 @@
 ﻿using ICar.IdentityServer.ViewModels.User;
 using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Repositories;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +14,13 @@ namespace ICar.IdentityServer.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly ILoginRepository _loginRepository;
 
-        public AuthController(SignInManager<User> signInManager, UserManager<User> userManager)
+        public AuthController(SignInManager<User> signInManager, UserManager<User> userManager, ILoginRepository loginRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _loginRepository = loginRepository;
         }
 
         [HttpGet]
@@ -29,8 +33,19 @@ namespace ICar.IdentityServer.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             User user = await _userManager.FindByEmailAsync(model.Email);
-            await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
-            return Redirect("http://localhost:3000");
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                Login newLogin = new()
+                {
+                    Cpf = user.Cpf,
+                    Time = DateTime.Now
+                };
+                await _loginRepository.AddLogin(newLogin);
+            }
+
+            return View();
         }
 
         [HttpGet]

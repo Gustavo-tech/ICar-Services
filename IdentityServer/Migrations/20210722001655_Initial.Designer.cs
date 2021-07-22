@@ -4,14 +4,16 @@ using ICar.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ICar.Infrastructure.Database.Migrations
+namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210722001655_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace ICar.Infrastructure.Database.Migrations
                     b.Property<int>("Color")
                         .HasMaxLength(3)
                         .HasColumnType("INT");
-
-                    b.Property<string>("CompanyCnpj")
-                        .HasColumnType("NVARCHAR(18)");
 
                     b.Property<string>("GasolineType")
                         .IsRequired()
@@ -97,8 +96,6 @@ namespace ICar.Infrastructure.Database.Migrations
                     b.HasIndex("CityId")
                         .IsUnique();
 
-                    b.HasIndex("CompanyCnpj");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Cars");
@@ -124,72 +121,6 @@ namespace ICar.Infrastructure.Database.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Company", b =>
-                {
-                    b.Property<string>("Cnpj")
-                        .HasMaxLength(18)
-                        .HasColumnType("NVARCHAR(18)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("AccountCreationDate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(320)
-                        .HasColumnType("NVARCHAR(320)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("NVARCHAR(30)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Cnpj");
-
-                    b.ToTable("Companies");
-                });
-
             modelBuilder.Entity("ICar.Infrastructure.Database.Models.Login", b =>
                 {
                     b.Property<int?>("Id")
@@ -197,21 +128,16 @@ namespace ICar.Infrastructure.Database.Migrations
                         .HasColumnType("INT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyCnpj")
-                        .HasColumnType("NVARCHAR(18)");
+                    b.Property<string>("Cpf")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("DATETIME");
-
-                    b.Property<string>("UserCpf")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyCnpj");
 
                     b.HasIndex("UserId");
 
@@ -224,9 +150,6 @@ namespace ICar.Infrastructure.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyCnpj")
-                        .HasColumnType("NVARCHAR(18)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
@@ -251,8 +174,6 @@ namespace ICar.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyCnpj");
 
                     b.HasIndex("UserId");
 
@@ -472,10 +393,6 @@ namespace ICar.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ICar.Infrastructure.Database.Models.Company", null)
-                        .WithMany("Cars")
-                        .HasForeignKey("CompanyCnpj");
-
                     b.HasOne("ICar.Infrastructure.Database.Models.User", null)
                         .WithMany("Cars")
                         .HasForeignKey("UserId");
@@ -485,10 +402,6 @@ namespace ICar.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Database.Models.Login", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.Company", null)
-                        .WithMany("Logins")
-                        .HasForeignKey("CompanyCnpj");
-
                     b.HasOne("ICar.Infrastructure.Database.Models.User", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId");
@@ -496,10 +409,6 @@ namespace ICar.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Database.Models.News", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.Company", null)
-                        .WithMany("News")
-                        .HasForeignKey("CompanyCnpj");
-
                     b.HasOne("ICar.Infrastructure.Database.Models.User", null)
                         .WithMany("News")
                         .HasForeignKey("UserId");
@@ -554,15 +463,6 @@ namespace ICar.Infrastructure.Database.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Company", b =>
-                {
-                    b.Navigation("Cars");
-
-                    b.Navigation("Logins");
-
-                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Database.Models.User", b =>

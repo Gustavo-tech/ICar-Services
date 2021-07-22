@@ -36,7 +36,8 @@ namespace ICar.IdentityServer
 
             services.AddDbContext<ICarContext>(options =>
             {
-                options.UseSqlServer(Configuration["DatabaseConnectionString"]);
+                options.UseSqlServer(Configuration["DatabaseConnectionString"],
+                    x => x.MigrationsAssembly("ICar.IdentityServer"));
             });
 
             services.AddIdentity<User, IdentityRole>(x =>

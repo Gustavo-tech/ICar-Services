@@ -33,18 +33,6 @@ namespace ICar.Infrastructure.Database.Repositories
             return await _dbContext.Cars.Where(x => x.UserCpf == userCpf).ToListAsync();
         }
 
-        public async Task<List<Car>> GetCompanyCarsAsync()
-        {
-            return await _dbContext.Cars
-                .Where(x => x.CompanyCnpj != null)
-                .ToListAsync();
-        }
-
-        public async Task<List<Car>> GetCompanyCarsAsync(string companyCnpj)
-        {
-            return await _dbContext.Cars.Where(x => x.CompanyCnpj == companyCnpj).ToListAsync();
-        }
-
         public async Task IncreaseNumberOfViewsAsync(string carPlate)
         {
             Car uc = await _dbContext.Cars.Where(x => x.Plate == carPlate).FirstOrDefaultAsync();

@@ -15,6 +15,11 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task AddLogin(Login login)
+        {
+            await _dbContext.Logins.AddAsync(login);
+        }
+
         public async Task<List<Login>> GetAllLogins()
         {
             return await _dbContext.Logins.ToListAsync();

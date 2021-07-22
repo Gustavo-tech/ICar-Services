@@ -19,7 +19,6 @@ namespace ICar.Infrastructure.Database.Models
         public TypeOfExchange TypeOfExchange { get; set; }
         public Color Color { get; set; }
         public GasolineType GasolineType { get; set; }
-        public string CompanyCnpj { get; set; }
         public string UserCpf { get; set; }
         public int CityId { get; set; }
         public City City { get; set; }

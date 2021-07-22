@@ -46,45 +46,6 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("company/get")]
-        public async Task<IActionResult> GetCars()
-        {
-            try
-            {
-                List<Car> carsInDatabase = await _carRepository.GetCompanyCarsAsync();
-
-                List<dynamic> carsOutput = new();
-
-                foreach (Car CompanyCar in carsInDatabase)
-                {
-                    carsOutput.Add(new
-                    {
-                        Plate = CompanyCar.Plate,
-                        Maker = CompanyCar.Maker,
-                        Model = CompanyCar.Model,
-                        MakeDate = CompanyCar.MakeDate,
-                        MakedDate = CompanyCar.MakedDate,
-                        KilometersTraveled = CompanyCar.KilometersTraveled,
-                        Price = CompanyCar.Price,
-                        AcceptsChange = CompanyCar.AcceptsChange,
-                        IpvaIsPaid = CompanyCar.IpvaIsPaid,
-                        IsLicensed = CompanyCar.IsLicensed,
-                        IsArmored = CompanyCar.IsArmored,
-                        Message = CompanyCar.Message,
-                        Color = CarPropertyConverter.ConvertColorToString(CompanyCar.Color),
-                        GasolineType = (CarPropertyConverter.ConvertGasolineTypeToString(CompanyCar.GasolineType)),
-                        City = CompanyCar.City
-                    });
-                }
-
-                return Ok(carsOutput);
-            }
-            catch (Exception exception)
-            {
-                return Problem(title: "Some error happened while getting the cars",
-                    detail: exception.Message);
-            }
-        }
 
         [HttpPost("user/create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

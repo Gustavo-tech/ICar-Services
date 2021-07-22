@@ -27,16 +27,6 @@ namespace ICar.Infrastructure.Database.Repositories
                 .Where(x => x.Title == title && x.Text == text).FirstOrDefaultAsync();
         }
 
-        public async Task<List<News>> GetCompanyNewsAsync(string companyCnpj)
-        {
-            return await _dbContext.News.Where(x => x.CompanyCnpj == companyCnpj).ToListAsync();
-        }
-
-        public async Task<List<News>> GetCompanyNewsAsync()
-        {
-            return await _dbContext.News.Where(x => x.CompanyCnpj != null).ToListAsync();
-        }
-
         public async Task<List<News>> GetUserNewsAsync()
         {
             return await _dbContext.News.Where(x => x.UserCpf != null).ToListAsync();
