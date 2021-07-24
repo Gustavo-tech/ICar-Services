@@ -1,5 +1,7 @@
 using ICar.Infrastructure.Database;
 using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Database.Repositories;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +25,10 @@ namespace ICar.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
+            services.AddScoped<ILoginRepository, LoginRepository>();
 
             services.AddSingleton<ICorsPolicyService>((container) =>
             {

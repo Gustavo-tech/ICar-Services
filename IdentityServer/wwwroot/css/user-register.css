@@ -37,3 +37,8 @@ form.register-form {
     width: 100%;
 }
 
+a.form-link {
+    display: block;
+    text-align: center;
+    color: white;
+}

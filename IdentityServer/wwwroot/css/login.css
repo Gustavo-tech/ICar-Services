@@ -34,3 +34,9 @@ div.login-container {
     border-radius: 7px;
     padding: 2%;
 }
+
+a.form-link {
+    display: block;
+    text-align: center;
+    color: white;
+}

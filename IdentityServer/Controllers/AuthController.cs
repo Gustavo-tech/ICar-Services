@@ -33,19 +33,23 @@ namespace ICar.IdentityServer.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             User user = await _userManager.FindByEmailAsync(model.Email);
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
-            if (result.Succeeded)
+            if (user != null)
             {
-                Login newLogin = new()
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                if (result.Succeeded)
                 {
-                    Cpf = user.Cpf,
-                    Time = DateTime.Now
-                };
-                await _loginRepository.AddLogin(newLogin);
+                    Login newLogin = new()
+                    {
+                        Cpf = user.Cpf,
+                        Time = DateTime.Now
+                    };
+                    await _loginRepository.AddLogin(newLogin);
+                }
             }
 
-            return View();
+            return Redirect("http://localhost:3000");
         }
 
         [HttpGet]
