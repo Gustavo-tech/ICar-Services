@@ -62,7 +62,7 @@ namespace ICar.Infrastructure.Database.Configurations
                 .IsRequired();
 
             builder.Property(x => x.Color)
-                .HasColumnType("INT")
+                .HasColumnType("NVARCHAR(50)")
                 .IsRequired()
                 .HasMaxLength(3);
 
@@ -74,9 +74,6 @@ namespace ICar.Infrastructure.Database.Configurations
             builder.Property(x => x.NumberOfViews)
                 .HasColumnType("INT")
                 .IsRequired();
-
-            builder.HasOne(x => x.Owner)
-                .WithMany(x => x.Cars);
 
             builder.HasOne(x => x.City);
         }

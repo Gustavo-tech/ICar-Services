@@ -20,7 +20,6 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             return await _dbContext.Cars
                 .Where(x => x.Plate == plate)
-                .Include(x => x.Owner)
                 .FirstOrDefaultAsync();
         }
 

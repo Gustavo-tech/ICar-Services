@@ -27,7 +27,7 @@ namespace ICar.Infrastructure.Database.Models
 
         public Car()
         {
-            
+
         }
 
         public static TypeOfExchange ConvertStringToTypeOfExchange(string typeOfExchange)

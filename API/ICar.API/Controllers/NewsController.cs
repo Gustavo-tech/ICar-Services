@@ -1,5 +1,4 @@
 ﻿using ICar.API.Generators;
-using ICar.API.ViewModels.CompayNews;
 using ICar.API.ViewModels.UserNews;
 using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
@@ -48,30 +47,7 @@ namespace ICar.API.Controllers
             {
                 if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
                 {
-                    News newsToInsert = new(create.Title, create.Text, create.Cpf);
-                    await _baseRepository.AddAsync(newsToInsert);
-                    return Ok(create);
-                }
-                else
-                {
-                    return Conflict();
-                }
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
-        [HttpPost("company/create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> InsertCompanyNewsAsync([FromBody] CompanyNewsViewModel create)
-        {
-            try
-            {
-                if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
-                {
-                    News newsToInsert = new(create.Title, create.Text, create.CompanyCnpj);
+                    News newsToInsert = new(create.Title, create.Text);
                     await _baseRepository.AddAsync(newsToInsert);
                     return Ok(create);
                 }
@@ -89,30 +65,6 @@ namespace ICar.API.Controllers
         [HttpPut("users/update")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateUserNewsAsync([FromBody] UpdateUserNewsViewModel update)
-        {
-            try
-            {
-                News newsInDatabase = await _newsRepository.GetNewsAsync(update.Id);
-                if (newsInDatabase != null)
-                {
-                    newsInDatabase.Title = update.Title;
-                    newsInDatabase.Text = update.Text;
-                    newsInDatabase.LastUpdate = DateTime.Now;
-                    await _baseRepository.UpdateAsync(newsInDatabase);
-                    return Ok();
-                }
-                else
-                    return NotFound();
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
-        [HttpPut("company/update")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> UpdateCompanyNewsAsync([FromBody] UpdateCompanyNewsViewModel update)
         {
             try
             {

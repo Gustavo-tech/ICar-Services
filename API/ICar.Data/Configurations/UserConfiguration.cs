@@ -11,7 +11,9 @@ namespace ICar.Infrastructure.Database.Configurations
 
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Cpf);
+            builder.HasKey(x => x.Email);
+
+            builder.Ignore(x => x.Id);
 
             builder.Property(x => x.Cpf)
                 .HasColumnType("NVARCHAR")
@@ -32,13 +34,13 @@ namespace ICar.Infrastructure.Database.Configurations
                 .HasMaxLength(30);
 
             builder.HasMany(x => x.Cars)
-                .WithOne();
+                .WithOne(x => x.Owner);
 
             builder.HasMany(x => x.News)
-                .WithOne();
+                .WithOne(x => x.Owner);
 
             builder.HasMany(x => x.Logins)
-                .WithOne();
+                .WithOne(x => x.User);
         }
     }
 }

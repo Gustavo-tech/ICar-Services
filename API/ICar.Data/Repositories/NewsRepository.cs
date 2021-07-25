@@ -29,12 +29,15 @@ namespace ICar.Infrastructure.Database.Repositories
 
         public async Task<List<News>> GetUserNewsAsync()
         {
-            return await _dbContext.News.Where(x => x.UserCpf != null).ToListAsync();
+            return await _dbContext.News
+                .ToListAsync();
         }
 
-        public async Task<List<News>> GetUserNewsAsync(string userCpf)
+        public async Task<List<News>> GetUserNewsAsync(string email)
         {
-            return await _dbContext.News.Where(x => x.UserCpf == userCpf).ToListAsync();
+            return await _dbContext.News
+                .Where(x => x.Owner.Email == email)
+                .ToListAsync();
         }
     }
 }

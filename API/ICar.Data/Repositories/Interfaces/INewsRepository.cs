@@ -9,7 +9,7 @@ namespace ICar.Infrastructure.Database.Repositories.Interfaces
         Task<News> GetNewsAsync(int id);
         Task<News> GetNewsAsync(string title, string text);
         Task<List<News>> GetUserNewsAsync();
-        Task<List<News>> GetUserNewsAsync(string userCpf);
+        Task<List<News>> GetUserNewsAsync(string email);
 
     }
 }

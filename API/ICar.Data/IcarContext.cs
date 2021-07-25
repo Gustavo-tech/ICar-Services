@@ -8,7 +8,9 @@ namespace ICar.Infrastructure.Database
     public class ICarContext : IdentityDbContext<User>
     {
         public ICarContext(DbContextOptions<ICarContext> options) : base(options)
-        { }
+        {
+            
+        }
 
         public DbSet<Login> Logins { get; set; }
         public DbSet<News> News { get; set; }

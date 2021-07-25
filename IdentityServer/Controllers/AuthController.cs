@@ -42,7 +42,7 @@ namespace ICar.IdentityServer.Controllers
                 {
                     Login newLogin = new()
                     {
-                        Cpf = user.Cpf,
+                        User = user,
                         Time = DateTime.Now
                     };
                     await _loginRepository.AddLogin(newLogin);
