@@ -19,7 +19,7 @@ namespace ICar.API.ViewModels.UserCar
         public string TypeOfExchange { get; }
         public string Color { get; }
         public string GasolineType { get; }
-        public string UserCpf { get; }
+        public string UserEmail { get; }
         public string City { get; }
         public List<string> CarImages { get; }
 
@@ -45,7 +45,7 @@ namespace ICar.API.ViewModels.UserCar
             TypeOfExchange = typeOfExchange;
             Color = color;
             GasolineType = gasolineType;
-            UserCpf = userCpf;
+            UserEmail = userCpf;
             City = city;
             CarImages = carImages;
         }

@@ -1,5 +1,4 @@
-﻿using ICar.Infrastructure.Database.Converter;
-using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Models.Enums.Car;
 
 namespace ICar.API.Builders
@@ -92,34 +91,32 @@ namespace ICar.API.Builders
 
         public CarBuilder WithTypeOfExchange(string typeOfExchange)
         {
-            TypeOfExchange typeOfExchangeForCar = CarPropertyConverter.ConvertStringToTypeOfExchange(typeOfExchange);
+            TypeOfExchange typeOfExchangeForCar = Car.ConvertStringToTypeOfExchange(typeOfExchange);
             _car.TypeOfExchange = typeOfExchangeForCar;
             return this;
         }
 
         public CarBuilder WithGasolineType(string gasolineType)
         {
-            GasolineType gasolineTypeForCar = CarPropertyConverter.ConvertStringToGasolineType(gasolineType);
+            GasolineType gasolineTypeForCar = Car.ConvertStringToGasolineType(gasolineType);
             _car.GasolineType = gasolineTypeForCar;
             return this;
         }
 
         public CarBuilder WithColor(string color)
         {
-            Color colorForCar = CarPropertyConverter.ConvertStringToColor(color);
-            _car.Color = colorForCar;
+            _car.Color = color;
             return this;
         }
 
-        public CarBuilder WithUserCpf(string userCpf)
+        public CarBuilder WithOwner(User owner)
         {
-            _car.UserCpf = userCpf;
+            _car.Owner = owner;
             return this;
         }
 
         public CarBuilder WithCity(City city)
         {
-            _car.CityId = city.Id.Value;
             _car.City = city;
             return this;
         }

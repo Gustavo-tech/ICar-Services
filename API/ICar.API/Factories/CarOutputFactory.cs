@@ -1,5 +1,4 @@
-﻿using ICar.Infrastructure.Database.Converter;
-using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using System;
 using System.Collections.Generic;
 
@@ -23,9 +22,9 @@ namespace ICar.API.Generators
                 car.IsLicensed,
                 car.IsArmored,
                 car.Message,
-                TypeOfExchange = CarPropertyConverter.ConvertTypeOfExchangeToString(car.TypeOfExchange),
-                Color = CarPropertyConverter.ConvertColorToString(car.Color),
-                GasolineType = CarPropertyConverter.ConvertGasolineTypeToString(car.GasolineType),
+                TypeOfExchange = Car.ConvertTypeOfExchangeToString(car.TypeOfExchange),
+                Color = car.Color,
+                GasolineType = Car.ConvertGasolineTypeToString(car.GasolineType),
                 City = car.City.Name,
                 car.NumberOfViews
             };
@@ -53,9 +52,9 @@ namespace ICar.API.Generators
                         cars[i].IsLicensed,
                         cars[i].IsArmored,
                         cars[i].Message,
-                        TypeOfExchange = CarPropertyConverter.ConvertTypeOfExchangeToString(cars[i].TypeOfExchange),
-                        Color = CarPropertyConverter.ConvertColorToString(cars[i].Color),
-                        GasolineType = CarPropertyConverter.ConvertGasolineTypeToString(cars[i].GasolineType),
+                        TypeOfExchange = Car.ConvertTypeOfExchangeToString(cars[i].TypeOfExchange),
+                        Color = cars[i].Color,
+                        GasolineType = Car.ConvertGasolineTypeToString(cars[i].GasolineType),
                         City = cars[i].City.Name,
                         cars[i].NumberOfViews
                     };

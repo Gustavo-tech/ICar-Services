@@ -75,9 +75,10 @@ namespace ICar.Infrastructure.Database.Configurations
                 .HasColumnType("INT")
                 .IsRequired();
 
-            builder.HasOne(x => x.City)
-                .WithOne()
-                .HasForeignKey<Car>(x => x.CityId);
+            builder.HasOne(x => x.Owner)
+                .WithMany(x => x.Cars);
+
+            builder.HasOne(x => x.City);
         }
     }
 }

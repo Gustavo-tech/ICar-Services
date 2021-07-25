@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ICar.IdentityServer.Migrations
 {
-    [DbContext(typeof(ICarContext))]
+    [DbContext(typeof(Infrastructure.Database.ICarContext))]
     partial class ICarContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

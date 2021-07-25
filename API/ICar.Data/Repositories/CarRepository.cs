@@ -16,29 +16,35 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Car> GetCarsAsync(string plate)
-        {
-            return await _dbContext.Cars.Where(x => x.Plate == plate).FirstOrDefaultAsync();
-        }
-
-        public async Task<List<Car>> GetUserCarsAsync()
+        public async Task<Car> GetCarAsync(string plate)
         {
             return await _dbContext.Cars
-                .Where(x => x.UserCpf != null)
+                .Where(x => x.Plate == plate)
+                .Include(x => x.Owner)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Car>> GetCarsAsync()
+        {
+            return await _dbContext.Cars.ToListAsync();
+        }
+
+        public async Task<List<Car>> GetCarsAsync(string email)
+        {
+            return await _dbContext.Cars
+                .Where(x => x.Owner.Email == email)
                 .ToListAsync();
         }
 
-        public async Task<List<Car>> GetUserCarsAsync(string userCpf)
+        public async Task IncreaseNumberOfViewsAsync(string plate)
         {
-            return await _dbContext.Cars.Where(x => x.UserCpf == userCpf).ToListAsync();
-        }
+            Car car = await _dbContext.Cars
+                .Where(x => x.Plate == plate)
+                .FirstOrDefaultAsync();
 
-        public async Task IncreaseNumberOfViewsAsync(string carPlate)
-        {
-            Car uc = await _dbContext.Cars.Where(x => x.Plate == carPlate).FirstOrDefaultAsync();
-            uc.NumberOfViews++;
+            car.NumberOfViews++;
 
-            _dbContext.Update(uc);
+            _dbContext.Update(car);
             await _dbContext.SaveChangesAsync();
         }
     }

@@ -6,9 +6,9 @@ namespace ICar.Infrastructure.Database.Repositories.Interfaces
 {
     public interface ICarRepository
     {
-        public Task<Car> GetCarsAsync(string plate);
-        public Task<List<Car>> GetUserCarsAsync();
-        public Task<List<Car>> GetUserCarsAsync(string userCpf);
-        public Task IncreaseNumberOfViewsAsync(string carPlate);
+        public Task<Car> GetCarAsync(string plate);
+        public Task<List<Car>> GetCarsAsync();
+        public Task<List<Car>> GetCarsAsync(string email);
+        public Task IncreaseNumberOfViewsAsync(string plate);
     }
 }

@@ -2,7 +2,6 @@
 using ICar.API.Generators;
 using ICar.API.OperationsExtension;
 using ICar.API.ViewModels.UserCar;
-using ICar.Infrastructure.Database.Converter;
 using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,22 +19,25 @@ namespace ICar.API.Controllers
     {
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
+        private readonly IUserRepository _userRepository;
         private readonly CityOperationsExtension _cityOperationsExtension;
 
-        public CarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository)
+        public CarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository, 
+            IUserRepository userRepository)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
+            _userRepository = userRepository;
             _cityOperationsExtension = new(cityRepository, baseRepository);
         }
 
         [HttpGet("user/get")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetUserCarsAsync()
+        public async Task<IActionResult> GetAllCarsAsync()
         {
             try
             {
-                List<Car> carsInDatabase = await _carRepository.GetUserCarsAsync();
+                List<Car> carsInDatabase = await _carRepository.GetCarsAsync();
                 dynamic[] output = CarOutputFactory.GenerateUserCarOutput(carsInDatabase);
                 return Ok(output);
             }
@@ -56,7 +58,8 @@ namespace ICar.API.Controllers
                 if (await _carRepository.GetCarsAsync(create.Plate) == null)
                 {
                     City city = await _cityOperationsExtension.InsertCityIfDoesntExist(create.City);
-                    Car car = BuildCar(create);
+                    User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
+                    Car car = BuildCar(create, owner);
                     car.City = city;
                     await _baseRepository.AddAsync(car);
                 }
@@ -69,14 +72,14 @@ namespace ICar.API.Controllers
             }
         }
 
-        private static Car BuildCar(UserCarViewModel userViewModel)
+        private static Car BuildCar(UserCarViewModel userViewModel, User owner)
         {
             CarBuilder carBuilder = new();
             carBuilder
                 .WithPlate(userViewModel.Plate)
                 .WithMaker(userViewModel.Maker)
                 .WithModel(userViewModel.Model)
-                .WithUserCpf(userViewModel.UserCpf)
+                .WithOwner(owner)
                 .WithPrice(userViewModel.Price)
                 .WithMakeDate(userViewModel.MakeDate)
                 .WithMakedDate(userViewModel.MakedDate)

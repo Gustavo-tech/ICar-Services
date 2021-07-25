@@ -5,6 +5,6 @@
         Diesel,
         Gasoline,
         Eletric,
-        GasolineAndDiesel
+        Flex
     }
 }

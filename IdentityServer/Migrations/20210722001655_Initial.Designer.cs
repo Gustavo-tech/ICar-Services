@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ICar.IdentityServer.Migrations
 {
-    [DbContext(typeof(ICarContext))]
+    [DbContext(typeof(Infrastructure.Database.ICarContext))]
     [Migration("20210722001655_Initial")]
     partial class Initial
     {
