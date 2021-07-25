@@ -28,7 +28,7 @@ namespace ICar.IdentityServer
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddSingleton<ILoginRepository, LoginRepository>();
 
             services.AddSingleton<ICorsPolicyService>((container) =>
             {
