@@ -3,7 +3,6 @@ using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -60,13 +59,13 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("logins/{cpf}")]
+        [HttpGet("logins/{email}")]
         [Authorize]
-        public async Task<IActionResult> GetLogins([FromRoute] string cpf)
+        public async Task<IActionResult> GetLogins([FromRoute] string email)
         {
             try
             {
-                User user = await _userRepository.GetUserByCpfAsync(cpf);
+                User user = await _userRepository.GetUserByEmailAsync(email);
                 return Ok(user.Logins);
             }
             catch (Exception)

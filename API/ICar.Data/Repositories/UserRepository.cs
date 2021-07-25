@@ -40,9 +40,11 @@ namespace ICar.Infrastructure.Database.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Login>> GetUserLoginsAsync(string cpf)
+        public async Task<List<Login>> GetUserLoginsAsync(string email)
         {
-            return await _dbContext.Logins.Where(x => x.Cpf == cpf).ToListAsync();
+            return await _dbContext.Logins
+                .Where(x => x.User.Email == email)
+                .ToListAsync();
         }
     }
 }

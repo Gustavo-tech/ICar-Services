@@ -50,6 +50,7 @@ namespace ICar.IdentityServer
                 x.Password.RequireDigit = false;
                 x.Password.RequireLowercase = false;
                 x.Password.RequireUppercase = false;
+                x.User.RequireUniqueEmail = true;
                 x.SignIn.RequireConfirmedEmail = false;
                 x.SignIn.RequireConfirmedPhoneNumber = false;
                 x.SignIn.RequireConfirmedAccount = false;

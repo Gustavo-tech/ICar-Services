@@ -1,7 +1,7 @@
 ﻿using ICar.API.Builders;
 using ICar.API.Generators;
 using ICar.API.OperationsExtension;
-using ICar.API.ViewModels.UserCar;
+using ICar.API.ViewModels.Car;
 using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -51,7 +51,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("user/create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> InsertCarAsync([FromBody] UserCarViewModel create)
+        public async Task<IActionResult> InsertCarAsync([FromBody] CarViewModel create)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace ICar.API.Controllers
             }
         }
 
-        private static Car BuildCar(UserCarViewModel userViewModel, User owner)
+        private static Car BuildCar(CarViewModel userViewModel, User owner)
         {
             CarBuilder carBuilder = new();
             carBuilder

@@ -35,12 +35,13 @@ namespace ICar.IdentityServer
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        IdentityServerConstants.StandardScopes.Phone
+                        IdentityServerConstants.StandardScopes.Phone,
                     },
                     RedirectUris = 
                     { 
                         "http://localhost:3000/authentication/callback",
-                        "http://localhost:3000/authentication/silent_callback" 
+                        "http://localhost:3000/authentication/silent_callback",
+                        "https://oauth.pstmn.io/v1/callback"
                     },
                     RequireClientSecret = false,
                     RequirePkce = true,

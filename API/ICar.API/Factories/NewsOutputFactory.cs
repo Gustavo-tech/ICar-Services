@@ -11,7 +11,7 @@ namespace ICar.API.Generators
             return new
             {
                 news.Id,
-                PublishedBy = news.UserCpf,
+                PublishedBy = news.Owner.Email,
                 news.Title,
                 news.Text,
                 news.LastUpdate,
@@ -29,7 +29,7 @@ namespace ICar.API.Generators
                     output[x] = new
                     {
                         news[x].Id,
-                        PublishedBy = news[x].UserCpf,
+                        PublishedBy = news[x].Owner.Email,
                         news[x].Title,
                         news[x].Text,
                         news[x].LastUpdate,
