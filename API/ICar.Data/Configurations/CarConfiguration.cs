@@ -76,6 +76,9 @@ namespace ICar.Infrastructure.Database.Configurations
                 .IsRequired();
 
             builder.HasOne(x => x.City);
+
+            builder.HasMany(x => x.Pictures)
+                .WithOne(x => x.Car);
         }
     }
 }

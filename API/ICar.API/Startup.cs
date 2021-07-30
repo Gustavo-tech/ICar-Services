@@ -34,12 +34,12 @@ namespace ICar.API
             });
 
             // Dependency injection
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<INewsRepository, NewsRepository>();
-            services.AddSingleton<ICarRepository, CarRepository>();
-            services.AddSingleton<ILoginRepository, LoginRepository>();
-            services.AddSingleton<ICityRepository, CityRepository>();
-            services.AddSingleton<IBaseRepository, BaseRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<INewsRepository, NewsRepository>();
+            services.AddTransient<ICarRepository, CarRepository>();
+            services.AddTransient<ILoginRepository, LoginRepository>();
+            services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<IBaseRepository, BaseRepository>();
 
             // Entity Framework
             services.AddDbContext<ICarContext>(options =>

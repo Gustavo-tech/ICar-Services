@@ -28,8 +28,7 @@ namespace ICar.IdentityServer
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-            services.AddSingleton<ILoginRepository, LoginRepository>();
-
+            services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddSingleton<ICorsPolicyService>((container) =>
             {
                 var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();

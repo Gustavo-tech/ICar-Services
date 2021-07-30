@@ -1,5 +1,7 @@
 ﻿using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Models.Enums.Car;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ICar.API.Builders
 {
@@ -118,6 +120,12 @@ namespace ICar.API.Builders
         public CarBuilder WithCity(City city)
         {
             _car.City = city;
+            return this;
+        }
+
+        public CarBuilder WithPictures(List<CarPicture> pictures)
+        {
+            _car.Pictures = pictures;
             return this;
         }
 

@@ -1,5 +1,6 @@
 ﻿using ICar.Infrastructure.Database.Models.Enums.Car;
 using System;
+using System.Collections.Generic;
 
 namespace ICar.Infrastructure.Database.Models
 {
@@ -24,6 +25,7 @@ namespace ICar.Infrastructure.Database.Models
 
         public User Owner { get; set; }
         public City City { get; set; }
+        public List<CarPicture> Pictures { get; set; }
 
         public Car()
         {
