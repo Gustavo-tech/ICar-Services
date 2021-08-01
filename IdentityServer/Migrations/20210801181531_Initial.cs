@@ -174,7 +174,6 @@ namespace ICar.IdentityServer.Migrations
                 {
                     Id = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Cpf = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Time = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -197,17 +196,16 @@ namespace ICar.IdentityServer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
-                    UserCpf = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_News_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -224,25 +222,24 @@ namespace ICar.IdentityServer.Migrations
                     MakedDate = table.Column<int>(type: "INT", nullable: false),
                     KilometersTraveled = table.Column<double>(type: "float", nullable: false),
                     Price = table.Column<decimal>(type: "DECIMAL(38,17)", maxLength: 10000000, nullable: false),
-                    AcceptsChange = table.Column<bool>(type: "BIT", nullable: false),
-                    IpvaIsPaid = table.Column<bool>(type: "BIT", nullable: false),
-                    IsLicensed = table.Column<bool>(type: "BIT", nullable: false),
-                    IsArmored = table.Column<bool>(type: "BIT", nullable: false),
+                    AcceptsChange = table.Column<bool>(type: "bit", nullable: false),
+                    IpvaIsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    IsLicensed = table.Column<bool>(type: "bit", nullable: false),
+                    IsArmored = table.Column<bool>(type: "bit", nullable: false),
                     Message = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
-                    TypeOfExchange = table.Column<string>(type: "CHAR(3)", nullable: false),
-                    Color = table.Column<int>(type: "INT", maxLength: 3, nullable: false),
+                    ExchangeType = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "NVARCHAR(50)", maxLength: 50, nullable: false),
                     GasolineType = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
-                    UserCpf = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CityId = table.Column<int>(type: "INT", nullable: false),
                     NumberOfViews = table.Column<int>(type: "INT", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CityId = table.Column<int>(type: "INT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Plate);
                     table.ForeignKey(
-                        name: "FK_Cars_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Cars_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -251,7 +248,27 @@ namespace ICar.IdentityServer.Migrations
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarPicture",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CarPlate = table.Column<string>(type: "Char(8)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarPicture", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarPicture_Cars_CarPlate",
+                        column: x => x.CarPlate,
+                        principalTable: "Cars",
+                        principalColumn: "Plate",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -294,15 +311,19 @@ namespace ICar.IdentityServer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_CityId",
-                table: "Cars",
-                column: "CityId",
-                unique: true);
+                name: "IX_CarPicture_CarPlate",
+                table: "CarPicture",
+                column: "CarPlate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_UserId",
+                name: "IX_Cars_CityId",
                 table: "Cars",
-                column: "UserId");
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_OwnerId",
+                table: "Cars",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_Name",
@@ -316,9 +337,9 @@ namespace ICar.IdentityServer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_UserId",
+                name: "IX_News_OwnerId",
                 table: "News",
-                column: "UserId");
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -339,7 +360,7 @@ namespace ICar.IdentityServer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cars");
+                name: "CarPicture");
 
             migrationBuilder.DropTable(
                 name: "Logins");
@@ -351,10 +372,13 @@ namespace ICar.IdentityServer.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Cars");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
         }
     }
 }

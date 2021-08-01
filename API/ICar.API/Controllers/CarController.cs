@@ -1,6 +1,5 @@
 ﻿using ICar.API.Builders;
 using ICar.API.Generators;
-using ICar.API.OperationsExtension;
 using ICar.API.ViewModels.Car;
 using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
@@ -20,7 +19,7 @@ namespace ICar.API.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
-        private readonly CityOperationsExtension _cityOperationsExtension;
+        private readonly ICityRepository _cityRepository;
 
         public CarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository, 
             IUserRepository userRepository)
@@ -28,7 +27,7 @@ namespace ICar.API.Controllers
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _userRepository = userRepository;
-            _cityOperationsExtension = new(cityRepository, baseRepository);
+            _cityRepository = cityRepository;
         }
 
         [HttpGet("get")]
@@ -55,16 +54,17 @@ namespace ICar.API.Controllers
         {
             try
             {
-                if (await _carRepository.GetCarsAsync(create.Plate) == null)
+                if (await _carRepository.GetCarByPlate(create.Plate) == null)
                 {
-                    City city = await _cityOperationsExtension.InsertCityIfDoesntExist(create.City);
+                    City city = await _cityRepository.InsertAsync(create.City);
                     User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
                     Car car = BuildCar(create, owner);
                     car.City = city;
                     await _baseRepository.AddAsync(car);
+                    return Ok();
                 }
 
-                return Conflict();
+                return Problem();
             }
             catch (Exception)
             {
@@ -78,12 +78,7 @@ namespace ICar.API.Controllers
 
             foreach (string pic in pictures)
             {
-                CarPicture carPicture = new()
-                {
-                    Car = car,
-                    Picture = pic
-                };
-                carPictures.Add(carPicture);
+                carPictures.Add(new CarPicture(pic, car));
             }
 
             return carPictures;
@@ -107,11 +102,11 @@ namespace ICar.API.Controllers
                 .WithIpvaIsPaid(carVM.IpvaIsPaid)
                 .WithMessage(carVM.Message)
                 .WithColor(carVM.Color)
-                .WithTypeOfExchange(carVM.TypeOfExchange)
+                .WithExchangeType(carVM.ExchangeType)
                 .WithGasolineType(carVM.GasolineType);
 
             Car car = carBuilder.GetResult();
-            car.Pictures = GenerateCarPictures(carVM.CarImages, car);
+            car.Pictures = GenerateCarPictures(carVM.Pictures, car);
 
             return car;
         }

@@ -18,7 +18,7 @@ namespace ICar.Infrastructure.Database.Models
         public bool IsLicensed { get; set; }
         public bool IsArmored { get; set; }
         public string Message { get; set; }
-        public TypeOfExchange TypeOfExchange { get; set; }
+        public ExchangeType ExchangeType { get; set; }
         public string Color { get; set; }
         public GasolineType GasolineType { get; set; }
         public int NumberOfViews { get; set; }
@@ -32,26 +32,27 @@ namespace ICar.Infrastructure.Database.Models
 
         }
 
-        public static TypeOfExchange ConvertStringToTypeOfExchange(string typeOfExchange)
+        public static ExchangeType ConvertStringToTypeOfExchange(string typeOfExchange)
         {
+            typeOfExchange = typeOfExchange.ToLower();
             switch (typeOfExchange)
             {
                 case "automatic":
-                    return TypeOfExchange.Automatic;
+                    return ExchangeType.Automatic;
                 case "manual":
-                    return TypeOfExchange.Manual;
+                    return ExchangeType.Manual;
                 default:
                     throw new Exception("Invalid argument");
             }
         }
 
-        public static string ConvertTypeOfExchangeToString(TypeOfExchange typeOfExchange)
+        public static string ConvertTypeOfExchangeToString(ExchangeType typeOfExchange)
         {
             switch (typeOfExchange)
             {
-                case TypeOfExchange.Automatic:
+                case ExchangeType.Automatic:
                     return "automatic";
-                case TypeOfExchange.Manual:
+                case ExchangeType.Manual:
                     return "manaul";
                 default:
                     throw new Exception("Invalid argument");

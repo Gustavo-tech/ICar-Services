@@ -25,15 +25,18 @@ namespace ICar.IdentityServer.Migrations
                         .HasColumnType("Char(8)");
 
                     b.Property<bool>("AcceptsChange")
-                        .HasColumnType("BIT");
+                        .HasColumnType("bit");
 
                     b.Property<int?>("CityId")
                         .HasColumnType("INT");
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("NVARCHAR(3)");
+                        .HasMaxLength(50)
+                        .HasColumnType("NVARCHAR(50)");
+
+                    b.Property<int>("ExchangeType")
+                        .HasColumnType("int");
 
                     b.Property<string>("GasolineType")
                         .IsRequired()
@@ -41,13 +44,13 @@ namespace ICar.IdentityServer.Migrations
                         .HasColumnType("NVARCHAR(20)");
 
                     b.Property<bool>("IpvaIsPaid")
-                        .HasColumnType("BIT");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsArmored")
-                        .HasColumnType("BIT");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsLicensed")
-                        .HasColumnType("BIT");
+                        .HasColumnType("bit");
 
                     b.Property<double>("KilometersTraveled")
                         .HasColumnType("float");
@@ -83,10 +86,6 @@ namespace ICar.IdentityServer.Migrations
                         .HasMaxLength(10000000)
                         .HasColumnType("DECIMAL(38,17)");
 
-                    b.Property<string>("TypeOfExchange")
-                        .IsRequired()
-                        .HasColumnType("CHAR(3)");
-
                     b.HasKey("Plate");
 
                     b.HasIndex("CityId");
@@ -121,6 +120,8 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INT")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")

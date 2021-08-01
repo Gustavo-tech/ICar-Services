@@ -44,7 +44,7 @@ namespace ICar.API
             // Entity Framework
             services.AddDbContext<ICarContext>(options =>
             {
-                options.UseSqlServer(Configuration["DatabaseConnectionString"]);
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServer"));
             });
 
             // JWT

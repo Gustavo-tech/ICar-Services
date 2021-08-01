@@ -16,7 +16,7 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Car> GetCarAsync(string plate)
+        public async Task<Car> GetCarByPlate(string plate)
         {
             return await _dbContext.Cars
                 .Where(x => x.Plate == plate)
@@ -28,7 +28,7 @@ namespace ICar.Infrastructure.Database.Repositories
             return await _dbContext.Cars.ToListAsync();
         }
 
-        public async Task<List<Car>> GetCarsAsync(string email)
+        public async Task<List<Car>> GetCarsByOwner(string email)
         {
             return await _dbContext.Cars
                 .Where(x => x.Owner.Email == email)

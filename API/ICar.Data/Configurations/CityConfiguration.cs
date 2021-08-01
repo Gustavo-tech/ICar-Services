@@ -15,7 +15,8 @@ namespace ICar.Infrastructure.Database.Configurations
 
             builder.Property(x => x.Id)
                 .HasColumnType("INT")
-                .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd()
+                .UseIdentityColumn();
 
             builder.Property(x => x.Name)
                 .IsRequired()

@@ -1,4 +1,6 @@
-﻿namespace ICar.Infrastructure.Database.Models
+﻿using System;
+
+namespace ICar.Infrastructure.Database.Models
 {
     public class City
     {
@@ -10,6 +12,9 @@
 
         public City(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name), "Can't create a city with empty name");
+
             Name = name;
         }
     }

@@ -7,5 +7,6 @@ namespace ICar.Infrastructure.Database.Repositories.Interfaces
     {
         Task<City> GetCityAsync(int id);
         Task<City> GetCityAsync(string name);
+        Task<City> InsertAsync(string cityName);
     }
 }

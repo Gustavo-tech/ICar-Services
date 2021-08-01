@@ -40,7 +40,7 @@ namespace ICar.IdentityServer
 
             services.AddDbContext<ICarContext>(options =>
             {
-                options.UseSqlServer(Configuration["DatabaseConnectionString"],
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServer"),
                     x => x.MigrationsAssembly("ICar.IdentityServer"));
             });
 

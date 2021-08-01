@@ -36,35 +36,15 @@ namespace ICar.Infrastructure.Database.Configurations
                 .IsRequired()
                 .HasMaxLength(10000000);
 
-            builder.Property(x => x.AcceptsChange)
-                .HasColumnType("BIT")
-                .IsRequired();
-
-            builder.Property(x => x.IpvaIsPaid)
-                .HasColumnType("BIT")
-                .IsRequired();
-
-            builder.Property(x => x.IsLicensed)
-                .HasColumnType("BIT")
-                .IsRequired();
-
-            builder.Property(x => x.IsArmored)
-                .HasColumnType("BIT")
-                .IsRequired();
-
             builder.Property(x => x.Message)
                 .HasColumnType("NVARCHAR")
                 .IsRequired()
                 .HasMaxLength(500);
 
-            builder.Property(x => x.TypeOfExchange)
-                .HasColumnType("CHAR(3)")
-                .IsRequired();
-
             builder.Property(x => x.Color)
-                .HasColumnType("NVARCHAR(50)")
+                .HasColumnType("NVARCHAR")
                 .IsRequired()
-                .HasMaxLength(3);
+                .HasMaxLength(50);
 
             builder.Property(x => x.GasolineType)
                 .HasColumnType("NVARCHAR")

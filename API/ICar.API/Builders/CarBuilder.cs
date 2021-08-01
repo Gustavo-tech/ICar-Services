@@ -91,10 +91,10 @@ namespace ICar.API.Builders
             return this;
         }
 
-        public CarBuilder WithTypeOfExchange(string typeOfExchange)
+        public CarBuilder WithExchangeType(string typeOfExchange)
         {
-            TypeOfExchange typeOfExchangeForCar = Car.ConvertStringToTypeOfExchange(typeOfExchange);
-            _car.TypeOfExchange = typeOfExchangeForCar;
+            ExchangeType typeOfExchangeForCar = Car.ConvertStringToTypeOfExchange(typeOfExchange);
+            _car.ExchangeType = typeOfExchangeForCar;
             return this;
         }
 

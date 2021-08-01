@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Database.Models
 {
@@ -14,6 +10,18 @@ namespace ICar.Infrastructure.Database.Models
 
         public CarPicture()
         {
+        }
+
+        public CarPicture(string picture, Car car)
+        {
+            if (string.IsNullOrWhiteSpace(picture))
+                throw new ArgumentNullException(nameof(picture), "Picture content can't be null");
+
+            if (car == null)
+                throw new ArgumentNullException(nameof(car), "Car argument can't be null");
+
+            Picture = picture;
+            Car = car;
         }
     }
 }
