@@ -32,6 +32,8 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             return await _dbContext.Cars
                 .Where(x => x.Owner.Email == email)
+                .Include(x => x.Pictures)
+                .Include(x => x.City)
                 .ToListAsync();
         }
 

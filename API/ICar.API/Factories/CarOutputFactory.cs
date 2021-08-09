@@ -1,6 +1,7 @@
 ﻿using ICar.Infrastructure.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ICar.API.Generators
 {
@@ -23,10 +24,11 @@ namespace ICar.API.Generators
                 car.IsArmored,
                 car.Message,
                 TypeOfExchange = Car.ConvertTypeOfExchangeToString(car.ExchangeType),
-                Color = car.Color,
+                car.Color,
                 GasolineType = Car.ConvertGasolineTypeToString(car.GasolineType),
                 City = car.City.Name,
-                car.NumberOfViews
+                car.NumberOfViews,
+                Pictures = car.Pictures.Select(x => x.Picture)
             };
         }
 
@@ -53,10 +55,11 @@ namespace ICar.API.Generators
                         cars[i].IsArmored,
                         cars[i].Message,
                         TypeOfExchange = Car.ConvertTypeOfExchangeToString(cars[i].ExchangeType),
-                        Color = cars[i].Color,
+                        cars[i].Color,
                         GasolineType = Car.ConvertGasolineTypeToString(cars[i].GasolineType),
                         City = cars[i].City.Name,
-                        cars[i].NumberOfViews
+                        cars[i].NumberOfViews,
+                        Pictures = cars[i].Pictures.Select(x => x.Picture)
                     };
                 }
 

@@ -30,7 +30,7 @@ namespace ICar.API.Controllers
             _cityRepository = cityRepository;
         }
 
-        [HttpGet("get")]
+        [HttpGet("all")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAllCarsAsync()
         {
@@ -47,6 +47,22 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpGet("/cars/{email}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetMyCars([FromRoute] string email)
+        {
+            try
+            {
+                List<Car> userCars = await _carRepository.GetCarsByOwner(email);
+                dynamic[] output = CarOutputFactory.GenerateUserCarOutput(userCars);
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return Problem(title: "Some error happened while getting the cars",
+                    detail: ex.Message);
+            }
+        }
 
         [HttpPost("create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
