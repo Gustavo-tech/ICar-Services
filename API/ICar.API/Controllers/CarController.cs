@@ -1,5 +1,4 @@
 ﻿using ICar.API.Builders;
-using ICar.API.Generators;
 using ICar.API.ViewModels.Car;
 using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -37,7 +37,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> carsInDatabase = await _carRepository.GetCarsAsync();
-                dynamic[] output = CarOutputFactory.GenerateUserCarOutput(carsInDatabase);
+                dynamic[] output = carsInDatabase.Select(x => x.GenerateApiOutput()).ToArray();
                 return Ok(output);
             }
             catch (Exception exception)
@@ -54,7 +54,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> userCars = await _carRepository.GetCarsByOwner(email);
-                dynamic[] output = CarOutputFactory.GenerateUserCarOutput(userCars);
+                dynamic[] output = userCars.Select(x => x.GenerateApiOutput()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)

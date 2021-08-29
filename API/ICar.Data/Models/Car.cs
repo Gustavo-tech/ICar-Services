@@ -1,6 +1,7 @@
 ﻿using ICar.Infrastructure.Database.Models.Enums.Car;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ICar.Infrastructure.Database.Models
 {
@@ -28,8 +29,31 @@ namespace ICar.Infrastructure.Database.Models
         public List<CarPicture> Pictures { get; set; }
 
         public Car()
-        {
+        { }
 
+        public dynamic GenerateApiOutput()
+        {
+            return new
+            {
+                Plate,
+                Maker,
+                Model,
+                MakeDate,
+                MakedDate,
+                KilometersTraveled,
+                Price,
+                AcceptsChange,
+                IpvaIsPaid,
+                IsLicensed,
+                IsArmored,
+                Message,
+                TypeOfExchange = ConvertTypeOfExchangeToString(ExchangeType),
+                Color,
+                GasolineType = ConvertGasolineTypeToString(GasolineType),
+                City = City.Name,
+                NumberOfViews,
+                Pictures = Pictures.Select(x => x.Picture)
+            };
         }
 
         public static ExchangeType ConvertStringToTypeOfExchange(string typeOfExchange)

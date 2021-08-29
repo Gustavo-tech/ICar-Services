@@ -1,11 +1,11 @@
-﻿using ICar.API.Generators;
-using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -29,7 +29,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<User> users = await _userRepository.GetUsersAsync();
-                dynamic[] output = UserOutputFactory.GenerateUserOutput(users);
+                dynamic[] output = users.Select(x => x.GenerateApiOutput()).ToArray();
                 return Ok(output);
             }
             catch (Exception)

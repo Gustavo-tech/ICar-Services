@@ -1,5 +1,4 @@
-﻿using ICar.API.Generators;
-using ICar.API.ViewModels.UserNews;
+﻿using ICar.API.ViewModels.UserNews;
 using ICar.Infrastructure.Database.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
@@ -30,7 +30,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<News> userNews = await _newsRepository.GetUserNewsAsync();
-                dynamic[] output = NewsOutputFactory.GenerateUserNewsOutput(userNews);
+                dynamic[] output = userNews.Select(x => x.GenerateApiOutput()).ToArray();
                 return Ok(output);
             }
             catch (Exception)

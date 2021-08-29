@@ -39,6 +39,19 @@ namespace ICar.Infrastructure.Database.Models
             Role = role;
         }
 
+        public dynamic GenerateApiOutput()
+        {
+            return new
+            {
+                Cpf,
+                UserName,
+                Email,
+                AccountCreationDate,
+                Role,
+                AccountType = "user"
+            };
+        }
+
         private static bool ValidatePhoneFormat(string phone)
         {
             return Regex.IsMatch(phone, "[(][0-9]{2}[)][ ][0-9]{5}[-][0-9]{4}");

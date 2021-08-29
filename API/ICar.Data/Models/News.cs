@@ -22,5 +22,18 @@ namespace ICar.Infrastructure.Database.Models
             CreatedOn = DateTime.Now;
             LastUpdate = DateTime.Now;
         }
+
+        public dynamic GenerateApiOutput()
+        {
+            return new
+            {
+                Id,
+                PublishedBy = Owner.Email,
+                Title,
+                Text,
+                LastUpdate,
+                CreatedOn
+            };
+        }
     }
 }

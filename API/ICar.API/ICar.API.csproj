@@ -16,4 +16,8 @@
     <ProjectReference Include="..\ICar.Data\ICar.Infrastructure.Database.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Factories\" />
+  </ItemGroup>
+
 </Project>
