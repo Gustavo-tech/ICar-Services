@@ -1,5 +1,5 @@
 ﻿using ICar.API.ViewModels.UserNews;
-using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

@@ -19,7 +19,7 @@ namespace ICar.IdentityServer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Car", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
                     b.Property<string>("Plate")
                         .HasColumnType("Char(8)");
@@ -95,7 +95,7 @@ namespace ICar.IdentityServer.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.CarPicture", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CarPicture", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace ICar.IdentityServer.Migrations
                     b.ToTable("CarPicture");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.City", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.City", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,7 +137,7 @@ namespace ICar.IdentityServer.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Login", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Login", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,7 +157,37 @@ namespace ICar.IdentityServer.Migrations
                     b.ToTable("Logins");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.News", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SendAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.Property<string>("ToUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ToUserId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,7 +220,7 @@ namespace ICar.IdentityServer.Migrations
                     b.ToTable("News");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.User", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -203,9 +233,6 @@ namespace ICar.IdentityServer.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cpf")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -395,13 +422,13 @@ namespace ICar.IdentityServer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Car", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.City", "City")
+                    b.HasOne("ICar.Infrastructure.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
 
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", "Owner")
+                    b.HasOne("ICar.Infrastructure.Models.User", "Owner")
                         .WithMany("Cars")
                         .HasForeignKey("OwnerId");
 
@@ -410,27 +437,42 @@ namespace ICar.IdentityServer.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.CarPicture", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.CarPicture", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.Car", "Car")
+                    b.HasOne("ICar.Infrastructure.Models.Car", "Car")
                         .WithMany("Pictures")
                         .HasForeignKey("CarPlate");
 
                     b.Navigation("Car");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Login", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Login", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", "User")
+                    b.HasOne("ICar.Infrastructure.Models.User", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.News", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", "Owner")
+                    b.HasOne("ICar.Infrastructure.Models.User", "FromUser")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("FromUserId");
+
+                    b.HasOne("ICar.Infrastructure.Models.User", "ToUser")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("ToUserId");
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("ToUser");
+                });
+
+            modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
+                {
+                    b.HasOne("ICar.Infrastructure.Models.User", "Owner")
                         .WithMany("News")
                         .HasForeignKey("OwnerId");
 
@@ -448,7 +490,7 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,7 +499,7 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,7 +514,7 @@ namespace ICar.IdentityServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -481,23 +523,27 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Database.Models.User", null)
+                    b.HasOne("ICar.Infrastructure.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.Car", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
                     b.Navigation("Pictures");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Database.Models.User", b =>
+            modelBuilder.Entity("ICar.Infrastructure.Models.User", b =>
                 {
                     b.Navigation("Cars");
 
                     b.Navigation("Logins");
+
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSent");
 
                     b.Navigation("News");
                 });

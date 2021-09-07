@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ICar.API\ICar.API.csproj" />
-    <ProjectReference Include="..\ICar.Data\ICar.Infrastructure.Database.csproj" />
+    <ProjectReference Include="..\ICar.Data\ICar.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

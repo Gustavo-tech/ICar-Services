@@ -13,11 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ICar.Data\ICar.Infrastructure.Database.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Factories\" />
+    <ProjectReference Include="..\ICar.Data\ICar.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

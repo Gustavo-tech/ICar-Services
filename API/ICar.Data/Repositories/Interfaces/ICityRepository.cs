@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Models;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Database.Repositories.Interfaces

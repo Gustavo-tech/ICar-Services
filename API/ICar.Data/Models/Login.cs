@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ICar.Infrastructure.Database.Models
+namespace ICar.Infrastructure.Models
 {
     public class Login
     {

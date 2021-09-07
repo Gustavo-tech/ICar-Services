@@ -1,4 +1,4 @@
-﻿namespace ICar.Infrastructure.Database.Models.Enums.Car
+﻿namespace ICar.Infrastructure.Models.Enums.Car
 {
     public enum GasolineType
     {

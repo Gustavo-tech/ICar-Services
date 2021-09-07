@@ -1,8 +1,8 @@
-﻿using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ICar.Infrastructure.Database.Configurations
+namespace ICar.Infrastructure.Configurations
 {
     public class CarConfiguration : IEntityTypeConfiguration<Car>
     {

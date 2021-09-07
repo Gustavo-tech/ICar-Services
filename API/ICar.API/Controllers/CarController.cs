@@ -1,6 +1,6 @@
 ﻿using ICar.API.Builders;
 using ICar.API.ViewModels.Car;
-using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

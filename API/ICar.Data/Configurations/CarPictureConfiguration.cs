@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.Database.Configurations
+namespace ICar.Infrastructure.Configurations
 {
     public class CarPictureConfiguration : IEntityTypeConfiguration<CarPicture>
     {

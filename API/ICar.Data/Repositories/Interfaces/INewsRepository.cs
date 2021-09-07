@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

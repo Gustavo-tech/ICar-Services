@@ -1,9 +1,9 @@
-﻿using ICar.Infrastructure.Database.Models.Enums.Car;
+﻿using ICar.Infrastructure.Models.Enums.Car;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ICar.Infrastructure.Database.Models
+namespace ICar.Infrastructure.Models
 {
     public class Car
     {

@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.Database.Models;
+﻿using ICar.Infrastructure.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

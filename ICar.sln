@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{DA6C5700-69B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.API", "API\ICar.API\ICar.API.csproj", "{6853AF22-82CA-4FBE-8F14-8E0C5B938836}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.Infrastructure.Database", "API\ICar.Data\ICar.Infrastructure.Database.csproj", "{19633093-913D-4BF7-A2AB-769F303B2215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.Infrastructure", "API\ICar.Data\ICar.Infrastructure.csproj", "{19633093-913D-4BF7-A2AB-769F303B2215}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.Infrastructure.Tests", "API\ICar.Tests\ICar.Infrastructure.Tests.csproj", "{52EA699F-F09B-4FE4-B258-59EA8DE078EE}"
 EndProject

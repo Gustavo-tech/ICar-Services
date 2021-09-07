@@ -1,5 +1,5 @@
 ﻿using ICar.IdentityServer.ViewModels.User;
-using ICar.Infrastructure.Database.Models;
+using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using IdentityServer.ViewModels;

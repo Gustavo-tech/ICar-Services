@@ -3,16 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ICar.Infrastructure.Database.Models
+namespace ICar.Infrastructure.Models
 {
     public class User : IdentityUser
     {
         public DateTime AccountCreationDate { get; set; }
         public string Role { get; set; }
+        public string Cpf  { get; }
+
         public List<News> News { get; set; }
         public List<Login> Logins { get; set; }
         public List<Car> Cars { get; set; }
-        public string Cpf { get; set; }
+        public List<Message> MessagesReceived { get; set; }
+        public List<Message> MessagesSent { get; set; }
 
         public User()
         { }
