@@ -248,7 +248,7 @@ namespace ICar.IdentityServer.Migrations
                     MakeDate = table.Column<int>(type: "INT", nullable: false),
                     MakedDate = table.Column<int>(type: "INT", nullable: false),
                     KilometersTraveled = table.Column<double>(type: "float", nullable: false),
-                    Price = table.Column<decimal>(type: "DECIMAL(38,17)", maxLength: 10000000, nullable: false),
+                    Price = table.Column<int>(type: "INT", maxLength: 10000000, nullable: false),
                     AcceptsChange = table.Column<bool>(type: "bit", nullable: false),
                     IpvaIsPaid = table.Column<bool>(type: "bit", nullable: false),
                     IsLicensed = table.Column<bool>(type: "bit", nullable: false),

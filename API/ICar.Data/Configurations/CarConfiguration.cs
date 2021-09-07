@@ -32,7 +32,7 @@ namespace ICar.Infrastructure.Configurations
                 .IsRequired();
 
             builder.Property(x => x.Price)
-                .HasColumnType("DECIMAL")
+                .HasColumnType("INT")
                 .IsRequired()
                 .HasMaxLength(10000000);
 

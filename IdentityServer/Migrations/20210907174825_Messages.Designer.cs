@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20210907164418_Messages")]
+    [Migration("20210907174825_Messages")]
     partial class Messages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,9 +84,9 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<int>("Price")
                         .HasMaxLength(10000000)
-                        .HasColumnType("DECIMAL(38,17)");
+                        .HasColumnType("INT");
 
                     b.HasKey("Plate");
 

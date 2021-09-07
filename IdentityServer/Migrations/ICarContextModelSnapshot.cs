@@ -82,9 +82,9 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<int>("Price")
                         .HasMaxLength(10000000)
-                        .HasColumnType("DECIMAL(38,17)");
+                        .HasColumnType("INT");
 
                     b.HasKey("Plate");
 

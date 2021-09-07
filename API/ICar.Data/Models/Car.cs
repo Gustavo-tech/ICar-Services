@@ -13,7 +13,7 @@ namespace ICar.Infrastructure.Models
         public int MakeDate { get; set; }
         public int MakedDate { get; set; }
         public double KilometersTraveled { get; set; }
-        public double Price { get; set; }
+        public int Price { get; set; }
         public bool AcceptsChange { get; set; }
         public bool IpvaIsPaid { get; set; }
         public bool IsLicensed { get; set; }

@@ -55,7 +55,7 @@ namespace ICar.API.Builders
             return this;
         }
 
-        public CarBuilder WithPrice(double price)
+        public CarBuilder WithPrice(int price)
         {
             _car.Price = price;
             return this;
