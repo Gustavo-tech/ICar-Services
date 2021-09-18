@@ -1,6 +1,8 @@
 using ICar.Infrastructure.Database;
 using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Repositories;
+using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +41,7 @@ namespace ICar.API
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
 
             // Entity Framework

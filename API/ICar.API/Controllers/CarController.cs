@@ -47,7 +47,7 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpGet("/cars/{email}")]
+        [HttpGet("cars/{email}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetMyCars([FromRoute] string email)
         {

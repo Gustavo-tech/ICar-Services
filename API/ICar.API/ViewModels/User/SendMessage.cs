@@ -2,8 +2,8 @@
 {
     public class SendMessage
     {
-        public string CpfFrom { get; set; }
-        public string CpfTo { get; set; }
+        public string EmailFrom { get; set; }
+        public string EmailTo { get; set; }
         public string Text { get; set; }
     }
 }

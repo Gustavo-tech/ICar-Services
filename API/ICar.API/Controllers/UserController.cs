@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ICar.API.ViewModels.User;
+using ICar.Infrastructure.Repositories;
+using ICar.Infrastructure.Repositories.Interfaces;
 
 namespace ICar.API.Controllers
 {
@@ -17,11 +19,13 @@ namespace ICar.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMessageRepository _messagesRepository;
         private readonly IBaseRepository _baseRepo;
 
-        public UserController(IUserRepository userRepository, IBaseRepository baseRepo)
+        public UserController(IUserRepository userRepository, IMessageRepository messagesRepository, IBaseRepository baseRepo)
         {
             _userRepository = userRepository;
+            _messagesRepository = messagesRepository;
             _baseRepo = baseRepo;
         }
 
@@ -63,7 +67,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("logins/{email}")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetLogins([FromRoute] string email)
         {
             try
@@ -77,19 +81,59 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpGet("talks/{email}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetTalks([FromRoute] string email)
+        {
+            try
+            {
+                User userLogged = await _userRepository.GetUserByEmailAsync(email);
+                List<Message> messages = await _messagesRepository.GetMessagesByEmail(email);
+                List<User> usersTalked = new();
+                List<Talk> talks = new();
+                foreach(Message message in messages)
+                {
+                    if (!usersTalked.Contains(message.FromUser) || !usersTalked.Contains(message.ToUser))
+                    {
+                        if (message.FromUser.Email != userLogged.Email)
+                        {
+                            usersTalked.Add(message.FromUser);
+                        }
+                        else
+                        {
+                            usersTalked.Add(message.ToUser);
+                        }
+                    }
+                }
+                foreach (User user in usersTalked)
+                {
+                    Message lastMessage = await _messagesRepository.GetLastMessageWith(email, user.Email);
+                    string sendLast = lastMessage.FromUser.UserName;
+                    talks.Add(lastMessage.ToTalk(sendLast));
+                }
+
+                return Ok(talks);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
         [HttpPost("message")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> SendMessage([FromRoute] SendMessage sendMessage)
         {
             try
             {
-                User from = await _userRepository.GetUserByCpfAsync(sendMessage.CpfFrom);
-                User to = await _userRepository.GetUserByCpfAsync(sendMessage.CpfTo);
+                User from = await _userRepository.GetUserByEmailAsync(sendMessage.EmailFrom);
+                User to = await _userRepository.GetUserByEmailAsync(sendMessage.EmailTo);
 
                 if (from is null || to is null)
                 {
                     return NotFound(new
                     {
-                        Message = "User not found with this CPF"
+                        Message = "User not found with this Email"
                     });
                 }
 

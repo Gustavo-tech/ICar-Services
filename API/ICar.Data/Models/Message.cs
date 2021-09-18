@@ -31,5 +31,29 @@ namespace ICar.Infrastructure.Models
             ToUser = toUser;
             Text = text;
         }
+
+        public dynamic ToApiOutput()
+        {
+            return new
+            {
+                Id,
+                FromUser = new
+                {
+                    FromUser.Email,
+                    FromUser.UserName
+                },
+                ToUser = new
+                {
+                    ToUser.Email,
+                    ToUser.UserName
+                },
+                SendAt
+            };
+        }
+
+        public Talk ToTalk(string sendLast)
+        {
+            return new Talk(sendLast, Text);
+        }
     }
 }
