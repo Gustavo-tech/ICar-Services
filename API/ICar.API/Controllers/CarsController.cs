@@ -9,19 +9,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ICar.Infrastructure.Repositories.Search;
 
 namespace ICar.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CarController : ControllerBase
+    public class CarsController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICityRepository _cityRepository;
 
-        public CarController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository, 
+        public CarsController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository, 
             IUserRepository userRepository)
         {
             _carRepository = carRepository;
@@ -30,31 +31,31 @@ namespace ICar.API.Controllers
             _cityRepository = cityRepository;
         }
 
-        [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetAllCarsAsync()
-        {
-            try
-            {
-                List<Car> carsInDatabase = await _carRepository.GetCarsAsync();
-                dynamic[] output = carsInDatabase.Select(x => x.GenerateApiOutput()).ToArray();
-                return Ok(output);
-            }
-            catch (Exception exception)
-            {
-                return Problem(title: "Some error happened while getting the cars",
-                    detail: exception.Message);
-            }
-        }
-
         [HttpGet("cars/{email}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetMyCars([FromRoute] string email)
         {
             try
             {
-                List<Car> userCars = await _carRepository.GetCarsByOwner(email);
+                List<Car> userCars = await _carRepository.GetCarsAsync(email);
                 dynamic[] output = userCars.Select(x => x.GenerateApiOutput()).ToArray();
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return Problem(title: "Some error happened while getting the cars",
+                    detail: ex.Message);
+            }
+        }
+
+        [HttpGet("selling")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetCars([FromBody] CarSearchModel search)
+        {
+            try
+            {
+                List<Car> cars = await _carRepository.GetCarsAsync(search);
+                dynamic[] output = cars.Select(x => x.GenerateApiOutput()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -70,7 +71,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                if (await _carRepository.GetCarByPlate(create.Plate) == null)
+                if (await _carRepository.GetCarAsync(create.Plate) == null)
                 {
                     City city = await _cityRepository.InsertAsync(create.City);
                     User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
