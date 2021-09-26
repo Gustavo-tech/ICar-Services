@@ -50,7 +50,7 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCars([FromBody] CarSearchModel search)
+        public async Task<IActionResult> GetCars([FromQuery] CarSearchModel search)
         {
             try
             {
