@@ -26,7 +26,10 @@ namespace ICar.Infrastructure.Database.Repositories
 
         public async Task<List<Car>> GetCarsAsync(CarSearchModel search)
         {
-            List<Car> cars = await _dbContext.Cars.ToListAsync();
+            List<Car> cars = await _dbContext.Cars
+                .Include(x => x.Pictures)
+                .Include(x => x.City)
+                .ToListAsync();
 
             if (search.Maker is not null)
                 cars = cars.Where(x => x.Maker == search.Maker).ToList();

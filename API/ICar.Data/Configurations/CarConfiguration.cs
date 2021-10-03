@@ -8,7 +8,10 @@ namespace ICar.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
-            builder.HasKey(x => x.Plate);
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Id)
+                .ValueGeneratedOnAdd();
 
             builder.Property(x => x.Plate)
                 .HasColumnType("Char(8)");

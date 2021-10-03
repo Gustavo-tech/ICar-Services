@@ -7,6 +7,7 @@ namespace ICar.Infrastructure.Models
 {
     public class Car
     {
+        public int? Id { get; private set; }
         public string Plate { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
