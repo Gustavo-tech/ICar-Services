@@ -10,6 +10,7 @@ namespace ICar.Infrastructure.Database.Repositories.Interfaces
         public Task<List<Car>> GetCarsAsync(CarSearchModel carSearchModel);
         public Task<List<Car>> GetCarsAsync(string email);
         public Task<Car> GetCarAsync(string plate);
+        public Task<Car> GetCarAsync(int id);
         public Task IncreaseNumberOfViewsAsync(string plate);
     }
 }

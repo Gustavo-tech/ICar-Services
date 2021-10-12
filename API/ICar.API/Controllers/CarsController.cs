@@ -55,13 +55,35 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
-                dynamic[] output = cars.Select(x => x.GenerateApiOutput()).ToArray();
+                dynamic[] output = cars.Select(x => x.GenerateOverview()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
             {
                 return Problem(title: "Some error happened while getting the cars",
                     detail: ex.Message);
+            }
+        }
+
+        [HttpGet("selling/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetCar([FromRoute] int id)
+        {
+            try
+            {
+                Car car = await _carRepository.GetCarAsync(id);
+
+                if (car != null)
+                {
+                    dynamic output = car.GenerateApiOutput();
+                    return Ok(output);
+                }
+
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Problem(title: "Some error happened", detail: ex.Message);
             }
         }
 

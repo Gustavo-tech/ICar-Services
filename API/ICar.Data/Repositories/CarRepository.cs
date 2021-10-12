@@ -17,10 +17,21 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<Car> GetCarAsync(int id)
+        {
+            return await _dbContext.Cars
+                .Where(x => x.Id == id)
+                .Include(x => x.City)
+                .Include(x => x.Pictures)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Car> GetCarAsync(string plate)
         {
             return await _dbContext.Cars
                 .Where(x => x.Plate == plate)
+                .Include(x => x.City)
+                .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }
 

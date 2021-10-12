@@ -32,10 +32,27 @@ namespace ICar.Infrastructure.Models
         public Car()
         { }
 
+        public dynamic GenerateOverview()
+        {
+            return new
+            {
+                Id,
+                Maker,
+                Model,
+                KilometersTraveled,
+                Price,
+                MakeDate,
+                MakedDate,
+                Pictures = Pictures.Select(x => x.Picture),
+                City = City.Name
+            };
+        }
+
         public dynamic GenerateApiOutput()
         {
             return new
             {
+                Id,
                 Plate,
                 Maker,
                 Model,
@@ -78,7 +95,7 @@ namespace ICar.Infrastructure.Models
                 case ExchangeType.Automatic:
                     return "automatic";
                 case ExchangeType.Manual:
-                    return "manaul";
+                    return "manual";
                 default:
                     throw new Exception("Invalid argument");
             }
