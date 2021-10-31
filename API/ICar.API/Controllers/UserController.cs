@@ -56,7 +56,6 @@ namespace ICar.API.Controllers
                 {
                     user.Email,
                     user.UserName,
-                    user.Cpf,
                     user.AccountCreationDate
                 });
             }
@@ -73,7 +72,8 @@ namespace ICar.API.Controllers
             try
             {
                 User user = await _userRepository.GetUserByEmailAsync(email);
-                return Ok(user.Logins);
+                dynamic[] output = user.Logins.Select(x => x.GenerateLoginOutput()).ToArray();
+                return Ok(output);
             }
             catch (Exception)
             {

@@ -18,8 +18,8 @@ namespace ICar.Infrastructure.Tests.Models
         [TestCase(null)]
         public void TestMessageConstructor_MessageIsInvalid_ThrowAnException(string message)
         {
-            User from = new("548.458.456-45", "Gustavo", "(19) 99822-1233", "gustavo@gmail.com", "admin");
-            User to = new("312.422.892-45", "John", "(11) 99112-1133", "john@gmail.com", "admin");
+            User from = new("Gustavo", "(19) 99822-1233", "gustavo@gmail.com", "admin");
+            User to = new("John", "(11) 99112-1133", "john@gmail.com", "admin");
 
             Assert.Throws<ArgumentNullException>(() => new Message(from, to, message));
         }

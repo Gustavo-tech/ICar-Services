@@ -1,6 +1,5 @@
 ﻿using ICar.IdentityServer.ViewModels.User;
 using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -40,11 +39,7 @@ namespace ICar.IdentityServer.Controllers
 
                 if (result.Succeeded)
                 {
-                    Login newLogin = new()
-                    {
-                        User = user,
-                        Time = DateTime.Now
-                    };
+                    Login newLogin = new(user);
                     await _loginRepository.AddLogin(newLogin);
                 }
             }
@@ -63,7 +58,7 @@ namespace ICar.IdentityServer.Controllers
         {
             try
             {
-                User newUser = new(model.Cpf, model.Name, model.Phone, model.Email, "client");
+                User newUser = new(model.Name, model.Phone, model.Email, "client");
                 var result = await _userManager.CreateAsync(newUser, model.Password);
 
                 if (result.Succeeded)

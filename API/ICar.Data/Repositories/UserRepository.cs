@@ -16,19 +16,15 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<User> GetUserByCpfAsync(string cpf)
-        {
-            return await _dbContext.Users
-                .Where(x => x.Cpf == cpf)
-                .Include(x => x.News)
-                .Include(x => x.Logins)
-                .Include(x => x.Cars)
-                .FirstOrDefaultAsync();
-        }
-
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _dbContext.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return await _dbContext.Users
+                .Where(x => x.Email == email)
+                .Include(x => x.Cars)
+                .Include(x => x.Logins)
+                .Include(x => x.MessagesReceived)
+                .Include(x => x.MessagesSent)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<User>> GetUsersAsync()

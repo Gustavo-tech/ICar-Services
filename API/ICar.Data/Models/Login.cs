@@ -10,6 +10,23 @@ namespace ICar.Infrastructure.Models
         public User User { get; set; }
 
         public Login()
-        { }
+        {
+            
+        }
+
+        public Login(User user)
+        {
+            User = user;
+            Time = DateTime.Now;
+        }
+
+        public dynamic GenerateLoginOutput()
+        {
+            return new
+            {
+                Id,
+                Time
+            };
+        }
     }
 }
