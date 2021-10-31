@@ -69,15 +69,9 @@ namespace ICar.Infrastructure.Database.Repositories
                 .ToListAsync();
         }
 
-        public async Task IncreaseNumberOfViewsAsync(string plate)
+        public async Task UpdateAsync(Car car)
         {
-            Car car = await _dbContext.Cars
-                .Where(x => x.Plate == plate)
-                .FirstOrDefaultAsync();
-
-            car.NumberOfViews++;
-
-            _dbContext.Update(car);
+            _dbContext.Cars.Update(car);
             await _dbContext.SaveChangesAsync();
         }
     }

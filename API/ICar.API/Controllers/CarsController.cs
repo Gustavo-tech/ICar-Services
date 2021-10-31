@@ -87,6 +87,32 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpPost("views/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] int id)
+        {
+            try
+            {
+                Car car = await _carRepository.GetCarAsync(id);
+
+                if (car != null)
+                {
+                    car.IncreaseNumberOfViews();
+                    await _carRepository.UpdateAsync(car);
+                    return Ok();
+                }
+
+                return NotFound(new
+                {
+                    Message = "We could not find a car with this id"
+                });
+            }
+            catch(Exception)
+            {
+                return Problem();
+            }
+        }
+
         [HttpPost("create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> InsertCarAsync([FromBody] CarViewModel create)

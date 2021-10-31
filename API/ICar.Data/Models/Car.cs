@@ -23,14 +23,21 @@ namespace ICar.Infrastructure.Models
         public ExchangeType ExchangeType { get; set; }
         public string Color { get; set; }
         public GasolineType GasolineType { get; set; }
-        public int NumberOfViews { get; set; }
+        public int NumberOfViews { get; private set; }
 
         public User Owner { get; set; }
         public City City { get; set; }
         public List<CarPicture> Pictures { get; set; }
 
         public Car()
-        { }
+        { 
+        }
+
+        public Car IncreaseNumberOfViews()
+        {
+            NumberOfViews++;
+            return this;
+        }
 
         public dynamic GenerateOverview()
         {

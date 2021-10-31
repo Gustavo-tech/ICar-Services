@@ -29,22 +29,6 @@ namespace ICar.API.Controllers
             _baseRepo = baseRepo;
         }
 
-        [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
-        public async Task<IActionResult> GetUsers()
-        {
-            try
-            {
-                List<User> users = await _userRepository.GetUsersAsync();
-                dynamic[] output = users.Select(x => x.GenerateApiOutput()).ToArray();
-                return Ok(output);
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
         [HttpGet("info/{email}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUserInformation([FromRoute] string email)
