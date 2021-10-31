@@ -39,8 +39,14 @@ namespace ICar.IdentityServer.Controllers
 
                 if (result.Succeeded)
                 {
-                    Login newLogin = new(user);
+                    Login newLogin = Infrastructure.Models.Login.GenerateSuccessfullLogin(user);
                     await _loginRepository.AddLogin(newLogin);
+                }
+
+                else
+                {
+                    Login login = Infrastructure.Models.Login.GenerateFailedLogin(user);
+                    await _loginRepository.AddLogin(login);
                 }
             }
 

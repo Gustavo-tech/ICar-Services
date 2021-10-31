@@ -20,6 +20,9 @@ namespace ICar.Infrastructure.Configurations
             builder.Property(x => x.Time)
                 .HasColumnType("DATETIME")
                 .IsRequired();
+
+            builder.Property(x => x.Success)
+                .IsRequired();
         }
     }
 }
