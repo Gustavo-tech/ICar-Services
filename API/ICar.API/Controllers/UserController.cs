@@ -122,7 +122,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("message")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> SendMessage([FromRoute] SendMessage sendMessage)
+        public async Task<IActionResult> SendMessage([FromBody] SendMessage sendMessage)
         {
             try
             {

@@ -9,7 +9,7 @@ namespace ICar.Infrastructure.Models
     {
         public DateTime AccountCreationDate { get; set; }
         public string Role { get; set; }
-        public string Cpf  { get; }
+        public string Cpf  { get; private set; }
 
         public List<News> News { get; set; }
         public List<Login> Logins { get; set; }
