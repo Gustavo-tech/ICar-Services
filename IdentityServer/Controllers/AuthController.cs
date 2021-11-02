@@ -47,6 +47,7 @@ namespace ICar.IdentityServer.Controllers
                 {
                     Login login = Infrastructure.Models.Login.GenerateFailedLogin(user);
                     await _loginRepository.AddLogin(login);
+                    return View();
                 }
             }
 

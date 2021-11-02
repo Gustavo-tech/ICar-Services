@@ -18,6 +18,7 @@ namespace ICar.Infrastructure.Models
         {
             User = user;
             Success = success;
+            Time = DateTime.Now;
         }
 
         public static Login GenerateSuccessfullLogin(User user)
@@ -35,7 +36,8 @@ namespace ICar.Infrastructure.Models
             return new
             {
                 Id,
-                Time
+                Time,
+                Success
             };
         }
     }
