@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
-    public class CityTests
+    [TestFixture]
+    class CityTests
     {
         [Test]
         [TestCase(null)]
@@ -17,6 +18,17 @@ namespace ICar.Infrastructure.Tests.Models
         public void TestCityConstructor_WhenCalledWithEmptyName_ThrowsAnException(string cityName)
         {
             Assert.Throws<ArgumentNullException>(() => new City(cityName));
+        }
+
+        [Test]
+        [TestCase("Campinas")]
+        [TestCase("Valinhos")]
+        [TestCase("Vinhedo")]
+        public void TestCityConstructor_WhenCalledWithValidArguments_ConstructACity(string name)
+        {
+            City city = new(name);
+
+            Assert.IsNotNull(city);
         }
     }
 }

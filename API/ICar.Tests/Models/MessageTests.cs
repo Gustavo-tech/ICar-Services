@@ -4,6 +4,7 @@ using System;
 
 namespace ICar.Infrastructure.Tests.Models
 {
+    [TestFixture]
     class MessageTests
     {
         [Test]

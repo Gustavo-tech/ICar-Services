@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
+    [TestFixture]
     public class UserTests
     {
         [Test]
@@ -33,7 +34,9 @@ namespace ICar.Infrastructure.Tests.Models
         [TestCase("Bryan", "(19) 32213-2912", "dss@gmail.com", "client")]
         public void TestUserConstructor_ArgumentsAreValid_ConstructsAnUser(string name, string phone, string email, string role)
         {
-            Assert.Throws<FormatException>(() => new User(name, phone, email, role));
+            User user = new(name, phone, email, role);
+
+            Assert.IsNotNull(user);
         }
     }
 }

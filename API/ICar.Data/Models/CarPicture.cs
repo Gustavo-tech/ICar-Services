@@ -4,7 +4,7 @@ namespace ICar.Infrastructure.Models
 {
     public class CarPicture
     {
-        public int? Id { get; set; }
+        public int? Id { get; private set; }
         public string Picture { get; set; }
         public Car Car { get; set; }
 
@@ -17,11 +17,8 @@ namespace ICar.Infrastructure.Models
             if (string.IsNullOrWhiteSpace(picture))
                 throw new ArgumentNullException(nameof(picture), "Picture content can't be null");
 
-            if (car == null)
-                throw new ArgumentNullException(nameof(car), "Car argument can't be null");
-
+            Car = car ?? throw new ArgumentNullException(nameof(car), "Car argument can't be null");
             Picture = picture;
-            Car = car;
         }
     }
 }
