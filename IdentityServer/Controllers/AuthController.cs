@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace ICar.IdentityServer.Controllers
 {
@@ -23,9 +25,13 @@ namespace ICar.IdentityServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            LoginViewModel loginViewModel = new()
+            {
+                ReturnUrl = returnUrl
+            };
+            return View(loginViewModel);
         }
 
         [HttpPost]
@@ -51,7 +57,7 @@ namespace ICar.IdentityServer.Controllers
                 }
             }
 
-            return Redirect("http://localhost:3000");
+            return Redirect(model.ReturnUrl);
         }
 
         [HttpGet]
