@@ -75,9 +75,10 @@ namespace ICar.API.Controllers
                 List<Message> messages = await _messagesRepository.GetMessagesByEmail(email);
                 List<User> usersTalked = new();
                 List<Talk> talks = new();
+
                 foreach(Message message in messages)
                 {
-                    if (!usersTalked.Contains(message.FromUser) || !usersTalked.Contains(message.ToUser))
+                    if (!Infrastructure.Models.User.CheckIfListAlreadyContainsTalkedTo(usersTalked, message))
                     {
                         if (message.FromUser.Email != userLogged.Email)
                         {
