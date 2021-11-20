@@ -56,7 +56,7 @@ namespace ICar.API.Controllers
             try
             {
                 User user = await _userRepository.GetUserByEmailAsync(email);
-                dynamic[] output = user.Logins.Select(x => x.GenerateLoginOutput()).ToArray();
+                dynamic[] output = user.Logins.Select(x => x.GenerateLoginOutputViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception)

@@ -21,10 +21,8 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<bool>("AcceptsChange")
                         .HasColumnType("bit");
@@ -35,7 +33,7 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR(50)");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<int>("ExchangeType")
                         .HasColumnType("int");
@@ -43,7 +41,7 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("GasolineType")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR(20)");
+                        .HasColumnType("VARCHAR(20)");
 
                     b.Property<bool>("IpvaIsPaid")
                         .HasColumnType("bit");
@@ -66,17 +64,17 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("Maker")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR(60)");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR(500)");
+                        .HasColumnType("VARCHAR(500)");
 
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR(60)");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<int>("NumberOfViews")
                         .HasColumnType("INT");
@@ -102,13 +100,11 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CarPicture", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
+                    b.Property<string>("CarId")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
@@ -144,10 +140,8 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Login", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<bool>("Success")
                         .HasColumnType("bit");
@@ -167,10 +161,8 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("FromUserId")
                         .HasColumnType("nvarchar(450)");
@@ -197,10 +189,8 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");

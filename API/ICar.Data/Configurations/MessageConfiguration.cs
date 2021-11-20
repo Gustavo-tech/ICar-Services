@@ -15,7 +15,7 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .ValueGeneratedOnAdd();
+                .HasColumnType("VARCHAR");
 
             builder.Property(x => x.Text)
                 .IsRequired()

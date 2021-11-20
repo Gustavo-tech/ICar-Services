@@ -8,14 +8,14 @@ namespace ICar.Infrastructure.ViewModels.Output.Car
 {
     public class CarOverviewViewModel
     {
-        public int? Id { get; private set; }
+        public string Id { get; private set; }
         public string Maker { get; private set; }
         public string Model { get; private set; }
         public double KilometersTraveled { get; private set; }
         public string[] Pictures { get; private set; }
         public string City { get; private set; }
 
-        public CarOverviewViewModel(int? id, string maker, string model, 
+        public CarOverviewViewModel(string id, string maker, string model, 
             double kilometersTraveled, string[] pictures, string city)
         {
             Id = id;

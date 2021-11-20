@@ -2,25 +2,34 @@
 
 namespace ICar.Infrastructure.Models
 {
-    public class News
+    public class News : Entity
     {
-        public int? Id { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public string Title { get; private set; }
+        public string Text { get; private set; }
+        public DateTime CreatedOn { get; private set; }
+        public DateTime LastUpdate { get; private set; }
 
-        public User Owner { get; set; }
+        public User Owner { get; private set; }
 
-        public News()
-        { }
+        private News()
+        { 
+        }
 
         public News(string title, string text)
+            : base()
         {
             Title = title;
             Text = text;
             CreatedOn = DateTime.Now;
             LastUpdate = DateTime.Now;
+        }
+
+        public News Update(string title, string text)
+        {
+            Title = title;
+            Text = text;
+            LastUpdate = DateTime.Now;
+            return this;
         }
 
         public dynamic GenerateApiOutput()

@@ -67,11 +67,11 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCar([FromRoute] int id)
+        public async Task<IActionResult> GetCar([FromRoute] string id)
         {
             try
             {
-                Car car = await _carRepository.GetCarAsync(id);
+                Car car = await _carRepository.GetCarByIdAsync(id);
 
                 if (car != null)
                 {
@@ -89,11 +89,11 @@ namespace ICar.API.Controllers
 
         [HttpPost("views/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] int id)
+        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] string id)
         {
             try
             {
-                Car car = await _carRepository.GetCarAsync(id);
+                Car car = await _carRepository.GetCarByIdAsync(id);
 
                 if (car != null)
                 {
@@ -119,7 +119,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                if (await _carRepository.GetCarAsync(create.Plate) == null)
+                if (await _carRepository.GetCarByPlateAsync(create.Plate) == null)
                 {
                     City city = await _cityRepository.InsertAsync(create.City);
                     User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ICar.Infrastructure.ViewModels.Output.Login;
+using System;
 
 namespace ICar.Infrastructure.Models
 {
-    public class Login
+    public class Login : Entity
     {
-        public int? Id { get; private set; }
         public DateTime Time { get; private set; }
         public bool Success { get; private set; }
         public User User { get; private set; }
@@ -15,6 +15,7 @@ namespace ICar.Infrastructure.Models
         }
 
         private Login(User user, bool success)
+            : base()
         {
             if (user is null)
                 throw new ArgumentNullException(nameof(user), "User can't be null");
@@ -34,14 +35,9 @@ namespace ICar.Infrastructure.Models
             return new Login(user, false);
         }
 
-        public dynamic GenerateLoginOutput()
+        public LoginOutputViewModel GenerateLoginOutputViewModel()
         {
-            return new
-            {
-                Id,
-                Time,
-                Success
-            };
+            return new LoginOutputViewModel(Id, Time, Success);
         }
     }
 }

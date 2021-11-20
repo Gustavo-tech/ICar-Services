@@ -17,7 +17,7 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Car> GetCarAsync(int id)
+        public async Task<Car> GetCarByIdAsync(string id)
         {
             return await _dbContext.Cars
                 .Where(x => x.Id == id)
@@ -26,7 +26,7 @@ namespace ICar.Infrastructure.Database.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Car> GetCarAsync(string plate)
+        public async Task<Car> GetCarByPlateAsync(string plate)
         {
             return await _dbContext.Cars
                 .Where(x => x.Plate == plate)

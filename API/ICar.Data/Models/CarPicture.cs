@@ -2,17 +2,17 @@
 
 namespace ICar.Infrastructure.Models
 {
-    public class CarPicture
+    public class CarPicture : Entity
     {
-        public int? Id { get; private set; }
         public string Picture { get; set; }
         public Car Car { get; set; }
 
-        public CarPicture()
+        private CarPicture()
         {
         }
 
         public CarPicture(string picture, Car car)
+            : base()
         {
             if (string.IsNullOrWhiteSpace(picture))
                 throw new ArgumentNullException(nameof(picture), "Picture content can't be null");

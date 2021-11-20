@@ -71,9 +71,7 @@ namespace ICar.API.Controllers
                 News newsInDatabase = await _newsRepository.GetNewsAsync(update.Id);
                 if (newsInDatabase != null)
                 {
-                    newsInDatabase.Title = update.Title;
-                    newsInDatabase.Text = update.Text;
-                    newsInDatabase.LastUpdate = DateTime.Now;
+                    newsInDatabase.Update(update.Title, update.Text);
                     await _baseRepository.UpdateAsync(newsInDatabase);
                     return Ok();
                 }

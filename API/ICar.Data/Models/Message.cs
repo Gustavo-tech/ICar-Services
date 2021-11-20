@@ -2,19 +2,19 @@
 
 namespace ICar.Infrastructure.Models
 {
-    public class Message
+    public class Message : Entity
     {
-        public int Id { get; }
-        public User FromUser { get; }
-        public User ToUser { get; }
-        public string Text { get; }
-        public DateTime SendAt { get; }
+        public User FromUser { get; private set; }
+        public User ToUser { get; private set; }
+        public string Text { get; private set; }
+        public DateTime SendAt { get; private set; }
 
-        public Message()
+        private Message()
         {
         }
 
         public Message(User fromUser, User toUser, string text)
+            : base()
         {
             if (fromUser is null || toUser is null)
             {

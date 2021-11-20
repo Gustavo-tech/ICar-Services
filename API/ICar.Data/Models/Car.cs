@@ -7,9 +7,8 @@ using System.Linq;
 
 namespace ICar.Infrastructure.Models
 {
-    public class Car
+    public class Car : Entity
     {
-        public int? Id { get; private set; }
         public string Plate { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
@@ -31,7 +30,8 @@ namespace ICar.Infrastructure.Models
         public City City { get; set; }
         public List<CarPicture> Pictures { get; set; }
 
-        public Car()
+        public Car() 
+            : base()
         { 
         }
 

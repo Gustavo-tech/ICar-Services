@@ -86,11 +86,11 @@ namespace ICar.Infrastructure.Tests.Models
         [Test]
         public void TestIncrementNumberOfViews_WhenCalled_IncreaseViewsNumber()
         {
-            Car car = new() { };
+            int currentNumber = _car.NumberOfViews;
 
-            car.IncreaseNumberOfViews();
+            _car.IncreaseNumberOfViews();
 
-            Assert.AreEqual(1, car.NumberOfViews);
+            Assert.AreEqual(_car.NumberOfViews, currentNumber + 1);
         }
 
         [Test]

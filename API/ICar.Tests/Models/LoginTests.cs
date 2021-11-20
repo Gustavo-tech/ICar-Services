@@ -11,6 +11,7 @@ namespace ICar.Infrastructure.Tests.Models
     class LoginTests
     {
         private User _user;
+        private Login _login;
 
         [SetUp]
         public void SetUp()
@@ -21,6 +22,8 @@ namespace ICar.Infrastructure.Tests.Models
                 Email = "gustavo@gmail.com",
                 Role = "admin"
             };
+
+            _login = Login.GenerateSuccessfulLogin(_user);
         }
 
         [Test]
@@ -49,6 +52,16 @@ namespace ICar.Infrastructure.Tests.Models
             var result = Login.GenerateFailedLogin(_user);
 
             Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void TestGenerateLoginOutputViewModel_WhenCalled_GenerateLoginOutputViewModel()
+        {
+            var vm = _login.GenerateLoginOutputViewModel();
+
+            Assert.AreEqual(vm.Id, _login.Id);
+            Assert.AreEqual(vm.Success, _login.Success);
+            Assert.AreEqual(vm.Time, _login.Time);
         }
     }
 }
