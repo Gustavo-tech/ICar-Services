@@ -1,4 +1,6 @@
 ﻿using ICar.Infrastructure.Models.Enums.Car;
+using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Output.Car;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,20 +41,10 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
-        public dynamic GenerateOverview()
+        public CarOverviewViewModel GenerateOverview()
         {
-            return new
-            {
-                Id,
-                Maker,
-                Model,
-                KilometersTraveled,
-                Price,
-                MakeDate,
-                MakedDate,
-                Pictures = Pictures.Select(x => x.Picture),
-                City = City.Name
-            };
+            return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled, 
+                Pictures.Select(x => x.Picture).ToArray(), City.Name);
         }
 
         public dynamic GenerateApiOutput()
@@ -78,6 +70,35 @@ namespace ICar.Infrastructure.Models
                 City = City.Name,
                 NumberOfViews,
                 Pictures = Pictures.Select(x => x.Picture)
+            };
+        }
+
+        public static Car GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
+        {
+            if (vm is null)
+                throw new ArgumentNullException(nameof(vm), "View model must not be null");
+
+            if (owner is null)
+                throw new ArgumentNullException(nameof(owner), "Owner must not be null");
+
+            return new Car
+            {
+                Owner = owner,
+                Plate = vm.Plate,
+                Maker = vm.Maker,
+                Model = vm.Model,
+                Price = vm.Price,
+                MakeDate = vm.MakeDate,
+                MakedDate = vm.MakedDate,
+                KilometersTraveled = vm.KilometersTraveled,
+                AcceptsChange = vm.AcceptsChange,
+                IsArmored = vm.IsArmored,
+                IsLicensed = vm.IsLicensed,
+                IpvaIsPaid = vm.IpvaIsPaid,
+                Message = vm.Message,
+                Color = vm.Color,
+                ExchangeType = ConvertStringToTypeOfExchange(vm.ExchangeType),
+                GasolineType = ConvertStringToGasolineType(vm.GasolineType)
             };
         }
 

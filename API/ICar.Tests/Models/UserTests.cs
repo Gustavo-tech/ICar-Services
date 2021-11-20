@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
-    [TestFixture]
     public class UserTests
     {
         [Test]

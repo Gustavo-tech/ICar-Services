@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ICar.API.ViewModels.Car
+namespace ICar.Infrastructure.ViewModels.Input.Car
 {
-    public class CarViewModel
+    public class InsertCarViewModel
     {
         [RegularExpression("[A-Z]{3}[-][0-9]{4}")]
         public string Plate { get; set; }

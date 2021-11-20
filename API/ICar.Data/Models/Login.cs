@@ -9,19 +9,22 @@ namespace ICar.Infrastructure.Models
         public bool Success { get; private set; }
         public User User { get; private set; }
 
-        public Login()
+        private Login()
         {
             
         }
 
         private Login(User user, bool success)
         {
+            if (user is null)
+                throw new ArgumentNullException(nameof(user), "User can't be null");
+
             User = user;
             Success = success;
             Time = DateTime.Now;
         }
 
-        public static Login GenerateSuccessfullLogin(User user)
+        public static Login GenerateSuccessfulLogin(User user)
         {
             return new Login(user, true);
         }

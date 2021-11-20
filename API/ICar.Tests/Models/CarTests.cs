@@ -1,14 +1,38 @@
 ﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Models.Enums.Car;
+using ICar.Infrastructure.ViewModels.Input.Car;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace ICar.Infrastructure.Tests.Models
 {
-
-    [TestFixture]
     class CarTests
     {
+        private Car _car;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _car = new()
+            {
+                Plate = "JKH-9087",
+                Maker = "Ford",
+                Model = "Mustang",
+                MakeDate = 2020,
+                MakedDate = 2021,
+                KilometersTraveled = 2000,
+                Price = 350000,
+                AcceptsChange = false,
+                IpvaIsPaid = true,
+                IsLicensed = true,
+                IsArmored = false,
+                Message = "This car has a nice sound",
+                ExchangeType = ExchangeType.Automatic,
+                GasolineType = GasolineType.Diesel,
+                Color = "#FFFFF"
+            };
+        }
 
         [Test]
         public void TestConvertGasolineTypeToString_WhenCalled_ReturnsGasString()
@@ -67,6 +91,61 @@ namespace ICar.Infrastructure.Tests.Models
             car.IncreaseNumberOfViews();
 
             Assert.AreEqual(1, car.NumberOfViews);
+        }
+
+        [Test]
+        public void GenerateOverview_WhenCalled_GenerateCarOverviewProperly()
+        {
+            var vm = _car.GenerateOverview();
+
+            Assert.AreEqual(_car.Id, vm.Id);
+            Assert.AreEqual(_car.Maker, vm.Maker);
+            Assert.AreEqual(_car.Model, vm.Model);
+            Assert.AreEqual(_car.KilometersTraveled, vm.KilometersTraveled);
+            Assert.AreEqual(_car.City, vm.City);
+
+            for(int i = 0; i < vm.Pictures.Length; i++)
+            {
+                Assert.AreEqual(_car.Pictures[i].Picture, vm.Pictures[i]);
+            }
+        }
+
+        [Test]
+        public void GenerateCarWithInsertCarVM_ViewModelIsNull_ThrowAnException()
+        {
+            Assert.Catch<Exception>(() => Car.GenerateWithInsertCarViewModel(null, null));
+        }
+
+        [Test]
+        public void GenerateCarWithInsertCarVM_ViewModelIsValid_ConstructACar()
+        {
+            InsertCarViewModel vm = new()
+            {
+                Plate = "JKH-9087",
+                Maker = "Ford",
+                Model = "Mustang",
+                MakeDate = 2020,
+                MakedDate = 2021,
+                KilometersTraveled = 2000,
+                Price = 350000,
+                AcceptsChange = false,
+                IpvaIsPaid = true,
+                IsLicensed = true,
+                IsArmored = false,
+                Message = "This car has a nice sound",
+                ExchangeType = "automatic",
+                GasolineType = "gasoline",
+                Color = "#FFFFF",
+                UserEmail = "gustavo@gmail.com",
+                City = "Campinas",
+                Pictures = new List<string> { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
+            };
+
+            User owner = new("Gustavo", "(19) 99876-0982", "gustavo@gmail.com", "admin");
+
+            Car car = Car.GenerateWithInsertCarViewModel(vm, owner);
+
+            Assert.IsNotNull(car);
         }
     }
 }

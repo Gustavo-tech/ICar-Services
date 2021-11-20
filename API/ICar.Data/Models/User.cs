@@ -8,7 +8,7 @@ namespace ICar.Infrastructure.Models
 {
     public class User : IdentityUser
     {
-        public DateTime AccountCreationDate { get; set; }
+        public DateTime AccountCreationDate { get; private set; }
         public string Role { get; set; }
 
         public List<News> News { get; set; }
