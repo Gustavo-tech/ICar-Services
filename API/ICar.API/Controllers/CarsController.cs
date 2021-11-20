@@ -1,5 +1,4 @@
-﻿using ICar.API.Builders;
-using ICar.Infrastructure.Models;
+﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ICar.Infrastructure.Repositories.Search;
 using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Output.Car;
 
 namespace ICar.API.Controllers
 {
@@ -38,7 +38,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> userCars = await _carRepository.GetCarsAsync(email);
-                dynamic[] output = userCars.Select(x => x.GenerateApiOutput()).ToArray();
+                CarOutputViewModel[] output = userCars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
-                dynamic[] output = cars.Select(x => x.GenerateOverview()).ToArray();
+                dynamic[] output = cars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace ICar.API.Controllers
 
                 if (car != null)
                 {
-                    dynamic output = car.GenerateApiOutput();
+                    CarOutputViewModel output = car.GenerateCarOutputViewModel();
                     return Ok(output);
                 }
 

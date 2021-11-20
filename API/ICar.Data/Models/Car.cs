@@ -14,7 +14,7 @@ namespace ICar.Infrastructure.Models
         public string Model { get; set; }
         public int MakeDate { get; set; }
         public int MakedDate { get; set; }
-        public double KilometersTraveled { get; set; }
+        public int KilometersTraveled { get; set; }
         public int Price { get; set; }
         public bool AcceptsChange { get; set; }
         public bool IpvaIsPaid { get; set; }
@@ -28,11 +28,46 @@ namespace ICar.Infrastructure.Models
 
         public User Owner { get; set; }
         public City City { get; set; }
-        public List<CarPicture> Pictures { get; set; }
+        public List<CarPicture> Pictures { get; private set; } = new List<CarPicture>();
 
-        public Car() 
+        private Car() 
             : base()
         { 
+        }
+
+        public Car(string plate, string maker, string model, 
+            int makeDate, int makedDate, int kilometersTraveled, 
+            int price, string message, string color, 
+            ExchangeType exchangeType, GasolineType gasolineType, User owner, 
+            City city, string[] pictures, bool acceptsChange = false, 
+            bool ipvaIsPaid = false, bool isLicensed = false, bool isArmored = false)
+        {
+            Plate = plate;
+            Maker = maker;
+            Model = model;
+            MakeDate = makeDate;
+            MakedDate = makedDate;
+            KilometersTraveled = kilometersTraveled;
+            Price = price;
+            AcceptsChange = acceptsChange;
+            IpvaIsPaid = ipvaIsPaid;
+            IsLicensed = isLicensed;
+            IsArmored = isArmored;
+            Message = message;
+            ExchangeType = exchangeType;
+            Color = color;
+            GasolineType = gasolineType;
+            Owner = owner;
+            City = city;
+
+            foreach (string pic in pictures)
+            {
+                if (pic != null)
+                {
+                    CarPicture cp = new(pic, this);
+                    Pictures.Add(cp);
+                }
+            }
         }
 
         public Car IncreaseNumberOfViews()
@@ -41,35 +76,35 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
-        public CarOverviewViewModel GenerateOverview()
+        public CarOverviewViewModel GenerateOverviewViewModel()
         {
             return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled, 
                 Pictures.Select(x => x.Picture).ToArray(), City.Name);
         }
 
-        public dynamic GenerateApiOutput()
+        public CarOutputViewModel GenerateCarOutputViewModel()
         {
-            return new
+            return new CarOutputViewModel()
             {
-                Id,
-                Plate,
-                Maker,
-                Model,
-                MakeDate,
-                MakedDate,
-                KilometersTraveled,
-                Price,
-                AcceptsChange,
-                IpvaIsPaid,
-                IsLicensed,
-                IsArmored,
-                Message,
+                Id = Id,
+                Plate = Plate,
+                Maker = Maker,
+                Model = Model,
+                MakeDate = MakeDate,
+                MakedDate = MakedDate,
+                KilometersTraveled = KilometersTraveled,
+                Price = Price,
+                AcceptsChange = AcceptsChange,
+                IpvaIsPaid = IpvaIsPaid,
+                IsLicensed = IsLicensed,
+                IsArmored = IsArmored,
+                Message = Message,
                 TypeOfExchange = ConvertTypeOfExchangeToString(ExchangeType),
-                Color,
                 GasolineType = ConvertGasolineTypeToString(GasolineType),
-                City = City.Name,
-                NumberOfViews,
-                Pictures = Pictures.Select(x => x.Picture)
+                Color = Color,
+                //City = City.Name,
+                NumberOfViews = NumberOfViews,
+                Pictures = Pictures.Select(x => x.Picture).ToArray()
             };
         }
 
