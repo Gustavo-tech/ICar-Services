@@ -466,11 +466,11 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.User", "FromUser")
-                        .WithMany("MessagesSent")
+                        .WithMany()
                         .HasForeignKey("FromUserId");
 
                     b.HasOne("ICar.Infrastructure.Models.User", "ToUser")
-                        .WithMany("MessagesReceived")
+                        .WithMany()
                         .HasForeignKey("ToUserId");
 
                     b.Navigation("FromUser");
@@ -548,10 +548,6 @@ namespace ICar.IdentityServer.Migrations
                     b.Navigation("Cars");
 
                     b.Navigation("Logins");
-
-                    b.Navigation("MessagesReceived");
-
-                    b.Navigation("MessagesSent");
 
                     b.Navigation("News");
                 });

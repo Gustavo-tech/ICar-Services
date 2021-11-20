@@ -22,10 +22,10 @@ namespace ICar.Infrastructure.Configurations
                 .HasMaxLength(120);
 
             builder.HasOne(x => x.ToUser)
-                .WithMany(x => x.MessagesReceived);
+                .WithMany();
 
             builder.HasOne(x => x.FromUser)
-                .WithMany(x => x.MessagesSent);
+                .WithMany();
 
             builder.Property(x => x.SendAt)
                 .IsRequired();

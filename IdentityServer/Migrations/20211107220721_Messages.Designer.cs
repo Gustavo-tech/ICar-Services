@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20211031213649_Login")]
-    partial class Login
+    [Migration("20211107220721_Messages")]
+    partial class Messages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -468,11 +468,11 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.User", "FromUser")
-                        .WithMany("MessagesSent")
+                        .WithMany()
                         .HasForeignKey("FromUserId");
 
                     b.HasOne("ICar.Infrastructure.Models.User", "ToUser")
-                        .WithMany("MessagesReceived")
+                        .WithMany()
                         .HasForeignKey("ToUserId");
 
                     b.Navigation("FromUser");
@@ -550,10 +550,6 @@ namespace ICar.IdentityServer.Migrations
                     b.Navigation("Cars");
 
                     b.Navigation("Logins");
-
-                    b.Navigation("MessagesReceived");
-
-                    b.Navigation("MessagesSent");
 
                     b.Navigation("News");
                 });

@@ -174,6 +174,7 @@ namespace ICar.IdentityServer.Migrations
                     Id = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Time = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    Success = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -242,7 +243,9 @@ namespace ICar.IdentityServer.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Plate = table.Column<string>(type: "Char(8)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Plate = table.Column<string>(type: "Char(8)", nullable: true),
                     Maker = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     Model = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false),
                     MakeDate = table.Column<int>(type: "INT", nullable: false),
@@ -263,7 +266,7 @@ namespace ICar.IdentityServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cars", x => x.Plate);
+                    table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Cars_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
@@ -285,16 +288,16 @@ namespace ICar.IdentityServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CarPlate = table.Column<string>(type: "Char(8)", nullable: true)
+                    CarId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarPicture", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CarPicture_Cars_CarPlate",
-                        column: x => x.CarPlate,
+                        name: "FK_CarPicture_Cars_CarId",
+                        column: x => x.CarId,
                         principalTable: "Cars",
-                        principalColumn: "Plate",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -338,9 +341,9 @@ namespace ICar.IdentityServer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarPicture_CarPlate",
+                name: "IX_CarPicture_CarId",
                 table: "CarPicture",
-                column: "CarPlate");
+                column: "CarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_CityId",

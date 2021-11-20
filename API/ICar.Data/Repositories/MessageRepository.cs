@@ -37,5 +37,16 @@ namespace ICar.Infrastructure.Repositories
                 .OrderBy(x => x.SendAt)
                 .ToListAsync();
         }
+
+        public async Task<List<Message>> GetMessagesWith(string ownerEmail, string talkedEmail)
+        {
+            return await _context.Messages
+                .Where(x => (x.ToUser.Email == ownerEmail && x.FromUser.Email == talkedEmail) || 
+                ((x.ToUser.Email == talkedEmail && x.FromUser.Email == ownerEmail)))
+                .Include(x => x.FromUser)
+                .Include(x => x.ToUser)
+                .OrderBy(x => x.SendAt)
+                .ToListAsync();
+        }
     }
 }

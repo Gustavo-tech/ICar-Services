@@ -105,6 +105,31 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpGet("messages/{emailUser}/{emailTalked}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetMessages(string emailUser, string emailTalked)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByEmailAsync(emailUser);
+                User talked = await _userRepository.GetUserByEmailAsync(emailTalked);
+
+                if (user is null || talked is null)
+                    return NotFound(new
+                    {
+                        Message = "One or both of the users were not found"
+                    });
+
+                List<Message> messages = await _messagesRepository.GetMessagesWith(emailUser, emailTalked);
+                dynamic[] output = messages.Select(m => m.ToApiOutput()).ToArray();
+                return Ok(output);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
         [HttpPost("message")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> SendMessage([FromBody] SendMessage sendMessage)

@@ -14,8 +14,6 @@ namespace ICar.Infrastructure.Models
         public List<News> News { get; set; }
         public List<Login> Logins { get; set; }
         public List<Car> Cars { get; set; }
-        public List<Message> MessagesReceived { get; set; }
-        public List<Message> MessagesSent { get; set; }
 
         public User()
         { }
