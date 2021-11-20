@@ -17,14 +17,14 @@ namespace ICar.Infrastructure.Database
         public DbSet<Message> Messages { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Car> Cars { get; set; }
-        public DbSet<City> Cities { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new NewsConfiguration());
             builder.ApplyConfiguration(new MessageConfiguration());
-            builder.ApplyConfiguration(new CityConfiguration());
+            //builder.ApplyConfiguration(new CityConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
             builder.ApplyConfiguration(new LoginConfiguration());
         }

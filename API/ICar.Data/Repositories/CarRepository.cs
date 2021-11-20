@@ -21,7 +21,7 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             return await _dbContext.Cars
                 .Where(x => x.Id == id)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }
@@ -30,7 +30,7 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             return await _dbContext.Cars
                 .Where(x => x.Plate == plate)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }
@@ -39,7 +39,7 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             List<Car> cars = await _dbContext.Cars
                 .Include(x => x.Pictures)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .ToListAsync();
 
             if (search.Maker is not null)
@@ -65,7 +65,7 @@ namespace ICar.Infrastructure.Database.Repositories
             return await _dbContext.Cars
                 .Where(x => x.Owner.Email == email)
                 .Include(x => x.Pictures)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .ToListAsync();
         }
 

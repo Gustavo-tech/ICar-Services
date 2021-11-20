@@ -58,7 +58,7 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("INT")
                 .IsRequired();
 
-            builder.HasOne(x => x.City);
+            builder.HasOne(x => x.Address);
 
             builder.HasMany(x => x.Pictures)
                 .WithOne(x => x.Car);

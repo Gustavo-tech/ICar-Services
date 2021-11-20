@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICar.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,17 +14,17 @@ namespace ICar.Infrastructure.ViewModels.Output.Car
         public string Model { get; private set; }
         public double KilometersTraveled { get; private set; }
         public string[] Pictures { get; private set; }
-        public string City { get; private set; }
+        public Address Address { get; private set; }
 
         public CarOverviewViewModel(string id, string maker, string model, 
-            double kilometersTraveled, string[] pictures, string city)
+            double kilometersTraveled, string[] pictures, Address address)
         {
             Id = id;
             Maker = maker;
             Model = model;
             KilometersTraveled = kilometersTraveled;
             Pictures = pictures;
-            City = city;
+            Address = address;
         }
     }
 }

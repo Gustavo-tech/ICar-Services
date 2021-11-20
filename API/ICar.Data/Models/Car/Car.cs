@@ -9,25 +9,25 @@ namespace ICar.Infrastructure.Models
 {
     public class Car : Entity
     {
-        public string Plate { get; set; }
-        public string Maker { get; set; }
-        public string Model { get; set; }
-        public int MakeDate { get; set; }
-        public int MakedDate { get; set; }
-        public int KilometersTraveled { get; set; }
-        public int Price { get; set; }
-        public bool AcceptsChange { get; set; }
-        public bool IpvaIsPaid { get; set; }
-        public bool IsLicensed { get; set; }
-        public bool IsArmored { get; set; }
-        public string Message { get; set; }
-        public ExchangeType ExchangeType { get; set; }
-        public string Color { get; set; }
-        public GasolineType GasolineType { get; set; }
+        public string Plate { get; private set; }
+        public string Maker { get; private set; }
+        public string Model { get; private set; }
+        public int MakeDate { get; private set; }
+        public int MakedDate { get; private set; }
+        public int KilometersTraveled { get; private set; }
+        public int Price { get; private set; }
+        public bool AcceptsChange { get; private set; }
+        public bool IpvaIsPaid { get; private set; }
+        public bool IsLicensed { get; private set; }
+        public bool IsArmored { get; private set; }
+        public string Message { get; private set; }
+        public ExchangeType ExchangeType { get; private set; }
+        public string Color { get; private set; }
+        public GasolineType GasolineType { get; private set; }
         public int NumberOfViews { get; private set; }
 
-        public User Owner { get; set; }
-        public City City { get; set; }
+        public Address Address { get; private set; }
+        public User Owner { get; private set; }
         public List<CarPicture> Pictures { get; private set; } = new List<CarPicture>();
 
         private Car() 
@@ -39,7 +39,7 @@ namespace ICar.Infrastructure.Models
             int makeDate, int makedDate, int kilometersTraveled, 
             int price, string message, string color, 
             ExchangeType exchangeType, GasolineType gasolineType, User owner, 
-            City city, string[] pictures, bool acceptsChange = false, 
+            Address address, string[] pictures, bool acceptsChange = false, 
             bool ipvaIsPaid = false, bool isLicensed = false, bool isArmored = false)
         {
             Plate = plate;
@@ -58,7 +58,7 @@ namespace ICar.Infrastructure.Models
             Color = color;
             GasolineType = gasolineType;
             Owner = owner;
-            City = city;
+            Address = address;
 
             foreach (string pic in pictures)
             {
@@ -79,7 +79,7 @@ namespace ICar.Infrastructure.Models
         public CarOverviewViewModel GenerateOverviewViewModel()
         {
             return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled, 
-                Pictures.Select(x => x.Picture).ToArray(), City.Name);
+                Pictures.Select(x => x.Picture).ToArray(), Address);
         }
 
         public CarOutputViewModel GenerateCarOutputViewModel()
@@ -102,7 +102,7 @@ namespace ICar.Infrastructure.Models
                 TypeOfExchange = ConvertTypeOfExchangeToString(ExchangeType),
                 GasolineType = ConvertGasolineTypeToString(GasolineType),
                 Color = Color,
-                //City = City.Name,
+                Address = Address,
                 NumberOfViews = NumberOfViews,
                 Pictures = Pictures.Select(x => x.Picture).ToArray()
             };

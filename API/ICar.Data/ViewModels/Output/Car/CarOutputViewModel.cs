@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICar.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,10 @@ namespace ICar.Infrastructure.ViewModels.Output.Car
         public string TypeOfExchange { get; internal set; }
         public string Color { get; internal set; }
         public string GasolineType { get; internal set; }
-        public string City { get; internal set; }
         public int NumberOfViews { get; internal set; }
         public string[] Pictures { get; internal set; }
+
+        public Address Address { get; internal set; }
 
         internal CarOutputViewModel()
         {
