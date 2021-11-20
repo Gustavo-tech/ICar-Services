@@ -40,7 +40,6 @@ namespace ICar.API
             services.AddTransient<INewsRepository, NewsRepository>();
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ILoginRepository, LoginRepository>();
-            services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
 

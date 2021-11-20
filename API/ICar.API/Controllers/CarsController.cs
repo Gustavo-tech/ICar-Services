@@ -20,15 +20,13 @@ namespace ICar.API.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
-        private readonly ICityRepository _cityRepository;
 
-        public CarsController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository, 
+        public CarsController(ICarRepository carRepository, IBaseRepository baseRepository, 
             IUserRepository userRepository)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _userRepository = userRepository;
-            _cityRepository = cityRepository;
         }
 
         [HttpGet("{email}")]
@@ -121,10 +119,8 @@ namespace ICar.API.Controllers
             {
                 if (await _carRepository.GetCarByPlateAsync(create.Plate) == null)
                 {
-                    City city = await _cityRepository.InsertAsync(create.City);
                     User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
                     Car car = Car.GenerateWithInsertCarViewModel(create, owner);
-                    car.City = city;
                     await _baseRepository.AddAsync(car);
                     return Ok();
                 }
