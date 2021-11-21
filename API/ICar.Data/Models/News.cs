@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICar.Infrastructure.ViewModels.Output.News;
+using System;
 
 namespace ICar.Infrastructure.Models
 {
@@ -70,17 +71,9 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
-        public dynamic GenerateApiOutput()
+        public NewsOutputViewModel ToNewsOutputViewModel()
         {
-            return new
-            {
-                Id,
-                PublishedBy = Owner.Email,
-                Title,
-                Text,
-                LastUpdate,
-                CreatedOn
-            };
+            return new NewsOutputViewModel(Id, Owner.Email, Title, Text, CreatedOn, LastUpdate);
         }
     }
 }

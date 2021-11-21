@@ -30,7 +30,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<News> userNews = await _newsRepository.GetUserNewsAsync();
-                dynamic[] output = userNews.Select(x => x.GenerateApiOutput()).ToArray();
+                dynamic[] output = userNews.Select(x => x.ToNewsOutputViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception)

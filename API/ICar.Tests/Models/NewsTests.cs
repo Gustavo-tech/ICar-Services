@@ -57,5 +57,18 @@ namespace ICar.Infrastructure.Tests.Models
         {
             Assert.Catch<Exception>(() => _news.Update(title, text));
         }
+
+        [Test]
+        public void TestToNewsOutputViewModel_WhenCalled_PropertiesShouldBeSetCorrectly()
+        {
+            var vm = _news.ToNewsOutputViewModel();
+
+            Assert.AreEqual(vm.Id, _news.Id);
+            Assert.AreEqual(vm.PublishedBy, _news.Owner.Email);
+            Assert.AreEqual(vm.Text, _news.Text);
+            Assert.AreEqual(vm.Title, _news.Title);
+            Assert.AreEqual(vm.UpdatedAt, _news.LastUpdate);
+            Assert.AreEqual(vm.CreatedAt, _news.CreatedOn);
+        }
     }
 }
