@@ -16,12 +16,7 @@ namespace ICar.Infrastructure.Tests.Models
         [SetUp]
         public void SetUp()
         {
-            _user = new()
-            {
-                UserName = "Gustavo",
-                Email = "gustavo@gmail.com",
-                Role = "admin"
-            };
+            _user = new("Gustavo", "(11) 99822-0982", "gustavo@gmail.com", "admin");
 
             _login = Login.GenerateSuccessfulLogin(_user);
         }
