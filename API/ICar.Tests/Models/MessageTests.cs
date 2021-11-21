@@ -7,10 +7,13 @@ namespace ICar.Infrastructure.Tests.Models
     [TestFixture]
     class MessageTests
     {
-        [Test]
-        public void TestMessageConstructor_UserIsNull_ThrowAnException()
+        [Test, Combinatorial]
+        public void TestMessageConstructor_UserIsNull_ThrowAnException(
+            [Values(null)] User from,
+            [Values(null)] User to,
+            [Values(null, "", " ")] string text)
         {
-            Assert.Throws<ArgumentNullException>(() => new Message(null, null, "Some text"));
+            Assert.Catch<Exception>(() => new Message(from, to, text));
         }
 
         [Test]
@@ -22,7 +25,7 @@ namespace ICar.Infrastructure.Tests.Models
             User from = new("Gustavo", "(19) 99822-1233", "gustavo@gmail.com", "admin");
             User to = new("John", "(11) 99112-1133", "john@gmail.com", "admin");
 
-            Assert.Throws<ArgumentNullException>(() => new Message(from, to, message));
+            Assert.Catch<Exception>(() => new Message(from, to, message));
         }
     }
 }

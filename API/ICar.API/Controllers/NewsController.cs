@@ -39,29 +39,6 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPost("user/create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> InsertUserNewsAsync([FromBody] UserNewsViewModel create)
-        {
-            try
-            {
-                if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
-                {
-                    News newsToInsert = new(create.Title, create.Text);
-                    await _baseRepository.AddAsync(newsToInsert);
-                    return Ok(create);
-                }
-                else
-                {
-                    return Conflict();
-                }
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
         [HttpPut("users/update")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateUserNewsAsync([FromBody] UpdateUserNewsViewModel update)
