@@ -3,24 +3,137 @@ using ICar.Infrastructure.ViewModels.Input.Car;
 using ICar.Infrastructure.ViewModels.Output.Car;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace ICar.Infrastructure.Models
 {
     public class Car : Entity
     {
-        public string Plate { get; private set; }
-        public string Maker { get; private set; }
-        public string Model { get; private set; }
-        public int MakeDate { get; private set; }
-        public int MakedDate { get; private set; }
-        public int KilometersTraveled { get; private set; }
-        public int Price { get; private set; }
+        private string _plate;
+        private string _maker;
+        private string _model;
+        private int _makeDate;
+        private int _makedDate;
+        private int _kilometersTraveled;
+        private int _price;
+        private string _message;
+
+        public string Plate
+        {
+            get { return _plate; }
+            private set 
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("Plate is empty");
+
+                else if (!Regex.IsMatch(value, "[A-Z]{3}[-][0-9]{4}"))
+                    throw new Exception("Plate is not well formatted");
+
+                _plate = value;
+            }
+        }
+
+        public string Maker
+        {
+            get { return _maker; }
+            private set 
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("Maker is empty");
+
+                CultureInfo ci = Thread.CurrentThread.CurrentCulture;
+                TextInfo ti = ci.TextInfo;
+
+                _maker = ti.ToTitleCase(value);
+            }
+        }
+
+        public string Model
+        {
+            get { return _model; }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("Maker is empty");
+
+                CultureInfo ci = Thread.CurrentThread.CurrentCulture;
+                TextInfo ti = ci.TextInfo;
+
+                _model = ti.ToTitleCase(value);
+            }
+        }
+
+        public int MakeDate
+        {
+            get { return _makeDate; }
+            private set 
+            {
+                int currentYear = DateTime.Now.Year;
+
+                if (value <= currentYear - 80)
+                    throw new Exception("Invalid make date");
+
+                _makeDate = value;
+            }
+        }
+
+        public int MakedDate
+        {
+            get { return _makedDate; }
+            private set 
+            {
+                int currentYear = DateTime.Now.Year;
+
+                if (value <= currentYear - 80)
+                    throw new Exception("Invalid make date");
+
+                _makedDate = value;
+            }
+        }
+
+        public int KilometersTraveled
+        {
+            get { return _kilometersTraveled; }
+            private set 
+            {
+                if (value < 0)
+                    throw new Exception("Kilometers traveled can't be less than zero");
+
+                _kilometersTraveled = value;
+            }
+        }
+
+        public int Price
+        {
+            get { return _price; }
+            private set 
+            {
+                if (value < 1000)
+                    throw new Exception("Price must be greater than 999");
+
+                _price = value;
+            }
+        }
+
+        public string Message 
+        { 
+            get { return _message; }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _message = "";
+
+                _message = value;
+            }
+        }
+
         public bool AcceptsChange { get; private set; }
         public bool IpvaIsPaid { get; private set; }
         public bool IsLicensed { get; private set; }
         public bool IsArmored { get; private set; }
-        public string Message { get; private set; }
         public ExchangeType ExchangeType { get; private set; }
         public string Color { get; private set; }
         public GasolineType GasolineType { get; private set; }
