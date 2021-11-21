@@ -4,9 +4,46 @@ namespace ICar.Infrastructure.Models
 {
     public class Message : Entity
     {
-        public User FromUser { get; private set; }
-        public User ToUser { get; private set; }
-        public string Text { get; private set; }
+        private User _fromUser;
+        private User _toUser;
+        private string _text;
+
+        public User FromUser 
+        { 
+            get { return _fromUser; }
+            private set
+            {
+                if (value is null)
+                    throw new Exception("From user must not be null");
+
+                _fromUser = value;
+            }
+        }
+
+        public User ToUser 
+        { 
+            get { return _toUser; }
+            private set
+            {
+                if (value is null)
+                    throw new Exception("To user must not be null");
+
+                _toUser = value;
+            }
+        }
+
+        public string Text 
+        { 
+            get { return _text; }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("Text must not be null or empty");
+
+                _text = value;
+            }
+        }
+
         public DateTime SendAt { get; private set; }
 
         private Message()
@@ -16,20 +53,10 @@ namespace ICar.Infrastructure.Models
         public Message(User fromUser, User toUser, string text)
             : base()
         {
-            if (fromUser is null || toUser is null)
-            {
-                throw new ArgumentNullException("Any user must not be null");
-            }
-
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new ArgumentNullException(nameof(text), "Message text must not be null");
-            }
-
-            SendAt = DateTime.Now;
             FromUser = fromUser;
             ToUser = toUser;
             Text = text;
+            SendAt = DateTime.Now;
         }
 
         public dynamic ToApiOutput()
