@@ -24,7 +24,7 @@ namespace ICar.Infrastructure.Database
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new NewsConfiguration());
             builder.ApplyConfiguration(new MessageConfiguration());
-            //builder.ApplyConfiguration(new CityConfiguration());
+            builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
             builder.ApplyConfiguration(new LoginConfiguration());
         }
