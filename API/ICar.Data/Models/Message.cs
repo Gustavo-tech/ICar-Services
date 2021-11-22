@@ -1,54 +1,71 @@
-﻿using System;
+﻿using ICar.Infrastructure.ViewModels.Output.Message;
+using System;
 
 namespace ICar.Infrastructure.Models
 {
-    public class Message
+    public class Message : Entity
     {
-        public int Id { get; }
-        public User FromUser { get; }
-        public User ToUser { get; }
-        public string Text { get; }
-        public DateTime SendAt { get; }
+        private User _fromUser;
+        private User _toUser;
+        private string _text;
 
-        public Message()
+        public User FromUser
+        {
+            get { return _fromUser; }
+            private set
+            {
+                if (value is null)
+                    throw new Exception("From user must not be null");
+
+                _fromUser = value;
+            }
+        }
+
+        public User ToUser
+        {
+            get { return _toUser; }
+            private set
+            {
+                if (value is null)
+                    throw new Exception("To user must not be null");
+
+                _toUser = value;
+            }
+        }
+
+        public string Text
+        {
+            get { return _text; }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("Text must not be null or empty");
+
+                _text = value;
+            }
+        }
+
+        public DateTime SentAt { get; private set; }
+
+        private Message()
         {
         }
 
         public Message(User fromUser, User toUser, string text)
+            : base()
         {
-            if (fromUser is null || toUser is null)
-            {
-                throw new ArgumentNullException("Any user must not be null");
-            }
-
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new ArgumentNullException(nameof(text), "Message text must not be null");
-            }
-
-            SendAt = DateTime.Now;
             FromUser = fromUser;
             ToUser = toUser;
             Text = text;
+            SentAt = DateTime.Now;
         }
 
-        public dynamic ToApiOutput()
+        public MessageOutputViewModel ToMessageOutputViewModel()
         {
-            return new
-            {
-                Id,
-                FromUser = new
-                {
-                    FromUser.Email,
-                    FromUser.UserName
-                },
-                ToUser = new
-                {
-                    ToUser.Email,
-                    ToUser.UserName
-                },
-                SendAt
-            };
+            UserMessageDetails from = new(FromUser.Email, FromUser.UserName);
+            UserMessageDetails to = new(ToUser.Email, ToUser.UserName);
+
+            return new MessageOutputViewModel(Id, Text, SentAt, from, to);
         }
 
         public Talk ToTalk(string sendLast)

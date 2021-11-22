@@ -1,10 +1,10 @@
-﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
+using ICar.Infrastructure.Repositories.Search;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ICar.Infrastructure.Repositories.Search;
 
 namespace ICar.Infrastructure.Database.Repositories
 {
@@ -17,20 +17,20 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Car> GetCarAsync(int id)
+        public async Task<Car> GetCarByIdAsync(string id)
         {
             return await _dbContext.Cars
                 .Where(x => x.Id == id)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Car> GetCarAsync(string plate)
+        public async Task<Car> GetCarByPlateAsync(string plate)
         {
             return await _dbContext.Cars
                 .Where(x => x.Plate == plate)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }
@@ -39,7 +39,7 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             List<Car> cars = await _dbContext.Cars
                 .Include(x => x.Pictures)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .ToListAsync();
 
             if (search.Maker is not null)
@@ -65,7 +65,7 @@ namespace ICar.Infrastructure.Database.Repositories
             return await _dbContext.Cars
                 .Where(x => x.Owner.Email == email)
                 .Include(x => x.Pictures)
-                .Include(x => x.City)
+                .Include(x => x.Address)
                 .ToListAsync();
         }
 

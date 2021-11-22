@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20210907174825_Messages")]
-    partial class Messages
+    [Migration("20211122232342_Address")]
+    partial class Address
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,21 +21,43 @@ namespace ICar.IdentityServer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ICar.Infrastructure.Models.Address", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("District")
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
-                    b.Property<string>("Plate")
-                        .HasColumnType("Char(8)");
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<bool>("AcceptsChange")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("CityId")
-                        .HasColumnType("INT");
+                    b.Property<string>("AddressId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR(50)");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<int>("ExchangeType")
                         .HasColumnType("int");
@@ -43,7 +65,7 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("GasolineType")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR(20)");
+                        .HasColumnType("VARCHAR(20)");
 
                     b.Property<bool>("IpvaIsPaid")
                         .HasColumnType("bit");
@@ -54,8 +76,8 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<bool>("IsLicensed")
                         .HasColumnType("bit");
 
-                    b.Property<double>("KilometersTraveled")
-                        .HasColumnType("float");
+                    b.Property<int>("KilometersTraveled")
+                        .HasColumnType("int");
 
                     b.Property<int>("MakeDate")
                         .HasColumnType("INT");
@@ -66,17 +88,17 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("Maker")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR(60)");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR(500)");
+                        .HasColumnType("VARCHAR(500)");
 
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR(60)");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<int>("NumberOfViews")
                         .HasColumnType("INT");
@@ -84,13 +106,16 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Plate")
+                        .HasColumnType("Char(8)");
+
                     b.Property<int>("Price")
                         .HasMaxLength(10000000)
                         .HasColumnType("INT");
 
-                    b.HasKey("Plate");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("OwnerId");
 
@@ -99,52 +124,29 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CarPicture", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CarPlate")
-                        .HasColumnType("Char(8)");
+                    b.Property<string>("CarId")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarPlate");
+                    b.HasIndex("CarId");
 
                     b.ToTable("CarPicture");
                 });
 
-            modelBuilder.Entity("ICar.Infrastructure.Models.City", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INT")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR(60)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Cities");
-                });
-
             modelBuilder.Entity("ICar.Infrastructure.Models.Login", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("DATETIME");
@@ -161,15 +163,13 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("FromUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("SendAt")
+                    b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Text")
@@ -191,10 +191,8 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("VARCHAR");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
@@ -426,15 +424,15 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Models.City", "City")
+                    b.HasOne("ICar.Infrastructure.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("ICar.Infrastructure.Models.User", "Owner")
                         .WithMany("Cars")
                         .HasForeignKey("OwnerId");
 
-                    b.Navigation("City");
+                    b.Navigation("Address");
 
                     b.Navigation("Owner");
                 });
@@ -443,7 +441,7 @@ namespace ICar.IdentityServer.Migrations
                 {
                     b.HasOne("ICar.Infrastructure.Models.Car", "Car")
                         .WithMany("Pictures")
-                        .HasForeignKey("CarPlate");
+                        .HasForeignKey("CarId");
 
                     b.Navigation("Car");
                 });
@@ -460,11 +458,11 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
                     b.HasOne("ICar.Infrastructure.Models.User", "FromUser")
-                        .WithMany("MessagesSent")
+                        .WithMany()
                         .HasForeignKey("FromUserId");
 
                     b.HasOne("ICar.Infrastructure.Models.User", "ToUser")
-                        .WithMany("MessagesReceived")
+                        .WithMany()
                         .HasForeignKey("ToUserId");
 
                     b.Navigation("FromUser");
@@ -542,10 +540,6 @@ namespace ICar.IdentityServer.Migrations
                     b.Navigation("Cars");
 
                     b.Navigation("Logins");
-
-                    b.Navigation("MessagesReceived");
-
-                    b.Navigation("MessagesSent");
 
                     b.Navigation("News");
                 });

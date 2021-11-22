@@ -1,7 +1,7 @@
 using ICar.Infrastructure.Database;
-using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

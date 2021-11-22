@@ -1,23 +1,26 @@
 ﻿using ICar.Infrastructure.Models;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
-    [TestFixture]
     public class UserTests
     {
+        private User _user;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _user = new("Gustavo", "(19) 83213-2912", "dss@gmail.com", "client");
+        }
+
         [Test]
         [TestCase(null, null, null, null)]
         [TestCase(" ", " ", " ", " ")]
         [TestCase("", "", "", "")]
         public void TestUserConstructor_ArgumentIsInvalid_ThrowsException(string name, string phone, string email, string role)
         {
-            Assert.Throws<InvalidOperationException>(() => new User(name, phone, email, role));
+            Assert.Catch<Exception>(() => new User(name, phone, email, role));
         }
 
         [Test]
@@ -26,7 +29,7 @@ namespace ICar.Infrastructure.Tests.Models
         public void TestUserConstructor_ArgumentIsNotWellFormatted_ThrowsException(string name, string phone,
             string email, string role)
         {
-            Assert.Throws<FormatException>(() => new User(name, phone, email, role));
+            Assert.Catch<Exception>(() => new User(name, phone, email, role));
         }
 
         [Test]
@@ -37,6 +40,17 @@ namespace ICar.Infrastructure.Tests.Models
             User user = new(name, phone, email, role);
 
             Assert.IsNotNull(user);
+        }
+
+        [Test]
+        public void TestToUserOutputViewModel_WhenCalled_ConstructsUserOutputViewModelProperly()
+        {
+            var vm = _user.ToUserOutputViewModel();
+
+            Assert.AreEqual(vm.UserName, _user.UserName);
+            Assert.AreEqual(vm.Email, _user.Email);
+            Assert.AreEqual(vm.Role, _user.Role);
+            Assert.AreEqual(vm.AccountCreationDate, _user.AccountCreationDate);
         }
     }
 }

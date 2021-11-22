@@ -1,6 +1,6 @@
 ﻿using ICar.IdentityServer.ViewModels.User;
-using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +23,13 @@ namespace ICar.IdentityServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            LoginViewModel loginViewModel = new()
+            {
+                ReturnUrl = returnUrl
+            };
+            return View(loginViewModel);
         }
 
         [HttpPost]
@@ -39,7 +43,7 @@ namespace ICar.IdentityServer.Controllers
 
                 if (result.Succeeded)
                 {
-                    Login newLogin = Infrastructure.Models.Login.GenerateSuccessfullLogin(user);
+                    Login newLogin = Infrastructure.Models.Login.GenerateSuccessfulLogin(user);
                     await _loginRepository.AddLogin(newLogin);
                 }
 
@@ -51,7 +55,7 @@ namespace ICar.IdentityServer.Controllers
                 }
             }
 
-            return Redirect("http://localhost:3000");
+            return Redirect(model.ReturnUrl);
         }
 
         [HttpGet]

@@ -1,6 +1,6 @@
 ﻿using ICar.API.ViewModels.UserNews;
-using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,31 +30,8 @@ namespace ICar.API.Controllers
             try
             {
                 List<News> userNews = await _newsRepository.GetUserNewsAsync();
-                dynamic[] output = userNews.Select(x => x.GenerateApiOutput()).ToArray();
+                dynamic[] output = userNews.Select(x => x.ToNewsOutputViewModel()).ToArray();
                 return Ok(output);
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
-        [HttpPost("user/create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> InsertUserNewsAsync([FromBody] UserNewsViewModel create)
-        {
-            try
-            {
-                if (await _newsRepository.GetNewsAsync(create.Title, create.Text) == null)
-                {
-                    News newsToInsert = new(create.Title, create.Text);
-                    await _baseRepository.AddAsync(newsToInsert);
-                    return Ok(create);
-                }
-                else
-                {
-                    return Conflict();
-                }
             }
             catch (Exception)
             {
@@ -71,9 +48,7 @@ namespace ICar.API.Controllers
                 News newsInDatabase = await _newsRepository.GetNewsAsync(update.Id);
                 if (newsInDatabase != null)
                 {
-                    newsInDatabase.Title = update.Title;
-                    newsInDatabase.Text = update.Text;
-                    newsInDatabase.LastUpdate = DateTime.Now;
+                    newsInDatabase.Update(update.Title, update.Text);
                     await _baseRepository.UpdateAsync(newsInDatabase);
                     return Ok();
                 }

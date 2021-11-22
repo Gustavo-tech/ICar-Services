@@ -14,8 +14,7 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnType("INT")
-                .ValueGeneratedOnAdd();
+                .HasColumnType("VARCHAR");
 
             builder.Property(x => x.LastUpdate)
                 .HasColumnType("DATETIME")

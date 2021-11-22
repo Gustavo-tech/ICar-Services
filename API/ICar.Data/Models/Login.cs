@@ -1,27 +1,40 @@
-﻿using System;
+﻿using ICar.Infrastructure.ViewModels.Output.Login;
+using System;
 
 namespace ICar.Infrastructure.Models
 {
-    public class Login
+    public class Login : Entity
     {
-        public int? Id { get; private set; }
-        public DateTime Time { get; private set; }
-        public bool Success { get; private set; }
-        public User User { get; private set; }
+        private User _user;
 
-        public Login()
+        public User User
         {
-            
+            get { return _user; }
+            private set
+            {
+                if (value is null)
+                    throw new Exception("User can't be null");
+
+                _user = value;
+            }
         }
 
-        private Login(User user, bool success)
+        public DateTime Time { get; private set; }
+        public bool Success { get; private set; }
+
+        private Login()
+        {
+
+        }
+
+        private Login(User user, bool success) : base()
         {
             User = user;
             Success = success;
             Time = DateTime.Now;
         }
 
-        public static Login GenerateSuccessfullLogin(User user)
+        public static Login GenerateSuccessfulLogin(User user)
         {
             return new Login(user, true);
         }
@@ -31,14 +44,9 @@ namespace ICar.Infrastructure.Models
             return new Login(user, false);
         }
 
-        public dynamic GenerateLoginOutput()
+        public LoginOutputViewModel GenerateLoginOutputViewModel()
         {
-            return new
-            {
-                Id,
-                Time,
-                Success
-            };
+            return new LoginOutputViewModel(Id, Time, Success);
         }
     }
 }

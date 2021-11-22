@@ -10,8 +10,7 @@
         <h1 class="login-title">ICar</h1>
         <div class="container login-container">
             <form method="post">
-                <input type="hidden" asp-for="RedirectUri" />
-                <input type="hidden" asp-for="State" />
+                <input type="hidden" asp-for="ReturnUrl" />
                 <div class="form-group">
                     <label asp-for="Email">Email</label>
                     <input asp-for="Email" class="form-control" id="email-input" type="email" required />

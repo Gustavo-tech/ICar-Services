@@ -1,5 +1,5 @@
-﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +22,6 @@ namespace ICar.Infrastructure.Database.Repositories
                 .Where(x => x.Email == email)
                 .Include(x => x.Cars)
                 .Include(x => x.Logins)
-                .Include(x => x.MessagesReceived)
-                .Include(x => x.MessagesSent)
                 .FirstOrDefaultAsync();
         }
 

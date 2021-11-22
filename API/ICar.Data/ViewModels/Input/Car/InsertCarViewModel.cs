@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ICar.API.ViewModels.Car
+namespace ICar.Infrastructure.ViewModels.Input.Car
 {
-    public class CarViewModel
+    public class InsertCarViewModel
     {
         [RegularExpression("[A-Z]{3}[-][0-9]{4}")]
         public string Plate { get; set; }
@@ -11,7 +11,7 @@ namespace ICar.API.ViewModels.Car
         public string Model { get; set; }
         public int MakeDate { get; set; }
         public int MakedDate { get; set; }
-        public double KilometersTraveled { get; set; }
+        public int KilometersTraveled { get; set; }
         public int Price { get; set; }
         public bool AcceptsChange { get; set; }
         public bool IpvaIsPaid { get; set; }

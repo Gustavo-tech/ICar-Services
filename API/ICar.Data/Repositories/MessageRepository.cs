@@ -2,10 +2,8 @@
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories
@@ -23,7 +21,7 @@ namespace ICar.Infrastructure.Repositories
         {
             return await _context.Messages
                 .Where(x => (x.FromUser.Email == person && x.ToUser.Email == anotherPerson) || (x.FromUser.Email == anotherPerson && x.ToUser.Email == person))
-                .OrderBy(x => x.SendAt)
+                .OrderBy(x => x.SentAt)
                 .Take(1)
                 .FirstOrDefaultAsync();
         }
@@ -34,7 +32,18 @@ namespace ICar.Infrastructure.Repositories
                 .Where(x => x.ToUser.Email == email || x.FromUser.Email == email)
                 .Include(x => x.FromUser)
                 .Include(x => x.ToUser)
-                .OrderBy(x => x.SendAt)
+                .OrderBy(x => x.SentAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<Message>> GetMessagesWith(string ownerEmail, string talkedEmail)
+        {
+            return await _context.Messages
+                .Where(x => (x.ToUser.Email == ownerEmail && x.FromUser.Email == talkedEmail) ||
+                ((x.ToUser.Email == talkedEmail && x.FromUser.Email == ownerEmail)))
+                .Include(x => x.FromUser)
+                .Include(x => x.ToUser)
+                .OrderBy(x => x.SentAt)
                 .ToListAsync();
         }
     }

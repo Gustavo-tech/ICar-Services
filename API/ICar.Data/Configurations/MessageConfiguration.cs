@@ -15,19 +15,19 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .ValueGeneratedOnAdd();
+                .HasColumnType("VARCHAR");
 
             builder.Property(x => x.Text)
                 .IsRequired()
                 .HasMaxLength(120);
 
             builder.HasOne(x => x.ToUser)
-                .WithMany(x => x.MessagesReceived);
+                .WithMany();
 
             builder.HasOne(x => x.FromUser)
-                .WithMany(x => x.MessagesSent);
+                .WithMany();
 
-            builder.Property(x => x.SendAt)
+            builder.Property(x => x.SentAt)
                 .IsRequired();
         }
     }

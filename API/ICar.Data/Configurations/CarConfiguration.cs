@@ -11,18 +11,18 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .ValueGeneratedOnAdd();
+                .HasColumnType("VARCHAR");
 
             builder.Property(x => x.Plate)
                 .HasColumnType("Char(8)");
 
             builder.Property(x => x.Maker)
-                .HasColumnType("NVARCHAR")
+                .HasColumnType("VARCHAR")
                 .IsRequired()
                 .HasMaxLength(60);
 
             builder.Property(x => x.Model)
-                .HasColumnType("NVARCHAR")
+                .HasColumnType("VARCHAR")
                 .IsRequired()
                 .HasMaxLength(60);
 
@@ -40,17 +40,17 @@ namespace ICar.Infrastructure.Configurations
                 .HasMaxLength(10000000);
 
             builder.Property(x => x.Message)
-                .HasColumnType("NVARCHAR")
+                .HasColumnType("VARCHAR")
                 .IsRequired()
                 .HasMaxLength(500);
 
             builder.Property(x => x.Color)
-                .HasColumnType("NVARCHAR")
+                .HasColumnType("VARCHAR")
                 .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(x => x.GasolineType)
-                .HasColumnType("NVARCHAR")
+                .HasColumnType("VARCHAR")
                 .IsRequired()
                 .HasMaxLength(20);
 
@@ -58,7 +58,7 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("INT")
                 .IsRequired();
 
-            builder.HasOne(x => x.City);
+            builder.HasOne(x => x.Address);
 
             builder.HasMany(x => x.Pictures)
                 .WithOne(x => x.Car);

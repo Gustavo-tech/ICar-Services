@@ -1,7 +1,8 @@
-﻿using ICar.API.Builders;
-using ICar.API.ViewModels.Car;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Repositories.Search;
+using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Output.Car;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ICar.Infrastructure.Repositories.Search;
 
 namespace ICar.API.Controllers
 {
@@ -20,15 +20,13 @@ namespace ICar.API.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
-        private readonly ICityRepository _cityRepository;
 
-        public CarsController(ICityRepository cityRepository, ICarRepository carRepository, IBaseRepository baseRepository, 
+        public CarsController(ICarRepository carRepository, IBaseRepository baseRepository,
             IUserRepository userRepository)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _userRepository = userRepository;
-            _cityRepository = cityRepository;
         }
 
         [HttpGet("{email}")]
@@ -38,7 +36,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> userCars = await _carRepository.GetCarsAsync(email);
-                dynamic[] output = userCars.Select(x => x.GenerateApiOutput()).ToArray();
+                CarOutputViewModel[] output = userCars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -55,7 +53,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
-                dynamic[] output = cars.Select(x => x.GenerateOverview()).ToArray();
+                dynamic[] output = cars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -67,15 +65,15 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCar([FromRoute] int id)
+        public async Task<IActionResult> GetCar([FromRoute] string id)
         {
             try
             {
-                Car car = await _carRepository.GetCarAsync(id);
+                Car car = await _carRepository.GetCarByIdAsync(id);
 
                 if (car != null)
                 {
-                    dynamic output = car.GenerateApiOutput();
+                    CarOutputViewModel output = car.GenerateCarOutputViewModel();
                     return Ok(output);
                 }
 
@@ -89,11 +87,11 @@ namespace ICar.API.Controllers
 
         [HttpPost("views/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] int id)
+        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] string id)
         {
             try
             {
-                Car car = await _carRepository.GetCarAsync(id);
+                Car car = await _carRepository.GetCarByIdAsync(id);
 
                 if (car != null)
                 {
@@ -107,7 +105,7 @@ namespace ICar.API.Controllers
                     Message = "We could not find a car with this id"
                 });
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return Problem();
             }
@@ -115,16 +113,14 @@ namespace ICar.API.Controllers
 
         [HttpPost("create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> InsertCarAsync([FromBody] CarViewModel create)
+        public async Task<IActionResult> InsertCarAsync([FromBody] InsertCarViewModel create)
         {
             try
             {
-                if (await _carRepository.GetCarAsync(create.Plate) == null)
+                if (await _carRepository.GetCarByPlateAsync(create.Plate) == null)
                 {
-                    City city = await _cityRepository.InsertAsync(create.City);
                     User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
-                    Car car = BuildCar(create, owner);
-                    car.City = city;
+                    Car car = Car.GenerateWithInsertCarViewModel(create, owner);
                     await _baseRepository.AddAsync(car);
                     return Ok();
                 }
@@ -147,33 +143,6 @@ namespace ICar.API.Controllers
             }
 
             return carPictures;
-        }
-
-        private static Car BuildCar(CarViewModel carVM, User owner)
-        {
-            CarBuilder carBuilder = new();
-            carBuilder
-                .WithPlate(carVM.Plate)
-                .WithMaker(carVM.Maker)
-                .WithModel(carVM.Model)
-                .WithOwner(owner)
-                .WithPrice(carVM.Price)
-                .WithMakeDate(carVM.MakeDate)
-                .WithMakedDate(carVM.MakedDate)
-                .WithKilometersTraveled(carVM.KilometersTraveled)
-                .WithAcceptsChange(carVM.AcceptsChange)
-                .WithIsArmored(carVM.IsArmored)
-                .WithIsLicensed(carVM.IsLicensed)
-                .WithIpvaIsPaid(carVM.IpvaIsPaid)
-                .WithMessage(carVM.Message)
-                .WithColor(carVM.Color)
-                .WithExchangeType(carVM.ExchangeType)
-                .WithGasolineType(carVM.GasolineType);
-
-            Car car = carBuilder.GetResult();
-            car.Pictures = GenerateCarPictures(carVM.Pictures, car);
-
-            return car;
         }
     }
 }
