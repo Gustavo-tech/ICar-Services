@@ -1,10 +1,10 @@
-﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
+using ICar.Infrastructure.Repositories.Search;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ICar.Infrastructure.Repositories.Search;
 
 namespace ICar.Infrastructure.Database.Repositories
 {

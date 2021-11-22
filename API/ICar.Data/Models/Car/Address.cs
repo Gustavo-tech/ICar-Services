@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -44,6 +43,18 @@ namespace ICar.Infrastructure.Models
 
         private static async Task Validate(string zipCode, string location, string district, string street)
         {
+            if (string.IsNullOrWhiteSpace(zipCode))
+                throw new ArgumentException("Zip code is empty", nameof(zipCode));
+
+            else if (string.IsNullOrWhiteSpace(location))
+                throw new ArgumentException("Location is empty", nameof(location));
+
+            else if (string.IsNullOrWhiteSpace(district))
+                throw new ArgumentException("District is empty", nameof(district));
+
+            else if (string.IsNullOrWhiteSpace(street))
+                throw new ArgumentException("Street is empty", nameof(street));
+
             HttpClient client = new();
 
             HttpResponseMessage respone = await client.GetAsync($"https://viacep.com.br/ws/{zipCode}/json/");

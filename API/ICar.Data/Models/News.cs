@@ -9,8 +9,8 @@ namespace ICar.Infrastructure.Models
         private string _text;
         private User _owner;
 
-        public string Title 
-        { 
+        public string Title
+        {
             get { return _title; }
             private set
             {
@@ -21,8 +21,8 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public string Text 
-        { 
+        public string Text
+        {
             get { return _text; }
             private set
             {
@@ -36,7 +36,7 @@ namespace ICar.Infrastructure.Models
         public User Owner
         {
             get { return _owner; }
-            private set 
+            private set
             {
                 if (value is null)
                     throw new Exception("Owner must not be null");
@@ -50,7 +50,7 @@ namespace ICar.Infrastructure.Models
         public DateTime LastUpdate { get; private set; }
 
         private News()
-        { 
+        {
         }
 
         public News(string title, string text, User owner)

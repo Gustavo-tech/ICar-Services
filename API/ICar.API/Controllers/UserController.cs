@@ -1,5 +1,8 @@
-﻿using ICar.Infrastructure.Models;
+﻿using ICar.API.ViewModels.User;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
+using ICar.Infrastructure.Repositories.Interfaces;
+using ICar.Infrastructure.ViewModels.Output.Message;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ICar.API.ViewModels.User;
-using ICar.Infrastructure.Repositories;
-using ICar.Infrastructure.Repositories.Interfaces;
 
 namespace ICar.API.Controllers
 {
@@ -76,7 +76,7 @@ namespace ICar.API.Controllers
                 List<User> usersTalked = new();
                 List<Talk> talks = new();
 
-                foreach(Message message in messages)
+                foreach (Message message in messages)
                 {
                     if (!Infrastructure.Models.User.CheckIfListAlreadyContainsTalkedTo(usersTalked, message))
                     {
@@ -121,7 +121,7 @@ namespace ICar.API.Controllers
                     });
 
                 List<Message> messages = await _messagesRepository.GetMessagesWith(emailUser, emailTalked);
-                dynamic[] output = messages.Select(m => m.ToApiOutput()).ToArray();
+                MessageOutputViewModel[] output = messages.Select(m => m.ToMessageOutputViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception)
@@ -150,7 +150,7 @@ namespace ICar.API.Controllers
                 Message message = new(from, to, sendMessage.Text);
                 await _baseRepo.AddAsync(message);
                 return Ok();
-                
+
             }
             catch (Exception ex)
             {

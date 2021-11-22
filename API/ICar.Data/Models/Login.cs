@@ -7,8 +7,8 @@ namespace ICar.Infrastructure.Models
     {
         private User _user;
 
-        public User User 
-        { 
+        public User User
+        {
             get { return _user; }
             private set
             {
@@ -24,7 +24,7 @@ namespace ICar.Infrastructure.Models
 
         private Login()
         {
-            
+
         }
 
         private Login(User user, bool success) : base()

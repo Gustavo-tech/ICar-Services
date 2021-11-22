@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICar.Infrastructure.ViewModels.Output.Message;
+using System;
 
 namespace ICar.Infrastructure.Models
 {
@@ -8,8 +9,8 @@ namespace ICar.Infrastructure.Models
         private User _toUser;
         private string _text;
 
-        public User FromUser 
-        { 
+        public User FromUser
+        {
             get { return _fromUser; }
             private set
             {
@@ -20,8 +21,8 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public User ToUser 
-        { 
+        public User ToUser
+        {
             get { return _toUser; }
             private set
             {
@@ -32,8 +33,8 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public string Text 
-        { 
+        public string Text
+        {
             get { return _text; }
             private set
             {
@@ -44,7 +45,7 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public DateTime SendAt { get; private set; }
+        public DateTime SentAt { get; private set; }
 
         private Message()
         {
@@ -56,26 +57,15 @@ namespace ICar.Infrastructure.Models
             FromUser = fromUser;
             ToUser = toUser;
             Text = text;
-            SendAt = DateTime.Now;
+            SentAt = DateTime.Now;
         }
 
-        public dynamic ToApiOutput()
+        public MessageOutputViewModel ToMessageOutputViewModel()
         {
-            return new
-            {
-                Id,
-                FromUser = new
-                {
-                    FromUser.Email,
-                    FromUser.UserName
-                },
-                ToUser = new
-                {
-                    ToUser.Email,
-                    ToUser.UserName
-                },
-                SendAt
-            };
+            UserMessageDetails from = new(FromUser.Email, FromUser.UserName);
+            UserMessageDetails to = new(ToUser.Email, ToUser.UserName);
+
+            return new MessageOutputViewModel(Id, Text, SentAt, from, to);
         }
 
         public Talk ToTalk(string sendLast)

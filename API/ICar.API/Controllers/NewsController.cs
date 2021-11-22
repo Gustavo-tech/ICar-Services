@@ -1,6 +1,6 @@
 ﻿using ICar.API.ViewModels.UserNews;
-using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

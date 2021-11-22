@@ -1,5 +1,8 @@
-﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
+using ICar.Infrastructure.Repositories.Search;
+using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Output.Car;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ICar.Infrastructure.Repositories.Search;
-using ICar.Infrastructure.ViewModels.Input.Car;
-using ICar.Infrastructure.ViewModels.Output.Car;
 
 namespace ICar.API.Controllers
 {
@@ -21,7 +21,7 @@ namespace ICar.API.Controllers
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
 
-        public CarsController(ICarRepository carRepository, IBaseRepository baseRepository, 
+        public CarsController(ICarRepository carRepository, IBaseRepository baseRepository,
             IUserRepository userRepository)
         {
             _carRepository = carRepository;
@@ -105,7 +105,7 @@ namespace ICar.API.Controllers
                     Message = "We could not find a car with this id"
                 });
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return Problem();
             }

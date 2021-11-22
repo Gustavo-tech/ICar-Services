@@ -102,7 +102,7 @@ namespace ICar.Infrastructure.Tests.Models
             Assert.AreEqual(_car.KilometersTraveled, vm.KilometersTraveled);
             //Assert.AreEqual(_car.City, vm.City);
 
-            for(int i = 0; i < vm.Pictures.Length; i++)
+            for (int i = 0; i < vm.Pictures.Length; i++)
             {
                 Assert.AreEqual(_car.Pictures[i].Picture, vm.Pictures[i]);
             }

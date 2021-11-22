@@ -27,7 +27,7 @@ namespace ICar.Infrastructure.Configurations
             builder.HasOne(x => x.FromUser)
                 .WithMany();
 
-            builder.Property(x => x.SendAt)
+            builder.Property(x => x.SentAt)
                 .IsRequired();
         }
     }

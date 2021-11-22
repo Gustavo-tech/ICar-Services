@@ -24,7 +24,7 @@ namespace ICar.Infrastructure.Models
         public string Plate
         {
             get { return _plate; }
-            private set 
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("Plate is empty");
@@ -39,7 +39,7 @@ namespace ICar.Infrastructure.Models
         public string Maker
         {
             get { return _maker; }
-            private set 
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("Maker is empty");
@@ -69,7 +69,7 @@ namespace ICar.Infrastructure.Models
         public int MakeDate
         {
             get { return _makeDate; }
-            private set 
+            private set
             {
                 int currentYear = DateTime.Now.Year;
 
@@ -83,7 +83,7 @@ namespace ICar.Infrastructure.Models
         public int MakedDate
         {
             get { return _makedDate; }
-            private set 
+            private set
             {
                 int currentYear = DateTime.Now.Year;
 
@@ -97,7 +97,7 @@ namespace ICar.Infrastructure.Models
         public int KilometersTraveled
         {
             get { return _kilometersTraveled; }
-            private set 
+            private set
             {
                 if (value < 0)
                     throw new Exception("Kilometers traveled can't be less than zero");
@@ -109,7 +109,7 @@ namespace ICar.Infrastructure.Models
         public int Price
         {
             get { return _price; }
-            private set 
+            private set
             {
                 if (value < 1000)
                     throw new Exception("Price must be greater than 999");
@@ -118,8 +118,8 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public string Message 
-        { 
+        public string Message
+        {
             get { return _message; }
             private set
             {
@@ -143,16 +143,16 @@ namespace ICar.Infrastructure.Models
         public User Owner { get; private set; }
         public List<CarPicture> Pictures { get; private set; } = new List<CarPicture>();
 
-        private Car() 
+        private Car()
             : base()
-        { 
+        {
         }
 
-        public Car(string plate, string maker, string model, 
-            int makeDate, int makedDate, int kilometersTraveled, 
-            int price, string message, string color, 
-            ExchangeType exchangeType, GasolineType gasolineType, User owner, 
-            Address address, string[] pictures, bool acceptsChange = false, 
+        public Car(string plate, string maker, string model,
+            int makeDate, int makedDate, int kilometersTraveled,
+            int price, string message, string color,
+            ExchangeType exchangeType, GasolineType gasolineType, User owner,
+            Address address, string[] pictures, bool acceptsChange = false,
             bool ipvaIsPaid = false, bool isLicensed = false, bool isArmored = false)
         {
             Plate = plate;
@@ -191,7 +191,7 @@ namespace ICar.Infrastructure.Models
 
         public CarOverviewViewModel GenerateOverviewViewModel()
         {
-            return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled, 
+            return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled,
                 Pictures.Select(x => x.Picture).ToArray(), Address);
         }
 

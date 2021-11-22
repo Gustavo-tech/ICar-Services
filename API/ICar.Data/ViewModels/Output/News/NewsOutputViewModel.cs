@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.ViewModels.Output.News
 {
@@ -15,7 +11,7 @@ namespace ICar.Infrastructure.ViewModels.Output.News
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
-        public NewsOutputViewModel(string id, string publishedBy, string title, 
+        public NewsOutputViewModel(string id, string publishedBy, string title,
             string text, DateTime createdAt, DateTime updatedAt)
         {
             Id = id;

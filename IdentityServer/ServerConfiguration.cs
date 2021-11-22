@@ -37,8 +37,8 @@ namespace ICar.IdentityServer
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.Phone,
                     },
-                    RedirectUris = 
-                    { 
+                    RedirectUris =
+                    {
                         "http://localhost:3000/authentication/callback",
                         "http://localhost:3000/authentication/silent_callback",
                         "https://oauth.pstmn.io/v1/callback"

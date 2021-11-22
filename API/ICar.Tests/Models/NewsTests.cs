@@ -1,10 +1,6 @@
 ﻿using ICar.Infrastructure.Models;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
@@ -25,7 +21,7 @@ namespace ICar.Infrastructure.Tests.Models
         [Test, Combinatorial]
         public void TestConstructor_NewsIsInvalid_ThrowAnException(
             [Values(null, "", "  ")] string title,
-            [Values(null, "", "  ")] string text, 
+            [Values(null, "", "  ")] string text,
             [Values(null)] User user)
         {
             Assert.Catch<Exception>(() => new News(title, text, user));
@@ -52,7 +48,7 @@ namespace ICar.Infrastructure.Tests.Models
 
         [Test, Combinatorial]
         public void TestUpdate_WithInvalidArguments_ThrowAnException(
-            [Values(null, "", " ")] string title, 
+            [Values(null, "", " ")] string title,
             [Values(null, "", " ")] string text)
         {
             Assert.Catch<Exception>(() => _news.Update(title, text));

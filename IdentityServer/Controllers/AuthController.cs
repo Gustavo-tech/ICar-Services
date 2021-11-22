@@ -1,13 +1,11 @@
 ﻿using ICar.IdentityServer.ViewModels.User;
-using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using IdentityServer.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace ICar.IdentityServer.Controllers
 {
