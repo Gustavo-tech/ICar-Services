@@ -117,18 +117,28 @@ namespace ICar.API.Controllers
         {
             try
             {
-                if (await _carRepository.GetCarByPlateAsync(create.Plate) == null)
+                Car cInDatabase = await _carRepository.GetCarByPlateAsync(create.Plate);
+                if (cInDatabase is null)
                 {
-                    User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
-                    Car car = Car.GenerateWithInsertCarViewModel(create, owner);
-                    await _baseRepository.AddAsync(car);
-                    return Ok();
+                    try
+                    {
+                        User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
+                        Car car = await Car.GenerateWithInsertCarViewModel(create, owner);
+                        await _baseRepository.AddAsync(car);
+                        return Ok();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        return BadRequest(new { e.Message });
+                    }
                 }
 
-                return Problem();
+                return BadRequest(new { Message = "This car is already registered" });
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return Problem();
             }
         }

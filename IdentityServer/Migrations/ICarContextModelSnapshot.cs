@@ -141,7 +141,7 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Login", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<bool>("Success")
                         .HasColumnType("bit");

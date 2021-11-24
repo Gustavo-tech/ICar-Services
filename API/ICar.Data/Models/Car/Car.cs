@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Models
 {
@@ -221,7 +222,7 @@ namespace ICar.Infrastructure.Models
             };
         }
 
-        public static Car GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
+        public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
         {
             if (vm is null)
                 throw new ArgumentNullException(nameof(vm), "View model must not be null");
@@ -245,6 +246,7 @@ namespace ICar.Infrastructure.Models
                 IpvaIsPaid = vm.IpvaIsPaid,
                 Message = vm.Message,
                 Color = vm.Color,
+                Address = await Address.BuildAddress(vm.ZipCode, vm.Location, vm.District, vm.Street),
                 ExchangeType = ConvertStringToTypeOfExchange(vm.ExchangeType),
                 GasolineType = ConvertStringToGasolineType(vm.GasolineType)
             };

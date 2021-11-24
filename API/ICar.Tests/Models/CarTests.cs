@@ -4,6 +4,7 @@ using ICar.Infrastructure.ViewModels.Input.Car;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
@@ -137,11 +138,11 @@ namespace ICar.Infrastructure.Tests.Models
         [Test]
         public void GenerateCarWithInsertCarVM_ViewModelIsNull_ThrowAnException()
         {
-            Assert.Catch<Exception>(() => Car.GenerateWithInsertCarViewModel(null, null));
+            Assert.CatchAsync<Exception>(async () => await Car.GenerateWithInsertCarViewModel(null, null));
         }
 
         [Test]
-        public void GenerateCarWithInsertCarVM_ViewModelIsValid_ConstructACar()
+        public async Task GenerateCarWithInsertCarVM_ViewModelIsValid_ConstructACar()
         {
             InsertCarViewModel vm = new()
             {
@@ -161,11 +162,14 @@ namespace ICar.Infrastructure.Tests.Models
                 GasolineType = "gasoline",
                 Color = "#FFFFF",
                 UserEmail = "gustavo@gmail.com",
-                City = "Campinas",
+                ZipCode = "13044650",
+                District = "Jardim Antonio Von Zuben",
+                Location = "Campinas",
+                Street = "Rua Antônio Bertoni Garcia",
                 Pictures = new List<string> { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
             };
 
-            Car car = Car.GenerateWithInsertCarViewModel(vm, _owner);
+            Car car = await Car.GenerateWithInsertCarViewModel(vm, _owner);
 
             Assert.IsNotNull(car);
         }

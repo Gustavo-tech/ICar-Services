@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using ICar.Infrastructure.Models;
+using System.Collections.Generic;
 
 namespace ICar.Infrastructure.ViewModels.Input.Car
 {
     public class InsertCarViewModel
     {
-        [RegularExpression("[A-Z]{3}[-][0-9]{4}")]
         public string Plate { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
@@ -22,7 +21,10 @@ namespace ICar.Infrastructure.ViewModels.Input.Car
         public string Color { get; set; }
         public string GasolineType { get; set; }
         public string UserEmail { get; set; }
-        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Location { get; set; }
+        public string District { get; set; }
+        public string Street { get; set; }
         public List<string> Pictures { get; set; }
     }
 }

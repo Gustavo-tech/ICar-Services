@@ -26,6 +26,14 @@ namespace ICar.IdentityServer.Migrations
                 table: "Messages",
                 newName: "SentAt");
 
+            migrationBuilder.AlterColumn<string>(
+                name: "Id",
+                table: "Logins",
+                type: "VARCHAR(50)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "VARCHAR");
+
             migrationBuilder.AlterColumn<int>(
                 name: "KilometersTraveled",
                 table: "Cars",
@@ -90,6 +98,14 @@ namespace ICar.IdentityServer.Migrations
                 name: "SentAt",
                 table: "Messages",
                 newName: "SendAt");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Id",
+                table: "Logins",
+                type: "VARCHAR",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "VARCHAR(50)");
 
             migrationBuilder.AlterColumn<double>(
                 name: "KilometersTraveled",
