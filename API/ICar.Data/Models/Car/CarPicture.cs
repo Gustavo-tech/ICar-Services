@@ -37,6 +37,11 @@ namespace ICar.Infrastructure.Models
             PictureUrl = $"https://icarstorage.blob.core.windows.net/users/{userName}/{carId}/{Id}.{extension}";
         }
 
+        public string GenerateStoragePath()
+        {
+            return PictureUrl.Replace("https://icarstorage.blob.core.windows.net/users/", "");
+        }
+
         public static string GetPictureExtension(string base64)
         {
             if (base64 is null)
