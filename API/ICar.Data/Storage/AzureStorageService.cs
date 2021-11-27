@@ -3,6 +3,8 @@ using System;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using System.IO;
+using Azure.Storage.Blobs.Models;
+using ICar.Infrastructure.Models;
 
 namespace ICar.Infrastructure.Storage
 {
@@ -17,14 +19,19 @@ namespace ICar.Infrastructure.Storage
             _container = client.GetBlobContainerClient("users");
         }
 
-        public async Task UploadPictureAsync(string url, string base64)
+        public async Task UploadPictureAsync(string url, string completeBase64)
         {
-            if (base64.Contains("base64,"))
-                base64 = base64.Split("base64,")[1];
+            string extension = CarPicture.GetPictureExtension(completeBase64);
+            completeBase64 = completeBase64.Split("base64,")[1];
 
-            byte[] bytes = Convert.FromBase64String(base64);
+            byte[] bytes = Convert.FromBase64String(completeBase64);
             MemoryStream ms = new(bytes);
-            await _container.UploadBlobAsync(url, ms);
+
+            BlobClient bc = _container.GetBlobClient(url);
+            await bc.UploadAsync(ms, new BlobHttpHeaders
+            {
+                ContentType = $"image/{extension}"
+            });
         }
 
         public async Task DeletePictureAsync(string url)
