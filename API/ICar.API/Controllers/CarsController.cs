@@ -1,6 +1,7 @@
 ﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Search;
+using ICar.Infrastructure.Storage;
 using ICar.Infrastructure.ViewModels.Input.Car;
 using ICar.Infrastructure.ViewModels.Output.Car;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,18 +21,20 @@ namespace ICar.API.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IStorageService _storageService;
 
         public CarsController(ICarRepository carRepository, IBaseRepository baseRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository, IStorageService storageService)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _userRepository = userRepository;
+            _storageService = storageService;
         }
 
         [HttpGet("{email}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetMyCars([FromRoute] string email)
+        public async Task<IActionResult> GetMyCarsAsync([FromRoute] string email)
         {
             try
             {
@@ -48,7 +51,7 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCars([FromQuery] CarSearchModel search)
+        public async Task<IActionResult> GetCarsAsync([FromQuery] CarSearchModel search)
         {
             try
             {
@@ -65,7 +68,7 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCar([FromRoute] string id)
+        public async Task<IActionResult> GetCarAsync([FromRoute] string id)
         {
             try
             {
@@ -87,7 +90,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("views/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] string id)
+        public async Task<IActionResult> IncrementNumberOfViewsAsync([FromRoute] string id)
         {
             try
             {
@@ -117,32 +120,103 @@ namespace ICar.API.Controllers
         {
             try
             {
-                if (await _carRepository.GetCarByPlateAsync(create.Plate) == null)
+                Car cInDatabase = await _carRepository.GetCarByPlateAsync(create.Plate);
+                if (cInDatabase is null)
                 {
-                    User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
-                    Car car = Car.GenerateWithInsertCarViewModel(create, owner);
-                    await _baseRepository.AddAsync(car);
-                    return Ok();
+                    try
+                    {
+                        User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
+                        Car car = await Car.GenerateWithInsertCarViewModel(create, owner);
+                        await UploadCarPictures(car, create.Pictures);
+                        await _baseRepository.AddAsync(car);
+                        return Ok();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        return BadRequest(new { e.Message });
+                    }
                 }
 
-                return Problem();
+                return BadRequest(new { Message = "This car is already registered" });
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return Problem();
             }
         }
 
-        private static List<CarPicture> GenerateCarPictures(IEnumerable<string> pictures, Car car)
+        [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateCarAsync([FromBody] UpdateCarViewModel vm)
         {
-            List<CarPicture> carPictures = new();
-
-            foreach (string pic in pictures)
+            try
             {
-                carPictures.Add(new CarPicture(pic, car));
-            }
+                User user = await _userRepository.GetUserByEmailAsync(vm.OwnerEmail);
+                Car car = await _carRepository.GetCarByIdAsync(vm.Id);
 
-            return carPictures;
+                if (user != null && car != null && car.Owner.Id == user.Id)
+                {
+                    await car.UpdateAddress(vm.ZipCode, vm.Location, vm.District, vm.Street);
+                    car.UpdateBooleanProperties(vm.AcceptsChange, vm.IpvaIsPaid, vm.IsLicensed, vm.IsArmored);
+                    car.UpdateMessage(vm.Message)
+                       .UpdatePrice(vm.Price)
+                       .UpdateKilometersTraveled(vm.KilometersTraveled);
+
+                    await _baseRepository.UpdateAsync(car);
+                    await UploadCarPictures(car, vm.Pictures);
+                    return Ok();
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
+        [HttpDelete("delete")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteCarAsync([FromBody] DeleteCarViewModel vm)
+        {
+            try
+            {
+                User owner = await _userRepository.GetUserByEmailAsync(vm.OwnerEmail);
+                Car car = await _carRepository.GetCarByIdAsync(vm.CarId);
+
+                if (car != null && owner != null && car.Owner.Id == owner.Id)
+                {
+                    await _baseRepository.DeleteAsync(car);
+                    foreach (CarPicture picture in car.Pictures)
+                    {
+                        await _storageService.DeleteBlobAsync(picture.GenerateStoragePath());
+                    }
+                    return Ok();
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
+        private async Task UploadCarPictures(Car car, string[] pictures)
+        {
+            if (car is null || pictures is null)
+                return;
+
+            for (int i = 0; i < pictures.Length; i++)
+            {
+                string url = car.Pictures[i].GenerateStoragePath();
+                string base64 = pictures[i];
+                await _storageService.UploadPictureAsync(url, base64);
+            }
         }
     }
 }

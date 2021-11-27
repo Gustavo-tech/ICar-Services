@@ -3,7 +3,7 @@ using ICar.Infrastructure.Models.Enums.Car;
 using ICar.Infrastructure.ViewModels.Input.Car;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
 {
@@ -103,7 +103,7 @@ namespace ICar.Infrastructure.Tests.Models
 
             for (int i = 0; i < vm.Pictures.Length; i++)
             {
-                Assert.AreEqual(_car.Pictures[i].Picture, vm.Pictures[i]);
+                Assert.AreEqual(_car.Pictures[i].PictureUrl, vm.Pictures[i]);
             }
         }
 
@@ -137,11 +137,11 @@ namespace ICar.Infrastructure.Tests.Models
         [Test]
         public void GenerateCarWithInsertCarVM_ViewModelIsNull_ThrowAnException()
         {
-            Assert.Catch<Exception>(() => Car.GenerateWithInsertCarViewModel(null, null));
+            Assert.CatchAsync<Exception>(async () => await Car.GenerateWithInsertCarViewModel(null, null));
         }
 
         [Test]
-        public void GenerateCarWithInsertCarVM_ViewModelIsValid_ConstructACar()
+        public async Task GenerateCarWithInsertCarVM_ViewModelIsValid_ConstructACar()
         {
             InsertCarViewModel vm = new()
             {
@@ -161,13 +161,84 @@ namespace ICar.Infrastructure.Tests.Models
                 GasolineType = "gasoline",
                 Color = "#FFFFF",
                 UserEmail = "gustavo@gmail.com",
-                City = "Campinas",
-                Pictures = new List<string> { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
+                ZipCode = "13044650",
+                District = "Jardim Antonio Von Zuben",
+                Location = "Campinas",
+                Street = "Rua Antônio Bertoni Garcia",
+                Pictures = new string[] { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
             };
 
-            Car car = Car.GenerateWithInsertCarViewModel(vm, _owner);
+            Car car = await Car.GenerateWithInsertCarViewModel(vm, _owner);
 
             Assert.IsNotNull(car);
+        }
+
+        [Test]
+        [Repeat(10)]
+        public void TestGeneratePictureStoragePath_WhenCalled_ReturnsTheStoragePath()
+        {
+            var result = _car.GeneratePictureStoragePath();
+
+            Assert.AreEqual($"Gustavo/cars/{_car.Id}", result);
+        }
+
+        [Test]
+        public async Task TestUpdateAddress_WhenCalled_UpdatesTheAddress()
+        {
+            string district = "Cidade Dutra";
+            string street = "Avenida Senador Teotônio Vilela";
+            string zipCode = "04801010";
+            string location = "São Paulo";
+
+            await _car.UpdateAddress(zipCode, location, district, street);
+
+            Assert.AreEqual(zipCode, _car.Address.ZipCode);
+            Assert.AreEqual(street, _car.Address.Street);
+            Assert.AreEqual(location, _car.Address.Location);
+            Assert.AreEqual(district, _car.Address.District);
+        }
+
+        [Test]
+        public void TestUpdateBooleanProperties_WhenCalled_UpdatesBooleanProperties()
+        {
+            bool acceptsChange = true;
+            bool ipvaIsPaid = false;
+            bool isLicensed = true;
+            bool isArmored = false;
+
+            _car.UpdateBooleanProperties(acceptsChange, ipvaIsPaid, isLicensed, isArmored);
+
+            Assert.AreEqual(acceptsChange, _car.AcceptsChange);
+            Assert.AreEqual(ipvaIsPaid, _car.IpvaIsPaid);
+            Assert.AreEqual(isLicensed, _car.IsLicensed);
+            Assert.AreEqual(isArmored, _car.IsArmored);
+        }
+
+        [Test]
+        public void TestUpdateMessage_WhenCalled_UpdatesTheMessage()
+        {
+            string message = "This car is a beast";
+            _car.UpdateMessage(message);
+
+            Assert.AreEqual(message, _car.Message);
+        }
+
+        [Test]
+        public void TestUpdatePrice_WhenCalled_UpdatesThePrice()
+        {
+            int price = 18000;
+            _car.UpdatePrice(price);
+
+            Assert.AreEqual(price, _car.Price);
+        }
+
+        [Test]
+        public void TestUpdateKilometersTraveled_WhenCalled_UpdatesTheKilometers()
+        {
+            int kilometers = 18000;
+            _car.UpdateKilometersTraveled(kilometers);
+
+            Assert.AreEqual(kilometers, _car.KilometersTraveled);
         }
     }
 }

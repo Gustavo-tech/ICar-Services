@@ -3,10 +3,25 @@ using System;
 
 namespace ICar.IdentityServer.Migrations
 {
-    public partial class Key : Migration
+    public partial class Address : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ZipCode = table.Column<string>(type: "VARCHAR(8)", nullable: true),
+                    Location = table.Column<string>(type: "VARCHAR(60)", nullable: true),
+                    District = table.Column<string>(type: "VARCHAR(100)", nullable: true),
+                    Street = table.Column<string>(type: "VARCHAR(100)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -46,19 +61,6 @@ namespace ICar.IdentityServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INT", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "NVARCHAR(60)", maxLength: 60, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,13 +170,54 @@ namespace ICar.IdentityServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "VARCHAR(60)", nullable: false),
+                    Plate = table.Column<string>(type: "Char(8)", nullable: true),
+                    Maker = table.Column<string>(type: "VARCHAR(60)", maxLength: 60, nullable: false),
+                    Model = table.Column<string>(type: "VARCHAR(60)", maxLength: 60, nullable: false),
+                    MakeDate = table.Column<int>(type: "INT", nullable: false),
+                    MakedDate = table.Column<int>(type: "INT", nullable: false),
+                    KilometersTraveled = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "INT", maxLength: 10000000, nullable: false),
+                    Message = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
+                    AcceptsChange = table.Column<bool>(type: "bit", nullable: false),
+                    IpvaIsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    IsLicensed = table.Column<bool>(type: "bit", nullable: false),
+                    IsArmored = table.Column<bool>(type: "bit", nullable: false),
+                    ExchangeType = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
+                    GasolineType = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: false),
+                    NumberOfViews = table.Column<int>(type: "INT", nullable: false),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cars_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Logins",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "VARCHAR", nullable: false),
+                    Id = table.Column<string>(type: "VARCHAR(50)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Time = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    Success = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Success = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,7 +238,7 @@ namespace ICar.IdentityServer.Migrations
                     FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Text = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    SendAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,9 +264,9 @@ namespace ICar.IdentityServer.Migrations
                     Id = table.Column<string>(type: "VARCHAR", nullable: false),
                     Title = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
                     Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,53 +280,12 @@ namespace ICar.IdentityServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cars",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "VARCHAR", nullable: false),
-                    Plate = table.Column<string>(type: "Char(8)", nullable: true),
-                    Maker = table.Column<string>(type: "VARCHAR(60)", maxLength: 60, nullable: false),
-                    Model = table.Column<string>(type: "VARCHAR(60)", maxLength: 60, nullable: false),
-                    MakeDate = table.Column<int>(type: "INT", nullable: false),
-                    MakedDate = table.Column<int>(type: "INT", nullable: false),
-                    KilometersTraveled = table.Column<double>(type: "float", nullable: false),
-                    Price = table.Column<int>(type: "INT", maxLength: 10000000, nullable: false),
-                    AcceptsChange = table.Column<bool>(type: "bit", nullable: false),
-                    IpvaIsPaid = table.Column<bool>(type: "bit", nullable: false),
-                    IsLicensed = table.Column<bool>(type: "bit", nullable: false),
-                    IsArmored = table.Column<bool>(type: "bit", nullable: false),
-                    Message = table.Column<string>(type: "VARCHAR(500)", maxLength: 500, nullable: false),
-                    ExchangeType = table.Column<int>(type: "int", nullable: false),
-                    Color = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
-                    GasolineType = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: false),
-                    NumberOfViews = table.Column<int>(type: "INT", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CityId = table.Column<int>(type: "INT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cars_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cars_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CarPicture",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CarId = table.Column<string>(type: "VARCHAR", nullable: true)
+                    CarId = table.Column<string>(type: "VARCHAR(60)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -341,20 +343,14 @@ namespace ICar.IdentityServer.Migrations
                 column: "CarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_CityId",
+                name: "IX_Cars_AddressId",
                 table: "Cars",
-                column: "CityId");
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_OwnerId",
                 table: "Cars",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_Name",
-                table: "Cities",
-                column: "Name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",
@@ -413,10 +409,10 @@ namespace ICar.IdentityServer.Migrations
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "AspNetUsers");
         }
     }
 }

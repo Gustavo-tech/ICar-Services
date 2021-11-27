@@ -13,7 +13,7 @@ namespace ICar.Infrastructure.Configurations
             builder.Property(x => x.Id)
                 .HasColumnType("VARCHAR");
 
-            builder.Property(x => x.Picture)
+            builder.Property(x => x.PictureUrl)
                 .IsRequired();
         }
     }

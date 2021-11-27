@@ -1,6 +1,6 @@
-﻿namespace ICar.API.ViewModels.User
+﻿namespace ICar.Infrastructure.ViewModels.Input.Message
 {
-    public class SendMessage
+    public class SendMessageViewModel
     {
         public string EmailFrom { get; set; }
         public string EmailTo { get; set; }

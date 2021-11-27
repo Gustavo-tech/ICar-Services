@@ -11,16 +11,16 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.ZipCode)
-                .HasColumnType("VARCHAR");
+                .HasColumnType("VARCHAR(8)");
 
             builder.Property(x => x.Location)
-                .HasColumnType("VARCHAR");
+                .HasColumnType("VARCHAR(60)");
 
             builder.Property(x => x.Street)
-                .HasColumnType("VARCHAR");
+                .HasColumnType("VARCHAR(100)");
 
             builder.Property(x => x.District)
-                .HasColumnType("VARCHAR");
+                .HasColumnType("VARCHAR(100)");
         }
     }
 }

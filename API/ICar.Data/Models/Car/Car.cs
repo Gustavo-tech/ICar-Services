@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Models
 {
@@ -130,14 +131,14 @@ namespace ICar.Infrastructure.Models
             }
         }
 
+        public string Color { get; private set; }
+        public int NumberOfViews { get; private set; }
         public bool AcceptsChange { get; private set; }
         public bool IpvaIsPaid { get; private set; }
         public bool IsLicensed { get; private set; }
         public bool IsArmored { get; private set; }
         public ExchangeType ExchangeType { get; private set; }
-        public string Color { get; private set; }
         public GasolineType GasolineType { get; private set; }
-        public int NumberOfViews { get; private set; }
 
         public Address Address { get; private set; }
         public User Owner { get; private set; }
@@ -172,15 +173,7 @@ namespace ICar.Infrastructure.Models
             GasolineType = gasolineType;
             Owner = owner;
             Address = address;
-
-            foreach (string pic in pictures)
-            {
-                if (pic != null)
-                {
-                    CarPicture cp = new(pic, this);
-                    Pictures.Add(cp);
-                }
-            }
+            GenerateCarPictures(pictures);
         }
 
         public Car IncreaseNumberOfViews()
@@ -189,10 +182,60 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
+        public async Task<Car> UpdateAddress(string zipCode, string location, string district, string street)
+        {
+            Address address = await Address.BuildAddress(zipCode, location, district, street);
+            Address = address;
+            return this;
+        }
+
+        public Car UpdateBooleanProperties(bool acceptsChange, bool ipvaIsPaid, bool isLicensed, bool isArmored)
+        {
+            AcceptsChange = acceptsChange;
+            IpvaIsPaid = ipvaIsPaid;
+            IsLicensed = isLicensed;
+            IsArmored = isArmored;
+            return this;
+        }
+
+        public Car UpdateMessage(string message)
+        {
+            Message = message;
+            return this;
+        }
+
+        public Car UpdatePrice(int price)
+        {
+            Price = price;
+            return this;
+        }
+
+        public Car UpdateKilometersTraveled(int kilometers)
+        {
+            KilometersTraveled = kilometers;
+            return this;
+        }
+
+        public Car GenerateCarPictures(string[] pictures)
+        {
+            foreach (string pic in pictures)
+            {
+                CarPicture cp = new(Owner.UserName, Id, pic);
+                Pictures.Add(cp);
+            }
+
+            return this;
+        }
+
+        public string GeneratePictureStoragePath()
+        {
+            return $"{Owner.UserName}/cars/{Id}";
+        }
+
         public CarOverviewViewModel GenerateOverviewViewModel()
         {
             return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled,
-                Pictures.Select(x => x.Picture).ToArray(), Address);
+                Pictures.Select(x => x.PictureUrl).ToArray(), Address);
         }
 
         public CarOutputViewModel GenerateCarOutputViewModel()
@@ -217,11 +260,11 @@ namespace ICar.Infrastructure.Models
                 Color = Color,
                 Address = Address,
                 NumberOfViews = NumberOfViews,
-                Pictures = Pictures.Select(x => x.Picture).ToArray()
+                Pictures = Pictures.Select(x => x.PictureUrl).ToArray()
             };
         }
 
-        public static Car GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
+        public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
         {
             if (vm is null)
                 throw new ArgumentNullException(nameof(vm), "View model must not be null");
@@ -229,25 +272,29 @@ namespace ICar.Infrastructure.Models
             if (owner is null)
                 throw new ArgumentNullException(nameof(owner), "Owner must not be null");
 
-            return new Car
-            {
-                Owner = owner,
-                Plate = vm.Plate,
-                Maker = vm.Maker,
-                Model = vm.Model,
-                Price = vm.Price,
-                MakeDate = vm.MakeDate,
-                MakedDate = vm.MakedDate,
-                KilometersTraveled = vm.KilometersTraveled,
-                AcceptsChange = vm.AcceptsChange,
-                IsArmored = vm.IsArmored,
-                IsLicensed = vm.IsLicensed,
-                IpvaIsPaid = vm.IpvaIsPaid,
-                Message = vm.Message,
-                Color = vm.Color,
-                ExchangeType = ConvertStringToTypeOfExchange(vm.ExchangeType),
-                GasolineType = ConvertStringToGasolineType(vm.GasolineType)
-            };
+            Car car = new
+            (
+                vm.Plate,
+                vm.Maker,
+                vm.Model,
+                vm.MakeDate,
+                vm.MakedDate,
+                vm.KilometersTraveled,
+                vm.Price,
+                vm.Message,
+                vm.Color,
+                ConvertStringToTypeOfExchange(vm.ExchangeType),
+                ConvertStringToGasolineType(vm.GasolineType),
+                owner,
+                await Address.BuildAddress(vm.ZipCode, vm.Location, vm.District, vm.Street),
+                vm.Pictures,
+                vm.AcceptsChange,
+                vm.IpvaIsPaid,
+                vm.IsLicensed,
+                vm.IsArmored
+            );
+
+            return car;
         }
 
         public static ExchangeType ConvertStringToTypeOfExchange(string typeOfExchange)
@@ -263,7 +310,6 @@ namespace ICar.Infrastructure.Models
                     throw new Exception("Invalid argument");
             }
         }
-
         public static string ConvertTypeOfExchangeToString(ExchangeType typeOfExchange)
         {
             switch (typeOfExchange)

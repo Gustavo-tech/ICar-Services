@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20211122232342_Address")]
+    [Migration("20211124011442_Address")]
     partial class Address
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,16 +27,16 @@ namespace ICar.IdentityServer.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("District")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("Location")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<string>("Street")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(8)");
 
                     b.HasKey("Id");
 
@@ -46,7 +46,7 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Car", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<bool>("AcceptsChange")
                         .HasColumnType("bit");
@@ -93,7 +93,7 @@ namespace ICar.IdentityServer.Migrations
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("VARCHAR(500)");
+                        .HasColumnType("NVARCHAR(500)");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -128,7 +128,7 @@ namespace ICar.IdentityServer.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CarId")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(60)");
 
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
@@ -143,7 +143,7 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.Login", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<bool>("Success")
                         .HasColumnType("bit");
