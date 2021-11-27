@@ -47,7 +47,7 @@ namespace ICar.Infrastructure.Tests.Models
 
             var result = _picture.GenerateStoragePath();
 
-            Assert.AreEqual($"{userName}/{carId}/{_picture.Id}.{_extension}", result);
+            Assert.AreEqual($"{userName}/cars/{carId}/{_picture.Id}.{_extension}", result);
         }
     }
 }

@@ -150,5 +150,33 @@ namespace ICar.API.Controllers
                 return Problem();
             }
         }
+
+        [HttpDelete("delete")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteCarAsync([FromBody] DeleteCarViewModel vm)
+        {
+            try
+            {
+                User owner = await _userRepository.GetUserByEmailAsync(vm.OwnerEmail);
+                Car car = await _carRepository.GetCarByIdAsync(vm.CarId);
+
+                if (car != null && owner != null && car.Owner.Id == owner.Id)
+                {
+                    await _baseRepository.DeleteAsync(car);
+                    foreach (CarPicture picture in car.Pictures)
+                    {
+                        await _storageService.DeleteBlobAsync(picture.GenerateStoragePath());
+                    }
+                    return Ok();
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
     }
 }

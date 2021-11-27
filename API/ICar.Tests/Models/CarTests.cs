@@ -166,12 +166,21 @@ namespace ICar.Infrastructure.Tests.Models
                 District = "Jardim Antonio Von Zuben",
                 Location = "Campinas",
                 Street = "Rua Antônio Bertoni Garcia",
-                Pictures = new List<string> { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
+                Pictures = new string[] { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
             };
 
             Car car = await Car.GenerateWithInsertCarViewModel(vm, _owner);
 
             Assert.IsNotNull(car);
+        }
+
+        [Test]
+        [Repeat(10)]
+        public void TestGeneratePictureStoragePath_WhenCalled_ReturnsTheStoragePath()
+        {
+            var result = _car.GeneratePictureStoragePath();
+
+            Assert.AreEqual($"Gustavo/cars/{_car.Id}", result);
         }
     }
 }

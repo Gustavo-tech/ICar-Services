@@ -34,7 +34,7 @@ namespace ICar.Infrastructure.Storage
             });
         }
 
-        public async Task DeletePictureAsync(string url)
+        public async Task DeleteBlobAsync(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
                 return;

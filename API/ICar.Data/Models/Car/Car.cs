@@ -182,6 +182,22 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
+        public Car GenerateCarPictures(string[] pictures)
+        {
+            foreach (string pic in pictures)
+            {
+                CarPicture cp = new(Owner.UserName, Id, pic);
+                Pictures.Add(cp);
+            }
+
+            return this;
+        }
+
+        public string GeneratePictureStoragePath()
+        {
+            return $"{Owner.UserName}/cars/{Id}";
+        }
+
         public CarOverviewViewModel GenerateOverviewViewModel()
         {
             return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled,
@@ -212,15 +228,6 @@ namespace ICar.Infrastructure.Models
                 NumberOfViews = NumberOfViews,
                 Pictures = Pictures.Select(x => x.PictureUrl).ToArray()
             };
-        }
-
-        public void GenerateCarPictures(string[] pictures)
-        {
-            foreach (string pic in pictures)
-            {
-                CarPicture cp = new(Owner.UserName, Id, pic);
-                Pictures.Add(cp);
-            }
         }
 
         public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)

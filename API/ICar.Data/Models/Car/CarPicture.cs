@@ -34,7 +34,7 @@ namespace ICar.Infrastructure.Models
 
             Id = GenerateId();
             string extension = GetPictureExtension(base64);
-            PictureUrl = $"https://icarstorage.blob.core.windows.net/users/{userName}/{carId}/{Id}.{extension}";
+            PictureUrl = $"https://icarstorage.blob.core.windows.net/users/{userName}/cars/{carId}/{Id}.{extension}";
         }
 
         public string GenerateStoragePath()
