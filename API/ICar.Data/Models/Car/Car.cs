@@ -131,14 +131,14 @@ namespace ICar.Infrastructure.Models
             }
         }
 
+        public string Color { get; private set; }
+        public int NumberOfViews { get; private set; }
         public bool AcceptsChange { get; private set; }
         public bool IpvaIsPaid { get; private set; }
         public bool IsLicensed { get; private set; }
         public bool IsArmored { get; private set; }
         public ExchangeType ExchangeType { get; private set; }
-        public string Color { get; private set; }
         public GasolineType GasolineType { get; private set; }
-        public int NumberOfViews { get; private set; }
 
         public Address Address { get; private set; }
         public User Owner { get; private set; }
@@ -173,15 +173,7 @@ namespace ICar.Infrastructure.Models
             GasolineType = gasolineType;
             Owner = owner;
             Address = address;
-
-            foreach (string pic in pictures)
-            {
-                if (pic != null)
-                {
-                    CarPicture cp = new(pic, this);
-                    Pictures.Add(cp);
-                }
-            }
+            GenerateCarPictures(pictures);
         }
 
         public Car IncreaseNumberOfViews()
@@ -193,7 +185,7 @@ namespace ICar.Infrastructure.Models
         public CarOverviewViewModel GenerateOverviewViewModel()
         {
             return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled,
-                Pictures.Select(x => x.Picture).ToArray(), Address);
+                Pictures.Select(x => x.PictureUrl).ToArray(), Address);
         }
 
         public CarOutputViewModel GenerateCarOutputViewModel()
@@ -218,8 +210,17 @@ namespace ICar.Infrastructure.Models
                 Color = Color,
                 Address = Address,
                 NumberOfViews = NumberOfViews,
-                Pictures = Pictures.Select(x => x.Picture).ToArray()
+                Pictures = Pictures.Select(x => x.PictureUrl).ToArray()
             };
+        }
+
+        public void GenerateCarPictures(string[] pictures)
+        {
+            foreach (string pic in pictures)
+            {
+                CarPicture cp = new(Owner.UserName, Id, pic);
+                Pictures.Add(cp);
+            }
         }
 
         public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
@@ -265,7 +266,6 @@ namespace ICar.Infrastructure.Models
                     throw new Exception("Invalid argument");
             }
         }
-
         public static string ConvertTypeOfExchangeToString(ExchangeType typeOfExchange)
         {
             switch (typeOfExchange)

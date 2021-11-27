@@ -4,11 +4,16 @@ namespace ICar.Infrastructure.Models
 {
     public class Entity
     {
-        public string Id { get; private set; }
+        public string Id { get; protected set; }
 
-        public Entity()
+        protected Entity()
         {
             Id = Guid.NewGuid().ToString("N");
+        }
+
+        protected string GenerateId()
+        {
+            return Guid.NewGuid().ToString("N");
         }
     }
 }

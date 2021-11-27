@@ -142,17 +142,5 @@ namespace ICar.API.Controllers
                 return Problem();
             }
         }
-
-        private static List<CarPicture> GenerateCarPictures(IEnumerable<string> pictures, Car car)
-        {
-            List<CarPicture> carPictures = new();
-
-            foreach (string pic in pictures)
-            {
-                carPictures.Add(new CarPicture(pic, car));
-            }
-
-            return carPictures;
-        }
     }
 }

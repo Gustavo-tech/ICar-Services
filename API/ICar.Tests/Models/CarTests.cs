@@ -104,7 +104,7 @@ namespace ICar.Infrastructure.Tests.Models
 
             for (int i = 0; i < vm.Pictures.Length; i++)
             {
-                Assert.AreEqual(_car.Pictures[i].Picture, vm.Pictures[i]);
+                Assert.AreEqual(_car.Pictures[i].PictureUrl, vm.Pictures[i]);
             }
         }
 

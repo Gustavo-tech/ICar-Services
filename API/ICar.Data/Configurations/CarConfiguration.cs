@@ -60,8 +60,7 @@ namespace ICar.Infrastructure.Configurations
 
             builder.HasOne(x => x.Address);
 
-            builder.HasMany(x => x.Pictures)
-                .WithOne(x => x.Car);
+            builder.HasMany(x => x.Pictures);
         }
     }
 }
