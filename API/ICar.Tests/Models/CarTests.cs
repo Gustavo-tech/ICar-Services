@@ -182,5 +182,64 @@ namespace ICar.Infrastructure.Tests.Models
 
             Assert.AreEqual($"Gustavo/cars/{_car.Id}", result);
         }
+
+        [Test]
+        public async Task TestUpdateAddress_WhenCalled_UpdatesTheAddress()
+        {
+            string district = "Cidade Dutra";
+            string street = "Avenida Senador Teotônio Vilela";
+            string zipCode = "04801010";
+            string location = "São Paulo";
+
+            await _car.UpdateAddress(zipCode, location, district, street);
+
+            Assert.AreEqual(zipCode, _car.Address.ZipCode);
+            Assert.AreEqual(street, _car.Address.Street);
+            Assert.AreEqual(location, _car.Address.Location);
+            Assert.AreEqual(district, _car.Address.District);
+        }
+
+        [Test]
+        public void TestUpdateBooleanProperties_WhenCalled_UpdatesBooleanProperties()
+        {
+            bool acceptsChange = true;
+            bool ipvaIsPaid = false;
+            bool isLicensed = true;
+            bool isArmored = false;
+
+            _car.UpdateBooleanProperties(acceptsChange, ipvaIsPaid, isLicensed, isArmored);
+
+            Assert.AreEqual(acceptsChange, _car.AcceptsChange);
+            Assert.AreEqual(ipvaIsPaid, _car.IpvaIsPaid);
+            Assert.AreEqual(isLicensed, _car.IsLicensed);
+            Assert.AreEqual(isArmored, _car.IsArmored);
+        }
+
+        [Test]
+        public void TestUpdateMessage_WhenCalled_UpdatesTheMessage()
+        {
+            string message = "This car is a beast";
+            _car.UpdateMessage(message);
+
+            Assert.AreEqual(message, _car.Message);
+        }
+
+        [Test]
+        public void TestUpdatePrice_WhenCalled_UpdatesThePrice()
+        {
+            int price = 18000;
+            _car.UpdatePrice(price);
+
+            Assert.AreEqual(price, _car.Price);
+        }
+
+        [Test]
+        public void TestUpdateKilometersTraveled_WhenCalled_UpdatesTheKilometers()
+        {
+            int kilometers = 18000;
+            _car.UpdateKilometersTraveled(kilometers);
+
+            Assert.AreEqual(kilometers, _car.KilometersTraveled);
+        }
     }
 }

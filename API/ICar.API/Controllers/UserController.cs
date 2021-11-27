@@ -1,7 +1,7 @@
-﻿using ICar.API.ViewModels.User;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
+﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
+using ICar.Infrastructure.ViewModels.Input.Message;
 using ICar.Infrastructure.ViewModels.Output.Message;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -132,7 +132,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("message")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> SendMessage([FromBody] SendMessage sendMessage)
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageViewModel sendMessage)
         {
             try
             {

@@ -182,6 +182,55 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
+        public async Task<Car> UpdateAddress(string zipCode, string location, string district, string street)
+        {
+            Address address = await Address.BuildAddress(zipCode, location, district, street);
+            Address = address;
+            return this;
+        }
+
+        public Car UpdateBooleanProperties(bool acceptsChange, bool ipvaIsPaid, bool isLicensed, bool isArmored)
+        {
+            AcceptsChange = acceptsChange;
+            IpvaIsPaid = ipvaIsPaid;
+            IsLicensed = isLicensed;
+            IsArmored = isArmored;
+            return this;
+        }
+
+        public Car UpdateMessage(string message)
+        {
+            Message = message;
+            return this;
+        }
+
+        public Car UpdatePrice(int price)
+        {
+            Price = price;
+            return this;
+        }
+
+        public Car UpdateKilometersTraveled(int kilometers)
+        {
+            KilometersTraveled = kilometers;
+            return this;
+        }
+
+        public Car UpdatePictures(string[] pictures)
+        {
+            if (pictures is null)
+                return this;
+
+            Pictures.Clear();
+            foreach (string pic in pictures)
+            {
+                CarPicture cp = new(Owner.UserName, Id, pic);
+                Pictures.Add(cp);
+            }
+
+            return this;
+        }
+
         public Car GenerateCarPictures(string[] pictures)
         {
             foreach (string pic in pictures)
