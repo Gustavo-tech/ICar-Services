@@ -1,6 +1,7 @@
 ﻿using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Search;
+using ICar.Infrastructure.Storage;
 using ICar.Infrastructure.ViewModels.Input.Car;
 using ICar.Infrastructure.ViewModels.Output.Car;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,13 +21,15 @@ namespace ICar.API.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IStorageService _storageService;
 
         public CarsController(ICarRepository carRepository, IBaseRepository baseRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository, IStorageService storageService)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _userRepository = userRepository;
+            _storageService = storageService;
         }
 
         [HttpGet("{email}")]
@@ -124,6 +127,11 @@ namespace ICar.API.Controllers
                     {
                         User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
                         Car car = await Car.GenerateWithInsertCarViewModel(create, owner);
+                        for(int i = 0; i < create.Pictures.Length; i++)
+                        {
+                            string url = car.Pictures[i].GenerateStoragePath();
+                            await _storageService.UploadPictureAsync(url, create.Pictures[i]);
+                        }
                         await _baseRepository.AddAsync(car);
                         return Ok();
                     }

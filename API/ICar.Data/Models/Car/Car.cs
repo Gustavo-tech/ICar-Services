@@ -231,26 +231,29 @@ namespace ICar.Infrastructure.Models
             if (owner is null)
                 throw new ArgumentNullException(nameof(owner), "Owner must not be null");
 
-            return new Car
-            {
-                Owner = owner,
-                Plate = vm.Plate,
-                Maker = vm.Maker,
-                Model = vm.Model,
-                Price = vm.Price,
-                MakeDate = vm.MakeDate,
-                MakedDate = vm.MakedDate,
-                KilometersTraveled = vm.KilometersTraveled,
-                AcceptsChange = vm.AcceptsChange,
-                IsArmored = vm.IsArmored,
-                IsLicensed = vm.IsLicensed,
-                IpvaIsPaid = vm.IpvaIsPaid,
-                Message = vm.Message,
-                Color = vm.Color,
-                Address = await Address.BuildAddress(vm.ZipCode, vm.Location, vm.District, vm.Street),
-                ExchangeType = ConvertStringToTypeOfExchange(vm.ExchangeType),
-                GasolineType = ConvertStringToGasolineType(vm.GasolineType)
-            };
+            Car car = new
+            (
+                vm.Plate,
+                vm.Maker,
+                vm.Model,
+                vm.MakeDate,
+                vm.MakedDate,
+                vm.KilometersTraveled,
+                vm.Price,
+                vm.Message,
+                vm.Color,
+                ConvertStringToTypeOfExchange(vm.ExchangeType),
+                ConvertStringToGasolineType(vm.GasolineType),
+                owner,
+                await Address.BuildAddress(vm.ZipCode, vm.Location, vm.District, vm.Street),
+                vm.Pictures,
+                vm.AcceptsChange,
+                vm.IpvaIsPaid,
+                vm.IsLicensed,
+                vm.IsArmored
+            );
+
+            return car;
         }
 
         public static ExchangeType ConvertStringToTypeOfExchange(string typeOfExchange)

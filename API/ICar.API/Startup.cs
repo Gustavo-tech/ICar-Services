@@ -3,6 +3,7 @@ using ICar.Infrastructure.Database.Repositories;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Repositories;
 using ICar.Infrastructure.Repositories.Interfaces;
+using ICar.Infrastructure.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,7 @@ namespace ICar.API
             services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
+            services.AddTransient<IStorageService, AzureStorageService>();
 
             // Entity Framework
             services.AddDbContext<ICarContext>(options =>

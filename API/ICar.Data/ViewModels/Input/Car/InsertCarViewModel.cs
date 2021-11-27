@@ -25,6 +25,6 @@ namespace ICar.Infrastructure.ViewModels.Input.Car
         public string Location { get; set; }
         public string District { get; set; }
         public string Street { get; set; }
-        public List<string> Pictures { get; set; }
+        public string[] Pictures { get; set; }
     }
 }
