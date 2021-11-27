@@ -4,7 +4,7 @@ namespace ICar.Infrastructure.Storage
 {
     public interface IStorageService
     {
-        Task UploadPicture(string url, string base64);
-        Task DeletePicture(string url);
+        Task UploadPictureAsync(string url, string base64);
+        Task DeletePictureAsync(string url);
     }
 }
