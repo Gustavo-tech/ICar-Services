@@ -8,8 +8,8 @@ namespace ICar.Infrastructure.Models
     {
         private string _pictureUrl;
 
-        public string PictureUrl 
-        { 
+        public string PictureUrl
+        {
             get { return _pictureUrl; }
             set
             {

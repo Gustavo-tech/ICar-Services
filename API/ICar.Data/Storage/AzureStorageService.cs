@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Threading.Tasks;
-using Azure.Storage.Blobs;
-using System.IO;
+﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using ICar.Infrastructure.Models;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Storage
 {

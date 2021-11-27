@@ -1,7 +1,4 @@
-﻿using ICar.Infrastructure.Models;
-using System.Collections.Generic;
-
-namespace ICar.Infrastructure.ViewModels.Input.Car
+﻿namespace ICar.Infrastructure.ViewModels.Input.Car
 {
     public class InsertCarViewModel
     {

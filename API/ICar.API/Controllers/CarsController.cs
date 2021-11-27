@@ -34,7 +34,7 @@ namespace ICar.API.Controllers
 
         [HttpGet("{email}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetMyCars([FromRoute] string email)
+        public async Task<IActionResult> GetMyCarsAsync([FromRoute] string email)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCars([FromQuery] CarSearchModel search)
+        public async Task<IActionResult> GetCarsAsync([FromQuery] CarSearchModel search)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace ICar.API.Controllers
 
         [HttpGet("selling/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCar([FromRoute] string id)
+        public async Task<IActionResult> GetCarAsync([FromRoute] string id)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace ICar.API.Controllers
 
         [HttpPost("views/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> IncrementNumberOfViews([FromRoute] string id)
+        public async Task<IActionResult> IncrementNumberOfViewsAsync([FromRoute] string id)
         {
             try
             {
@@ -127,11 +127,7 @@ namespace ICar.API.Controllers
                     {
                         User owner = await _userRepository.GetUserByEmailAsync(create.UserEmail);
                         Car car = await Car.GenerateWithInsertCarViewModel(create, owner);
-                        for(int i = 0; i < create.Pictures.Length; i++)
-                        {
-                            string url = car.Pictures[i].GenerateStoragePath();
-                            await _storageService.UploadPictureAsync(url, create.Pictures[i]);
-                        }
+                        await UploadCarPictures(car, create.Pictures);
                         await _baseRepository.AddAsync(car);
                         return Ok();
                     }
@@ -143,6 +139,37 @@ namespace ICar.API.Controllers
                 }
 
                 return BadRequest(new { Message = "This car is already registered" });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
+        [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateCarAsync([FromBody] UpdateCarViewModel vm)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByEmailAsync(vm.OwnerEmail);
+                Car car = await _carRepository.GetCarByIdAsync(vm.Id);
+
+                if (user != null && car != null && car.Owner.Id == user.Id)
+                {
+                    await car.UpdateAddress(vm.ZipCode, vm.Location, vm.District, vm.Street);
+                    car.UpdateBooleanProperties(vm.AcceptsChange, vm.IpvaIsPaid, vm.IsLicensed, vm.IsArmored);
+                    car.UpdateMessage(vm.Message)
+                       .UpdatePrice(vm.Price)
+                       .UpdateKilometersTraveled(vm.KilometersTraveled);
+
+                    await _baseRepository.UpdateAsync(car);
+                    await UploadCarPictures(car, vm.Pictures);
+                    return Ok();
+                }
+
+                return BadRequest();
             }
             catch (Exception e)
             {
@@ -176,6 +203,19 @@ namespace ICar.API.Controllers
             {
                 Console.WriteLine(e.Message);
                 return Problem();
+            }
+        }
+
+        private async Task UploadCarPictures(Car car, string[] pictures)
+        {
+            if (car is null || pictures is null)
+                return;
+
+            for (int i = 0; i < pictures.Length; i++)
+            {
+                string url = car.Pictures[i].GenerateStoragePath();
+                string base64 = pictures[i];
+                await _storageService.UploadPictureAsync(url, base64);
             }
         }
     }

@@ -216,21 +216,6 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
-        public Car UpdatePictures(string[] pictures)
-        {
-            if (pictures is null)
-                return this;
-
-            Pictures.Clear();
-            foreach (string pic in pictures)
-            {
-                CarPicture cp = new(Owner.UserName, Id, pic);
-                Pictures.Add(cp);
-            }
-
-            return this;
-        }
-
         public Car GenerateCarPictures(string[] pictures)
         {
             foreach (string pic in pictures)

@@ -3,7 +3,6 @@ using ICar.Infrastructure.Models.Enums.Car;
 using ICar.Infrastructure.ViewModels.Input.Car;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Tests.Models
