@@ -216,6 +216,13 @@ namespace ICar.Infrastructure.Models
             return this;
         }
 
+        public Car UpdatePictures(string[] pictures)
+        {
+            Pictures.Clear();
+            GenerateCarPictures(pictures);
+            return this;
+        }
+
         public Car GenerateCarPictures(string[] pictures)
         {
             foreach (string pic in pictures)

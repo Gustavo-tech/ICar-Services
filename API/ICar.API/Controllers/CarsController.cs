@@ -158,11 +158,22 @@ namespace ICar.API.Controllers
 
                 if (user != null && car != null && car.Owner.Id == user.Id)
                 {
+                    bool removedPictures = false;
+                    int picIndex = 0;
+                    while(!removedPictures)
+                    {
+                        CarPicture picture = car.Pictures[picIndex];
+                        await _baseRepository.DeleteAsync(picture);
+                        await _storageService.DeleteBlobAsync(picture.GenerateStoragePath());
+                        removedPictures = car.Pictures.Count == 0;
+                        picIndex++;
+                    }
                     await car.UpdateAddress(vm.ZipCode, vm.Location, vm.District, vm.Street);
                     car.UpdateBooleanProperties(vm.AcceptsChange, vm.IpvaIsPaid, vm.IsLicensed, vm.IsArmored);
                     car.UpdateMessage(vm.Message)
                        .UpdatePrice(vm.Price)
-                       .UpdateKilometersTraveled(vm.KilometersTraveled);
+                       .UpdateKilometersTraveled(vm.KilometersTraveled)
+                       .UpdatePictures(vm.Pictures);
 
                     await _baseRepository.UpdateAsync(car);
                     await UploadCarPictures(car, vm.Pictures);
