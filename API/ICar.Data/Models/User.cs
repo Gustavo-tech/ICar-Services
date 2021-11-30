@@ -58,6 +58,16 @@ namespace ICar.Infrastructure.Models
             return talkedFrom || talkedTo;
         }
 
+        public bool ContainNews(string newsId)
+        {
+            if (string.IsNullOrWhiteSpace(newsId))
+                return false;
+
+            News news = News.FirstOrDefault(x => x.Id == newsId);
+
+            return news != null;
+        }
+
         private static bool ValidatePhoneFormat(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))

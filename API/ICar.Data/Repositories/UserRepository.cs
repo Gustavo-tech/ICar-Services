@@ -22,6 +22,7 @@ namespace ICar.Infrastructure.Database.Repositories
                 .Where(x => x.Email == email)
                 .Include(x => x.Cars)
                 .Include(x => x.Logins)
+                .Include(x => x.News)
                 .FirstOrDefaultAsync();
         }
 

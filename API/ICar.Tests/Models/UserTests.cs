@@ -52,5 +52,22 @@ namespace ICar.Infrastructure.Tests.Models
             Assert.AreEqual(vm.Role, _user.Role);
             Assert.AreEqual(vm.AccountCreationDate, _user.AccountCreationDate);
         }
+
+        [Test]
+        public void TestUserContainNews_UserContainNews_ReturnsTrue()
+        {
+            News news = new("Batman", "Batman", _user);
+            _user.News.Add(news);
+
+            Assert.IsTrue(_user.ContainNews(news.Id));
+        }
+
+        [Test]
+        public void TestUserContainNews_UserDoesNotContainNews_ReturnFalse()
+        {
+            News news = new("Batman", "Batman", _user);
+
+            Assert.IsTrue(_user.ContainNews(news.Id));
+        }
     }
 }

@@ -160,7 +160,7 @@ namespace ICar.API.Controllers
                 {
                     bool removedPictures = false;
                     int picIndex = 0;
-                    while(!removedPictures)
+                    while (!removedPictures)
                     {
                         CarPicture picture = car.Pictures[picIndex];
                         await _baseRepository.DeleteAsync(picture);
