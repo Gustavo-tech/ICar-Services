@@ -56,7 +56,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
-                dynamic[] output = cars.Select(x => x.GenerateOverviewViewModel()).ToArray();
+                CarOutputViewModel[] output = cars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
