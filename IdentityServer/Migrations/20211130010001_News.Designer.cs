@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20211127173015_Picture")]
-    partial class Picture
+    [Migration("20211130010001_News")]
+    partial class News
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,7 +192,8 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("VARCHAR");
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
@@ -210,8 +211,8 @@ namespace ICar.IdentityServer.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR(20)");
+                        .HasMaxLength(55)
+                        .HasColumnType("NVARCHAR(55)");
 
                     b.HasKey("Id");
 

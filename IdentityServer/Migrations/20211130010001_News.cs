@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ICar.IdentityServer.Migrations
 {
-    public partial class Address : Migration
+    public partial class News : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -182,14 +182,14 @@ namespace ICar.IdentityServer.Migrations
                     KilometersTraveled = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "INT", maxLength: 10000000, nullable: false),
                     Message = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
+                    Color = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
+                    NumberOfViews = table.Column<int>(type: "INT", nullable: false),
                     AcceptsChange = table.Column<bool>(type: "bit", nullable: false),
                     IpvaIsPaid = table.Column<bool>(type: "bit", nullable: false),
                     IsLicensed = table.Column<bool>(type: "bit", nullable: false),
                     IsArmored = table.Column<bool>(type: "bit", nullable: false),
                     ExchangeType = table.Column<int>(type: "int", nullable: false),
-                    Color = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     GasolineType = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: false),
-                    NumberOfViews = table.Column<int>(type: "INT", nullable: false),
                     AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -261,8 +261,8 @@ namespace ICar.IdentityServer.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "VARCHAR", nullable: false),
-                    Title = table.Column<string>(type: "NVARCHAR(20)", maxLength: 20, nullable: false),
+                    Id = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
+                    Title = table.Column<string>(type: "NVARCHAR(55)", maxLength: 55, nullable: false),
                     Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
@@ -284,7 +284,7 @@ namespace ICar.IdentityServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CarId = table.Column<string>(type: "VARCHAR(60)", nullable: true)
                 },
                 constraints: table =>

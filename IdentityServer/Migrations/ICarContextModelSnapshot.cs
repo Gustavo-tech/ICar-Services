@@ -190,7 +190,8 @@ namespace ICar.IdentityServer.Migrations
             modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("VARCHAR");
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("DATETIME");
@@ -208,8 +209,8 @@ namespace ICar.IdentityServer.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR(20)");
+                        .HasMaxLength(55)
+                        .HasColumnType("NVARCHAR(55)");
 
                     b.HasKey("Id");
 

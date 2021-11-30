@@ -16,20 +16,16 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<News> GetNewsAsync(int id)
+        public async Task<News> GetNewsAsync(string id)
         {
             return await _dbContext.News.FindAsync(id);
         }
 
-        public async Task<News> GetNewsAsync(string title, string text)
+        public async Task<List<News>> GetNewsAsync()
         {
             return await _dbContext.News
-                .Where(x => x.Title == title && x.Text == text).FirstOrDefaultAsync();
-        }
-
-        public async Task<List<News>> GetUserNewsAsync()
-        {
-            return await _dbContext.News
+                .Include(x => x.Owner)
+                .OrderBy(x => x.LastUpdate)
                 .ToListAsync();
         }
 
@@ -37,6 +33,8 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             return await _dbContext.News
                 .Where(x => x.Owner.Email == email)
+                .Include(x => x.Owner)
+                .OrderBy(x => x.LastUpdate)
                 .ToListAsync();
         }
     }

@@ -14,7 +14,8 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnType("VARCHAR");
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(50);
 
             builder.Property(x => x.LastUpdate)
                 .HasColumnType("DATETIME")
@@ -32,7 +33,7 @@ namespace ICar.Infrastructure.Configurations
             builder.Property(x => x.Title)
                 .HasColumnType("NVARCHAR")
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(55);
         }
     }
 }
