@@ -143,7 +143,6 @@ namespace ICar.API.Controllers
                     }
                 }
 
-
                 return BadRequest();
             }
             catch (Exception e)

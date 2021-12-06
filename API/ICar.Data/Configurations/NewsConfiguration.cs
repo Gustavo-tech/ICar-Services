@@ -17,23 +17,22 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(50);
 
-            builder.Property(x => x.LastUpdate)
+            builder.Property(x => x.UpdatedAt)
                 .HasColumnType("DATETIME")
                 .IsRequired();
 
-            builder.Property(x => x.CreatedOn)
+            builder.Property(x => x.CreatedAt)
                 .HasColumnType("DATETIME")
                 .IsRequired();
 
             builder.Property(x => x.Text)
-                .HasColumnType("NVARCHAR")
-                .IsRequired()
-                .HasMaxLength(500);
+                .HasColumnType("NVARCHAR(MAX)")
+                .IsRequired();
 
             builder.Property(x => x.Title)
                 .HasColumnType("NVARCHAR")
                 .IsRequired()
-                .HasMaxLength(55);
+                .HasMaxLength(100);
         }
     }
 }

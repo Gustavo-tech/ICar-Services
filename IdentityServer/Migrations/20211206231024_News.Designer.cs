@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.IdentityServer.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20211130010001_News")]
+    [Migration("20211206231024_News")]
     partial class News
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,28 +195,27 @@ namespace ICar.IdentityServer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR(50)");
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("OwnerId")
+                    b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("DATETIME");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR(500)");
+                        .HasColumnType("NVARCHAR(MAX)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(55)
-                        .HasColumnType("NVARCHAR(55)");
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("DATETIME");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("News");
                 });
@@ -471,11 +470,11 @@ namespace ICar.IdentityServer.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.News", b =>
                 {
-                    b.HasOne("ICar.Infrastructure.Models.User", "Owner")
+                    b.HasOne("ICar.Infrastructure.Models.User", "Author")
                         .WithMany("News")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("AuthorId");
 
-                    b.Navigation("Owner");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

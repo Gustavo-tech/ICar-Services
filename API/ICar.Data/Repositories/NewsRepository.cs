@@ -24,17 +24,17 @@ namespace ICar.Infrastructure.Database.Repositories
         public async Task<List<News>> GetNewsAsync()
         {
             return await _dbContext.News
-                .Include(x => x.Owner)
-                .OrderBy(x => x.LastUpdate)
+                .Include(x => x.Author)
+                .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
         }
 
         public async Task<List<News>> GetNewsByEmail(string email)
         {
             return await _dbContext.News
-                .Where(x => x.Owner.Email == email)
-                .Include(x => x.Owner)
-                .OrderBy(x => x.LastUpdate)
+                .Where(x => x.Author.Email == email)
+                .Include(x => x.Author)
+                .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
         }
     }

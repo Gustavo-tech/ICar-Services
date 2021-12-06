@@ -33,7 +33,7 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public User Owner
+        public User Author
         {
             get { return _owner; }
             private set
@@ -45,9 +45,8 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-
-        public DateTime CreatedOn { get; private set; }
-        public DateTime LastUpdate { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
 
         private News()
         {
@@ -58,22 +57,22 @@ namespace ICar.Infrastructure.Models
         {
             Title = title;
             Text = text;
-            Owner = owner;
-            CreatedOn = DateTime.Now;
-            LastUpdate = DateTime.Now;
+            Author = owner;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
         }
 
         public News Update(string title, string text)
         {
             Title = title;
             Text = text;
-            LastUpdate = DateTime.Now;
+            UpdatedAt = DateTime.Now;
             return this;
         }
 
         public NewsOutputViewModel ToNewsOutputViewModel()
         {
-            return new NewsOutputViewModel(Id, Owner.Email, Title, Text, CreatedOn, LastUpdate);
+            return new NewsOutputViewModel(Id, Author.Email, Title, Text, CreatedAt, UpdatedAt);
         }
     }
 }

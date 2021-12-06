@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ICar.IdentityServer.Migrations
 {
@@ -262,18 +262,18 @@ namespace ICar.IdentityServer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
-                    Title = table.Column<string>(type: "NVARCHAR(55)", maxLength: 55, nullable: false),
-                    Text = table.Column<string>(type: "NVARCHAR(500)", maxLength: 500, nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    LastUpdate = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    Title = table.Column<string>(type: "NVARCHAR(100)", maxLength: 100, nullable: false),
+                    Text = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_News_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -368,9 +368,9 @@ namespace ICar.IdentityServer.Migrations
                 column: "ToUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_OwnerId",
+                name: "IX_News_AuthorId",
                 table: "News",
-                column: "OwnerId");
+                column: "AuthorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
