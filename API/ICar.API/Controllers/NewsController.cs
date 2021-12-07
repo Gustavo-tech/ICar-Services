@@ -69,6 +69,23 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetById([FromRoute] string id)
+        {
+            try
+            {
+                News news = await _newsRepo.GetNewsById(id);
+                NewsOutputViewModel vm = news.ToNewsOutputViewModel();
+                return Ok(vm);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
         [HttpPost("create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> CreateNewsAsync([FromBody] CreateNewsViewModel vm)

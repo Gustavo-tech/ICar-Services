@@ -1,6 +1,7 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace ICar.IdentityServer
 {
@@ -45,6 +46,8 @@ namespace ICar.IdentityServer
                     },
                     RequireClientSecret = false,
                     RequirePkce = true,
+                    AccessTokenLifetime = 86400,
+                    IdentityTokenLifetime = 86400
                 }
             };
     }

@@ -37,5 +37,13 @@ namespace ICar.Infrastructure.Database.Repositories
                 .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
         }
+
+        public async Task<News> GetNewsById(string id)
+        {
+            return await _dbContext.News
+                .Where(x => x.Id == id)
+                .Include(x => x.Author)
+                .FirstOrDefaultAsync();
+        }
     }
 }
