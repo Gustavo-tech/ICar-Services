@@ -39,7 +39,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> userCars = await _carRepository.GetCarsAsync(email);
-                CarOutputViewModel[] output = userCars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
+                CarOverviewViewModel[] output = userCars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace ICar.API.Controllers
             try
             {
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
-                CarOutputViewModel[] output = cars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
+                CarOverviewViewModel[] output = cars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)

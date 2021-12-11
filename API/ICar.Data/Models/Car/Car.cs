@@ -241,8 +241,8 @@ namespace ICar.Infrastructure.Models
 
         public CarOverviewViewModel GenerateOverviewViewModel()
         {
-            return new CarOverviewViewModel(Id, Maker, Model, KilometersTraveled,
-                Pictures.Select(x => x.PictureUrl).ToArray(), Address);
+            return new CarOverviewViewModel(Id, Maker, Model, MakeDate, MakedDate, 
+                Price, NumberOfViews, KilometersTraveled, Pictures.Select(x => x.PictureUrl).ToArray(), Address);
         }
 
         public CarOutputViewModel GenerateCarOutputViewModel()

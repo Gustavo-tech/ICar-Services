@@ -132,6 +132,8 @@ namespace ICar.Infrastructure.Tests.Models
             Assert.AreEqual(vm.NumberOfViews, _car.NumberOfViews);
             Assert.AreEqual(vm.GasolineType, gasolineType);
             Assert.AreEqual(vm.TypeOfExchange, typeOfExchange);
+            Assert.AreEqual(vm.UserEmail, _car.Owner.Email);
+            Assert.AreEqual(vm.UserPhone, _car.Owner.PhoneNumber);
         }
 
         [Test]
