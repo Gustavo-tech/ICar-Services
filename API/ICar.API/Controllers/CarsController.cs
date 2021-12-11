@@ -88,32 +88,6 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPost("views/{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> IncrementNumberOfViewsAsync([FromRoute] string id)
-        {
-            try
-            {
-                Car car = await _carRepository.GetCarByIdAsync(id);
-
-                if (car != null)
-                {
-                    car.IncreaseNumberOfViews();
-                    await _carRepository.UpdateAsync(car);
-                    return Ok();
-                }
-
-                return NotFound(new
-                {
-                    Message = "We could not find a car with this id"
-                });
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
         [HttpPost("create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> InsertCarAsync([FromBody] InsertCarViewModel create)
@@ -143,6 +117,32 @@ namespace ICar.API.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
+        [HttpPut("views/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> IncrementNumberOfViewsAsync([FromRoute] string id)
+        {
+            try
+            {
+                Car car = await _carRepository.GetCarByIdAsync(id);
+
+                if (car != null)
+                {
+                    car.IncreaseNumberOfViews();
+                    await _carRepository.UpdateAsync(car);
+                    return Ok();
+                }
+
+                return NotFound(new
+                {
+                    Message = "We could not find a car with this id"
+                });
+            }
+            catch (Exception)
+            {
                 return Problem();
             }
         }
