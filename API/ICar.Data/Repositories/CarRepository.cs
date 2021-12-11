@@ -22,6 +22,7 @@ namespace ICar.Infrastructure.Database.Repositories
             return await _dbContext.Cars
                 .Where(x => x.Id == id)
                 .Include(x => x.Address)
+                .Include(x => x.Owner)
                 .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }

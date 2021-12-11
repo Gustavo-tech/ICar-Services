@@ -265,9 +265,11 @@ namespace ICar.Infrastructure.Models
                 TypeOfExchange = ConvertTypeOfExchangeToString(ExchangeType),
                 GasolineType = ConvertGasolineTypeToString(GasolineType),
                 Color = Color,
-                Address = Address,
                 NumberOfViews = NumberOfViews,
-                Pictures = Pictures.Select(x => x.PictureUrl).ToArray()
+                Pictures = Pictures.Select(x => x.PictureUrl).ToArray(),
+                Address = Address,
+                UserEmail = Owner.Email,
+                UserPhone = Owner.PhoneNumber
             };
         }
 
