@@ -268,8 +268,8 @@ namespace ICar.Infrastructure.Models
                 NumberOfViews = NumberOfViews,
                 Pictures = Pictures.Select(x => x.PictureUrl).ToArray(),
                 Address = Address,
-                UserEmail = Owner.Email,
-                UserPhone = Owner.PhoneNumber
+                OwnerEmail = Owner.Email,
+                OwnerPhone = Owner.PhoneNumber
             };
         }
 
