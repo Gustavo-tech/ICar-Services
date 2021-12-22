@@ -4,7 +4,6 @@ using ICar.Infrastructure.Repositories.Search;
 using ICar.Infrastructure.Storage;
 using ICar.Infrastructure.ViewModels.Input.Car;
 using ICar.Infrastructure.ViewModels.Output.Car;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +15,7 @@ namespace ICar.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class CarsController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
@@ -33,13 +33,12 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("{email}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetMyCarsAsync([FromRoute] string email)
         {
             try
             {
                 List<Car> userCars = await _carRepository.GetCarsAsync(email);
-                CarOutputViewModel[] output = userCars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
+                CarOverviewViewModel[] output = userCars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -50,13 +49,12 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("selling")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCarsAsync([FromQuery] CarSearchModel search)
         {
             try
             {
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
-                CarOutputViewModel[] output = cars.Select(x => x.GenerateCarOutputViewModel()).ToArray();
+                CarOverviewViewModel[] output = cars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
             catch (Exception ex)
@@ -67,7 +65,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("selling/{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCarAsync([FromRoute] string id)
         {
             try
@@ -88,34 +85,7 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpPost("views/{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> IncrementNumberOfViewsAsync([FromRoute] string id)
-        {
-            try
-            {
-                Car car = await _carRepository.GetCarByIdAsync(id);
-
-                if (car != null)
-                {
-                    car.IncreaseNumberOfViews();
-                    await _carRepository.UpdateAsync(car);
-                    return Ok();
-                }
-
-                return NotFound(new
-                {
-                    Message = "We could not find a car with this id"
-                });
-            }
-            catch (Exception)
-            {
-                return Problem();
-            }
-        }
-
         [HttpPost("create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> InsertCarAsync([FromBody] InsertCarViewModel create)
         {
             try
@@ -147,8 +117,32 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpPut("views/{id}")]
+        public async Task<IActionResult> IncrementNumberOfViewsAsync([FromRoute] string id)
+        {
+            try
+            {
+                Car car = await _carRepository.GetCarByIdAsync(id);
+
+                if (car != null)
+                {
+                    car.IncreaseNumberOfViews();
+                    await _carRepository.UpdateAsync(car);
+                    return Ok();
+                }
+
+                return NotFound(new
+                {
+                    Message = "We could not find a car with this id"
+                });
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
         [HttpPut("update")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateCarAsync([FromBody] UpdateCarViewModel vm)
         {
             try
@@ -160,7 +154,7 @@ namespace ICar.API.Controllers
                 {
                     bool removedPictures = false;
                     int picIndex = 0;
-                    while(!removedPictures)
+                    while (!removedPictures)
                     {
                         CarPicture picture = car.Pictures[picIndex];
                         await _baseRepository.DeleteAsync(picture);
@@ -190,7 +184,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpDelete("delete")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteCarAsync([FromBody] DeleteCarViewModel vm)
         {
             try
