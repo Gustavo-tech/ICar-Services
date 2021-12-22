@@ -4,15 +4,17 @@ using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Repositories;
 using ICar.Infrastructure.Repositories.Interfaces;
 using ICar.Infrastructure.Storage;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Logging;
 
 namespace ICar.API
 {
@@ -27,6 +29,8 @@ namespace ICar.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -53,17 +57,8 @@ namespace ICar.API
 
             // JWT
             byte[] key = Encoding.ASCII.GetBytes(Configuration["JwtKey"]);
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", config =>
-                {
-                    config.Authority = "https://localhost:5002";
-                    config.Audience = "Api";
-                    config.RequireHttpsMetadata = false;
-                    config.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateAudience = false
-                    };
-                });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration, "AzureAdB2C");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

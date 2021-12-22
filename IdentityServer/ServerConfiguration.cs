@@ -47,7 +47,8 @@ namespace ICar.IdentityServer
                     RequireClientSecret = false,
                     RequirePkce = true,
                     AccessTokenLifetime = 86400,
-                    IdentityTokenLifetime = 86400
+                    IdentityTokenLifetime = 86400,
+                    AlwaysSendClientClaims = true
                 }
             };
     }
