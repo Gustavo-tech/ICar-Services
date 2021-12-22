@@ -15,8 +15,8 @@ namespace ICar.Infrastructure.ViewModels.Output.Car
         public string[] Pictures { get; private set; }
         public Address Address { get; private set; }
 
-        public CarOverviewViewModel(string id, string maker, string model, 
-            int makeDate, int makedDate, int price, int numberOfViews, 
+        public CarOverviewViewModel(string id, string maker, string model,
+            int makeDate, int makedDate, int price, int numberOfViews,
             double kilometersTraveled, string[] pictures, Address address)
         {
             Id = id;

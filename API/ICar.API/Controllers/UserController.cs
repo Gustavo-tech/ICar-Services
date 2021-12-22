@@ -3,7 +3,6 @@ using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using ICar.Infrastructure.ViewModels.Input.Message;
 using ICar.Infrastructure.ViewModels.Output.Message;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +15,7 @@ namespace ICar.API.Controllers
 
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -30,7 +30,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("info/{email}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUserInformation([FromRoute] string email)
         {
             try
@@ -50,7 +49,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("logins/{email}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetLogins([FromRoute] string email)
         {
             try
@@ -66,7 +64,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("talks/{email}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetTalks([FromRoute] string email)
         {
             try
@@ -106,7 +103,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("messages/{emailUser}/{emailTalked}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetMessages(string emailUser, string emailTalked)
         {
             try
@@ -131,7 +127,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("message")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageViewModel sendMessage)
         {
             try

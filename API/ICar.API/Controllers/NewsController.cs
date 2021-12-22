@@ -2,7 +2,6 @@
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.ViewModels.Input.News;
 using ICar.Infrastructure.ViewModels.Output.News;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +13,7 @@ namespace ICar.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class NewsController : ControllerBase
     {
         private readonly IBaseRepository _baseRepo;
@@ -29,7 +29,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetNewsAsync()
         {
             try
@@ -46,7 +45,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("all/{email}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUserNewsAsync([FromRoute] string email)
         {
             try
@@ -70,7 +68,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetById([FromRoute] string id)
         {
             try
@@ -87,7 +84,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> CreateNewsAsync([FromBody] CreateNewsViewModel vm)
         {
             try
@@ -111,7 +107,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpPut("update")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateNewsAsync([FromBody] UpdateNewsViewModel vm)
         {
             try
@@ -141,7 +136,6 @@ namespace ICar.API.Controllers
         }
 
         [HttpDelete("delete")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteNewsAsync([FromBody] DeleteNewsViewModel vm)
         {
             try
