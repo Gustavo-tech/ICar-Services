@@ -10,7 +10,7 @@ namespace ICar.Infrastructure.Storage
 {
     public class AzureStorageService : IStorageService
     {
-        private BlobContainerClient _container;
+        private readonly BlobContainerClient _container;
 
         public AzureStorageService(IConfiguration configuration)
         {

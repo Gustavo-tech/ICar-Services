@@ -2,7 +2,6 @@
 {
     public class DeleteCarViewModel
     {
-        public string OwnerEmail { get; set; }
         public string CarId { get; set; }
     }
 }

@@ -3,7 +3,6 @@
     public class UpdateCarViewModel
     {
         public string Id { get; set; }
-        public string OwnerEmail { get; set; }
         public int KilometersTraveled { get; set; }
         public int Price { get; set; }
         public string Message { get; set; }

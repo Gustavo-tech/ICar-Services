@@ -160,7 +160,6 @@ namespace ICar.Infrastructure.Tests.Models
                 ExchangeType = "automatic",
                 GasolineType = "gasoline",
                 Color = "#FFFFF",
-                UserEmail = "gustavo@gmail.com",
                 ZipCode = "13044650",
                 District = "Jardim Antonio Von Zuben",
                 Location = "Campinas",
