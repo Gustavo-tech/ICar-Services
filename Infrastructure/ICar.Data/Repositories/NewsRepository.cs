@@ -24,7 +24,7 @@ namespace ICar.Infrastructure.Database.Repositories
         public async Task<List<News>> GetNewsAsync()
         {
             return await _dbContext.News
-                .Include(x => x.Author)
+                .Include(x => x.AuthorId)
                 .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
         }
@@ -32,8 +32,8 @@ namespace ICar.Infrastructure.Database.Repositories
         public async Task<List<News>> GetNewsByEmail(string authorId)
         {
             return await _dbContext.News
-                .Where(x => x.Author == authorId)
-                .Include(x => x.Author)
+                .Where(x => x.AuthorId == authorId)
+                .Include(x => x.AuthorId)
                 .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
         }
@@ -42,7 +42,7 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             return await _dbContext.News
                 .Where(x => x.Id == id)
-                .Include(x => x.Author)
+                .Include(x => x.AuthorId)
                 .FirstOrDefaultAsync();
         }
     }

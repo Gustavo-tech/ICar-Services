@@ -61,19 +61,13 @@ namespace ICar.Infrastructure.Database.Repositories
             return cars;
         }
 
-        public async Task<List<Car>> GetCarsAsync(string ownerId)
+        public async Task<List<Car>> GetUserCarsAsync(string ownerId)
         {
             return await _dbContext.Cars
                 .Where(x => x.OwnerId == ownerId)
                 .Include(x => x.Pictures)
                 .Include(x => x.Address)
                 .ToListAsync();
-        }
-
-        public async Task UpdateAsync(Car car)
-        {
-            _dbContext.Cars.Update(car);
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

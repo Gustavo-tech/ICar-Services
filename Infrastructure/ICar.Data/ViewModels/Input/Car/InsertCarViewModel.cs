@@ -17,7 +17,6 @@
         public string ExchangeType { get; set; }
         public string Color { get; set; }
         public string GasolineType { get; set; }
-        public string UserEmail { get; set; }
         public string ZipCode { get; set; }
         public string Location { get; set; }
         public string District { get; set; }

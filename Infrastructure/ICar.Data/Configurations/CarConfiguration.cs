@@ -18,13 +18,13 @@ namespace ICar.Infrastructure.Configurations
 
             builder.Property(x => x.Maker)
                 .HasColumnType("VARCHAR(60)")
-                .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(60)
+                .IsRequired();
 
             builder.Property(x => x.Model)
                 .HasColumnType("VARCHAR(60)")
-                .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(60)
+                .IsRequired();
 
             builder.Property(x => x.MakeDate)
                 .HasColumnType("INT")
@@ -36,26 +36,30 @@ namespace ICar.Infrastructure.Configurations
 
             builder.Property(x => x.Price)
                 .HasColumnType("INT")
-                .IsRequired()
-                .HasMaxLength(10000000);
+                .HasMaxLength(10000000)
+                .IsRequired();
 
             builder.Property(x => x.Message)
                 .HasColumnType("NVARCHAR")
-                .IsRequired()
-                .HasMaxLength(500);
+                .HasMaxLength(500)
+                .IsRequired();
 
             builder.Property(x => x.Color)
                 .HasColumnType("VARCHAR(60)")
-                .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsRequired();
 
             builder.Property(x => x.GasolineType)
                 .HasColumnType("VARCHAR(60)")
-                .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(20)
+                .IsRequired();
 
             builder.Property(x => x.NumberOfViews)
                 .HasColumnType("INT")
+                .IsRequired();
+
+            builder.Property(x => x.OwnerId)
+                .HasColumnType("CHAR(36)")
                 .IsRequired();
 
             builder.HasOne(x => x.Address);

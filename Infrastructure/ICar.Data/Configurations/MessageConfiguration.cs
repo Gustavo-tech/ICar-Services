@@ -18,16 +18,18 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("VARCHAR");
 
             builder.Property(x => x.Text)
-                .IsRequired()
-                .HasMaxLength(120);
-
-            builder.HasOne(x => x.ToUser)
-                .WithMany();
-
-            builder.HasOne(x => x.FromUser)
-                .WithMany();
+                .HasMaxLength(120)
+                .IsRequired();
 
             builder.Property(x => x.SentAt)
+                .IsRequired();
+
+            builder.Property(x => x.ToUser)
+                .HasColumnType("CHAR(36)")
+                .IsRequired();
+
+            builder.Property(x => x.FromUser)
+                .HasColumnType("CHAR(36)")
                 .IsRequired();
         }
     }

@@ -41,7 +41,7 @@ namespace ICar.Infrastructure.Tests.Models
             var vm = _news.ToNewsOutputViewModel();
 
             Assert.AreEqual(vm.Id, _news.Id);
-            Assert.AreEqual(vm.Author, _news.Author);
+            Assert.AreEqual(vm.Author, _news.AuthorId);
             Assert.AreEqual(vm.Text, _news.Text);
             Assert.AreEqual(vm.Title, _news.Title);
             Assert.AreEqual(vm.UpdatedAt, _news.UpdatedAt);

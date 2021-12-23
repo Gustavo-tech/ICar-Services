@@ -31,8 +31,12 @@ namespace ICar.Infrastructure.Configurations
 
             builder.Property(x => x.Title)
                 .HasColumnType("NVARCHAR")
-                .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(x => x.AuthorId)
+                .HasColumnType("CHAR(36)")
+                .IsRequired();
         }
     }
 }

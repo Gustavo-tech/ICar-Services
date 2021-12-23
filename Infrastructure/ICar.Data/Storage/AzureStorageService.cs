@@ -34,6 +34,19 @@ namespace ICar.Infrastructure.Storage
             });
         }
 
+        public async Task UploadCarPicturesAsync(Car car, string[] pictures)
+        {
+            if (car is null || pictures is null)
+                return;
+
+            for (int i = 0; i < pictures.Length; i++)
+            {
+                string url = car.Pictures[i].GenerateStoragePath();
+                string base64 = pictures[i];
+                await UploadPictureAsync(url, base64);
+            }
+        }
+
         public async Task DeleteBlobAsync(string url)
         {
             if (string.IsNullOrWhiteSpace(url))

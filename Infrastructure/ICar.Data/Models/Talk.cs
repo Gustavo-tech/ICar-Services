@@ -2,8 +2,8 @@
 {
     public class Talk
     {
-        public string UserName { get; set; }
-        public string LastMessage { get; set; }
+        public string UserName { get; private set; }
+        public string LastMessage { get; private set; }
 
         public Talk(string userName, string lastMessage)
         {

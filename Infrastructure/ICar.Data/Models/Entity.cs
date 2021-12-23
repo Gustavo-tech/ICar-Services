@@ -11,7 +11,7 @@ namespace ICar.Infrastructure.Models
             Id = Guid.NewGuid().ToString("N");
         }
 
-        protected string GenerateId()
+        protected static string GenerateId()
         {
             return Guid.NewGuid().ToString("N");
         }
