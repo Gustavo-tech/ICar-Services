@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ICar.Infrastructure.Database
 {
-    public class ICarContext : IdentityDbContext<User>
+    public class ICarContext : DbContext
     {
         public ICarContext(DbContextOptions<ICarContext> options)
             : base(options)
@@ -13,7 +13,6 @@ namespace ICar.Infrastructure.Database
 
         }
 
-        public DbSet<Login> Logins { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Car> Cars { get; set; }
@@ -26,7 +25,6 @@ namespace ICar.Infrastructure.Database
             builder.ApplyConfiguration(new MessageConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
-            builder.ApplyConfiguration(new LoginConfiguration());
         }
     }
 }

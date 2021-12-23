@@ -22,7 +22,7 @@ namespace ICar.Infrastructure.Database.Repositories
             return await _dbContext.Cars
                 .Where(x => x.Id == id)
                 .Include(x => x.Address)
-                .Include(x => x.Owner)
+                .Include(x => x.OwnerId)
                 .Include(x => x.Pictures)
                 .FirstOrDefaultAsync();
         }
@@ -61,10 +61,10 @@ namespace ICar.Infrastructure.Database.Repositories
             return cars;
         }
 
-        public async Task<List<Car>> GetCarsAsync(string email)
+        public async Task<List<Car>> GetCarsAsync(string ownerId)
         {
             return await _dbContext.Cars
-                .Where(x => x.Owner.Email == email)
+                .Where(x => x.OwnerId == ownerId)
                 .Include(x => x.Pictures)
                 .Include(x => x.Address)
                 .ToListAsync();

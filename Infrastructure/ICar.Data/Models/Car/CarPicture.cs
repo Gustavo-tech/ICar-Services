@@ -24,9 +24,9 @@ namespace ICar.Infrastructure.Models
         {
         }
 
-        public CarPicture(string userName, string carId, string base64)
+        public CarPicture(string userId, string carId, string base64)
         {
-            if (string.IsNullOrWhiteSpace(userName) || userName.Contains(" "))
+            if (string.IsNullOrWhiteSpace(userId) || userId.Contains(" "))
                 throw new InvalidOperationException("User name is not valid");
 
             else if (string.IsNullOrWhiteSpace(carId) || carId.Contains(" "))
@@ -34,7 +34,7 @@ namespace ICar.Infrastructure.Models
 
             Id = GenerateId();
             string extension = GetPictureExtension(base64);
-            PictureUrl = $"https://icarstorage.blob.core.windows.net/users/{userName}/cars/{carId}/{Id}.{extension}";
+            PictureUrl = $"https://icarstorage.blob.core.windows.net/users/{userId}/cars/{carId}/{Id}.{extension}";
         }
 
         public string GenerateStoragePath()

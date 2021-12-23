@@ -5,11 +5,11 @@ namespace ICar.Infrastructure.Models
 {
     public class Message : Entity
     {
-        private User _fromUser;
-        private User _toUser;
+        private string _fromUser;
+        private string _toUser;
         private string _text;
 
-        public User FromUser
+        public string FromUser
         {
             get { return _fromUser; }
             private set
@@ -21,7 +21,7 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public User ToUser
+        public string ToUser
         {
             get { return _toUser; }
             private set
@@ -51,21 +51,13 @@ namespace ICar.Infrastructure.Models
         {
         }
 
-        public Message(User fromUser, User toUser, string text)
+        public Message(string fromUser, string toUser, string text)
             : base()
         {
             FromUser = fromUser;
             ToUser = toUser;
             Text = text;
             SentAt = DateTime.Now;
-        }
-
-        public MessageOutputViewModel ToMessageOutputViewModel()
-        {
-            UserMessageDetails from = new(FromUser.Email, FromUser.UserName);
-            UserMessageDetails to = new(ToUser.Email, ToUser.UserName);
-
-            return new MessageOutputViewModel(Id, Text, SentAt, from, to);
         }
 
         public Talk ToTalk(string sendLast)

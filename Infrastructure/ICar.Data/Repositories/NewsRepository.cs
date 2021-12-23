@@ -29,10 +29,10 @@ namespace ICar.Infrastructure.Database.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<News>> GetNewsByEmail(string email)
+        public async Task<List<News>> GetNewsByEmail(string authorId)
         {
             return await _dbContext.News
-                .Where(x => x.Author.Email == email)
+                .Where(x => x.Author == authorId)
                 .Include(x => x.Author)
                 .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();

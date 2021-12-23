@@ -11,11 +11,11 @@ namespace ICar.Infrastructure.ViewModels.Output.News
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
-        public NewsOutputViewModel(string id, string publishedBy, string title,
+        public NewsOutputViewModel(string id, string author, string title,
             string text, DateTime createdAt, DateTime updatedAt)
         {
             Id = id;
-            Author = publishedBy;
+            Author = author;
             Title = title;
             Text = text;
             CreatedAt = createdAt;

@@ -13,37 +13,18 @@ namespace ICar.Infrastructure.Tests.Models
         {
             string title = "Mercedes";
             string text = "Mercedes has been upgrading it's cars since 2000";
-            User user = new("Gustavo", "(19) 83213-2912", "dss@gmail.com", "client");
+            string authorId = "Gustavo";
 
-            _news = new(title, text, user);
+            _news = new(title, text, authorId);
         }
 
         [Test, Combinatorial]
         public void TestConstructor_NewsIsInvalid_ThrowAnException(
             [Values(null, "", "  ")] string title,
             [Values(null, "", "  ")] string text,
-            [Values(null)] User user)
+            [Values(null)] string authorId)
         {
-            Assert.Catch<Exception>(() => new News(title, text, user));
-        }
-
-        [Test]
-        public void TestConstructor_NewsIsValid_ShouldConstructAnUser()
-        {
-            try
-            {
-                string title = "Mercedes";
-                string text = "Mercedes has been upgrading it's cars since 2000";
-                User user = new("Gustavo", "(19) 83213-2912", "dss@gmail.com", "client");
-
-                News news = new(title, text, user);
-
-                Assert.IsNotNull(news);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+            Assert.Catch<Exception>(() => new News(title, text, authorId));
         }
 
         [Test, Combinatorial]
@@ -60,7 +41,7 @@ namespace ICar.Infrastructure.Tests.Models
             var vm = _news.ToNewsOutputViewModel();
 
             Assert.AreEqual(vm.Id, _news.Id);
-            Assert.AreEqual(vm.Author, _news.Author.Email);
+            Assert.AreEqual(vm.Author, _news.Author);
             Assert.AreEqual(vm.Text, _news.Text);
             Assert.AreEqual(vm.Title, _news.Title);
             Assert.AreEqual(vm.UpdatedAt, _news.UpdatedAt);

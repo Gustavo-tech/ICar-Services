@@ -24,8 +24,7 @@ namespace ICar.Infrastructure.ViewModels.Output.Car
         public string[] Pictures { get; internal set; }
 
         public Address Address { get; internal set; }
-        public string OwnerEmail { get; internal set; }
-        public string OwnerPhone { get; internal set; }
+        public string OwnerId { get; internal set; }
 
         internal CarOutputViewModel()
         {

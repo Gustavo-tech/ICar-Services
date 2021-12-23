@@ -10,16 +10,16 @@ namespace ICar.Infrastructure.Tests.Models
     class CarTests
     {
         private Car _car;
-        private User _owner;
+        private string _ownerId;
 
         [SetUp]
         public void SetUp()
         {
-            _owner = new("Gustavo", "(19) 99876-0982", "gustavo@gmail.com", "admin");
+            _ownerId = "Gustavo";
 
             _car = new("JKH-9087", "Ford", "Mustang", 2020, 2021, 2000, 350000,
                 "This car has a nice sound", "#FFFFF", ExchangeType.Manual, GasolineType.Gasoline,
-                _owner, null, new string[] { "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBUVF" });
+                _ownerId, null, new string[] { "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBUVF" });
         }
 
         [Test]
@@ -132,8 +132,6 @@ namespace ICar.Infrastructure.Tests.Models
             Assert.AreEqual(vm.NumberOfViews, _car.NumberOfViews);
             Assert.AreEqual(vm.GasolineType, gasolineType);
             Assert.AreEqual(vm.TypeOfExchange, typeOfExchange);
-            Assert.AreEqual(vm.OwnerEmail, _car.Owner.Email);
-            Assert.AreEqual(vm.OwnerPhone, _car.Owner.PhoneNumber);
         }
 
         [Test]
@@ -170,7 +168,7 @@ namespace ICar.Infrastructure.Tests.Models
                 Pictures = new string[] { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
             };
 
-            Car car = await Car.GenerateWithInsertCarViewModel(vm, _owner);
+            Car car = await Car.GenerateWithInsertCarViewModel(vm, _ownerId);
 
             Assert.IsNotNull(car);
         }

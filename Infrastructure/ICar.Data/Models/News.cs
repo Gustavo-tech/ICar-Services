@@ -7,7 +7,7 @@ namespace ICar.Infrastructure.Models
     {
         private string _title;
         private string _text;
-        private User _owner;
+        private string _author;
 
         public string Title
         {
@@ -33,15 +33,15 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public User Author
+        public string Author
         {
-            get { return _owner; }
+            get { return _author; }
             private set
             {
                 if (value is null)
                     throw new Exception("Owner must not be null");
 
-                _owner = value;
+                _author = value;
             }
         }
 
@@ -52,12 +52,12 @@ namespace ICar.Infrastructure.Models
         {
         }
 
-        public News(string title, string text, User owner)
+        public News(string title, string text, string author)
             : base()
         {
             Title = title;
             Text = text;
-            Author = owner;
+            Author = author;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
         }
@@ -72,7 +72,7 @@ namespace ICar.Infrastructure.Models
 
         public NewsOutputViewModel ToNewsOutputViewModel()
         {
-            return new NewsOutputViewModel(Id, Author.Email, Title, Text, CreatedAt, UpdatedAt);
+            return new NewsOutputViewModel(Id, Author, Title, Text, CreatedAt, UpdatedAt);
         }
     }
 }

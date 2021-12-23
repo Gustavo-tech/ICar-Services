@@ -141,7 +141,7 @@ namespace ICar.Infrastructure.Models
         public GasolineType GasolineType { get; private set; }
 
         public Address Address { get; private set; }
-        public User Owner { get; private set; }
+        public string OwnerId { get; private set; }
         public List<CarPicture> Pictures { get; private set; } = new List<CarPicture>();
 
         private Car()
@@ -152,7 +152,7 @@ namespace ICar.Infrastructure.Models
         public Car(string plate, string maker, string model,
             int makeDate, int makedDate, int kilometersTraveled,
             int price, string message, string color,
-            ExchangeType exchangeType, GasolineType gasolineType, User owner,
+            ExchangeType exchangeType, GasolineType gasolineType, string ownerId,
             Address address, string[] pictures, bool acceptsChange = false,
             bool ipvaIsPaid = false, bool isLicensed = false, bool isArmored = false)
         {
@@ -171,7 +171,7 @@ namespace ICar.Infrastructure.Models
             ExchangeType = exchangeType;
             Color = color;
             GasolineType = gasolineType;
-            Owner = owner;
+            OwnerId = ownerId;
             Address = address;
             GenerateCarPictures(pictures);
         }
@@ -227,7 +227,7 @@ namespace ICar.Infrastructure.Models
         {
             foreach (string pic in pictures)
             {
-                CarPicture cp = new(Owner.UserName, Id, pic);
+                CarPicture cp = new(OwnerId, Id, pic);
                 Pictures.Add(cp);
             }
 
@@ -236,7 +236,7 @@ namespace ICar.Infrastructure.Models
 
         public string GeneratePictureStoragePath()
         {
-            return $"{Owner.UserName}/cars/{Id}";
+            return $"{OwnerId}/cars/{Id}";
         }
 
         public CarOverviewViewModel GenerateOverviewViewModel()
@@ -268,18 +268,17 @@ namespace ICar.Infrastructure.Models
                 NumberOfViews = NumberOfViews,
                 Pictures = Pictures.Select(x => x.PictureUrl).ToArray(),
                 Address = Address,
-                OwnerEmail = Owner.Email,
-                OwnerPhone = Owner.PhoneNumber
+                OwnerId = OwnerId,
             };
         }
 
-        public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, User owner)
+        public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, string ownerId)
         {
             if (vm is null)
                 throw new ArgumentNullException(nameof(vm), "View model must not be null");
 
-            if (owner is null)
-                throw new ArgumentNullException(nameof(owner), "Owner must not be null");
+            if (string.IsNullOrWhiteSpace(ownerId))
+                throw new ArgumentNullException(nameof(ownerId), "Owner must not be null");
 
             Car car = new
             (
@@ -294,7 +293,7 @@ namespace ICar.Infrastructure.Models
                 vm.Color,
                 ConvertStringToTypeOfExchange(vm.ExchangeType),
                 ConvertStringToGasolineType(vm.GasolineType),
-                owner,
+                ownerId,
                 await Address.BuildAddress(vm.ZipCode, vm.Location, vm.District, vm.Street),
                 vm.Pictures,
                 vm.AcceptsChange,

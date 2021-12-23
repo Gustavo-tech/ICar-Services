@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\ICar.Data\ICar.Infrastructure.csproj" />
     <ProjectReference Include="..\ICar.Data\ICar.Infrastructure.csproj" />
   </ItemGroup>
 
