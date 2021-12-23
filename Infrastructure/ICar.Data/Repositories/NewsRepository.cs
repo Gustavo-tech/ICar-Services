@@ -16,7 +16,7 @@ namespace ICar.Infrastructure.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<News> GetNewsAsync(string id)
+        public async Task<News> GetNewsByIdAsync(string id)
         {
             return await _dbContext.News.FindAsync(id);
         }
@@ -24,25 +24,16 @@ namespace ICar.Infrastructure.Database.Repositories
         public async Task<List<News>> GetNewsAsync()
         {
             return await _dbContext.News
-                .Include(x => x.AuthorId)
                 .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
         }
 
-        public async Task<List<News>> GetNewsByAuthorId(string authorId)
+        public async Task<List<News>> GetNewsByAuthorIdAsync(string authorId)
         {
             return await _dbContext.News
                 .Where(x => x.AuthorId == authorId)
                 .OrderBy(x => x.UpdatedAt)
                 .ToListAsync();
-        }
-
-        public async Task<News> GetNewsById(string id)
-        {
-            return await _dbContext.News
-                .Where(x => x.Id == id)
-                .Include(x => x.AuthorId)
-                .FirstOrDefaultAsync();
         }
     }
 }

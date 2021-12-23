@@ -48,7 +48,7 @@ namespace ICar.API.Controllers
             try
             {
                 string authorId = HttpContext.GetUserObjectId();
-                List<News> userNews = await _newsRepo.GetNewsByAuthorId(authorId);
+                List<News> userNews = await _newsRepo.GetNewsByAuthorIdAsync(authorId);
                 NewsOutputViewModel[] output = userNews.Select(x => x.ToNewsOutputViewModel()).ToArray();
 
                 return Ok(output);
@@ -65,7 +65,7 @@ namespace ICar.API.Controllers
         {
             try
             {
-                News news = await _newsRepo.GetNewsById(id);
+                News news = await _newsRepo.GetNewsByIdAsync(id);
 
                 if (news != null)
                 {
@@ -106,7 +106,7 @@ namespace ICar.API.Controllers
             try
             {
                 string userId = HttpContext.GetUserObjectId();
-                News news = await _newsRepo.GetNewsAsync(vm.Id);
+                News news = await _newsRepo.GetNewsByIdAsync(vm.Id);
                 bool userIsAuthor = news.AuthorId == userId;
 
                 if (userIsAuthor)
@@ -131,7 +131,7 @@ namespace ICar.API.Controllers
             try
             {
                 string userId = HttpContext.GetUserObjectId();
-                News news = await _newsRepo.GetNewsAsync(vm.Id);
+                News news = await _newsRepo.GetNewsByIdAsync(vm.Id);
                 bool userIsAuthor = news.AuthorId == userId;
 
                 if (userIsAuthor)
