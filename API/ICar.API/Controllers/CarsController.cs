@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
     [Authorize]
+    [Route("[controller]")]
     public class CarsController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
@@ -36,7 +36,6 @@ namespace ICar.API.Controllers
         {
             try
             {
-
                 string ownerId = HttpContext.GetUserObjectId();
                 List<Car> userCars = await _carRepository.GetUserCarsAsync(ownerId);
                 CarOverviewViewModel[] output = userCars.Select(x => x.GenerateOverviewViewModel()).ToArray();

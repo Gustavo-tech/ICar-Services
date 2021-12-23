@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace ICar.API.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
     [Authorize]
+    [Route("[controller]")]
     public class NewsController : ControllerBase
     {
         private readonly IBaseRepository _baseRepo;
