@@ -1,8 +1,6 @@
 ﻿using ICar.API.ControllerExtensions;
-using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
-using ICar.Infrastructure.ViewModels.Input.Message;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +16,10 @@ namespace ICar.API.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IMessageRepository _messageRepository;
-        private readonly IBaseRepository _baseRepository;
 
-        public MessagesController(IMessageRepository messageRepository, IBaseRepository baseRepository)
+        public MessagesController(IMessageRepository messageRepository)
         {
             _messageRepository = messageRepository;
-            _baseRepository = baseRepository;
         }
 
         [HttpGet("talks")]
@@ -52,24 +48,6 @@ namespace ICar.API.Controllers
                 string userId = HttpContext.GetUserObjectId();
                 List<Message> messages = await _messageRepository.GetMessagesWithUser(userId, withUserId);
                 return Ok(messages);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return Problem();
-            }
-        }
-
-        [HttpPost("send")]
-        public async Task<IActionResult> SendMessage([FromBody] SendMessageViewModel vm)
-        {
-            try
-            {
-                string userId = HttpContext.GetUserObjectId();
-                Message message = new(userId, vm.ToUserId, vm.Text);
-                await _baseRepository.AddAsync(message);
-
-                return Ok();
             }
             catch (Exception e)
             {

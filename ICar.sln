@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.Infrastructure", "Infr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICar.Infrastructure.Tests", "Infrastructure\ICar.Tests\ICar.Infrastructure.Tests.csproj", "{01C8916C-6A84-4415-AAC8-6E0B038180A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{8596AA39-D1A0-49AB-A423-9D12494EC03E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICar.Chat", "Services\ICar.Chat\ICar.Chat.csproj", "{42DE900B-AEBB-44C1-A4ED-3025CEE06507}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,10 @@ Global
 		{01C8916C-6A84-4415-AAC8-6E0B038180A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01C8916C-6A84-4415-AAC8-6E0B038180A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01C8916C-6A84-4415-AAC8-6E0B038180A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42DE900B-AEBB-44C1-A4ED-3025CEE06507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42DE900B-AEBB-44C1-A4ED-3025CEE06507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42DE900B-AEBB-44C1-A4ED-3025CEE06507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42DE900B-AEBB-44C1-A4ED-3025CEE06507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +47,7 @@ Global
 		{957C75EF-0282-4D75-BBA1-4DED7AB6CED9} = {DA6C5700-69B0-4768-A705-08907C673255}
 		{F60E9051-11EF-4152-A307-E827C1D4A159} = {CEBED074-9A00-43E5-AB21-44AC67920FDE}
 		{01C8916C-6A84-4415-AAC8-6E0B038180A4} = {CEBED074-9A00-43E5-AB21-44AC67920FDE}
+		{42DE900B-AEBB-44C1-A4ED-3025CEE06507} = {8596AA39-D1A0-49AB-A423-9D12494EC03E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9E5719F-1788-4522-AE9E-BD64A5138B50}
