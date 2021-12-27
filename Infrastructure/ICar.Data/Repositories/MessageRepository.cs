@@ -23,5 +23,12 @@ namespace ICar.Infrastructure.Repositories
                 .Where(x => x.ToUser == userId || x.FromUser == userId)
                 .ToListAsync();
         }
+
+        public async Task<List<Message>> GetMessagesWithUser(string userId, string withUserId)
+        {
+            return await _context.Messages
+                .Where(x => x.FromUser == userId && x.ToUser == withUserId || x.FromUser == withUserId && x.ToUser == userId)
+                .ToListAsync();
+        }
     }
 }

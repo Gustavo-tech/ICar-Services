@@ -7,5 +7,6 @@ namespace ICar.Infrastructure.Repositories.Interfaces
     public interface IMessageRepository
     {
         Task<List<Message>> GetMessagesByUser(string userId);
+        Task<List<Message>> GetMessagesWithUser(string userId, string withUserId);
     }
 }
