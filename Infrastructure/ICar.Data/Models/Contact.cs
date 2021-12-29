@@ -56,6 +56,10 @@ namespace ICar.Infrastructure.Models
             }
         }
 
+        private Contact()
+        {
+        }
+
         public Contact(string userObjectId, string nickname, string phoneNumber,
             string emailAddress) : base()
         {

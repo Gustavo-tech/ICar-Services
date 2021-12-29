@@ -14,7 +14,7 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("VARCHAR(60)");
 
             builder.Property(x => x.Plate)
-                .HasColumnType("Char(8)");
+                .HasColumnType("CHAR(8)");
 
             builder.Property(x => x.Maker)
                 .HasColumnType("VARCHAR(60)")

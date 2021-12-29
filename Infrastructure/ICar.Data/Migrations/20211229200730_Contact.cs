@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ICar.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Contact : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,21 @@ namespace ICar.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contacts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserObjectId = table.Column<string>(type: "CHAR(36)", nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,7 +73,7 @@ namespace ICar.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "VARCHAR(60)", nullable: false),
-                    Plate = table.Column<string>(type: "Char(8)", nullable: true),
+                    Plate = table.Column<string>(type: "CHAR(8)", nullable: true),
                     Maker = table.Column<string>(type: "VARCHAR(60)", maxLength: 60, nullable: false),
                     Model = table.Column<string>(type: "VARCHAR(60)", maxLength: 60, nullable: false),
                     MakeDate = table.Column<int>(type: "INT", nullable: false),
@@ -74,8 +89,9 @@ namespace ICar.Infrastructure.Migrations
                     IsArmored = table.Column<bool>(type: "bit", nullable: false),
                     ExchangeType = table.Column<int>(type: "int", nullable: false),
                     GasolineType = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: false),
+                    OwnerId = table.Column<string>(type: "CHAR(36)", nullable: false),
                     AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    OwnerId = table.Column<string>(type: "CHAR(36)", nullable: false)
+                    ContactId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,6 +100,12 @@ namespace ICar.Infrastructure.Migrations
                         name: "FK_Cars_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cars_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -116,6 +138,11 @@ namespace ICar.Infrastructure.Migrations
                 name: "IX_Cars_AddressId",
                 table: "Cars",
                 column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_ContactId",
+                table: "Cars",
+                column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -134,6 +161,9 @@ namespace ICar.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
         }
     }
 }

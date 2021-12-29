@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace ICar.API
@@ -35,16 +34,11 @@ namespace ICar.API
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ICar.API", Version = "v1" });
-            });
-
             // Dependency injection
             services.AddTransient<INewsRepository, NewsRepository>();
             services.AddTransient<ICarRepository, CarRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            //services.AddTransient<IMessageRepository, MessageRepository>();
+            //services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IStorageService, AzureStorageService>();
 
@@ -65,8 +59,6 @@ namespace ICar.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ICar.API v1"));
             }
 
             app.UseHttpsRedirection();

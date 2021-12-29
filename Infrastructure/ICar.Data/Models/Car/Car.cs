@@ -146,7 +146,6 @@ namespace ICar.Infrastructure.Models
         public List<CarPicture> Pictures { get; private set; } = new List<CarPicture>();
 
         private Car()
-            : base()
         {
         }
 

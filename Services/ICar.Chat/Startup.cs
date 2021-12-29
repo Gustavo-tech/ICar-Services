@@ -1,8 +1,10 @@
 using ICar.Chat.Hubs;
+using ICar.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +28,11 @@ namespace ICar.Chat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+
+            services.AddDbContext<ICarContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServer"));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

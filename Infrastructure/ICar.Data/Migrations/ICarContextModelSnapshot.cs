@@ -57,6 +57,9 @@ namespace ICar.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR(50)");
 
+                    b.Property<string>("ContactId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("ExchangeType")
                         .HasColumnType("int");
 
@@ -106,7 +109,7 @@ namespace ICar.Infrastructure.Migrations
                         .HasColumnType("CHAR(36)");
 
                     b.Property<string>("Plate")
-                        .HasColumnType("Char(8)");
+                        .HasColumnType("CHAR(8)");
 
                     b.Property<int>("Price")
                         .HasMaxLength(10000000)
@@ -115,6 +118,8 @@ namespace ICar.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("ContactId");
 
                     b.ToTable("Cars");
                 });
@@ -135,6 +140,35 @@ namespace ICar.Infrastructure.Migrations
                     b.HasIndex("CarId");
 
                     b.ToTable("CarPicture");
+                });
+
+            modelBuilder.Entity("ICar.Infrastructure.Models.Contact", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
+
+                    b.Property<string>("Nickname")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserObjectId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
@@ -199,7 +233,13 @@ namespace ICar.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("ICar.Infrastructure.Models.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.Navigation("Address");
+
+                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CarPicture", b =>

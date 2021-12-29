@@ -1,6 +1,5 @@
 ﻿using ICar.Infrastructure.Configurations;
 using ICar.Infrastructure.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ICar.Infrastructure.Database
@@ -17,6 +16,7 @@ namespace ICar.Infrastructure.Database
         public DbSet<News> News { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,6 +25,7 @@ namespace ICar.Infrastructure.Database
             builder.ApplyConfiguration(new MessageConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
+            builder.ApplyConfiguration(new ContactConfiguration());
         }
     }
 }
