@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20211229200730_Contact")]
+    [Migration("20211229205221_Contact")]
     partial class Contact
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,9 +58,6 @@ namespace ICar.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR(50)");
-
-                    b.Property<string>("ContactId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ExchangeType")
                         .HasColumnType("int");
@@ -121,8 +118,6 @@ namespace ICar.Infrastructure.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("ContactId");
-
                     b.ToTable("Cars");
                 });
 
@@ -146,8 +141,8 @@ namespace ICar.Infrastructure.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Contact", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UserObjectId")
+                        .HasColumnType("CHAR(36)");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -164,11 +159,7 @@ namespace ICar.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UserObjectId")
-                        .IsRequired()
-                        .HasColumnType("CHAR(36)");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserObjectId");
 
                     b.ToTable("Contacts");
                 });
@@ -184,6 +175,9 @@ namespace ICar.Infrastructure.Migrations
 
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -235,13 +229,7 @@ namespace ICar.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
-                    b.HasOne("ICar.Infrastructure.Models.Contact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactId");
-
                     b.Navigation("Address");
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.CarPicture", b =>

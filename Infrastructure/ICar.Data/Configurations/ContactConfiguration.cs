@@ -8,7 +8,7 @@ namespace ICar.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.UserObjectId);
 
             builder.Property(x => x.EmailAddress)
                 .HasMaxLength(320)

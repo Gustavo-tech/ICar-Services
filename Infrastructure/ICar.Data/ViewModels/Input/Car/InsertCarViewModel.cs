@@ -19,21 +19,6 @@
         public string GasolineType { get; set; }
         public string[] Pictures { get; set; }
         public AddressInfo Address { get; set; }
-        public ContactInfo Contact { get; set; }
-    }
-
-    public class ContactInfo
-    {
-        public string PhoneNumber { get; set; }
-        public string EmailAddress { get; set; }
-        public string Nickname { get; set; }
-
-        public ContactInfo(string phoneNumber, string emailAddress, string nickname)
-        {
-            PhoneNumber = phoneNumber;
-            EmailAddress = emailAddress;
-            Nickname = nickname;
-        }
     }
 
     public class AddressInfo

@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace ICar.Infrastructure.Models
 {
-    public class Contact : Entity
+    public class Contact
     {
         private string _emailAddress;
         private string _nickname;
@@ -61,7 +61,7 @@ namespace ICar.Infrastructure.Models
         }
 
         public Contact(string userObjectId, string nickname, string phoneNumber,
-            string emailAddress) : base()
+            string emailAddress)
         {
             UserObjectId = userObjectId;
             Nickname = nickname;

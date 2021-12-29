@@ -26,7 +26,6 @@ namespace ICar.Infrastructure.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserObjectId = table.Column<string>(type: "CHAR(36)", nullable: false),
                     Nickname = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
@@ -34,7 +33,7 @@ namespace ICar.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacts", x => x.Id);
+                    table.PrimaryKey("PK_Contacts", x => x.UserObjectId);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,6 +44,7 @@ namespace ICar.Infrastructure.Migrations
                     FromUser = table.Column<string>(type: "CHAR(36)", nullable: false),
                     ToUser = table.Column<string>(type: "CHAR(36)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -90,8 +90,7 @@ namespace ICar.Infrastructure.Migrations
                     ExchangeType = table.Column<int>(type: "int", nullable: false),
                     GasolineType = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: false),
                     OwnerId = table.Column<string>(type: "CHAR(36)", nullable: false),
-                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ContactId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -100,12 +99,6 @@ namespace ICar.Infrastructure.Migrations
                         name: "FK_Cars_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cars_Contacts_ContactId",
-                        column: x => x.ContactId,
-                        principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -138,17 +131,15 @@ namespace ICar.Infrastructure.Migrations
                 name: "IX_Cars_AddressId",
                 table: "Cars",
                 column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cars_ContactId",
-                table: "Cars",
-                column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "CarPicture");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
 
             migrationBuilder.DropTable(
                 name: "Messages");
@@ -161,9 +152,6 @@ namespace ICar.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Addresses");
-
-            migrationBuilder.DropTable(
-                name: "Contacts");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ICar.Infrastructure.Tests.Models
 
             _car = new("JKH-9087", "Ford", "Mustang", 2020, 2021, 2000, 350000,
                 "This car has a nice sound", "#FFFFF", ExchangeType.Manual, GasolineType.Gasoline,
-                _ownerId, new string[] { "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBUVF" }, null, null);
+                _ownerId, new string[] { "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBUVF" }, null);
         }
 
         [Test]
@@ -161,7 +161,6 @@ namespace ICar.Infrastructure.Tests.Models
                 GasolineType = "gasoline",
                 Color = "#FFFFF",
                 Address = new AddressInfo("13044650", "Campinas", "Jardim Antonio Von Zuben", "Rua Antônio Bertoni Garcia"),
-                Contact = new ContactInfo("+55 11 93212-9087", "gustavo@gmail.com", "Gustavo"),
                 Pictures = new string[] { "dsajdksajdkslajdksa", "dsadhsajkdhsjahj" }
             };
 

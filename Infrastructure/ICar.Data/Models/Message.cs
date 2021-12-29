@@ -1,5 +1,4 @@
-﻿using ICar.Infrastructure.ViewModels.Output.Message;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +9,7 @@ namespace ICar.Infrastructure.Models
         private string _fromUser;
         private string _toUser;
         private string _text;
+        private string _subjectId;
 
         public string FromUser
         {
@@ -44,6 +44,18 @@ namespace ICar.Infrastructure.Models
                     throw new Exception("Text must not be null or empty");
 
                 _text = value;
+            }
+        }
+
+        public string SubjectId
+        {
+            get { return _subjectId; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length != 32)
+                    throw new Exception("Invalid subject id");
+
+                _subjectId = value;
             }
         }
 
