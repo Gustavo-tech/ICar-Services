@@ -140,8 +140,9 @@ namespace ICar.Infrastructure.Models
         public ExchangeType ExchangeType { get; private set; }
         public GasolineType GasolineType { get; private set; }
 
-        public Address Address { get; private set; }
         public string OwnerId { get; private set; }
+        public Address Address { get; private set; }
+        public Contact Contact { get; private set; }
         public List<CarPicture> Pictures { get; private set; } = new List<CarPicture>();
 
         private Car()
@@ -153,7 +154,7 @@ namespace ICar.Infrastructure.Models
             int makeDate, int makedDate, int kilometersTraveled,
             int price, string message, string color,
             ExchangeType exchangeType, GasolineType gasolineType, string ownerId,
-            Address address, string[] pictures, bool acceptsChange = false,
+            string[] pictures, Address address, Contact contact, bool acceptsChange = false,
             bool ipvaIsPaid = false, bool isLicensed = false, bool isArmored = false)
         {
             Plate = plate;
@@ -173,6 +174,7 @@ namespace ICar.Infrastructure.Models
             GasolineType = gasolineType;
             OwnerId = ownerId;
             Address = address;
+            Contact = contact;
             GenerateCarPictures(pictures);
         }
 
@@ -274,8 +276,8 @@ namespace ICar.Infrastructure.Models
 
         public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, string ownerId)
         {
-            if (vm is null)
-                throw new ArgumentNullException(nameof(vm), "View model must not be null");
+            if (vm is null || vm.Contact is null || vm.Address is null)
+                throw new Exception("Invalid view model");
 
             if (string.IsNullOrWhiteSpace(ownerId))
                 throw new ArgumentNullException(nameof(ownerId), "Owner must not be null");
@@ -294,8 +296,9 @@ namespace ICar.Infrastructure.Models
                 ConvertStringToTypeOfExchange(vm.ExchangeType),
                 ConvertStringToGasolineType(vm.GasolineType),
                 ownerId,
-                await Address.BuildAddress(vm.ZipCode, vm.Location, vm.District, vm.Street),
                 vm.Pictures,
+                await Address.BuildAddress(vm.Address.ZipCode, vm.Address.Location, vm.Address.District, vm.Address.Street),
+                new Contact(ownerId, vm.Contact.Nickname, vm.Contact.PhoneNumber, vm.Contact.EmailAddress),
                 vm.AcceptsChange,
                 vm.IpvaIsPaid,
                 vm.IsLicensed,

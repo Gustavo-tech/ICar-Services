@@ -17,10 +17,38 @@
         public string ExchangeType { get; set; }
         public string Color { get; set; }
         public string GasolineType { get; set; }
-        public string ZipCode { get; set; }
-        public string Location { get; set; }
-        public string District { get; set; }
-        public string Street { get; set; }
         public string[] Pictures { get; set; }
+        public AddressInfo Address { get; set; }
+        public ContactInfo Contact { get; set; }
+    }
+
+    public class ContactInfo
+    {
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public string Nickname { get; set; }
+
+        public ContactInfo(string phoneNumber, string emailAddress, string nickname)
+        {
+            PhoneNumber = phoneNumber;
+            EmailAddress = emailAddress;
+            Nickname = nickname;
+        }
+    }
+
+    public class AddressInfo
+    {
+        public string ZipCode { get; private set; }
+        public string Location { get; private set; }
+        public string District { get; private set; }
+        public string Street { get; private set; }
+
+        public AddressInfo(string zipCode, string location, string district, string street)
+        {
+            ZipCode = zipCode;
+            Location = location;
+            District = district;
+            Street = street;
+        }
     }
 }

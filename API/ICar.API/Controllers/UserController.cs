@@ -27,13 +27,19 @@ namespace ICar.API.Controllers
             _userRepo = userRepository;
         }
 
-        [HttpGet("info")]
-        public async Task<IActionResult> GetUserInformation()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserInformation([FromRoute] string id)
         {
-            string userId = HttpContext.GetUserObjectId();
-            User user = await _userRepo.GetUserInfo(userId);
-
-            return Ok(user);
+            try
+            {
+                User user = await _userRepo.GetUserInfo(id);
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
         }
     }
 }

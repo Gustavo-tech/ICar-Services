@@ -3,9 +3,12 @@ using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +21,7 @@ namespace ICar.Infrastructure.Repositories
 
         public UserRepository(IConfiguration configuration)
         {
-            string[] scopes = { "openid", "offline_access" };
+            string[] scopes = { "User.ReadWrite.All" };
             string tenantId = configuration["AzureAdB2C:TenantId"];
             string clientId = configuration["AzureAdB2C:ClientId"];
 
@@ -27,7 +30,8 @@ namespace ICar.Infrastructure.Repositories
                 AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
             };
 
-            Func<DeviceCodeInfo, CancellationToken, Task> callback = (code, cancellation) => {
+            Func<DeviceCodeInfo, CancellationToken, Task> callback = (code, cancellation) => 
+            {
                 Console.WriteLine(code.Message);
                 return Task.FromResult(0);
             };
@@ -38,7 +42,10 @@ namespace ICar.Infrastructure.Repositories
 
         public async Task<User> GetUserInfo(string userId)
         {
-            return await _graphClient.Users[userId].Request().GetAsync();
+            return await _graphClient.Users[userId]
+                .Request()
+                .Select("displayName,phone,userPrincipalName")
+                .GetAsync();
         }
     }
 }
