@@ -15,7 +15,7 @@ namespace ICar.Infrastructure.Tests.Models
         [SetUp]
         public void SetUp()
         {
-            _ownerId = "Gustavo";
+            _ownerId = "1b341fcc-5e21-45bd-ba52-872426b36da3";
 
             _car = new("JKH-9087", "Ford", "Mustang", 2020, 2021, 2000, 350000,
                 "This car has a nice sound", "#FFFFF", ExchangeType.Manual, GasolineType.Gasoline,
@@ -176,7 +176,7 @@ namespace ICar.Infrastructure.Tests.Models
         {
             var result = _car.GeneratePictureStoragePath();
 
-            Assert.AreEqual($"Gustavo/cars/{_car.Id}", result);
+            Assert.AreEqual($"{_ownerId}/cars/{_car.Id}", result);
         }
 
         [Test]
