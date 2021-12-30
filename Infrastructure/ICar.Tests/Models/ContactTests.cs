@@ -1,5 +1,5 @@
 ﻿using ICar.Infrastructure.Models;
-using ICar.Infrastructure.ViewModels.Input.Contact;
+using ICar.Infrastructure.ViewModels.Input;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

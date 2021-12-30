@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ICar.Infrastructure.ViewModels.Input.Contact
+namespace ICar.Infrastructure.ViewModels.Input
 {
     public class UpdateContactViewModel
     {

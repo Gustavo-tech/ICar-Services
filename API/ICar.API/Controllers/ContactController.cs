@@ -2,7 +2,7 @@
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
-using ICar.Infrastructure.ViewModels.Input.Contact;
+using ICar.Infrastructure.ViewModels.Input;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

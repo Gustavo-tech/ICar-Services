@@ -1,7 +1,7 @@
 ﻿using ICar.API.ControllerExtensions;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
-using ICar.Infrastructure.ViewModels.Input.News;
+using ICar.Infrastructure.ViewModels.Input;
 using ICar.Infrastructure.ViewModels.Output;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

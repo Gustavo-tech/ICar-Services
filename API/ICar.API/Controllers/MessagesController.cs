@@ -23,7 +23,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("{withUserId}/{subjectId}")]
-        public async Task<IActionResult> GetMessagesWithUser([FromRoute] string withUserId, string subjectId)
+        public async Task<IActionResult> GetMessagesWithUserAsync([FromRoute] string withUserId, string subjectId)
         {
             try
             {

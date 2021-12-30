@@ -1,4 +1,4 @@
-﻿namespace ICar.Infrastructure.ViewModels.Input.Car
+﻿namespace ICar.Infrastructure.ViewModels.Input
 {
     public class DeleteCarViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Models.Enums.Car;
-using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Input;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;

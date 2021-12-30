@@ -10,5 +10,6 @@ namespace ICar.Infrastructure.Repositories.Interfaces
     public interface IInteractionRepository
     {
         public Task<List<Interaction>> GetUserInteractionsAsync(string userId);
+        public Task<Interaction> GetInteractionWithAsync(string userId, string withUserId, string subject);
     }
 }

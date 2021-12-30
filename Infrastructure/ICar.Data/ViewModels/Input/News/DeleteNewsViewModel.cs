@@ -1,4 +1,4 @@
-﻿namespace ICar.Infrastructure.ViewModels.Input.News
+﻿namespace ICar.Infrastructure.ViewModels.Input
 {
     public class DeleteNewsViewModel
     {

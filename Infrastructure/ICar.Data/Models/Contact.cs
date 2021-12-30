@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.ViewModels.Input.Contact;
+﻿using ICar.Infrastructure.ViewModels.Input;
 using System;
 using System.Net.Mail;
 

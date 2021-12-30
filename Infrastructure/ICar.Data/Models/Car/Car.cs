@@ -1,5 +1,5 @@
 ﻿using ICar.Infrastructure.Models.Enums.Car;
-using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Input;
 using ICar.Infrastructure.ViewModels.Output;
 using System;
 using System.Collections.Generic;

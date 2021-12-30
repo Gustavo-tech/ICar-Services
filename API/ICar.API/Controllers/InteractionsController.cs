@@ -1,6 +1,8 @@
 ﻿using ICar.API.ControllerExtensions;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
+using ICar.Infrastructure.ViewModels.Input;
 using ICar.Infrastructure.ViewModels.Output;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +21,18 @@ namespace ICar.API.Controllers
     {
         private readonly IInteractionRepository _interactionRepository;
         private readonly IMessageRepository _messageRepository;
+        private readonly ICarRepository _carRepository;
+        private readonly IContactRepository _contactRepository;
+        private readonly IBaseRepository _baseRepository;
 
-        public InteractionsController(IInteractionRepository interactionRepository, IMessageRepository messageRepository)
+        public InteractionsController(IInteractionRepository interactionRepository, IMessageRepository messageRepository,
+            ICarRepository carRepository, IContactRepository contactRepository, IBaseRepository baseRepository)
         {
             _interactionRepository = interactionRepository;
             _messageRepository = messageRepository;
+            _carRepository = carRepository;
+            _contactRepository = contactRepository;
+            _baseRepository = baseRepository;
         }
 
         [HttpGet]
@@ -45,6 +54,48 @@ namespace ICar.API.Controllers
                 }
 
                 return Ok(interactionOutputs);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
+        [HttpPost("start")]
+        public async Task<IActionResult> StartInteractionAsync([FromBody] SendMessageViewModel messageViewModel)
+        {
+            try
+            {
+                Car subject = await _carRepository.GetCarByIdAsync(messageViewModel.SubjectId);
+
+                if (subject is null)
+                    return BadRequest();
+
+                string userId = HttpContext.GetUserObjectId();
+                Contact contactFromUserThatCalled = await _contactRepository.GetContactAsync(userId);
+
+                if (contactFromUserThatCalled is null)
+                    return BadRequest();
+
+                string ownerId = subject.OwnerId;
+
+                Interaction interactionInDatabase = await _interactionRepository.GetInteractionWithAsync(userId,
+                    ownerId, subject.Id);
+
+                if (interactionInDatabase != null)
+                    return BadRequest();
+
+                Contact contact = await _contactRepository.GetContactAsync(ownerId);
+
+                Interaction interaction = new(userId, ownerId, contact.Nickname, subject.Id);
+                Interaction interaction1 = new(ownerId, userId, contactFromUserThatCalled.Nickname, subject.Id);
+                Message message = new(userId, ownerId, messageViewModel.Text);
+
+                await _baseRepository.AddAsync(interaction);
+                await _baseRepository.AddAsync(interaction1);
+                await _baseRepository.AddAsync(message);
+                return Ok();
             }
             catch (Exception e)
             {

@@ -4,7 +4,7 @@ using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Interfaces;
 using ICar.Infrastructure.Repositories.Search;
 using ICar.Infrastructure.Storage;
-using ICar.Infrastructure.ViewModels.Input.Car;
+using ICar.Infrastructure.ViewModels.Input;
 using ICar.Infrastructure.ViewModels.Output;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
