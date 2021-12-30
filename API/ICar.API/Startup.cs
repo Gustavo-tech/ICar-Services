@@ -37,9 +37,9 @@ namespace ICar.API
             // Dependency injection
             services.AddTransient<INewsRepository, NewsRepository>();
             services.AddTransient<ICarRepository, CarRepository>();
-            //services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
+            services.AddTransient<IContactRepository, ContactRepository>();
             services.AddTransient<IStorageService, AzureStorageService>();
 
             // Entity Framework

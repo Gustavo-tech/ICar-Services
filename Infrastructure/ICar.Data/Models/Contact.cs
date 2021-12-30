@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICar.Infrastructure.ViewModels.Input.Contact;
+using System;
 using System.Net.Mail;
 
 namespace ICar.Infrastructure.Models
@@ -67,6 +68,23 @@ namespace ICar.Infrastructure.Models
             Nickname = nickname;
             PhoneNumber = phoneNumber;
             EmailAddress = emailAddress;
+        }
+
+        public void Update(string nickname, string phoneNumber, string emailAddress)
+        {
+            Nickname = nickname;
+            PhoneNumber = phoneNumber;
+            EmailAddress = emailAddress;
+        }
+
+        public void Update(UpdateContactViewModel updateContact)
+        {
+            if (updateContact is null)
+                return;
+
+            Nickname = updateContact.Nickname;
+            PhoneNumber = updateContact.PhoneNumber;
+            EmailAddress = updateContact.EmailAddress;
         }
     }
 }
