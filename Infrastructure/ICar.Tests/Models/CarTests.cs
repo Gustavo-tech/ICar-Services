@@ -108,33 +108,6 @@ namespace ICar.Infrastructure.Tests.Models
         }
 
         [Test]
-        public void TestGenerateCarOutPutViewModel_WhenCalled_ConstructCarOutputViewModelProperly()
-        {
-            var vm = _car.GenerateCarOutputViewModel();
-
-            string gasolineType = Car.ConvertGasolineTypeToString(_car.GasolineType);
-            string typeOfExchange = Car.ConvertTypeOfExchangeToString(_car.ExchangeType);
-
-            Assert.AreEqual(vm.Id, _car.Id);
-            Assert.AreEqual(vm.Plate, _car.Plate);
-            Assert.AreEqual(vm.Maker, _car.Maker);
-            Assert.AreEqual(vm.Model, _car.Model);
-            Assert.AreEqual(vm.MakeDate, _car.MakeDate);
-            Assert.AreEqual(vm.MakedDate, _car.MakedDate);
-            Assert.AreEqual(vm.KilometersTraveled, _car.KilometersTraveled);
-            Assert.AreEqual(vm.Price, _car.Price);
-            Assert.AreEqual(vm.AcceptsChange, _car.AcceptsChange);
-            Assert.AreEqual(vm.IpvaIsPaid, _car.IpvaIsPaid);
-            Assert.AreEqual(vm.IsLicensed, _car.IsLicensed);
-            Assert.AreEqual(vm.IsArmored, _car.IsArmored);
-            Assert.AreEqual(vm.Message, _car.Message);
-            Assert.AreEqual(vm.Color, _car.Color);
-            Assert.AreEqual(vm.NumberOfViews, _car.NumberOfViews);
-            Assert.AreEqual(vm.GasolineType, gasolineType);
-            Assert.AreEqual(vm.TypeOfExchange, typeOfExchange);
-        }
-
-        [Test]
         public void GenerateCarWithInsertCarVM_ViewModelIsNull_ThrowAnException()
         {
             Assert.CatchAsync<Exception>(async () => await Car.GenerateWithInsertCarViewModel(null, null));

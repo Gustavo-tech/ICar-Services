@@ -41,6 +41,7 @@ namespace ICar.API
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IContactRepository, ContactRepository>();
             services.AddTransient<IStorageService, AzureStorageService>();
+            services.AddTransient<IInteractionRepository, InteractionRepository>();
 
             // Entity Framework
             services.AddDbContext<ICarContext>(options =>

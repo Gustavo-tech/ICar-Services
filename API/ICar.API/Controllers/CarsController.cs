@@ -1,10 +1,11 @@
 ﻿using ICar.API.ControllerExtensions;
 using ICar.Infrastructure.Database.Repositories.Interfaces;
 using ICar.Infrastructure.Models;
+using ICar.Infrastructure.Repositories.Interfaces;
 using ICar.Infrastructure.Repositories.Search;
 using ICar.Infrastructure.Storage;
 using ICar.Infrastructure.ViewModels.Input.Car;
-using ICar.Infrastructure.ViewModels.Output.Car;
+using ICar.Infrastructure.ViewModels.Output;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,13 +23,15 @@ namespace ICar.API.Controllers
         private readonly ICarRepository _carRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IStorageService _storageService;
+        private readonly IContactRepository _contactRepository;
 
         public CarsController(ICarRepository carRepository, IBaseRepository baseRepository,
-            IStorageService storageService)
+            IStorageService storageService, IContactRepository contactRepository)
         {
             _carRepository = carRepository;
             _baseRepository = baseRepository;
             _storageService = storageService;
+            _contactRepository = contactRepository;
         }
 
         [HttpGet("mycars")]
@@ -70,10 +73,11 @@ namespace ICar.API.Controllers
             try
             {
                 Car car = await _carRepository.GetCarByIdAsync(id);
+                Contact contact = await _contactRepository.GetContactAsync(car.OwnerId);
 
                 if (car != null)
                 {
-                    CarOutputViewModel output = car.GenerateCarOutputViewModel();
+                    CarOutputViewModel output = CarOutputViewModel.GenerateCarOutputViewModelWithCar(car, contact);
                     return Ok(output);
                 }
 
@@ -90,12 +94,17 @@ namespace ICar.API.Controllers
         {
             try
             {
+                string ownerId = HttpContext.GetUserObjectId();
+                Contact contact = await _contactRepository.GetContactAsync(ownerId);
+
+                if (contact is null)
+                    return BadRequest();
+
                 Car cInDatabase = await _carRepository.GetCarByPlateAsync(create.Plate);
                 if (cInDatabase is null)
                 {
                     try
                     {
-                        string ownerId = HttpContext.GetUserObjectId();
                         Car car = await Car.GenerateWithInsertCarViewModel(create, ownerId);
                         await _storageService.UploadCarPicturesAsync(car, create.Pictures);
                         await _baseRepository.AddAsync(car);

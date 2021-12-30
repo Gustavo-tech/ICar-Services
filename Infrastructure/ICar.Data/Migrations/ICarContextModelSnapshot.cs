@@ -162,6 +162,28 @@ namespace ICar.Infrastructure.Migrations
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("ICar.Infrastructure.Models.Interaction", b =>
+                {
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.Property<string>("UserNickname")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("WithUserId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.ToTable("Interactions");
+                });
+
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
                     b.Property<string>("Id")

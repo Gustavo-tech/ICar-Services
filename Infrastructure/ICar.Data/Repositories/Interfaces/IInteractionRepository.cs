@@ -1,5 +1,4 @@
 ﻿using ICar.Infrastructure.Models;
-using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IInteractionRepository
     {
-        public Task<User> GetUserInfo(string userId);
+        public Task<List<Interaction>> GetUserInteractionsAsync(string userId);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ICar.Infrastructure.ViewModels.Output.News
+namespace ICar.Infrastructure.ViewModels.Output
 {
     public class NewsOutputViewModel
     {

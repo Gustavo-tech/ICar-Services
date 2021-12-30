@@ -1,4 +1,4 @@
-﻿using ICar.Infrastructure.ViewModels.Output.News;
+﻿using ICar.Infrastructure.ViewModels.Output;
 using System;
 
 namespace ICar.Infrastructure.Models

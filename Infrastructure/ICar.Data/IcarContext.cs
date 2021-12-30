@@ -17,6 +17,7 @@ namespace ICar.Infrastructure.Database
         public DbSet<Car> Cars { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Interaction> Interactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +27,7 @@ namespace ICar.Infrastructure.Database
             builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new CarConfiguration());
             builder.ApplyConfiguration(new ContactConfiguration());
+            builder.ApplyConfiguration(new InteractionConfiguration());
         }
     }
 }

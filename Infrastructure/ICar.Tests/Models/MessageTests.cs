@@ -14,22 +14,5 @@ namespace ICar.Infrastructure.Tests.Models
         {
             _message = new("ggg", "hhh", "Hello");
         }
-
-        [Test]
-        public void TestGetLastMessageWithUsers_WhenCalled_ReturnsLastMessagesWithUsers()
-        {
-            string secondMessageText = "How are you?";
-            string thirdMessageText = "I liked your car!";
-            List<Message> messages = new()
-            {
-                new Message("hhh", "ggg", secondMessageText),
-                new Message("lll", "ggg", thirdMessageText)
-            };
-
-            List<LastMessageWithUser> lastMessageWithUsers = Message.GetLastMessageWithUsers("ggg", messages);
-
-            Assert.IsTrue(lastMessageWithUsers[0].LastMessage == secondMessageText);
-            Assert.IsTrue(lastMessageWithUsers[1].LastMessage == thirdMessageText);
-        }
     }
 }

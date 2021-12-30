@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ICar.Infrastructure.Migrations
 {
-    public partial class Contact : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,6 +34,19 @@ namespace ICar.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.UserObjectId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Interactions",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "CHAR(36)", nullable: false),
+                    WithUserId = table.Column<string>(type: "CHAR(36)", nullable: false),
+                    UserNickname = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    SubjectId = table.Column<string>(type: "CHAR(36)", nullable: false)
+                },
+                constraints: table =>
+                {
                 });
 
             migrationBuilder.CreateTable(
@@ -140,6 +153,9 @@ namespace ICar.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Contacts");
+
+            migrationBuilder.DropTable(
+                name: "Interactions");
 
             migrationBuilder.DropTable(
                 name: "Messages");

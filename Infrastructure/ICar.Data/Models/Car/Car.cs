@@ -1,6 +1,6 @@
 ﻿using ICar.Infrastructure.Models.Enums.Car;
 using ICar.Infrastructure.ViewModels.Input.Car;
-using ICar.Infrastructure.ViewModels.Output.Car;
+using ICar.Infrastructure.ViewModels.Output;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -242,33 +242,6 @@ namespace ICar.Infrastructure.Models
         {
             return new CarOverviewViewModel(Id, Maker, Model, MakeDate, MakedDate,
                 Price, NumberOfViews, KilometersTraveled, Pictures.Select(x => x.PictureUrl).ToArray(), Address);
-        }
-
-        public CarOutputViewModel GenerateCarOutputViewModel()
-        {
-            return new CarOutputViewModel()
-            {
-                Id = Id,
-                Plate = Plate,
-                Maker = Maker,
-                Model = Model,
-                MakeDate = MakeDate,
-                MakedDate = MakedDate,
-                KilometersTraveled = KilometersTraveled,
-                Price = Price,
-                AcceptsChange = AcceptsChange,
-                IpvaIsPaid = IpvaIsPaid,
-                IsLicensed = IsLicensed,
-                IsArmored = IsArmored,
-                Message = Message,
-                TypeOfExchange = ConvertTypeOfExchangeToString(ExchangeType),
-                GasolineType = ConvertGasolineTypeToString(GasolineType),
-                Color = Color,
-                NumberOfViews = NumberOfViews,
-                Pictures = Pictures.Select(x => x.PictureUrl).ToArray(),
-                Address = Address,
-                OwnerId = OwnerId,
-            };
         }
 
         public async static Task<Car> GenerateWithInsertCarViewModel(InsertCarViewModel vm, string ownerId)

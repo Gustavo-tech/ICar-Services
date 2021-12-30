@@ -17,17 +17,27 @@ namespace ICar.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<Message>> GetMessagesByUser(string userId)
+        public async Task<Message> GetLastMessageWithUserAsync(string userId, string withUserId, string subjectId)
+        {
+            return await _context.Messages
+                .Where(x => x.FromUser == userId && x.ToUser == withUserId && x.SubjectId == subjectId
+                || x.FromUser == withUserId && x.ToUser == userId && x.SubjectId == subjectId)
+                .OrderBy(x => x.SentAt)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Message>> GetMessagesByUserAsync(string userId)
         {
             return await _context.Messages
                 .Where(x => x.ToUser == userId || x.FromUser == userId)
                 .ToListAsync();
         }
 
-        public async Task<List<Message>> GetMessagesWithUser(string userId, string withUserId)
+        public async Task<List<Message>> GetMessagesWithUserAsync(string userId, string withUserId, string subjectId)
         {
             return await _context.Messages
-                .Where(x => x.FromUser == userId && x.ToUser == withUserId || x.FromUser == withUserId && x.ToUser == userId)
+                .Where(x => x.FromUser == userId && x.ToUser == withUserId && x.SubjectId == subjectId
+                || x.FromUser == withUserId && x.ToUser == userId && x.SubjectId == subjectId)
                 .ToListAsync();
         }
     }

@@ -1,6 +1,6 @@
 ﻿using ICar.Infrastructure.Models;
 
-namespace ICar.Infrastructure.ViewModels.Output.Car
+namespace ICar.Infrastructure.ViewModels.Output
 {
     public class CarOverviewViewModel
     {

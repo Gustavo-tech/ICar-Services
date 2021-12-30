@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ICar.Infrastructure.Migrations
 {
     [DbContext(typeof(ICarContext))]
-    [Migration("20211229205221_Contact")]
-    partial class Contact
+    [Migration("20211230175658_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,6 +162,28 @@ namespace ICar.Infrastructure.Migrations
                     b.HasKey("UserObjectId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("ICar.Infrastructure.Models.Interaction", b =>
+                {
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.Property<string>("UserNickname")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("WithUserId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(36)");
+
+                    b.ToTable("Interactions");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
