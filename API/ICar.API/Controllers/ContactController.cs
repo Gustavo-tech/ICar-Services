@@ -57,8 +57,9 @@ namespace ICar.API.Controllers
 
                 if (contact is null)
                 {
-                    Contact newContact = new(userId, viewModel.Nickname, viewModel.PhoneNumber, 
-                        viewModel.EmailAddress);
+                    string email = HttpContext.GetUserEmailAddress();
+                    Contact newContact = new(userId, email, viewModel.FirstName, viewModel.LastName,
+                        viewModel.PhoneNumber);
 
                     await _baseRepository.AddAsync(newContact);
                     return Ok();
@@ -74,7 +75,7 @@ namespace ICar.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateContactAsync([FromBody] UpdateContactViewModel viewModel)
+        public async Task<IActionResult> UpdateContactAsync([FromBody] UpdatePhoneViewModel viewModel)
         {
             try
             {
@@ -84,7 +85,7 @@ namespace ICar.API.Controllers
                 if (contact is null)
                     return BadRequest();
 
-                contact.Update(viewModel);
+                contact.UpdatePhoneNumber(viewModel);
                 await _baseRepository.UpdateAsync(contact);
                 return Ok();
             }

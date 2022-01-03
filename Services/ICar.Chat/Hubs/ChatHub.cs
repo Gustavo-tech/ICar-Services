@@ -8,5 +8,6 @@ namespace ICar.Chat.Hubs
 {
     public class ChatHub : Hub
     {
+
     }
 }

@@ -6,8 +6,9 @@ namespace ICar.Infrastructure.Models
 {
     public class Contact
     {
+        private string _firstName;
+        private string _lastName;
         private string _emailAddress;
-        private string _nickname;
         private string _phoneNumber;
         private string _userObjectId;
 
@@ -23,25 +24,44 @@ namespace ICar.Infrastructure.Models
             }
         }
 
-        public string Nickname
-        {
-            get { return _nickname; }
-            set 
-            {
-                if (string.IsNullOrWhiteSpace(value) || value.Length > 60)
-                    throw new Exception("Nickname is invalid");
-
-                _nickname = value;
-            }
-        }
-
         public string EmailAddress
         {
             get { return _emailAddress; }
             set
             {
-                MailAddress mailAddress = new(value);
-                _emailAddress = mailAddress.Address;
+                try
+                {
+                    MailAddress mail = new(value);
+                    _emailAddress = mail.Address;
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
+        }
+
+        public string FirstName
+        {
+            get { return _firstName; }
+            set 
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length > 60)
+                    throw new Exception("Nickname is invalid");
+
+                _firstName = value;
+            }
+        }
+
+        public string LastName
+        {
+            get { return _lastName; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length > 60)
+                    throw new Exception("Nickname is invalid");
+
+                _lastName = value;
             }
         }
 
@@ -61,30 +81,27 @@ namespace ICar.Infrastructure.Models
         {
         }
 
-        public Contact(string userObjectId, string nickname, string phoneNumber,
-            string emailAddress)
+        public Contact(string userObjectId, string email, string firstName, string lastName, 
+            string phoneNumber)
         {
             UserObjectId = userObjectId;
-            Nickname = nickname;
+            EmailAddress = email;
+            FirstName = firstName;
+            LastName = lastName;
             PhoneNumber = phoneNumber;
-            EmailAddress = emailAddress;
         }
 
-        public void Update(string nickname, string phoneNumber, string emailAddress)
+        public void UpdatePhoneNumber(string phoneNumber)
         {
-            Nickname = nickname;
             PhoneNumber = phoneNumber;
-            EmailAddress = emailAddress;
         }
 
-        public void Update(UpdateContactViewModel updateContact)
+        public void UpdatePhoneNumber(UpdatePhoneViewModel updateContact)
         {
             if (updateContact is null)
                 return;
 
-            Nickname = updateContact.Nickname;
             PhoneNumber = updateContact.PhoneNumber;
-            EmailAddress = updateContact.EmailAddress;
         }
     }
 }

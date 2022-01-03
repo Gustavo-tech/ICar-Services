@@ -63,7 +63,8 @@ namespace ICar.Infrastructure.ViewModels.Output
                 Contact = new ContactInfo()
                 {
                     EmailAddress = contact.EmailAddress,
-                    Nickname = contact.Nickname,
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
                     PhoneNumber = contact.PhoneNumber
                 }
             };
@@ -72,7 +73,8 @@ namespace ICar.Infrastructure.ViewModels.Output
 
     public class ContactInfo
     {
-        public string Nickname { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
     }

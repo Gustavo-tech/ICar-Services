@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.ViewModels.Input
 {
-    public class UpdateContactViewModel
+    public class UpdatePhoneViewModel
     {
-        public string EmailAddress { get; set; }
-        public string Nickname { get; set; }
         public string PhoneNumber { get; set; }
     }
 }

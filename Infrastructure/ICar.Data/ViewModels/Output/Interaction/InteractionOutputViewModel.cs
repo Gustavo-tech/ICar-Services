@@ -11,9 +11,9 @@ namespace ICar.Infrastructure.ViewModels.Output
     {
         public string LastMessage { get; private set; }
 
-        public InteractionOutputViewModel(string userId, string withUserId, string userNickname, 
-            string subjectId, string lastMessage) 
-            : base(userId, withUserId, userNickname, subjectId)
+        public InteractionOutputViewModel(string userId, string withUserId, string firstName, 
+            string lastName, string subjectId, string lastMessage) 
+            : base(userId, withUserId, firstName, lastName, subjectId)
         {
             LastMessage = lastMessage;
         }

@@ -14,5 +14,15 @@ namespace ICar.API.ControllerExtensions
 
             return claim?.Value;
         }
+
+        public static string GetUserEmailAddress(this HttpContext httpContext)
+        {
+            if (httpContext is null)
+                return null;
+
+            Claim claim = httpContext.User.FindFirst("emails");
+
+            return claim?.Value;
+        }
     }
 }

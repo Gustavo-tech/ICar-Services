@@ -88,13 +88,15 @@ namespace ICar.API.Controllers
 
                 Contact contact = await _contactRepository.GetContactAsync(ownerId);
 
-                Interaction interaction = new(userId, ownerId, contact.Nickname, subject.Id);
-                Interaction interaction1 = new(ownerId, userId, contactFromUserThatCalled.Nickname, subject.Id);
+                Interaction interaction = new(userId, ownerId, contact.FirstName, contact.LastName, subject.Id);
+                Interaction interaction1 = new(ownerId, userId, contactFromUserThatCalled.FirstName, 
+                    contactFromUserThatCalled.LastName, subject.Id);
                 Message message = new(userId, ownerId, messageViewModel.Text);
 
                 await _baseRepository.AddAsync(interaction);
                 await _baseRepository.AddAsync(interaction1);
                 await _baseRepository.AddAsync(message);
+
                 return Ok();
             }
             catch (Exception e)

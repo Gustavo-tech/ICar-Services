@@ -23,7 +23,11 @@ namespace ICar.Infrastructure.Configurations
                 .HasColumnType("CHAR(36)")
                 .IsRequired();
 
-            builder.Property(x => x.UserNickname)
+            builder.Property(x => x.FirstName)
+                .HasMaxLength(60)
+                .IsRequired();
+
+            builder.Property(x => x.LastName)
                 .HasMaxLength(60)
                 .IsRequired();
 

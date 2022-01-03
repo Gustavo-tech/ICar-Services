@@ -16,39 +16,34 @@ namespace ICar.Infrastructure.Tests.Models
         [SetUp]
         public void SetUp()
         {
-            _contact = new("1b341fcc-5e21-45bd-ba52-872426b36da3", "Gustavo", "+55 19 99999-9999", "gustavo@gmail.com");
+            _contact = new("1b341fcc-5e21-45bd-ba52-872426b36da3", "Gustavo", "Faria", 
+                "+55 19 99999-9999", "gustavo@gmail.com");
         }
 
-        [Test, Combinatorial]
-        public void TestUpdate_EachFieldIndividuallyOverload_UpdatesContactProperties(
-            [Values("gustavo@gmail.com", "james@gmail.com", "slash@gmail.com")] string email,
-            [Values("Gustavo", "James", "Slash")] string nickname,
-            [Values("+55 19 99999-9999", "+55 19 98888-8888", "+55 19 97777-7777")] string phoneNumber)
+        [Test]
+        [TestCase("+55 19 99999-9999")]
+        [TestCase("+55 19 98888-8888")]
+        [TestCase("+55 19 97777-7777")]
+        public void TestUpdatePhoneNumber_EachFieldIndividuallyOverload_UpdatesContactProperties(string phoneNumber)
         {
-            _contact.Update(nickname, phoneNumber, email);
+            _contact.UpdatePhoneNumber(phoneNumber);
 
-            Assert.AreEqual(nickname, _contact.Nickname);
-            Assert.AreEqual(email, _contact.EmailAddress);
             Assert.AreEqual(phoneNumber, _contact.PhoneNumber);
         }
 
-        [Test, Combinatorial]
-        public void TestUpdate_ViewModelOverload_UpdatesContactProperties(
-            [Values("gustavo@gmail.com", "james@gmail.com", "slash@gmail.com")] string email,
-            [Values("Gustavo", "James", "Slash")] string nickname,
-            [Values("+55 19 99999-9999", "+55 19 98888-8888", "+55 19 97777-7777")] string phoneNumber)
+        [Test]
+        [TestCase("+55 19 99999-9999")]
+        [TestCase("+55 19 98888-8888")]
+        [TestCase("+55 19 97777-7777")]
+        public void TestUpdate_ViewModelOverload_UpdatesContactProperties(string phoneNumber)
         {
-            UpdateContactViewModel viewModel = new()
+            UpdatePhoneViewModel viewModel = new()
             {
                 PhoneNumber = phoneNumber,
-                EmailAddress = email,
-                Nickname = nickname
             };
 
-            _contact.Update(viewModel);
+            _contact.UpdatePhoneNumber(viewModel);
 
-            Assert.AreEqual(nickname, _contact.Nickname);
-            Assert.AreEqual(email, _contact.EmailAddress);
             Assert.AreEqual(phoneNumber, _contact.PhoneNumber);
         }
     }

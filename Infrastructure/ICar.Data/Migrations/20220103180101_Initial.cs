@@ -27,8 +27,9 @@ namespace ICar.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserObjectId = table.Column<string>(type: "CHAR(36)", nullable: false),
-                    Nickname = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -42,7 +43,8 @@ namespace ICar.Infrastructure.Migrations
                 {
                     UserId = table.Column<string>(type: "CHAR(36)", nullable: false),
                     WithUserId = table.Column<string>(type: "CHAR(36)", nullable: false),
-                    UserNickname = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     SubjectId = table.Column<string>(type: "CHAR(36)", nullable: false)
                 },
                 constraints: table =>

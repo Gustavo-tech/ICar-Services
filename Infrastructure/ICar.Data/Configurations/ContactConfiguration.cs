@@ -10,11 +10,11 @@ namespace ICar.Infrastructure.Configurations
         {
             builder.HasKey(x => x.UserObjectId);
 
-            builder.Property(x => x.EmailAddress)
-                .HasMaxLength(320)
+            builder.Property(x => x.FirstName)
+                .HasMaxLength(60)
                 .IsRequired();
-
-            builder.Property(x => x.Nickname)
+            
+            builder.Property(x => x.LastName)
                 .HasMaxLength(60)
                 .IsRequired();
 

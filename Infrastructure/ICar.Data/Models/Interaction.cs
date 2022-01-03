@@ -11,20 +11,23 @@ namespace ICar.Infrastructure.Models
     {
         public string UserId { get; private set; }
         public string WithUserId { get; private set; }
-        public string UserNickname { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
         public string SubjectId { get; private set; }
 
-        public Interaction(string userId, string withUserId, string userNickname, string subjectId)
+        public Interaction(string userId, string withUserId, string firstName, 
+            string lastName, string subjectId)
         {
             UserId = userId;
             WithUserId = withUserId;
-            UserNickname = userNickname;
+            FirstName = firstName;
+            LastName = lastName;
             SubjectId = subjectId;
         }
 
         public InteractionOutputViewModel ToInteractionOutputViewModel(string lastMessage)
         {
-            return new InteractionOutputViewModel(UserId, WithUserId, UserNickname,
+            return new InteractionOutputViewModel(UserId, WithUserId, FirstName, LastName,
                 SubjectId, lastMessage);
         }
     }
