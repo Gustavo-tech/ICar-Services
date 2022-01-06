@@ -1,4 +1,6 @@
 ﻿using ICar.Chat.Hubs.Interfaces;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
+using ICar.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -10,44 +12,91 @@ namespace ICar.Chat.Hubs
 {
     public class ChatHub : Hub<IChatHub>
     {
-        private readonly ITokenReader _tokenReader;
         private readonly string _userIdClaimType = "oid";
+        private readonly ITokenReader _tokenReader;
         private readonly IDictionary<string, List<string>> _connections;
+        private readonly IBaseRepository _baseRepository;
 
-        public ChatHub(ITokenReader tokenReader, IDictionary<string, List<string>> dictionary)
+        public ChatHub(ITokenReader tokenReader, IDictionary<string, List<string>> dictionary,
+            IBaseRepository baseRepository)
         {
             _tokenReader = tokenReader;
             _connections = dictionary;
+            _baseRepository = baseRepository;
         }
 
-        public async Task SendMessage(string token, string toUserId, string subjectId, string message)
+        public async Task SendMessage(string token, string toUserId, string subjectId, string text)
         {
-            string userObjectId = _tokenReader.ReadClaimValue(token, _userIdClaimType);
-
-            if (!_connections.ContainsKey(userObjectId))
+            try
             {
-                Connect(token);
-            }
+                string userObjectId = _tokenReader.ReadClaimValue(token, _userIdClaimType);
 
-            await Clients.Clients(_connections[toUserId]).ReceiveMessage(userObjectId, subjectId, message);
+                Message message = new(userObjectId, toUserId, subjectId, text);
+                await _baseRepository.AddAsync(message);
+
+                if (!_connections.ContainsKey(userObjectId))
+                {
+                    Connect(token);
+                }
+
+                await Clients.Clients(_connections[userObjectId]).MessageSent(message);
+                await Clients.Clients(_connections[toUserId]).ReceiveMessage(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void Connect(string token)
         {
-            string userId = _tokenReader.ReadClaimValue(token, _userIdClaimType);
 
-            if (_connections.ContainsKey(userId))
+            try
             {
-                if (!UserIsConnected(userId))
+                string userId = _tokenReader.ReadClaimValue(token, _userIdClaimType);
+
+                if (_connections.ContainsKey(userId))
                 {
-                    _connections[userId].Add(Context.ConnectionId);
+                    if (!UserIsConnected(userId))
+                    {
+                        _connections[userId].Add(Context.ConnectionId);
+                    }
+                }
+
+                else
+                {
+                    _connections.Add(userId, new List<string> { Context.ConnectionId });
                 }
             }
-
-            else
+            catch (Exception e)
             {
-                _connections.Add(userId, new List<string> { Context.ConnectionId });
+                Console.WriteLine(e.Message);
             }
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            Console.WriteLine(exception);
+
+            try
+            {
+                foreach (KeyValuePair<string, List<string>> kvp in _connections)
+                {
+                    foreach (string value in kvp.Value)
+                    {
+                        if (value == Context.ConnectionId)
+                        {
+                            _connections.Remove(kvp.Key);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return Task.CompletedTask;
         }
 
         private bool UserIsConnected(string userId)

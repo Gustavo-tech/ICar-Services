@@ -52,7 +52,7 @@ namespace ICar.Infrastructure.Models
             get { return _subjectId; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value) || value.Length != 32)
+                if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("Invalid subject id");
 
                 _subjectId = value;

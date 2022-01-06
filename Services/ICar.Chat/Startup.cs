@@ -1,6 +1,8 @@
 using ICar.Chat.Hubs;
 using ICar.Chat.Hubs.Interfaces;
 using ICar.Infrastructure.Database;
+using ICar.Infrastructure.Database.Repositories;
+using ICar.Infrastructure.Database.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +34,7 @@ namespace ICar.Chat
         {
             services.AddSingleton<ITokenReader, TokenReader>();
             services.AddSingleton<IDictionary<string, List<string>>>(opt => new Dictionary<string, List<string>>());
+            services.AddTransient<IBaseRepository, BaseRepository>();
 
             services.AddSignalR();
 
