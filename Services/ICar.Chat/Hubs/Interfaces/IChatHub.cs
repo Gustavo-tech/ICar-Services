@@ -7,6 +7,6 @@ namespace ICar.Chat.Hubs.Interfaces
 {
     public interface IChatHub
     {
-
+        public Task ReceiveMessage(string fromUserId, string subjectId, string message);
     }
 }

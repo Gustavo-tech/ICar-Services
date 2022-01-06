@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ICar.Infrastructure.Models
 {
-    public class Interaction
+    public class Interaction : Entity
     {
         public string UserId { get; private set; }
         public string WithUserId { get; private set; }
@@ -16,7 +16,7 @@ namespace ICar.Infrastructure.Models
         public string SubjectId { get; private set; }
 
         public Interaction(string userId, string withUserId, string firstName, 
-            string lastName, string subjectId)
+            string lastName, string subjectId) : base()
         {
             UserId = userId;
             WithUserId = withUserId;

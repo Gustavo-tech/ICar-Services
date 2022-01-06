@@ -15,13 +15,15 @@ namespace ICar.Infrastructure.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnType("VARCHAR");
+                .IsRequired();
 
             builder.Property(x => x.Text)
-                .HasMaxLength(120)
                 .IsRequired();
 
             builder.Property(x => x.SentAt)
+                .IsRequired();
+
+            builder.Property(x => x.SubjectId)
                 .IsRequired();
 
             builder.Property(x => x.ToUser)

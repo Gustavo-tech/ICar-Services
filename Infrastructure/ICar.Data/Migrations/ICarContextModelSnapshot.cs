@@ -167,6 +167,9 @@ namespace ICar.Infrastructure.Migrations
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Interaction", b =>
                 {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -189,13 +192,15 @@ namespace ICar.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("CHAR(36)");
 
+                    b.HasKey("Id");
+
                     b.ToTable("Interactions");
                 });
 
             modelBuilder.Entity("ICar.Infrastructure.Models.Message", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FromUser")
                         .IsRequired()
@@ -205,12 +210,12 @@ namespace ICar.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SubjectId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ToUser")
                         .IsRequired()

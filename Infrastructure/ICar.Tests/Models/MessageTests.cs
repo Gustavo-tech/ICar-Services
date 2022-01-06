@@ -12,7 +12,7 @@ namespace ICar.Infrastructure.Tests.Models
         [SetUp]
         public void SetUp()
         {
-            _message = new("ggg", "hhh", "Hello");
+            _message = new("ggg", "hhh", "fff", "Hello");
         }
     }
 }

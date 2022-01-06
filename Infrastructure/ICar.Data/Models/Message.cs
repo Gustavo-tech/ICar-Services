@@ -65,11 +65,12 @@ namespace ICar.Infrastructure.Models
         {
         }
 
-        public Message(string fromUser, string toUser, string text)
+        public Message(string fromUser, string toUser, string subjectId, string text)
             : base()
         {
             FromUser = fromUser;
             ToUser = toUser;
+            SubjectId = subjectId;
             Text = text;
             SentAt = DateTime.Now;
         }

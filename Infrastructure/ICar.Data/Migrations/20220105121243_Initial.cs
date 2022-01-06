@@ -41,6 +41,7 @@ namespace ICar.Infrastructure.Migrations
                 name: "Interactions",
                 columns: table => new
                 {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "CHAR(36)", nullable: false),
                     WithUserId = table.Column<string>(type: "CHAR(36)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
@@ -49,17 +50,18 @@ namespace ICar.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Interactions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "VARCHAR", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FromUser = table.Column<string>(type: "CHAR(36)", nullable: false),
                     ToUser = table.Column<string>(type: "CHAR(36)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

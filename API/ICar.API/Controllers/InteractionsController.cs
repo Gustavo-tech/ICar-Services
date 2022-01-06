@@ -84,18 +84,22 @@ namespace ICar.API.Controllers
                     ownerId, subject.Id);
 
                 if (interactionInDatabase != null)
-                    return BadRequest();
+                {
+                    Message newMessage = new(userId, ownerId, subject.Id, messageViewModel.Text);
+                    await _baseRepository.AddAsync(newMessage);
+                    return Ok();
+                }
 
                 Contact contact = await _contactRepository.GetContactAsync(ownerId);
 
                 Interaction interaction = new(userId, ownerId, contact.FirstName, contact.LastName, subject.Id);
                 Interaction interaction1 = new(ownerId, userId, contactFromUserThatCalled.FirstName, 
                     contactFromUserThatCalled.LastName, subject.Id);
-                Message message = new(userId, ownerId, messageViewModel.Text);
+                Message firstMessage = new(userId, ownerId, subject.Id, messageViewModel.Text);
 
                 await _baseRepository.AddAsync(interaction);
                 await _baseRepository.AddAsync(interaction1);
-                await _baseRepository.AddAsync(message);
+                await _baseRepository.AddAsync(firstMessage);
 
                 return Ok();
             }

@@ -13,7 +13,7 @@ namespace ICar.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Interaction> builder)
         {
-            builder.HasNoKey();
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.UserId)
                 .HasColumnType("CHAR(36)")
