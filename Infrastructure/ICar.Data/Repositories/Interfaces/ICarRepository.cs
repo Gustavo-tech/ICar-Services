@@ -11,5 +11,7 @@ namespace ICar.Infrastructure.Database.Repositories.Interfaces
         public Task<Car> GetCarByIdAsync(string id);
         public Task<List<Car>> GetCarsAsync(CarSearchModel carSearchModel);
         public Task<List<Car>> GetUserCarsAsync(string ownerId);
+        public Task<List<Car>> GetMostSeenCarsAsync(int quantity);
+        public Task<string[]> GetMostSeenMakers(int quantity);
     }
 }

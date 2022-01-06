@@ -89,6 +89,38 @@ namespace ICar.API.Controllers
             }
         }
 
+        [HttpGet("mostseen/cars")]
+        public async Task<IActionResult> GetMostSeenCarsAsync([FromQuery] int quantity)
+        {
+            try
+            {
+                List<Car> mostSeenCars = await _carRepository.GetMostSeenCarsAsync(quantity);
+                List<CarOverviewViewModel> viewModels = mostSeenCars.Select(x => x.GenerateOverviewViewModel()).ToList();
+
+                return Ok(viewModels);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
+        [HttpGet("mostseen/makers")]
+        public async Task<IActionResult> GetMostSeenMakersAsync([FromQuery] int quantity)
+        {
+            try
+            {
+                string[] mostSeenMakers = await _carRepository.GetMostSeenMakers(quantity);
+                return Ok(mostSeenMakers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Problem();
+            }
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> InsertCarAsync([FromBody] InsertCarViewModel create)
         {

@@ -2,6 +2,7 @@
 using ICar.Infrastructure.Models;
 using ICar.Infrastructure.Repositories.Search;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,9 @@ namespace ICar.Infrastructure.Database.Repositories
                 .Include(x => x.Address)
                 .ToListAsync();
 
+            if (search is null)
+                return cars;
+
             if (search.Maker is not null)
                 cars = cars.Where(x => x.Maker == search.Maker).ToList();
 
@@ -58,6 +62,50 @@ namespace ICar.Infrastructure.Database.Repositories
                 cars = cars.Where(x => x.KilometersTraveled <= search.MaxKilometers.Value).ToList();
 
             return cars;
+        }
+
+        public async Task<List<Car>> GetMostSeenCarsAsync(int quantity)
+        {
+            return await _dbContext.Cars
+                .OrderBy(x => x.NumberOfViews)
+                .Take(quantity)
+                .Include(x => x.Pictures)
+                .Include(x => x.Address)
+                .ToListAsync();
+        }
+
+        public async Task<string[]> GetMostSeenMakers(int quantity)
+        {
+            List<string> makers = new();
+            List<Car> cars = await GetCarsAsync(null);
+            List<string> allMakers = cars.Select(x => x.Maker).Distinct().ToList();
+            List<int> views = new();
+
+            foreach(string maker in allMakers)
+            {
+                int totalMakerViews = cars.Where(x => string.Equals(x.Maker, maker, StringComparison.OrdinalIgnoreCase))
+                    .Sum(x => x.NumberOfViews);
+
+                if (views.Count < quantity)
+                {
+                    views.Add(totalMakerViews);
+                    makers.Add(maker);
+                }
+
+                else
+                {
+                    int minimumNumber = views.Min();
+
+                    if(totalMakerViews > minimumNumber)
+                    {
+                        int index = views.IndexOf(minimumNumber);
+                        views[index] = totalMakerViews;
+                        makers[index] = maker;
+                    }
+                }
+            }
+
+            return makers.ToArray();
         }
 
         public async Task<List<Car>> GetUserCarsAsync(string ownerId)
