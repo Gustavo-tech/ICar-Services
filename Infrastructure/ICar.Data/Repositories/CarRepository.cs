@@ -108,13 +108,28 @@ namespace ICar.Infrastructure.Database.Repositories
             return makers.ToArray();
         }
 
-        public async Task<List<Car>> GetUserCarsAsync(string ownerId)
+        public async Task<List<Car>> GetUserCarsAsync(string ownerId, CarSearchModel search)
         {
-            return await _dbContext.Cars
+            List<Car> userCars = await _dbContext.Cars
                 .Where(x => x.OwnerId == ownerId)
-                .Include(x => x.Pictures)
-                .Include(x => x.Address)
                 .ToListAsync();
+
+            if (search.Maker != null)
+                userCars = userCars.Where(x => x.Maker.Contains(search.Maker)).ToList();
+
+            if (search.Model != null)
+                userCars = userCars.Where(x => x.Model.Contains(search.Model)).ToList();
+
+            if (search.MinPrice != null)
+                userCars = userCars.Where(x => x.Price >= search.MinPrice).ToList();
+
+            if (search.MaxPrice != null)
+                userCars = userCars.Where(x => x.Price <= search.MaxPrice).ToList();
+
+            if (search.MaxKilometers != null)
+                userCars = userCars.Where(x => x.KilometersTraveled <= search.MaxKilometers).ToList();
+
+            return userCars;
         }
     }
 }

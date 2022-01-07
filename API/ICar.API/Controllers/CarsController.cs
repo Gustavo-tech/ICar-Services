@@ -35,12 +35,14 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("mycars")]
-        public async Task<IActionResult> GetMyCarsAsync()
+        public async Task<IActionResult> GetMyCarsAsync([FromQuery] string maker, [FromQuery] string model, [FromQuery] int maxPrice,
+            [FromQuery] int maxKilometers, [FromQuery] int minPrice = 0)
         {
             try
             {
+                CarSearchModel search = new(maker, model, minPrice, maxPrice, maxKilometers);
                 string ownerId = HttpContext.GetUserObjectId();
-                List<Car> userCars = await _carRepository.GetUserCarsAsync(ownerId);
+                List<Car> userCars = await _carRepository.GetUserCarsAsync(ownerId, search);
                 CarOverviewViewModel[] output = userCars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
             }
@@ -52,10 +54,12 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("selling")]
-        public async Task<IActionResult> GetCarsAsync([FromQuery] CarSearchModel search)
+        public async Task<IActionResult> GetCarsAsync([FromQuery] string maker, [FromQuery] string model, [FromQuery] int? maxPrice,
+            [FromQuery] int? maxKilometers, [FromQuery] int minPrice = 0)
         {
             try
             {
+                CarSearchModel search = new(maker, model, minPrice, maxPrice, maxKilometers);
                 List<Car> cars = await _carRepository.GetCarsAsync(search);
                 CarOverviewViewModel[] output = cars.Select(x => x.GenerateOverviewViewModel()).ToArray();
                 return Ok(output);
