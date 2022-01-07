@@ -46,19 +46,19 @@ namespace ICar.Infrastructure.Database.Repositories
             if (search is null)
                 return cars;
 
-            if (search.Maker is not null)
-                cars = cars.Where(x => x.Maker == search.Maker).ToList();
+            if (!string.IsNullOrWhiteSpace(search.Maker))
+                cars = cars.Where(x => x.Maker.Contains(search.Maker)).ToList();
 
-            if (search.Model is not null)
-                cars = cars.Where(x => x.Model == search.Model).ToList();
+            if (!string.IsNullOrWhiteSpace(search.Model))
+                cars = cars.Where(x => x.Model.Contains(search.Model)).ToList();
 
-            if (search.MinPrice is not null)
+            if (search.MinPrice is not null && search.MinPrice > 0)
                 cars = cars.Where(x => x.Price >= search.MinPrice.Value).ToList();
 
-            if (search.MaxPrice is not null)
+            if (search.MaxPrice is not null && search.MaxPrice > 0)
                 cars = cars.Where(x => x.Price <= search.MaxPrice.Value).ToList();
 
-            if (search.MaxKilometers is not null)
+            if (search.MaxKilometers is not null && search.MaxKilometers >= 0)
                 cars = cars.Where(x => x.KilometersTraveled <= search.MaxKilometers.Value).ToList();
 
             return cars;
@@ -114,20 +114,23 @@ namespace ICar.Infrastructure.Database.Repositories
                 .Where(x => x.OwnerId == ownerId)
                 .ToListAsync();
 
-            if (search.Maker != null)
-                userCars = userCars.Where(x => x.Maker.Contains(search.Maker)).ToList();
+            if (search is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(search.Maker))
+                    userCars = userCars.Where(x => x.Maker.Contains(search.Maker)).ToList();
 
-            if (search.Model != null)
-                userCars = userCars.Where(x => x.Model.Contains(search.Model)).ToList();
+                if (!string.IsNullOrWhiteSpace(search.Model))
+                    userCars = userCars.Where(x => x.Model.Contains(search.Model)).ToList();
 
-            if (search.MinPrice != null)
-                userCars = userCars.Where(x => x.Price >= search.MinPrice).ToList();
+                if (search.MinPrice != null && search.MinPrice > 0)
+                    userCars = userCars.Where(x => x.Price >= search.MinPrice).ToList();
 
-            if (search.MaxPrice != null)
-                userCars = userCars.Where(x => x.Price <= search.MaxPrice).ToList();
+                if (search.MaxPrice != null && search.MaxPrice > 0)
+                    userCars = userCars.Where(x => x.Price <= search.MaxPrice).ToList();
 
-            if (search.MaxKilometers != null)
-                userCars = userCars.Where(x => x.KilometersTraveled <= search.MaxKilometers).ToList();
+                if (search.MaxKilometers != null && search.MaxKilometers >= 0)
+                    userCars = userCars.Where(x => x.KilometersTraveled <= search.MaxKilometers).ToList();
+            }
 
             return userCars;
         }
