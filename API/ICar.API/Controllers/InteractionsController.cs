@@ -67,18 +67,13 @@ namespace ICar.API.Controllers
         {
             try
             {
-                Car subject = await _carRepository.GetCarByIdAsync(messageViewModel.SubjectId);
-
-                if (subject is null)
-                    return BadRequest();
-
                 string userId = HttpContext.GetUserObjectId();
+                Car subject = await _carRepository.GetCarByIdAsync(messageViewModel.SubjectId);
+                string ownerId = subject.OwnerId;
                 Contact contactFromUserThatCalled = await _contactRepository.GetContactAsync(userId);
 
-                if (contactFromUserThatCalled is null)
+                if (subject is null || contactFromUserThatCalled is null || userId == ownerId)
                     return BadRequest();
-
-                string ownerId = subject.OwnerId;
 
                 Interaction interactionInDatabase = await _interactionRepository.GetInteractionWithAsync(userId,
                     ownerId, subject.Id);

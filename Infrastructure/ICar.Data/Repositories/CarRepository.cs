@@ -112,6 +112,8 @@ namespace ICar.Infrastructure.Database.Repositories
         {
             List<Car> userCars = await _dbContext.Cars
                 .Where(x => x.OwnerId == ownerId)
+                .Include(x => x.Pictures)
+                .Include(x => x.Address)
                 .ToListAsync();
 
             if (search is not null)

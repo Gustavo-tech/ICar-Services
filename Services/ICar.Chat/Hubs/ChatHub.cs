@@ -31,16 +31,19 @@ namespace ICar.Chat.Hubs
             {
                 string userObjectId = _tokenReader.ReadClaimValue(token, _userIdClaimType);
 
-                Message message = new(userObjectId, toUserId, subjectId, text);
-                await _baseRepository.AddAsync(message);
-
-                if (!_connections.ContainsKey(userObjectId))
+                if (userObjectId != toUserId)
                 {
-                    Connect(token);
-                }
+                    Message message = new(userObjectId, toUserId, subjectId, text);
+                    await _baseRepository.AddAsync(message);
 
-                await Clients.Clients(_connections[userObjectId]).MessageSent(message);
-                await Clients.Clients(_connections[toUserId]).ReceiveMessage(message);
+                    if (!_connections.ContainsKey(userObjectId))
+                    {
+                        Connect(token);
+                    }
+
+                    await Clients.Clients(_connections[userObjectId]).MessageSent(message);
+                    await Clients.Clients(_connections[toUserId]).ReceiveMessage(message);
+                }
             }
             catch (Exception e)
             {

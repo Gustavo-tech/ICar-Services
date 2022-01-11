@@ -35,8 +35,8 @@ namespace ICar.API.Controllers
         }
 
         [HttpGet("mycars")]
-        public async Task<IActionResult> GetMyCarsAsync([FromQuery] string maker, [FromQuery] string model, [FromQuery] int maxPrice,
-            [FromQuery] int maxKilometers, [FromQuery] int minPrice = 0)
+        public async Task<IActionResult> GetMyCarsAsync([FromQuery] string maker, [FromQuery] string model, [FromQuery] int? maxPrice,
+            [FromQuery] int? maxKilometers, [FromQuery] int minPrice = 0)
         {
             try
             {
@@ -167,7 +167,11 @@ namespace ICar.API.Controllers
         {
             try
             {
+                string userId = HttpContext.GetUserObjectId();
                 Car car = await _carRepository.GetCarByIdAsync(id);
+
+                if (userId == car.OwnerId)
+                    return BadRequest();
 
                 if (car != null)
                 {
@@ -176,10 +180,7 @@ namespace ICar.API.Controllers
                     return Ok();
                 }
 
-                return NotFound(new
-                {
-                    Message = "We could not find a car with this id"
-                });
+                return NotFound("We could not find a car with this id");
             }
             catch (Exception)
             {
@@ -192,29 +193,33 @@ namespace ICar.API.Controllers
         {
             try
             {
+                string userId = HttpContext.GetUserObjectId();
                 Car car = await _carRepository.GetCarByIdAsync(vm.Id);
 
-                if (car != null)
+                if (car != null && car.OwnerId == userId)
                 {
-                    bool removedPictures = false;
-                    int picIndex = 0;
-                    while (!removedPictures)
+                    if (vm.Pictures.Any(x => x.Contains("base64")))
                     {
-                        CarPicture picture = car.Pictures[picIndex];
-                        await _baseRepository.DeleteAsync(picture);
-                        await _storageService.DeleteBlobAsync(picture.GenerateStoragePath());
-                        removedPictures = car.Pictures.Count == 0;
-                        picIndex++;
+                        int picIndex = 0;
+                        while (car.Pictures.Any())
+                        {
+                            CarPicture picture = car.Pictures[picIndex];
+                            await _baseRepository.DeleteAsync(picture);
+                            await _storageService.DeleteBlobAsync(picture.GenerateStoragePath());
+                            picIndex++;
+                        }
+
+                        car.UpdatePictures(vm.Pictures);
+                        await _storageService.UploadCarPicturesAsync(car, vm.Pictures);
                     }
+
                     await car.UpdateAddress(vm.ZipCode, vm.Location, vm.District, vm.Street);
                     car.UpdateBooleanProperties(vm.AcceptsChange, vm.IpvaIsPaid, vm.IsLicensed, vm.IsArmored);
                     car.UpdateMessage(vm.Message)
                        .UpdatePrice(vm.Price)
-                       .UpdateKilometersTraveled(vm.KilometersTraveled)
-                       .UpdatePictures(vm.Pictures);
+                       .UpdateKilometersTraveled(vm.KilometersTraveled);
 
                     await _baseRepository.UpdateAsync(car);
-                    await _storageService.UploadCarPicturesAsync(car, vm.Pictures);
                     return Ok();
                 }
 
@@ -227,13 +232,13 @@ namespace ICar.API.Controllers
             }
         }
 
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteCarAsync([FromBody] DeleteCarViewModel vm)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteCarAsync([FromRoute] string id)
         {
             try
             {
                 string userId = HttpContext.GetUserObjectId();
-                Car car = await _carRepository.GetCarByIdAsync(vm.CarId);                
+                Car car = await _carRepository.GetCarByIdAsync(id);                
 
                 if (car != null && car.OwnerId == userId)
                 {

@@ -41,6 +41,7 @@ namespace ICar.Infrastructure.ViewModels.Output
             return new CarOutputViewModel()
             {
                 Id = car.Id,
+                Plate = car.Plate,
                 AcceptsChange = car.AcceptsChange,
                 Address = car.Address,
                 Color = car.Color,
@@ -57,7 +58,6 @@ namespace ICar.Infrastructure.ViewModels.Output
                 NumberOfViews = car.NumberOfViews,
                 OwnerId = car.OwnerId,
                 Pictures = car.Pictures.Select(x => x.PictureUrl).ToArray(),
-                Plate = car.Plate,
                 Price = car.Price,
                 TypeOfExchange = Models.Car.ConvertTypeOfExchangeToString(car.ExchangeType),
                 Contact = new ContactInfo()
